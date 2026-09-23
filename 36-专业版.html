@@ -1066,7 +1066,7 @@ button{ font:inherit; color:inherit; background:none; border:none; cursor:pointe
         <p style="font-size:.78rem;line-height:1.75;color:var(--muted);">
           本时间流收录2025年10月至2026年9月间，对全球地缘格局产生结构性影响的关键事件。
           按<strong style="color:var(--fg);">三变六反</strong>框架排序：每条事件都对应一个"量变积累"或"质变触发"节点。
-          <br><br>数据来源：联合国机构、各国官方发布、路透/彭博/金融时报报道、CSIS/USGS/IEA研究报告。
+          <br><br>数据来源：联合国机构、各国官方发布、路透/彭博/金融时报报道、CSIS/USGS/IEA研究报告；伊朗官方通讯社（IRNA/ISNA）与议会声明，美国白宫及中央司令部声明、X平台官方账号（经路透/央视转引核实），中国海关总署、中国人民银行、国家外汇管理局、工业和信息化部统计发布，BBC/CNN/半岛电视台等国际媒体交叉印证。
         </p>
       </div>
     </div>
@@ -2148,6 +2148,12 @@ document.querySelectorAll('.risk-slider').forEach(s=>{
 
 /* ===== News Timeline Data & Render ===== */
 const newsData=[
+  {date:'2026.09',cat:'resource',tag:'稀土出口',key:true,src:'中国海关总署',url:'https://news.mysteel.com/a/26091810/C0564601452027EE.html',title:'海关总署：8月稀土出口4735吨，同比降18.2%',desc:'1-8月累计出口39441吨、同比降11.1%，管制效应持续显现；对日稀土磁体出口自7月111吨低点回升至212吨。同月锂电池出口量同比增22.9%。'},
+  {date:'2026.09',cat:'finance',tag:'中国外储',src:'国家外汇管理局',url:'https://www.safe.gov.cn/safe/2026/0907/27859.html',title:'中国8月末外汇储备34383亿美元',desc:'较7月末上升195亿美元（+0.57%），美元指数下跌与全球金融资产价格变化推升估值。外储保持基本稳定，为人民币汇率提供缓冲垫。'},
+  {date:'2026.09',cat:'finance',tag:'央行',src:'中国人民银行',url:'https://www.pbc.gov.cn/goutongjiaoliu/113456/113469/2026091414593871200/index.html',title:'央行公布8月金融统计数据，中老跨境数字支付互联互通启动',desc:'潘功胜主持召开外资金融机构座谈会（09-21）；中老跨境数字支付互联互通正式上线（09-18），跨境结算多元化再进一步；陶玲出席金砖财长和央行行长会议。'},
+  {date:'2026.09',cat:'conflict',tag:'霍尔木兹',key:true,src:'伊朗议长(经IRNA/ISNA)',url:'https://k.sina.com.cn/article_1699432410_654b47da02001w60g.html?subch=onews',title:'伊朗议长：美方履约前霍尔木兹海峡不会重开',desc:'议长卡利巴夫经伊朗官方通讯社表态；最高国安委秘书雷扎伊公布7项谈判条件（结束战事/解冻资产/解除封锁等）。议会批准新法：违规过境船只罚货值20%、拒付即扣押。'},
+  {date:'2026.09',cat:'conflict',tag:'美伊谈判',src:'白宫/央视新闻',url:'https://news.qq.com/rain/a/20260923A02YJR00',title:'美伊纽约会谈三小时，双方释放缓和信号',desc:'美官员与伊朗代表团会晤（09-22，应美方要求），特朗普称"很顺利"并安排下一轮。美军中央司令部：海峡主航道已完成扫雷，两个月护航超10亿桶原油通过，伊朗出口为零。'},
+  {date:'2026.09',cat:'resource',tag:'柴油出口',key:true,src:'白宫/Politico·路透',url:'https://www.163.com/dy/article/L7IF58IN05198NMR.html',title:'特朗普支持禁柴油出口，白宫内部公开分歧',desc:'Politico称拟90天禁令后，白宫官员在X平台发文否认；能源部长赖特公开反对称将适得其反。美柴油6.52美元/加仑创纪录（同比+77%），中期选举前能源成核心政治议题。'},
   {date:'2026.09',cat:'finance',tag:'美债',key:true,src:'华尔街见闻/Bloomberg',url:'https://wallstreetcn.com/',title:'10年期美债收益率破5.1%，创2007年来新高',desc:'美联储鹰派加息+油价重上100美元+9月PMI 58.4创五年新高，5年期收益率2007年来首破5%，30年期逼近5.4%。市场重定价"更高更久"。'},
   {date:'2026.09',cat:'resource',tag:'柴油危机',key:true,src:'Bloomberg/路透',url:'https://www.bloomberg.com/energy',title:'俄罗斯45%炼能停摆，全球柴油危机深化',desc:'莫斯科炼油厂（20-25万桶/日）被乌无人机打停，俄延长柴油出口禁令；美国柴油零售价首破6.5美元/加仑创历史纪录，白宫一度考虑出口禁令后改口"自愿限制"。'},
   {date:'2026.09',cat:'conflict',tag:'俄乌',src:'BBC/半岛电视台',url:'https://www.aljazeera.com/news/2026/9/20/mass-ukrainian-drone-attack-on-moscow-kills-two-russia-says',title:'乌克兰450架无人机夜袭莫斯科，开战以来最大规模',desc:'命中莫斯科炼油厂与物流设施，俄方拦截1600余架。同周基辅遭喷气式无人机白天袭击。特朗普签署法案：对俄油主要买家（中印）征收100%关税。'},
@@ -2490,13 +2496,13 @@ document.querySelectorAll('.refresh-view').forEach(btn=>{
 const lastUpdated=document.getElementById('last-updated');
 const newsFeed=document.querySelector('.news-feed');
 const refreshNewsPool=[
+  {date:'2026.09 · 外储',title:'中国8月末外汇储备34383亿美元',summary:'环比升195亿美元（+0.57%），估值因素推升。外储基本稳定为人民币汇率提供缓冲。'},
+  {date:'2026.09 · 稀土',title:'8月稀土出口4735吨，同比降18.2%',summary:'海关总署数据：管制效应持续，1-8月累计出口同比降11.1%。对日稀土磁体出口自7月低点回升至212吨。'},
   {date:'2026.09 · 金融',title:'10年期美债收益率破5.1%，创2007年来新高',summary:'美联储鹰派加息叠加油价重上100美元，5年期收益率2007年来首破5%。全球债市重定价"更高更久"。'},
   {date:'2026.09 · 能源',title:'美国柴油零售价首破6.5美元/加仑',summary:'俄45%炼能停摆+海湾出口收缩，柴油年内涨逾80%。白宫一度考虑出口禁令，后改口寻求炼厂"自愿限制"。'},
   {date:'2026.09 · 突发',title:'乌克兰450架无人机夜袭莫斯科',summary:'开战以来最大规模，命中莫斯科炼油厂与物流设施。俄炼能45%停摆，延长柴油出口禁令。'},
   {date:'2026.09 · 矿产',title:'刚果(金)全面禁钴，LME钴价较年内低点暴涨26%',summary:'全球可流通钴原料收缩60%以上且无替代产能。欧盟宣布组建"关键原材料公司"联合采购储备。'},
-  {date:'2026.09 · 半导体',title:'台积电3nm制程扩产计划泄露',summary:'台积电宣布2027年前将3nm产能翻倍。先进制程产能竞赛加剧，全球半导体地缘博弈升级。'},
   {date:'2026.09 · AI',title:'五角大楼6万架无人机订单授予9家初创',summary:'"零中国零件"成为硬性门槛。美军"红龙26-3"演习验证AI+电子战反制100架无人机蜂群。'},
-  {date:'2026.09 · 金融',title:'日本央行加息至0.75%，日元套息交易进一步逆转',summary:'日央行如期加息，日元升值3%。全球套息交易平仓压力增大，高收益资产波动加剧。'},
 ];
 function refreshOverviewNews(){
   if(!newsFeed) return;
