@@ -603,7 +603,7 @@ a{ color:inherit; text-decoration:none; }
     <div class="se-stage" id="seStage">
       <div class="se-frame" id="seFrame">
         <div class="se-lotus-wrap" id="seLotusWrap">
-          <video class="se-lotus" id="seLotus" muted loop playsinline preload="auto" src="assets/memorial-bg.mp4"></video>
+          <video class="se-lotus" id="seLotus" muted loop playsinline webkit-playsinline poster="assets/memorial-poster.jpg" preload="auto" src="assets/memorial-bg.mp4"></video>
           <div class="se-lotus-scrim"></div>
         </div>
         <div class="se-frame-title" id="seFrameTitle">
@@ -949,13 +949,18 @@ a{ color:inherit; text-decoration:none; }
     particlesBg.style.opacity=''+(reduced?1:(1-smoothstep(.36,.68,p)));
   }
   function requestTick(){ if(!ticking){ ticking=true; requestAnimationFrame(onScroll); } }
-  /* 莲花视频：加载完成即播；若自动播放被拦截，首次交互时补播，避免黑窗空窗 */
-  function lotusPlay(){ if(seLotus.paused){ var pr=seLotus.play(); if(pr&&pr.catch) pr.catch(function(){}); } }
+  /* 莲花视频：加载完成即播；若自动播放被拦截，交互时兜底补播，避免黑窗空窗 */
+  seLotus.muted=true; /* iOS 需显式置 muted 才放行自动播放 */
+  var lotusBlocked=false;
+  function lotusPlay(){ if(seLotus.paused){ var pr=seLotus.play();
+    if(pr&&pr.then){ pr.then(function(){ lotusBlocked=false; }).catch(function(){ lotusBlocked=true; }); }
+  } else { lotusBlocked=false; } }
   seLotus.addEventListener('loadeddata', lotusPlay);
   seLotus.addEventListener('canplay', lotusPlay);
   if(seLotus.readyState>=2){ lotusPlay(); } else { seLotus.load(); }
+  /* iOS 低电量模式等会拒绝自动播放：改为持久监听，交互期间持续重试（原 once 写法首次滚动即失效） */
   ['pointerdown','wheel','touchstart','keydown'].forEach(function(ev){
-    window.addEventListener(ev, lotusPlay, {once:true, passive:true});
+    window.addEventListener(ev, function(){ if(lotusVis||lotusBlocked) lotusPlay(); }, {passive:true});
   });
   /* 性能门控：视频仅在其区块临近视口时解码播放，离开即暂停；标签页隐藏时暂停 */
   var lotusVis=false;
