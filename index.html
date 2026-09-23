@@ -371,7 +371,7 @@ a{ color:inherit; text-decoration:none; }
 .disclaimer-box li{ font-size:.78rem; color:var(--muted); padding:4px 0; line-height:1.55; }
 
 .cta-wrap{ position:relative; overflow:hidden;
-  background:#000 url("https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260609_195923_b0ba8ace-1d1d-4f2c-9a28-1ab84b330680.png&w=1280&q=85") center 35%/cover no-repeat; }
+  background:#000 url("assets/hero-base.webp") center 35%/cover no-repeat; }
 .final-cta{
   position:relative; z-index:1;
   padding:44px 32px;
@@ -417,8 +417,8 @@ a{ color:inherit; text-decoration:none; }
 /* ===== Lithos cursor spotlight reveal ===== */
 .lithos{ position:relative; width:100vw; margin-left:calc(50% - 50vw); height:100vh; height:100dvh; overflow:hidden; background:#000; }
 .li-base,.li-reveal{ position:absolute; inset:0; background-position:center; background-size:cover; background-repeat:no-repeat; }
-.li-base{ z-index:1; background-image:url("https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260609_195923_b0ba8ace-1d1d-4f2c-9a28-1ab84b330680.png&w=1280&q=85"); animation:liZoom 2.2s cubic-bezier(.16,1,.3,1) forwards; }
-.li-reveal{ z-index:2; pointer-events:none; background-image:url("https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260609_201152_bba90a12-bf12-459f-91f0-51f237dbaf3b.png&w=1280&q=85");
+.li-base{ z-index:1; background-image:url("assets/hero-base.webp"); animation:liZoom 2.2s cubic-bezier(.16,1,.3,1) forwards; }
+.li-reveal{ z-index:2; pointer-events:none; background-image:url("assets/hero-reveal.webp");
   -webkit-mask-image:radial-gradient(circle 0px at -999px -999px,transparent 100%);
   mask-image:radial-gradient(circle 0px at -999px -999px,transparent 100%);
   -webkit-mask-size:100% 100%; mask-size:100% 100%; }
@@ -831,10 +831,18 @@ a{ color:inherit; text-decoration:none; }
       mouse.y=-((e.clientY/H)*2-1);
     });
 
+    /* 性能门控：粒子画布不在视口或页面隐藏时跳过全部 GPU 工作 */
+    var pVisible=true;
+    if('IntersectionObserver' in window){
+      pVisible=false; /* 初始按 IO 首报为准 */
+      new IntersectionObserver(function(es){ pVisible=es[0].isIntersecting; },{rootMargin:'12% 0px'}).observe(canvas);
+    }
     var last=performance.now(), elapsed=0, rotZ=0;
     function frame(t){
       requestAnimationFrame(frame);
-      var dt=t-last; last=t; elapsed+=dt*SPEED;
+      var dt=t-last; last=t;
+      if(!pVisible || document.hidden) return;
+      elapsed+=dt*SPEED;
       tx += (mouse.x-tx)*0.05; ty += (mouse.y-ty)*0.05;
       gl.uniform1f(uTime, elapsed*0.001);
       var eye=[0,0,20], center=[-tx*1.2,-ty*1.2,0], up=[0,1,0];
@@ -910,10 +918,12 @@ a{ color:inherit; text-decoration:none; }
     trackOffset=off;
   }
   measureTrack();
-  var ticking=false;
+  var ticking=false, lastSy=-1;
   function onScroll(){
     ticking=false;
     var sy=window.scrollY||0, vh=window.innerHeight;
+    if(sy===lastSy) return; /* 位置未变则跳过整段样式写入 */
+    lastSy=sy;
     if(!reduced){
       heroInner.style.transform='translate3d(0,'+(sy*0.32)+'px,0)';
       heroInner.style.opacity=clamp(1-sy/(vh*0.7),0,1);
@@ -947,8 +957,21 @@ a{ color:inherit; text-decoration:none; }
   ['pointerdown','wheel','touchstart','keydown'].forEach(function(ev){
     window.addEventListener(ev, lotusPlay, {once:true, passive:true});
   });
+  /* 性能门控：视频仅在其区块临近视口时解码播放，离开即暂停；标签页隐藏时暂停 */
+  var lotusVis=false;
+  if('IntersectionObserver' in window){
+    new IntersectionObserver(function(es){
+      lotusVis=es[0].isIntersecting;
+      if(lotusVis){ lotusPlay(); }
+      else if(!seLotus.paused){ seLotus.pause(); }
+    },{rootMargin:'25% 0px'}).observe(seLotusWrap);
+  } else { lotusVis=true; }
+  document.addEventListener('visibilitychange',function(){
+    if(document.hidden){ if(!seLotus.paused) seLotus.pause(); }
+    else if(lotusVis){ lotusPlay(); }
+  });
   window.addEventListener('scroll',requestTick,{passive:true});
-  window.addEventListener('resize',function(){ measureTrack(); requestTick(); });
+  window.addEventListener('resize',function(){ measureTrack(); lastSy=-1; requestTick(); });
   requestTick();
 
   /* ===== 录屏式悬停：黑色色带横向拉通（悬停瞬间动态贴合） ===== */
@@ -1280,6 +1303,9 @@ a{ color:inherit; text-decoration:none; }
     var fadeTarget=(initialized&&!shouldFade)?1:0;
     fade+=(fadeTarget-fade)*Math.min(1,fadeStep*7);
     if(fade<0.01) canvas.style.opacity='0'; else canvas.style.opacity='1';
+    /* 性能门控：完全淡出且指针不在页内时跳过 GPU 绘制 */
+    if(fade<0.005 && shouldFade && !pointerInside) return;
+    if(document.hidden) return;
 
     gl.uniform2fv(loc.uPoints,pointData);
     gl.uniform1f(loc.uPointCount,Math.round(CFG.trailLength));
@@ -1473,8 +1499,17 @@ a{ color:inherit; text-decoration:none; }
     }); },{threshold:.4});
     io.observe(sec);
   }
+  /* 性能门控：仅在区块可见且平滑坐标有变化时重写 mask */
+  var secVisible=true, lastGX=1e9, lastGY=1e9;
+  if('IntersectionObserver' in window){
+    new IntersectionObserver(function(es){ secVisible=es[0].isIntersecting; },{rootMargin:'15% 0px'}).observe(sec);
+  }
   function frame(){
+    requestAnimationFrame(frame);
+    if(!secVisible || document.hidden) return;
     smooth.x+=(mouse.x-smooth.x)*0.1; smooth.y+=(mouse.y-smooth.y)*0.1;
+    if(Math.abs(smooth.x-lastGX)<0.4 && Math.abs(smooth.y-lastGY)<0.4) return;
+    lastGX=smooth.x; lastGY=smooth.y;
     var rect=rev.getBoundingClientRect();
     var x=smooth.x-rect.left, y=smooth.y-rect.top;
     var g='radial-gradient(circle '+R+'px at '+x+'px '+y+'px,'+
@@ -1578,7 +1613,7 @@ a{ color:inherit; text-decoration:none; }
   size(); layout(); start();
 })();
 </script>
-<audio id="floatAudio" loop preload="auto" src="assets/bgm-audio.mp4"></audio>
+<audio id="floatAudio" loop preload="metadata" src="assets/bgm-audio.mp4"></audio>
 <script>
 (function(){
   var root=document.getElementById('musicFab'), btn=document.getElementById('mfToggle'),
@@ -1597,6 +1632,13 @@ a{ color:inherit; text-decoration:none; }
   au.addEventListener('ended', function(){ setPlaying(false); });
   root.addEventListener('pointerenter', function(){ root.classList.add('show-pop'); });
   root.addEventListener('pointerleave', function(){ root.classList.remove('show-pop'); });
+  /* 性能优化：页面空闲后再后台预载音乐，首开不与视频抢带宽 */
+  var mfPrefetched=false;
+  function mfPrefetch(){ if(mfPrefetched) return; mfPrefetched=true; au.preload='auto'; au.load(); }
+  if(au.preload!=='auto'){
+    window.addEventListener('load',function(){ setTimeout(mfPrefetch,4000); });
+    root.addEventListener('pointerenter', mfPrefetch, {once:true});
+  }
 })();
 </script>
 </body>
