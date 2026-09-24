@@ -70,7 +70,7 @@ header.app-head{
 .eyebrow{ font-family:var(--mono); font-size:10px; letter-spacing:.26em; color:var(--faint); text-transform:uppercase; }
 .app-head h1{ font-family:var(--serif); font-size:21px; font-weight:600; letter-spacing:.06em; margin-top:3px; }
 .app-head h1 .lat{ font-family:var(--mono); font-size:10px; letter-spacing:.22em; color:var(--faint); margin-left:8px; vertical-align:2px; }
-.updated{ font-family:var(--mono); font-size:10px; color:var(--faint); text-align:right; line-height:1.6; }
+.updated{ font-family:var(--mono); font-size:10px; color:var(--faint); white-space:nowrap; }
 .updated b{ color:var(--brand-400); font-weight:500; }
 
 main{ padding:0 20px calc(env(safe-area-inset-bottom) + 100px); }
@@ -166,16 +166,21 @@ main{ padding:0 20px calc(env(safe-area-inset-bottom) + 100px); }
 @keyframes llSilver{ 0%{background-position:0% 50%;} 100%{background-position:300% 50%;} }
 @media(prefers-reduced-motion:reduce){ .ll-zh,.brand h1 .lat,.silver-flow{ animation:none; background:none; color:var(--fg); -webkit-text-fill-color:var(--fg); } }
 
-/* ── 头部动作按钮 ── */
-.head-r{ display:flex; flex-direction:column; align-items:flex-end; gap:7px; }
-.head-actions{ display:flex; gap:8px; }
-.hbtn{ -webkit-appearance:none; appearance:none; background:rgba(41,115,255,.13); border:1px solid rgba(87,146,255,.35);
-  color:var(--brand-200); font-family:var(--mono); font-size:10px; letter-spacing:.12em; padding:0 13px; height:32px;
-  border-radius:999px; transition:all .18s var(--ease); display:inline-flex; align-items:center; gap:5px; }
-.hbtn:active{ transform:scale(.95); background:rgba(41,115,255,.28); }
-.hbtn svg{ width:12px; height:12px; flex:none; }
+/* ── 头部动作按钮（磨砂玻璃 · 单行精巧） ── */
+.head-r{ display:flex; align-items:center; }
+.meta-row{ display:flex; align-items:center; gap:10px; }
+.hbtn{ -webkit-appearance:none; appearance:none; background:rgba(255,255,255,.07);
+  backdrop-filter:blur(20px) saturate(1.5); -webkit-backdrop-filter:blur(20px) saturate(1.5);
+  border:1px solid rgba(255,255,255,.14);
+  color:rgba(242,245,255,.78); font-family:var(--mono); font-size:9px; letter-spacing:.12em;
+  height:26px; padding:0 11px; border-radius:999px; white-space:nowrap;
+  display:inline-flex; align-items:center; gap:5px; cursor:pointer;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.12), 0 2px 10px rgba(0,0,0,.28);
+  transition:all .18s var(--ease); }
+.hbtn:active{ transform:scale(.94); background:rgba(255,255,255,.12); }
+.hbtn svg{ width:11px; height:11px; flex:none; }
 .hbtn.busy svg{ animation:spin .8s linear infinite; }
-.hbtn.busy{ color:var(--brand-400); border-color:rgba(87,146,255,.6); }
+.hbtn.busy{ color:var(--brand-200); border-color:rgba(87,146,255,.45); }
 @keyframes spin{ to{ transform:rotate(360deg); } }
 
 /* ── 战略纵深板块（04/05/06） ── */
@@ -229,15 +234,19 @@ input[type=range]::-webkit-slider-thumb{ -webkit-appearance:none; width:22px; he
 .hot .chain{ margin-top:7px; font-size:11px; color:var(--brand-200); line-height:1.6; }
 .hot .chain::before{ content:'⛓ '; opacity:.6; }
 
-/* ── 悬浮胶囊底栏（玻璃质感） ── */
+/* ── 悬浮胶囊底栏（磨砂玻璃 · 光边处理） ── */
 nav.tabbar{
   position:fixed; left:14px; right:14px; bottom:calc(env(safe-area-inset-bottom) + 12px); z-index:10;
   height:var(--tabbar-h);
-  background:rgba(13,18,34,.19);
-  backdrop-filter:blur(28px) saturate(1.4); -webkit-backdrop-filter:blur(28px) saturate(1.4);
-  border:1px solid rgba(255,255,255,.09);
+  background:rgba(22,28,46,.44);
+  backdrop-filter:blur(36px) saturate(1.7); -webkit-backdrop-filter:blur(36px) saturate(1.7);
+  border:1px solid rgba(255,255,255,.13);
   border-radius:999px;
-  box-shadow:0 12px 40px rgba(0,0,0,.38), inset 0 1px 0 rgba(255,255,255,.07);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.14),
+    inset 0 -1px 1px rgba(0,0,0,.22),
+    0 10px 34px rgba(0,0,0,.42),
+    0 2px 10px rgba(0,0,0,.30);
   display:grid; grid-template-columns:repeat(5,1fr);
 }
 nav.tabbar button{
@@ -248,7 +257,7 @@ nav.tabbar button{
 }
 nav.tabbar button:active{ transform:scale(.92); }
 nav.tabbar button.on{ color:var(--brand-400); }
-nav.tabbar button.on svg{ filter:drop-shadow(0 0 8px rgba(87,146,255,.85)); }
+nav.tabbar button.on svg{ filter:drop-shadow(0 0 6px rgba(87,146,255,.75)); }
 nav.tabbar svg{ width:20px; height:20px; }
 @media(prefers-reduced-motion:reduce){ *,*::before,*::after{ animation:none !important; transition:none !important; } }
 </style>
@@ -275,10 +284,10 @@ nav.tabbar svg{ width:20px; height:20px; }
       </span>
     </a>
     <div class="head-r">
-      <div class="head-actions">
-        <button class="hbtn" id="btnLive"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg>实时更新</button>
+      <div class="meta-row">
+        <span class="updated" id="liveStamp">数据核实 <b>2026-09-24</b></span>
+        <button class="hbtn" id="btnLive"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg>实时更新</button>
       </div>
-      <div class="updated" id="liveStamp">数据核实<br><b>2026-09-24</b></div>
     </div>
   </header>
 
@@ -402,19 +411,19 @@ nav.tabbar svg{ width:20px; height:20px; }
   <!-- ═══ 底栏 ═══ -->
   <nav class="tabbar" id="tabbar">
     <button data-v="v-home" class="on">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3"/><circle cx="12" cy="12" r="3.5"/></svg>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3"/><circle cx="12" cy="12" r="3.5"/></svg>
       总览</button>
     <button data-v="v-news">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21V9"/><circle cx="12" cy="5.5" r="2"/><path d="M12 13h5a2 2 0 0 1 2 2v3"/><path d="M12 16H8a2 2 0 0 0-2 2v2"/></svg>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21V9"/><circle cx="12" cy="5.5" r="2"/><path d="M12 13h5a2 2 0 0 1 2 2v3"/><path d="M12 16H8a2 2 0 0 0-2 2v2"/></svg>
       时间流</button>
     <button data-v="v-memorial">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20c-4-3.5-7-6.2-7-9.5C5 7.5 7 6 9 6c1.2 0 2.3.6 3 1.5C12.7 6.6 13.8 6 15 6c2 0 4 1.5 4 4.5 0 3.3-3 6-7 9.5z"/></svg>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20c-4-3.5-7-6.2-7-9.5C5 7.5 7 6 9 6c1.2 0 2.3.6 3 1.5C12.7 6.6 13.8 6 15 6c2 0 4 1.5 4 4.5 0 3.3-3 6-7 9.5z"/></svg>
       生命之祭</button>
     <button data-v="v-model">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V10M10 20V4M16 20v-7M21 20H3"/></svg>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V10M10 20V4M16 20v-7M21 20H3"/></svg>
       模型</button>
     <button data-v="v-map">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3.5 9h17M3.5 15h17M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3.5 9h17M3.5 15h17M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg>
       沙盘</button>
   </nav>
 </div>
@@ -685,7 +694,7 @@ liveBtn.addEventListener('click',function(){
     newsData.unshift(item);
     document.getElementById('ntList').innerHTML=renderNT();
     document.getElementById('homeNews').innerHTML=renderHN();
-    document.getElementById('liveStamp').innerHTML='实时更新<br><b>'+String(now.getHours()).padStart(2,'0')+':'+String(now.getMinutes()).padStart(2,'0')+'</b>';
+    document.getElementById('liveStamp').innerHTML='已核实 <b>'+String(now.getHours()).padStart(2,'0')+':'+String(now.getMinutes()).padStart(2,'0')+'</b>';
     liveBtn.classList.remove('busy'); liveBusy=false;
   },700);
 });
