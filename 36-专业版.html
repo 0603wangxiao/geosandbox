@@ -1708,7 +1708,24 @@ svg.gdim .gtier{ opacity:.3; }
 <!-- ===== VIEW 05: Nationalism ===== -->
 <div class="view" id="view-nationalism">
   <div class="view-head"><div class="view-head-l"><h2 class="view-title"><span class="vi">05</span>资源民族主义兴起</h2></div><button class="refresh-btn refresh-view" data-target="nationalism" style="margin-left:12px;vertical-align:middle;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg> 实时更新</button></div>
-  <p class="view-sub">从"资源出租"到"价值链回收" · 全球南方矿产主权觉醒</p>
+  <p class="view-sub">从"资源出租"到"价值链回收" · 全球南方矿产主权觉醒 · 政策—工具—传导—对冲全景逻辑</p>
+
+  <div class="card" style="margin-bottom:18px;">
+    <h3><span class="tag-h">LOGIC</span>资源民族主义传导图谱 <span style="font-family:var(--mono);font-size:.62rem;color:var(--faint);letter-spacing:.06em;" id="rn-stats"></span></h3>
+    <div class="graph-wrap">
+      <svg id="rn-graph" viewBox="0 0 1000 660" role="img" aria-label="资源民族主义传导逻辑图谱：政策事件—政策工具—市场传导—对冲与结局四层网络"></svg>
+      <div class="graph-legend">
+        <span class="gl-item"><i style="background:#EFC08A;"></i>政策事件</span>
+        <span class="gl-item"><i style="background:#5EC4FF;"></i>政策工具</span>
+        <span class="gl-item"><i style="background:var(--red);"></i>市场传导</span>
+        <span class="gl-item"><i style="background:var(--teal);"></i>对冲与结局</span>
+        <span class="gl-item gl-link"><i></i>作用关系</span>
+        <span class="gl-item gl-link"><i style="background:rgba(255,255,255,.5);"></i>主传导链</span>
+        <span class="gl-hint">悬停高亮传导路径 · 点击查看节点解读</span>
+      </div>
+    </div>
+    <div class="card" id="rn-detail" style="margin-bottom:6px;"><span style="color:var(--faint);font-size:.76rem;">点击图谱节点查看解读 · 悬停节点查看其在传导逻辑中的位置</span></div>
+  </div>
 
   <div class="grid-2">
     <div class="card">
@@ -3001,6 +3018,128 @@ function refreshOverviewNews(){
     side.scrollTop=0;
   }
   select(cur);
+})();
+
+/* ===== 资源民族主义 · 传导逻辑图谱 ===== */
+(function(){
+  const N2={
+    pol:'#EFC08A',tool:'#5EC4FF',trans:'#FF6B6B',resp:'#B0FFEB'
+  };
+  /* 双布局：x/y=窄屏竖版(640×690)，wx/wy=宽屏横版(1000×660) */
+  const N=[
+    {n:'中国稀土管制',en:'2025.10',x:110,y:95,wx:100,wy:95,r:19,t:'pol',info:'17 种稀土中 12 种纳入出口管制，并加入域外管辖条款：含 0.1% 中国稀土成分的境外产品亦需许可。管制从"商品级"升级为"链权级"。'},
+    {n:'印尼镍配额',en:'2026.03',x:320,y:95,wx:100,wy:195,r:19,t:'pol',info:'2026 年镍矿开采配额削减至约 2.1 亿吨，从"粗放禁售"进化为"精细化控价"，联合供给方推动"镍版 OPEC"。'},
+    {n:'刚果(金)钴',en:'2025底-2026',x:530,y:95,wx:100,wy:295,r:19,t:'pol',info:'全球 74% 钴供给方：2025 年底收紧出口配额、修订矿业法要求外资本土化；2026.09 全面禁钴后 LME 钴价较年内低点暴涨 26%。'},
+    {n:'津巴布韦锂',en:'2026.02',x:110,y:185,wx:100,wy:395,r:19,t:'pol',info:'非洲最大锂资源国：2026.02 暂停锂原矿及精矿出口，2027 年起全面禁止——倒逼中资选矿/冶炼产能落地本土。'},
+    {n:'加纳原矿禁令',en:'2026.07',x:320,y:185,wx:100,wy:495,r:18,t:'pol',info:'长期"非洲最稳定矿业国"也加入阵营：2030 年起禁止未加工矿出口，要求采矿与初加工业务留在本土。'},
+    {n:'布基纳法索',en:'2026',x:530,y:185,wx:100,wy:595,r:18,t:'pol',info:'国家直接收归 3 座工业金矿，本国公司控制 6/15 座；国有化浪潮沿西非资源带向几内亚湾扩散。'},
+    {n:'出口管制',en:'许可制 · 链权化',x:80,y:310,wx:370,wy:150,r:18,t:'tool',info:'以许可制切断"矿—材"自由流动，配合域外管辖把管制延伸到第三国加工品。最精准的工具：打击精炼依赖，而非采矿本身。'},
+    {n:'配额控价',en:'稀缺性制造',x:240,y:310,wx:370,wy:280,r:18,t:'tool',info:'以产量/出口配额人为制造稀缺，把资源租转化为定价权——印尼模式的核心，矿产品版的 OPEC 卡特尔化。'},
+    {n:'强制本土加工',en:'禁原矿出口',x:400,y:310,wx:370,wy:410,r:18,t:'tool',info:'禁止或限制原矿出口，倒逼冶炼精炼环节在资源国落地；本质是把"资源租"升级为"加工租"。'},
+    {n:'国有化·外资收紧',en:'产权重构',x:560,y:310,wx:370,wy:540,r:18,t:'tool',info:'修法提高外资持股门槛、矿权国有化、上调权利金——直接改变矿业投资的产权与回报预期。'},
+    {n:'供给收缩',en:'矿端曲线左移',x:140,y:445,wx:630,wy:180,r:19,t:'trans',info:'管制+配额+投资风险三重叠加，全球矿端供给曲线左移；高成本产能在价格上行前率先出清。'},
+    {n:'价格上行',en:'通胀式重构',x:320,y:445,wx:630,wy:330,r:19,t:'trans',info:'钴 +26%、稀土出口量 -18% 而价格坚挺、钨配额收紧——"通胀式重构"沿加工链条向下游传导。'},
+    {n:'沿链价值爬升',en:'资源租→加工租',x:500,y:445,wx:630,wy:480,r:19,t:'trans',info:'资源国以禁令换产能：选矿—冶炼—正极环节本地化，印尼镍园区是样板；资源国从"卖石头"转向"卖材料"。'},
+    {n:'精炼护城河',en:'中国主导固化',x:560,y:580,wx:890,wy:100,r:17,t:'resp',info:'管制反而固化中国精炼主导：19/20 种矿产、平均 70% 市占——短期内消费国"脱钩"只停留在开采端，精炼端依赖不降反升。'},
+    {n:'欧盟联合采购',en:'需求端集中',x:80,y:580,wx:890,wy:240,r:16,t:'resp',info:'欧盟组建"关键原材料公司"联合采购储备，以需求端集中度对冲供给端碎片化。'},
+    {n:'美澳友岸联盟',en:'友岸开采-精炼',x:240,y:580,wx:890,wy:380,r:16,t:'resp',info:'NDAA/IRA + AUKUS 框架下"友岸开采—盟国精炼"体系提速，Sisson 钨矿等重启项目获美加官方出口信贷。'},
+    {n:'回收·替代加速',en:'技术对冲',x:400,y:580,wx:890,wy:520,r:16,t:'resp',info:'再生稀土/城市矿山、钠电无钴、晶界扩散减量——价格上行是最好的技术替代催化剂。'},
+  ];
+  /* 作用关系：''=普通 flow=主传导链 */
+  const L=[
+    ['中国稀土管制','出口管制','17 种限 12 · 域外管辖',''],
+    ['印尼镍配额','配额控价','2026 配额 2.1 亿吨',''],
+    ['刚果(金)钴','配额控价','钴出口配额收紧',''],
+    ['津巴布韦锂','强制本土加工','2027 禁原矿出口',''],
+    ['印尼镍配额','强制本土加工','中资冶炼园区落地',''],
+    ['加纳原矿禁令','强制本土加工','2030 禁未加工矿',''],
+    ['刚果(金)钴','国有化·外资收紧','矿业法本土化条款',''],
+    ['布基纳法索','国有化·外资收紧','3 座金矿收归国有',''],
+    ['出口管制','供给收缩','矿端流动性收紧','flow'],
+    ['出口管制','精炼护城河','中国主导固化',''],
+    ['配额控价','价格上行','稀缺溢价','flow'],
+    ['国有化·外资收紧','供给收缩','投资风险溢价',''],
+    ['强制本土加工','沿链价值爬升','产能本地化','flow'],
+    ['供给收缩','价格上行','供需再定价','flow'],
+    ['价格上行','欧盟联合采购','联合储备对冲',''],
+    ['价格上行','美澳友岸联盟','友岸供应链转移',''],
+    ['价格上行','回收·替代加速','价格催化技术替代',''],
+    ['供给收缩','回收·替代加速','倒逼减量与替代',''],
+  ];
+  const byN=Object.fromEntries(N.map(d=>[d.n,d]));
+  const nb={}; N.forEach(d=>nb[d.n]=new Set());
+  L.forEach(([a,b])=>{ nb[a].add(b); nb[b].add(a); });
+
+  const svg=document.getElementById('rn-graph');
+  const mq=window.matchMedia('(min-width:700px)');
+  let sel=null;
+  function render(){
+    const wide=mq.matches;
+    const P=d=>wide?[d.wx,d.wy]:[d.x,d.y];
+    let html='';
+    L.forEach(([a,b,lbl,type],i)=>{
+      const A=byN[a],B=byN[b];
+      const [ax,ay]=P(A),[bx,by]=P(B);
+      const dx=bx-ax,dy=by-ay,len=Math.hypot(dx,dy)||1;
+      const mx=(ax+bx)/2,my=(ay+by)/2;
+      const k=(i%2?1:-1)*Math.min(26,len*0.09);
+      const cx=mx-dy/len*k, cy=my+dx/len*k;
+      html+=`<path class="glink${type?' '+type:''}" data-a="${a}" data-b="${b}" d="M${ax},${ay} Q${cx.toFixed(1)},${cy.toFixed(1)} ${bx},${by}"/>`;
+      html+=`<text class="glink-lbl" data-a="${a}" data-b="${b}" x="${(mx-dy/len*k*0.55).toFixed(1)}" y="${(my+dx/len*k*0.55-6).toFixed(1)}" text-anchor="middle">${lbl}</text>`;
+    });
+    const TIERS=wide
+      ?[['政策事件 · POLICY',20,32],['政策工具 · TOOLKIT',300,32],['市场传导 · TRANSMISSION',560,32],['对冲与结局 · RESPONSE',830,32]]
+      :[['政策事件 · POLICY',18,36],['政策工具 · TOOLKIT',18,268],['市场传导 · TRANSMISSION',18,402],['对冲与结局 · RESPONSE',18,538]];
+    TIERS.forEach(([s,x,y])=>{ html+=`<text class="gtier" x="${x}" y="${y}">${s}</text>`; });
+    N.forEach(d=>{
+      const c=N2[d.t];
+      const [px,py]=P(d);
+      html+=`<g class="gnode" data-name="${d.n}">`
+        +`<circle class="halo" cx="${px}" cy="${py}" r="${d.r+7}" fill="${c}"/>`
+        +`<circle class="ring" cx="${px}" cy="${py}" r="${d.r}" fill="var(--panel)" stroke="${c}" stroke-width="1.6"/>`
+        +`<circle cx="${px}" cy="${py}" r="3.2" fill="${c}"/>`
+        +`<text class="lbl" x="${px}" y="${py+d.r+14}" fill="var(--fg)">${d.n}</text>`
+        +`<text class="sub" x="${px}" y="${py+d.r+25}">${d.en}</text>`
+        +`</g>`;
+    });
+    svg.setAttribute('viewBox', wide?'0 0 1000 660':'0 0 640 690');
+    svg.innerHTML=html;
+    svg.classList.remove('gdim');
+    if(sel){ sel=null; showDetail(null); }
+  }
+  render();
+  if(mq.addEventListener) mq.addEventListener('change',render); else mq.addListener(render);
+
+  const gs=document.getElementById('rn-stats');
+  if(gs) gs.textContent=`　${N.length} 节点 · ${L.length} 条关系 · 四层传导逻辑`;
+
+  const gd=document.getElementById('rn-detail');
+  const TN={pol:'政策事件',tool:'政策工具',trans:'市场传导',resp:'对冲与结局'};
+  const DEFAULT_DETAIL=gd.innerHTML;
+  function showDetail(name){
+    if(!name){ gd.innerHTML=DEFAULT_DETAIL; return; }
+    const d=byN[name]; if(!d) return;
+    gd.innerHTML=`<div style="display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;"><div class="co-name"><span class="dot-lv" style="background:${N2[d.t]};box-shadow:0 0 6px ${N2[d.t]};"></span>${d.n}</div><div class="co-country" style="margin-top:0;">${TN[d.t]} · ${d.en}</div></div><div class="co-role" style="margin-top:8px;">${d.info}</div>`;
+  }
+  showDetail(null);
+
+  function focus(name){
+    if(!name){
+      svg.classList.remove('gdim');
+      svg.querySelectorAll('.on').forEach(el=>el.classList.remove('on'));
+      return;
+    }
+    svg.classList.add('gdim');
+    svg.querySelectorAll('.gnode').forEach(g=>g.classList.toggle('on', g.dataset.name===name||nb[name].has(g.dataset.name)));
+    svg.querySelectorAll('.glink,.glink-lbl').forEach(el=>el.classList.toggle('on', el.dataset.a===name||el.dataset.b===name));
+  }
+  svg.addEventListener('mouseover',e=>{ const g=e.target.closest('.gnode'); if(g) focus(g.dataset.name); });
+  svg.addEventListener('mouseout',e=>{ const g=e.target.closest('.gnode'); if(g && !g.contains(e.relatedTarget)) focus(sel); });
+  svg.addEventListener('click',e=>{
+    const g=e.target.closest('.gnode');
+    if(g){ sel=(sel===g.dataset.name)?null:g.dataset.name; focus(sel); showDetail(sel); }
+    else { sel=null; focus(null); showDetail(null); }
+  });
 })();
 })();
 </script>
