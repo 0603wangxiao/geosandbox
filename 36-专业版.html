@@ -406,9 +406,11 @@ button{ font:inherit; color:inherit; background:none; border:none; cursor:pointe
 .co-tag.t-strat{ color:var(--red-hi); border-color:rgba(255,107,107,.4); background:var(--red-soft); }
 .co-tag.t-tech{ color:var(--teal-hi); border-color:rgba(176,255,235,.35); background:var(--teal-soft); }
 .co-tag.t-edge{ color:var(--gold-hi); border-color:rgba(94,196,255,.4); background:var(--gold-soft); }
+.co-tag.t-ally{ color:var(--blue-hi); border-color:rgba(255,143,190,.4); background:var(--blue-soft); }
+.co-tag.t-rival{ color:var(--mac-yellow); border-color:rgba(234,208,138,.45); background:rgba(234,208,138,.08); }
 /* ── AI军事化 · 供应链关系图谱 ── */
 .graph-wrap{ background:var(--bg-2); border:1px solid var(--line); border-radius:var(--r); padding:14px 10px 8px; margin-bottom:14px; overflow:hidden; }
-.graph-wrap svg{ display:block; width:100%; height:auto; }
+.graph-wrap svg{ display:block; width:100%; max-width:980px; height:auto; margin:0 auto; }
 .graph-legend{ display:flex; flex-wrap:wrap; align-items:center; gap:14px; padding:10px 8px 4px; border-top:1px solid var(--line); margin-top:8px; }
 .gl-item{ display:inline-flex; align-items:center; gap:6px; font-size:.64rem; color:var(--muted); font-family:var(--mono); letter-spacing:.04em; }
 .gl-item i{ width:8px; height:8px; border-radius:50%; flex:none; }
@@ -417,6 +419,8 @@ button{ font:inherit; color:inherit; background:none; border:none; cursor:pointe
 .gl-hint{ margin-left:auto; font-size:.62rem; color:var(--faint); font-family:var(--mono); letter-spacing:.04em; }
 .glink{ fill:none; stroke:rgba(255,255,255,.13); stroke-width:1; pointer-events:none; transition:opacity .25s ease, stroke .25s ease; }
 .glink.flow{ stroke-dasharray:3 7; animation:gflow 2.8s linear infinite; }
+.glink.cmp{ stroke:rgba(255,107,107,.35); stroke-dasharray:4 6; }
+.glink.cmp.on{ stroke:rgba(255,107,107,.8); stroke-dasharray:4 6; }
 @keyframes gflow{ to{ stroke-dashoffset:-50; } }
 .glink.on{ stroke:rgba(255,255,255,.5); stroke-width:1.4; }
 .glink-lbl{ font-family:var(--mono); font-size:9.5px; fill:var(--muted); opacity:0; transition:opacity .25s ease; pointer-events:none; }
@@ -1706,7 +1710,7 @@ svg.gdim .gtier{ opacity:.3; }
 <!-- ===== VIEW 06: AI Military ===== -->
 <div class="view" id="view-aimilitary">
   <div class="view-head"><div class="view-head-l"><h2 class="view-title"><span class="vi">06</span>AI军事化企业图谱</h2></div><button class="refresh-btn refresh-view" data-target="aimilitary" style="margin-left:12px;vertical-align:middle;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg> 实时更新</button></div>
-  <p class="view-sub">深度介入军事AI的全球企业 · 五角大楼签约层级与供应链网络 · 2026年9月</p>
+  <p class="view-sub">深度介入军事AI的全球企业 · 美军供应链 × 盟友体系 × 竞争阵营 · 2026年9月</p>
 
   <div class="card" style="margin-bottom:18px;">
     <h3><span class="tag-h">ARCHITECTURE</span>五层作战体系架构</h3>
@@ -1726,8 +1730,11 @@ svg.gdim .gtier{ opacity:.3; }
       <span class="gl-item"><i style="background:var(--red);"></i>战略中枢</span>
       <span class="gl-item"><i style="background:var(--gold);"></i>前线执行</span>
       <span class="gl-item"><i style="background:var(--teal);"></i>底层技术</span>
+      <span class="gl-item"><i style="background:var(--blue-hi);"></i>盟友体系</span>
+      <span class="gl-item"><i class="dash" style="border-color:var(--mac-yellow);"></i>竞争/禁入</span>
       <span class="gl-item"><i class="dash"></i>伦理排除</span>
       <span class="gl-item gl-link"><i></i>供应链关系</span>
+      <span class="gl-item gl-link"><i style="background:rgba(255,107,107,.5);"></i>对标/禁入</span>
       <span class="gl-hint">悬停高亮传导路径 · 点击查看企业详档</span>
     </div>
   </div>
@@ -2116,8 +2123,14 @@ const companies=[
   {name:'Oracle',country:'美国 · 奥斯汀',role:'搭建高安全涉密数据库与全域数据融合架构。8家底层技术签约企业之一。',tags:['涉密数据库','数据融合'],level:'tech'},
   {name:'Reflection AI',country:'美国',role:'生成式AI初创，五角大楼7家签约AI公司之一。专注国防领域AI应用。',tags:['生成式AI','国防'],level:'edge'},
   {name:'Anthropic',country:'美国 · 旧金山',role:'被排除在外——因坚守"不研发AI致命武器"的科技伦理底线，明确拒绝参与美军供应链。',tags:['伦理排除','Claude'],level:''},
+  {name:'Helsing',country:'德国 · 慕尼黑',role:'欧洲AI防务软件头部初创：蜂群电子战、潜艇AI与电子战大模型，德法与波罗的海多国防务AI支柱，2025年融资后跻身欧洲估值最高的防务科技企业之列。',tags:['盟友体系','蜂群AI'],level:'ally'},
+  {name:'Baykar',country:'土耳其 · 伊斯坦布尔',role:'Bayraktar TB2 在纳卡与俄乌战场实战成名，Kizilelma 自主喷气无人机已首飞；全球最大军用无人机出口商之一，以"实战验证+低成本"改写全球无人机市场格局。',tags:['盟友体系','实战无人机'],level:'ally'},
+  {name:'Elbit Systems',country:'以色列 · 海法',role:'以色列最大军工企业之一：自主系统、AI目标识别与电子战，"铁束"激光拦截与智能弹药体系的核心供应商，中东多线实战驱动迭代。',tags:['盟友体系','AI目标识别'],level:'ally'},
+  {name:'BAE Systems',country:'英国 · 法恩伯勒',role:'欧洲最大防务承包商：AI+自主水下航行器、AUKUS核动力潜艇合作伙伴，将机器学习嵌入舰艇作战系统与下一代 Tempest 六代机生态。',tags:['盟友体系','AUKUS'],level:'ally'},
+  {name:'大疆 DJI',country:'中国 · 深圳',role:'全球民用无人机市占率约七成。2025 NDAA将其列入"中国军事企业"清单致美国市场禁入——五角大楼"零中国零件"条款的直接背景与对标对象。',tags:['竞争/禁入','全球民用霸主'],level:'rival'},
+  {name:'中国电科 CETC',country:'中国 · 合肥',role:'中国军事电子核心力量：预警探测、电子战与智能指挥体系，美军印太推演中的主要对手体系，与美国"密级云+软件定义"路线形成两种军事AI范式。',tags:['竞争/禁入','军事电子'],level:'rival'},
 ];
-const lvColor={strat:'var(--red-hi)',edge:'var(--gold-hi)',tech:'var(--teal-hi)'};
+const lvColor={strat:'var(--red-hi)',edge:'var(--gold-hi)',tech:'var(--teal-hi)',ally:'var(--blue-hi)',rival:'var(--mac-yellow)'};
 const cg=document.getElementById('company-grid');
 companies.forEach(c=>{
   const card=document.createElement('div'); card.className='co-card';
@@ -2129,79 +2142,109 @@ companies.forEach(c=>{
 
 /* ===== AI Military Supply Network Graph ===== */
 (function(){
+  /* 坐标双布局：x/y=窄屏竖版(640×800)，wx/wy=宽屏横版(980×630) */
   const N=[
-    {n:'五角大楼',en:'U.S. DoD',x:320,y:62,r:24,t:'dod'},
-    {n:'Palantir',en:'战略中枢',x:320,y:195,r:27,t:'strat'},
-    {n:'Anduril',en:'前线执行',x:128,y:322,r:21,t:'edge'},
-    {n:'Shield AI',en:'自主飞行',x:320,y:348,r:21,t:'edge'},
-    {n:'Reflection AI',en:'生成式AI',x:512,y:322,r:19,t:'edge'},
-    {n:'SpaceX',en:'卫星通信',x:60,y:468,r:16,t:'tech'},
-    {n:'OpenAI',en:'大模型',x:154,y:502,r:16,t:'tech'},
-    {n:'Google',en:'云·视觉',x:244,y:527,r:16,t:'tech'},
-    {n:'NVIDIA',en:'GPU算力',x:320,y:537,r:17,t:'tech'},
-    {n:'Microsoft',en:'密级云',x:396,y:527,r:16,t:'tech'},
-    {n:'AWS',en:'云基建',x:486,y:502,r:16,t:'tech'},
-    {n:'Oracle',en:'涉密库',x:580,y:468,r:16,t:'tech'},
-    {n:'Anthropic',en:'伦理排除',x:585,y:120,r:15,t:'out'},
+    {n:'五角大楼',en:'U.S. DoD',x:320,y:62,wx:110,wy:235,r:24,t:'dod'},
+    {n:'Palantir',en:'战略中枢',x:320,y:195,wx:258,wy:235,r:27,t:'strat'},
+    {n:'Anduril',en:'前线执行',x:128,y:322,wx:455,wy:115,r:21,t:'edge'},
+    {n:'Shield AI',en:'自主飞行',x:320,y:348,wx:455,wy:235,r:21,t:'edge'},
+    {n:'Reflection AI',en:'生成式AI',x:512,y:322,wx:455,wy:355,r:19,t:'edge'},
+    {n:'SpaceX',en:'卫星通信',x:60,y:468,wx:655,wy:62,r:16,t:'tech'},
+    {n:'OpenAI',en:'大模型',x:154,y:502,wx:712,wy:130,r:16,t:'tech'},
+    {n:'Google',en:'云·视觉',x:244,y:527,wx:748,wy:205,r:16,t:'tech'},
+    {n:'NVIDIA',en:'GPU算力',x:320,y:537,wx:760,wy:278,r:17,t:'tech'},
+    {n:'Microsoft',en:'密级云',x:396,y:527,wx:748,wy:351,r:16,t:'tech'},
+    {n:'AWS',en:'云基建',x:486,y:502,wx:712,wy:426,r:16,t:'tech'},
+    {n:'Oracle',en:'涉密库',x:580,y:468,wx:655,wy:494,r:16,t:'tech'},
+    {n:'Anthropic',en:'伦理排除',x:585,y:120,wx:85,wy:60,r:15,t:'out'},
+    {n:'Helsing',en:'德国 · 蜂群AI',x:105,y:660,wx:130,wy:575,r:15,t:'ally'},
+    {n:'Baykar',en:'土耳其 · 无人机',x:250,y:660,wx:285,wy:575,r:15,t:'ally'},
+    {n:'Elbit Systems',en:'以色列 · 军工AI',x:400,y:660,wx:440,wy:575,r:15,t:'ally'},
+    {n:'BAE Systems',en:'英国 · AUKUS',x:545,y:660,wx:595,wy:575,r:15,t:'ally'},
+    {n:'大疆 DJI',en:'中国 · 禁入',x:250,y:750,wx:720,wy:575,r:15,t:'rival'},
+    {n:'中国电科 CETC',en:'中国 · 竞争',x:450,y:750,wx:875,wy:575,r:15,t:'rival'},
   ];
+  /* 关系类型：''=供应链 flow=指挥流动 cmp=对标/禁入(红虚线) */
   const L=[
-    ['五角大楼','Palantir','指挥链 · 哥谭统筹',1],
-    ['五角大楼','Anduril','陆军反无人机 · 10年200亿美元',0],
-    ['Palantir','Anduril','作战资源调度',1],
-    ['Palantir','Shield AI','体系统筹',0],
-    ['Palantir','Reflection AI','签约统筹',0],
-    ['NVIDIA','OpenAI','GPU 算力',0],
-    ['NVIDIA','Microsoft','GPU 算力',0],
-    ['NVIDIA','Google','GPU 算力',0],
-    ['NVIDIA','AWS','GPU 算力',0],
-    ['NVIDIA','Oracle','GPU 算力',0],
-    ['OpenAI','Microsoft','模型 ⇄ 密级云',0],
-    ['OpenAI','Palantir','情报分析模型',0],
-    ['Microsoft','Palantir','密级云环境',0],
-    ['Google','Palantir','Maven 目标识别',0],
-    ['AWS','Palantir','DoD 云基础设施',0],
-    ['Oracle','Palantir','涉密数据库',0],
-    ['SpaceX','Anduril','星链战场通信',0],
+    ['五角大楼','Palantir','指挥链 · 哥谭统筹','flow'],
+    ['五角大楼','Anduril','陆军反无人机 · 10年200亿美元',''],
+    ['Palantir','Anduril','作战资源调度','flow'],
+    ['Palantir','Shield AI','体系统筹',''],
+    ['Palantir','Reflection AI','签约统筹',''],
+    ['NVIDIA','OpenAI','GPU 算力',''],
+    ['NVIDIA','Microsoft','GPU 算力',''],
+    ['NVIDIA','Google','GPU 算力',''],
+    ['NVIDIA','AWS','GPU 算力',''],
+    ['NVIDIA','Oracle','GPU 算力',''],
+    ['OpenAI','Microsoft','模型 ⇄ 密级云',''],
+    ['OpenAI','Palantir','情报分析模型',''],
+    ['Microsoft','Palantir','密级云环境',''],
+    ['Google','Palantir','Maven 目标识别',''],
+    ['AWS','Palantir','DoD 云基础设施',''],
+    ['Oracle','Palantir','涉密数据库',''],
+    ['SpaceX','Anduril','星链战场通信',''],
+    ['Anduril','Baykar','战场对标 · 蜂群无人机','cmp'],
+    ['Anduril','大疆 DJI','市场禁入对标 · 零中国零件','cmp'],
+    ['Shield AI','中国电科 CETC','对手体系对标','cmp'],
   ];
-  const TIER={dod:'#5792FF',strat:'var(--red)',edge:'var(--gold)',tech:'var(--teal)',out:'rgba(255,255,255,.4)'};
+  const TIER={dod:'#5792FF',strat:'var(--red)',edge:'var(--gold)',tech:'var(--teal)',out:'rgba(255,255,255,.4)',ally:'var(--blue-hi)',rival:'var(--mac-yellow)'};
   const byName=Object.fromEntries(N.map(d=>[d.n,d]));
   const nb={}; N.forEach(d=>nb[d.n]=new Set());
   L.forEach(([a,b])=>{ nb[a].add(b); nb[b].add(a); });
 
   const svg=document.getElementById('net-graph');
-  let html='';
-  L.forEach(([a,b,lbl,flow],i)=>{
-    const A=byName[a],B=byName[b];
-    const dx=B.x-A.x,dy=B.y-A.y,len=Math.hypot(dx,dy)||1;
-    const mx=(A.x+B.x)/2,my=(A.y+B.y)/2;
-    const k=(i%2?1:-1)*Math.min(26,len*0.09);
-    const cx=mx-dy/len*k, cy=my+dx/len*k;
-    html+=`<path class="glink${flow?' flow':''}" data-a="${a}" data-b="${b}" d="M${A.x},${A.y} Q${cx.toFixed(1)},${cy.toFixed(1)} ${B.x},${B.y}"/>`;
-    html+=`<text class="glink-lbl" data-a="${a}" data-b="${b}" x="${(mx-dy/len*k*0.55).toFixed(1)}" y="${(my+dx/len*k*0.55-6).toFixed(1)}" text-anchor="middle">${lbl}</text>`;
-  });
-  [['战略中枢 · CORE',18,199],['前线执行 · EDGE',18,326],['底层技术 · INFRA',18,436]].forEach(([s,x,y])=>{
-    html+=`<text class="gtier" x="${x}" y="${y}">${s}</text>`;
-  });
-  N.forEach(d=>{
-    const c=TIER[d.t];
-    const dash=d.t==='out'?' stroke-dasharray="3 3"':'';
-    const haloFill=d.t==='out'?'none':c;
-    const coreFill=d.t==='out'?'none':'var(--panel)';
-    const lblFill=d.t==='out'?'var(--faint)':'var(--fg)';
-    html+=`<g class="gnode" data-name="${d.n}">`
-      +`<circle class="halo" cx="${d.x}" cy="${d.y}" r="${d.r+7}" fill="${haloFill}"/>`
-      +`<circle class="ring" cx="${d.x}" cy="${d.y}" r="${d.r}" fill="${coreFill}" stroke="${c}" stroke-width="1.6"${dash}/>`
-      +(d.t==='out'
-        ?`<circle cx="${d.x}" cy="${d.y}" r="3.2" fill="none" stroke="${c}" stroke-width="1.2"/>`
-        :`<circle cx="${d.x}" cy="${d.y}" r="3.2" fill="${c}"/>`)
-      +`<text class="lbl" x="${d.x}" y="${d.y+d.r+14}" fill="${lblFill}">${d.n}</text>`
-      +`<text class="sub" x="${d.x}" y="${d.y+d.r+25}">${d.en}</text>`
-      +`</g>`;
-  });
-  svg.innerHTML=html;
+  const mq=window.matchMedia('(min-width:700px)');
+  let sel=null;
+  function render(){
+    const wide=mq.matches;
+    const P=d=>wide?[d.wx,d.wy]:[d.x,d.y];
+    let html='';
+    L.forEach(([a,b,lbl,type],i)=>{
+      const A=byName[a],B=byName[b];
+      const [ax,ay]=P(A),[bx,by]=P(B);
+      const dx=bx-ax,dy=by-ay,len=Math.hypot(dx,dy)||1;
+      const mx=(ax+bx)/2,my=(ay+by)/2;
+      const k=(i%2?1:-1)*Math.min(26,len*0.09);
+      const cx=mx-dy/len*k, cy=my+dx/len*k;
+      html+=`<path class="glink${type?' '+type:''}" data-a="${a}" data-b="${b}" d="M${ax},${ay} Q${cx.toFixed(1)},${cy.toFixed(1)} ${bx},${by}"/>`;
+      html+=`<text class="glink-lbl" data-a="${a}" data-b="${b}" x="${(mx-dy/len*k*0.55).toFixed(1)}" y="${(my+dx/len*k*0.55-6).toFixed(1)}" text-anchor="middle">${lbl}</text>`;
+    });
+    const TIERS=wide
+      ?[['战略中枢 · CORE',258,190],['前线执行 · EDGE',455,78],['底层技术 · INFRA',655,28],['盟友自主体系 · ALLIED',20,528],['竞争与禁入 · RIVAL',690,528]]
+      :[['战略中枢 · CORE',18,199],['前线执行 · EDGE',18,326],['底层技术 · INFRA',18,436],['盟友自主体系 · ALLIED',18,612],['竞争与禁入 · RIVAL',18,702]];
+    TIERS.forEach(([s,x,y])=>{ html+=`<text class="gtier" x="${x}" y="${y}">${s}</text>`; });
+    N.forEach(d=>{
+      const c=TIER[d.t];
+      const [px,py]=P(d);
+      const dash=(d.t==='out'||d.t==='rival')?' stroke-dasharray="3 3"':'';
+      const haloFill=(d.t==='out'||d.t==='rival')?'none':c;
+      const coreFill=d.t==='out'?'none':'var(--panel)';
+      const lblFill=d.t==='out'?'var(--faint)':'var(--fg)';
+      html+=`<g class="gnode" data-name="${d.n}">`
+        +`<circle class="halo" cx="${px}" cy="${py}" r="${d.r+7}" fill="${haloFill}"/>`
+        +`<circle class="ring" cx="${px}" cy="${py}" r="${d.r}" fill="${coreFill}" stroke="${c}" stroke-width="1.6"${dash}/>`
+        +(d.t==='out'||d.t==='rival'
+          ?`<circle cx="${px}" cy="${py}" r="3.2" fill="none" stroke="${c}" stroke-width="1.2"/>`
+          :`<circle cx="${px}" cy="${py}" r="3.2" fill="${c}"/>`)
+        +`<text class="lbl" x="${px}" y="${py+d.r+14}" fill="${lblFill}">${d.n}</text>`
+        +`<text class="sub" x="${px}" y="${py+d.r+25}">${d.en}</text>`
+        +`</g>`;
+    });
+    svg.setAttribute('viewBox', wide?'0 0 980 630':'0 0 640 800');
+    svg.innerHTML=html;
+    svg.classList.remove('gdim');
+    if(sel){ sel=null; showDetail(null); }
+  }
+  render();
+  if(mq.addEventListener) mq.addEventListener('change',render); else mq.addListener(render);
 
   const gs=document.getElementById('graph-stats');
-  if(gs) gs.textContent=`　${N.length-1} 家企业 · ${L.length} 条关系 · ${N.filter(d=>d.t==='out').length} 家伦理排除`;
+  if(gs){
+    const us=N.filter(d=>['strat','edge','tech'].includes(d.t)).length;
+    const ally=N.filter(d=>d.t==='ally').length;
+    const rival=N.filter(d=>d.t==='rival').length;
+    gs.textContent=`　${N.length-1} 家企业（${us} 美 · ${ally} 盟友 · ${rival} 竞争 · ${N.filter(d=>d.t==='out').length} 伦理排除）· ${L.length} 条关系`;
+  }
 
   const gd=document.getElementById('graph-detail');
   const G_INFO={'五角大楼':{name:'五角大楼 · U.S. DoD',country:'美国 · 弗吉尼亚州',role:'最终需求方与作战体系业主：以 Palantir 哥谭平台统筹全军 AI 作战资源；直接签约 Anduril 陆军10年200亿美元反无人机合约、Shield AI 空军 CCA 协同战斗机项目，并向9家初创授予6万架无人机订单（"零中国零件"硬门槛）。',tags:['需求方','指挥链','签约业主'],level:'strat'}};
@@ -2210,14 +2253,13 @@ companies.forEach(c=>{
   function showDetail(name){
     if(!name){ gd.innerHTML=DEFAULT_DETAIL; return; }
     const c=G_INFO[name]; if(!c) return;
-    const lv2={strat:'var(--red-hi)',edge:'var(--gold-hi)',tech:'var(--teal-hi)'};
+    const lv2={strat:'var(--red-hi)',edge:'var(--gold-hi)',tech:'var(--teal-hi)',ally:'var(--blue-hi)',rival:'var(--mac-yellow)'};
     const dot=c.level?`<span class="dot-lv" style="background:${lv2[c.level]};box-shadow:0 0 6px ${lv2[c.level]};"></span>`:'';
     const tags=(c.tags||[]).map(t=>`<span class="co-tag ${c.level?'t-'+c.level:''}">${t}</span>`).join('');
     gd.innerHTML=`<div style="display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;"><div class="co-name">${dot}${c.name}</div><div class="co-country" style="margin-top:0;">${c.country}</div></div><div class="co-role" style="margin-top:8px;">${c.role}</div>${tags?`<div style="margin-top:10px;">${tags}</div>`:''}`;
   }
   showDetail(null);
 
-  let sel=null;
   function focus(name){
     if(!name){
       svg.classList.remove('gdim');
@@ -2228,16 +2270,14 @@ companies.forEach(c=>{
     svg.querySelectorAll('.gnode').forEach(g=>g.classList.toggle('on', g.dataset.name===name||nb[name].has(g.dataset.name)));
     svg.querySelectorAll('.glink,.glink-lbl').forEach(el=>el.classList.toggle('on', el.dataset.a===name||el.dataset.b===name));
   }
-  svg.querySelectorAll('.gnode').forEach(g=>{
-    g.addEventListener('mouseenter',()=>focus(g.dataset.name));
-    g.addEventListener('mouseleave',()=>focus(sel));
-    g.addEventListener('click',e=>{
-      e.stopPropagation();
-      sel=(sel===g.dataset.name)?null:g.dataset.name;
-      focus(sel); showDetail(sel);
-    });
+  /* 事件委托：re-render 后无需重绑 */
+  svg.addEventListener('mouseover',e=>{ const g=e.target.closest('.gnode'); if(g) focus(g.dataset.name); });
+  svg.addEventListener('mouseout',e=>{ const g=e.target.closest('.gnode'); if(g && !g.contains(e.relatedTarget)) focus(sel); });
+  svg.addEventListener('click',e=>{
+    const g=e.target.closest('.gnode');
+    if(g){ sel=(sel===g.dataset.name)?null:g.dataset.name; focus(sel); showDetail(sel); }
+    else { sel=null; focus(null); showDetail(null); }
   });
-  svg.addEventListener('click',()=>{ sel=null; focus(null); showDetail(null); });
 })();
 
 /* ===== Flowers ===== */
