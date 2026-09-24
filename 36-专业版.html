@@ -473,6 +473,17 @@ svg.gdim .gtier{ opacity:.3; }
 .rsc-step-txt{ font-size:.73rem; color:var(--muted); line-height:1.6; }
 .rsc-tech{ display:flex; flex-wrap:wrap; gap:6px; margin-top:10px; border-top:1px dashed var(--line); padding-top:10px; }
 .rsc-tech span{ font-family:var(--mono); font-size:.62rem; color:var(--muted); border:1px solid var(--line-strong); border-radius:4px; padding:3px 8px; }
+.gm{ cursor:pointer; }
+@media(min-width:901px){ .resmap-side{ max-height:478px; overflow:auto; } }
+.rsc-back{ font-family:var(--mono); font-size:.62rem; letter-spacing:.06em; color:var(--muted); border:1px solid var(--line); background:none; border-radius:var(--r-pill); padding:4px 12px; cursor:pointer; transition:all var(--t) var(--ease); align-self:flex-start; }
+.rsc-back:hover{ color:var(--fg); border-color:var(--line-strong); }
+.rsc-chips{ display:flex; flex-wrap:wrap; gap:6px; }
+.rsc-chips span{ font-family:var(--mono); font-size:.62rem; color:#EAD08A; border:1px solid rgba(234,208,138,.35); border-radius:4px; padding:3px 8px; }
+.rsc-news-h{ font-size:.66rem; font-family:var(--mono); color:#EAD08A; letter-spacing:.16em; margin-bottom:8px; border-top:1px dashed var(--line); padding-top:10px; }
+.rsc-news-item{ display:flex; gap:9px; margin-bottom:10px; }
+.rsc-news-item .d{ flex:none; font-family:var(--mono); font-size:.64rem; color:var(--faint); padding-top:2px; width:4.5em; }
+.rsc-news-item .t{ font-size:.74rem; color:var(--fg); line-height:1.55; }
+.rsc-news-item .s{ font-family:var(--mono); font-size:.6rem; color:var(--faint); margin-top:2px; letter-spacing:.04em; }
 
 /* ===== Casualties ===== */
 .casualty-hero{
@@ -1631,7 +1642,7 @@ svg.gdim .gtier{ opacity:.3; }
   <p class="view-sub">2026年关键矿产全球分布 · 供需结构与产业链 · 数据来源：USGS / IEA / Critical Minerals News</p>
 
   <div class="card" style="margin-bottom:18px;">
-    <h3><span class="tag-h">MAP</span>全球资源分布地图 <span style="font-family:var(--mono);font-size:.62rem;color:var(--faint);letter-spacing:.06em;">切换资源查看产地气泡 · 金色虚环 = 中国精炼主导</span></h3>
+    <h3><span class="tag-h">MAP</span>全球资源分布地图 <span style="font-family:var(--mono);font-size:.62rem;color:var(--faint);letter-spacing:.06em;">点击气泡查看该国资源档案与最新动态 · 金色虚环 = 中国精炼主导</span></h3>
     <div class="res-tabs" id="res-tabs"></div>
     <div class="resmap-grid">
       <div class="resmap-frame">
@@ -2842,6 +2853,61 @@ function refreshOverviewNews(){
       tech:['超细晶硬质合金（晶粒 <0.2μm）','钨基高熵合金（下一代弹芯）','再生钨循环（占中国供给约 1/4）']},
   };
   const order=['ree','li','co','ni','gr','cu','w'];
+  /* 国家资源档案与最新动态（与站内 2026 叙事一致） */
+  const RC={
+    '中国':{en:'CHINA',profile:'全球精炼中枢：USGS 口径 20 种关键矿产中 19 种精炼主导（平均市占约 70%），稀土/石墨/钨/镁同时是最大生产国。出口管制已体系化——从单一商品许可升级为含 0.1% 成分的域外管辖。',assets:['稀土 60%','钨 80%','石墨 65%','锂精炼 60%+','镁 ~85%','镓/锗/锑管制'],news:[
+      {d:'2026.08',t:'8 月稀土出口 4,735 吨，同比下降 18.2%，1-8 月累计降 11.1%',s:'海关总署'},
+      {d:'2025.12',t:'对石墨负极材料实施出口许可管理，负极出口纳入管制清单',s:'商务部'},
+      {d:'2025.10',t:'稀土管制升级：17 种中 12 种受限，新增域外管辖条款',s:'商务部'}]},
+    '美国':{en:'U.S.',profile:'最大消费国与立法驱动者：NDAA/IRA 双轨推动供应链去华；本土唯一在产稀土矿 Mountain Pass 扩产中，但精炼与磁体环节仍高度依赖亚洲。',assets:['稀土开采 15%','铜 5%','铍/氦','"零中国零件"立法'],news:[
+      {d:'2026.07',t:'五角大楼援引《国防生产法》补贴本土稀土磁体产能',s:'DoD / DPA Title III'},
+      {d:'2026.09',t:'关键矿产清单扩容，铜首次列入战略矿种',s:'USGS'}]},
+    '澳大利亚':{en:'AUSTRALIA',profile:'"开采在澳"支柱：全球锂产量第一（约 40%），稀土/钴/镍重要产地；关键矿产联盟核心成员——但开采优势与中国精炼能力深度绑定。',assets:['锂 40%','稀土 6%','镍 5%','钴 3%'],news:[
+      {d:'2026',t:'锂价触及 18 个月新低，高成本澳矿减产出清、并购整合加速',s:'产业跟踪'},
+      {d:'2026.06',t:'AUKUS 关键矿产合作框架扩围至稀土加工环节',s:'政策文件'}]},
+    '智利':{en:'CHILE',profile:'全球锂储量第一（25%）+ 铜产量第一（28%）：国家锂战略推动国有资本控股盐湖合资，Codelco 主权化运作，"资源国有+外资技术"路线成型。',assets:['锂储量 25%','锂产量 25%','铜 28%'],news:[
+      {d:'2026.05',t:'国家锂战略：SQM-Codelco 盐湖合资框架获议会放行',s:'路透'},
+      {d:'2026.08',t:'大型铜冶炼扩产项目环评推进，应对电网更换周期',s:'公司公告'}]},
+    '阿根廷':{en:'ARGENTINA',profile:'南美锂三角"制度洼地"：省级矿权 + RIGI 大型投资激励，盐湖项目管线全球最多；DLE 直接提锂技术最爱落地场景，2030 年产能有望翻两番。',assets:['锂产量 6%','盐湖管线 30+ 项目'],news:[
+      {d:'2026.04',t:'RIGI 激励下锂项目累计投资突破 200 亿美元',s:'矿业部'},
+      {d:'2026.07',t:'多个盐湖 DLE 直接提锂项目进入投产爬坡',s:'行业媒体'}]},
+    '津巴布韦':{en:'ZIMBABWE',profile:'非洲最大锂资源国：从"原矿出口"急转向"本土冶炼"，2026.02 暂停锂原矿出口、2027 起全面禁止——资源民族主义最激进样本。',assets:['锂产量 4%','铂族金属','铬'],news:[
+      {d:'2026.02',t:'暂停锂原矿及精矿出口，中资选矿厂加速落地',s:'矿业部'},
+      {d:'2027.01',t:'未加工锂矿出口禁令生效进入倒计时',s:'政策追踪'}]},
+    '刚果(金)':{en:'DR CONGO',profile:'全球钴心脏（74%）+ 铜第二大增产极：矿业法修订要求外资本土化，出口配额制反复摆动——2026 全面禁钴致 LME 钴价较年内低点暴涨 26%。',assets:['钴 74%','铜 12%','钽'],news:[
+      {d:'2026.09',t:'全面禁钴执行，LME 钴价较年内低点暴涨 26%',s:'LME / Gécamines'},
+      {d:'2026.06',t:'欧盟组建"关键原材料公司"联合采购储备对冲',s:'欧盟委员会'}]},
+    '印尼':{en:'INDONESIA',profile:'镍版 OPEC：以出口禁令吸引中资冶炼园区，RKEF+HPAL 双路线拿下 67% 开采；2026 配额削减至约 2.1 亿吨——"精细化控价"取代粗放禁售。',assets:['镍 67%','钴 5%（MHP）','锡 20%+'],news:[
+      {d:'2026.03',t:'镍矿开采配额削减至约 2.1 亿吨，"镍版 OPEC"成型',s:'能矿部'},
+      {d:'2026.07',t:'HPAL 镍钴中间品 MHP 出口量同比接近翻倍',s:'贸易数据'}]},
+    '俄罗斯':{en:'RUSSIA',profile:'制裁下的"影子供给"：镍/钯/钛全球主力，出口全面转向亚洲；诺里尔斯克硫化镍与 Kola 稀土项目是西方"去俄化"最难绕开的存量。',assets:['镍 6%','钯 ~40%','钛材（VSMPO）','钨 3%'],news:[
+      {d:'2026',t:'制裁下镍钛合金出口全面转向亚洲市场',s:'贸易流向'},
+      {d:'2026.05',t:'Kola 半岛稀土开发获国家基金注资',s:'俄通社'}]},
+    '加拿大':{en:'CANADA',profile:'"干净供应链"候选：钨/镍/铀/钾矿充裕，Sisson 钨矿等战时重启项目获美加官方融资，与中国供给形成替代叙事——但成本曲线显著更高。',assets:['钨 2%（重启中）','镍 4%','铀 ~15%','钾肥 30%+'],news:[
+      {d:'2026.06',t:'Sisson 钨矿获美加官方出口信贷推进重启',s:'EDC'},
+      {d:'2026',t:'关键矿产战略追加环评快速通道',s:'NRCan'}]},
+    '菲律宾':{en:'PHILIPPINES',profile:'镍矿第二大出口国（7%）：红土镍直接供中国与印尼冶炼；矿山环保审查（TMO）反复构成供应扰动源。',assets:['镍 7%','铜','红土钴'],news:[
+      {d:'2026',t:'矿业协调令解除新合同禁令，镍矿出口回升',s:'MGB'},
+      {d:'2026.04',t:'雨季叠加审查致镍矿船期延误，CIF 溢价走阔',s:'SMM'}]},
+    '缅甸':{en:'MYANMAR',profile:'中重稀土关键矿源：克钦邦离子吸附型稀土经云南口岸入境，占全球重稀土供给显著份额——战地局势直接扰动中国中重稀土原料盘。',assets:['重稀土矿源 ~8%','锡'],news:[
+      {d:'2026',t:'克钦邦局势反复，稀土矿源入境量月度波动剧烈',s:'边境贸易数据'},
+      {d:'2026.04',t:'缅方强化矿权清理，开采许可收紧',s:'政策追踪'}]},
+    '马达加斯加':{en:'MADAGASCAR',profile:'非洲石墨/镍钴新供给极：Molo 大鳞片石墨矿 + Ambatovy 镍钴；物流与政经波动是发运的主要折扣来源。',assets:['石墨 12%','镍钴（Ambatovy）'],news:[
+      {d:'2026',t:'Molo 石墨二期扩产，大鳞片占比提升对接负极需求',s:'公司公告'},
+      {d:'2026.03',t:'气旋季扰动图阿马西纳港发运节奏',s:'港口动态'}]},
+    '巴西':{en:'BRAZIL',profile:'铌绝对霸主（约 90%）+ 石墨/锂新增长极：Minas 州锂三角快速放量，Nacional de Grafite 扩产对接欧美负极需求。',assets:['铌 ~90%','石墨 6%','锂（新矿区）'],news:[
+      {d:'2026',t:'Minas 新锂矿批量投产，出口重心转向美欧市场',s:'行业媒体'},
+      {d:'2026.05',t:'铌价坚挺：特钢军工需求对冲地产走弱',s:'CBMM 跟踪'}]},
+    '莫桑比克':{en:'MOZAMBIQUE',profile:'非洲石墨出口先锋：Balama 矿区（Syrah）为全球最大天然石墨矿之一，配套美国 Vidalia 负极厂形成"非洲矿—美国材"一体化链路。',assets:['石墨 5%','钽（副产）'],news:[
+      {d:'2026',t:'Balama-Vidalia 美国负极一体化链路达产爬坡',s:'公司公告'},
+      {d:'2026.02',t:'北部安全局势阶段性扰动发运',s:'风险跟踪'}]},
+    '秘鲁':{en:'PERU',profile:'铜第二大出口国（10%）+ 银/锌主力：社区谈判与政治周期是铜供给最大不确定性来源，Las Bambas 类停运事件反复重演。',assets:['铜 10%','银','锌'],news:[
+      {d:'2026',t:'Las Bambas 运输走廊谈判续签，供应警报暂解除',s:'公司公告'},
+      {d:'2026.06',t:'Antamina 扩产可研获董事会放行',s:'行业媒体'}]},
+    '越南':{en:'VIETNAM',profile:'中国之外唯一规模化钨供给（5%）：Nui Phao 钨/萤石伴生矿满产，加工端仍需外送；承接电子制造迁移带来的稀土磁体需求增长。',assets:['钨 5%','稀土（开采中）','铝土'],news:[
+      {d:'2026',t:'Nui Phao 钨精矿满产，外送加工产能吃紧',s:'Masan 跟踪'},
+      {d:'2026.07',t:'美越矿产协议探讨"越南开采-盟国精炼"模式',s:'政策追踪'}]},
+  };
 
   const tabsEl=document.getElementById('res-tabs');
   const baseG=document.getElementById('res-map-base');
@@ -2879,6 +2945,7 @@ function refreshOverviewNews(){
         +'<text class="rmap-lbl" x="'+m.x+'" y="'+(m.y+r+14).toFixed(1)+'">'+m.c+' '+m.v+'%</text>';
       if(m.refine) inner+='<text class="rmap-lbl rmap-lbl2" x="'+m.x+'" y="'+(m.y+r+26).toFixed(1)+'">精炼 '+m.refine+'%+</text>';
       g.innerHTML=inner;
+      g.addEventListener('click',()=>renderCountry(m.c));
       mkG.appendChild(g);
     });
     document.getElementById('res-side').innerHTML=
@@ -2895,6 +2962,20 @@ function refreshOverviewNews(){
       +d.chain.map((s,i)=>'<div class="rsc-chain-step"><span class="rsc-step-tag">'+['上游','中游','下游'][i]+'</span><span class="rsc-step-txt">'+s+'</span></div>').join('')
       +'<div class="rsc-tech">'+d.tech.map(t=>'<span>'+t+'</span>').join('')+'</div></div>';
     setTimeout(()=>{ document.querySelectorAll('#res-side .rsc-bar-fill,#res-chain .rsc-bar-fill').forEach(b=>{ b.style.width=b.dataset.w+'%'; }); },120);
+  }
+  function renderCountry(name){
+    const c=RC[name]; if(!c) return;
+    const d=RSC[cur];
+    const side=document.getElementById('res-side');
+    side.innerHTML=
+      '<button class="rsc-back" type="button">← 返回「'+d.name+'」资源总览</button>'
+      +'<div class="rsc-name">'+name+'<span class="rsc-en">'+c.en+' × '+d.en+'</span></div>'
+      +'<div class="rsc-chips">'+c.assets.map(a=>'<span>'+a+'</span>').join('')+'</div>'
+      +'<p class="rsc-sum">'+c.profile+'</p>'
+      +'<div class="rsc-news-h">LATEST · 相关动态</div>'
+      +c.news.map(n=>'<div class="rsc-news-item"><span class="d">'+n.d+'</span><div><div class="t">'+n.t+'</div><div class="s">'+n.s+'</div></div></div>').join('');
+    side.querySelector('.rsc-back').addEventListener('click',()=>select(cur));
+    side.scrollTop=0;
   }
   select(cur);
 })();
