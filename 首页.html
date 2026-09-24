@@ -708,7 +708,7 @@ a{ color:inherit; text-decoration:none; }
 (function(){
   var canvas = document.getElementById('particles');
   var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var gl = canvas.getContext('webgl', { alpha:true, depth:false, antialias:true });
+  var gl = canvas.getContext('webgl', { alpha:true, depth:false, antialias:false });
 
   if(!gl){ canvas.style.display='none'; }
   else initParticles(gl, canvas, reduced);
@@ -721,7 +721,7 @@ a{ color:inherit; text-decoration:none; }
   }
 
   function initParticles(gl, canvas, reduced){
-    var COUNT = 520, SPREAD = 10, SPEED = reduced?0:0.3, BASE = 100;
+    var COUNT = 380, SPREAD = 10, SPEED = reduced?0:0.3, BASE = 100;
     var palette = [
       '#5382ff','#5382ff','#5382ff','#5382ff','#5382ff',
       '#2973FF','#2973FF','#2973FF','#2973FF',
@@ -808,7 +808,7 @@ a{ color:inherit; text-decoration:none; }
 
     var dpr=1, W=0,H=0;
     function resize(){
-      dpr=Math.min(window.devicePixelRatio||1,2);
+      dpr=Math.min(window.devicePixelRatio||1,1.3); /* 粒子是软圆点，1.3x 足够，省 ~58% 片元 */
       W=window.innerWidth; H=window.innerHeight;
       canvas.width=W*dpr; canvas.height=H*dpr;
       gl.viewport(0,0,canvas.width,canvas.height);
@@ -832,7 +832,7 @@ a{ color:inherit; text-decoration:none; }
       mouse.y=-((e.clientY/H)*2-1);
     });
 
-    /* 性能门控：粒子画布不在视口或页面隐藏时跳过全部 GPU 工作 */
+    /* 性能门控：页面隐藏或粒子层已淡出(opacity→0)时跳过全部 GPU 工作 */
     var pVisible=true;
     if('IntersectionObserver' in window){
       pVisible=false; /* 初始按 IO 首报为准 */
@@ -843,6 +843,9 @@ a{ color:inherit; text-decoration:none; }
       requestAnimationFrame(frame);
       var dt=t-last; last=t;
       if(!pVisible || document.hidden) return;
+      /* 滚动系统把粒子层淡出到接近 0 时，透明画布无需绘制 */
+      var po=parseFloat(canvas.style.opacity);
+      if(!isNaN(po)&&po<0.02) return;
       elapsed+=dt*SPEED;
       tx += (mouse.x-tx)*0.05; ty += (mouse.y-ty)*0.05;
       gl.uniform1f(uTime, elapsed*0.001);
@@ -1122,6 +1125,8 @@ a{ color:inherit; text-decoration:none; }
     idleTimeout:700, fadeDuration:900, maxDPR:1.5
   };
   var MAX_POINTS=64;
+  /* 辉光弥散，无需全分辨率：0.75x 渲染再由 CSS 拉伸，片元量省 ~44% */
+  var RS=0.75, pxScale=1;
 
   var VERT=
 'attribute vec2 position;'+
@@ -1259,8 +1264,9 @@ a{ color:inherit; text-decoration:none; }
 
   function resize(){
     var dpr=Math.min(window.devicePixelRatio||1,CFG.maxDPR);
+    pxScale=dpr*RS;
     var w=window.innerWidth, h=window.innerHeight;
-    canvas.width=Math.round(w*dpr); canvas.height=Math.round(h*dpr);
+    canvas.width=Math.round(w*pxScale); canvas.height=Math.round(h*pxScale);
     canvas.style.width=w+'px'; canvas.style.height=h+'px';
     gl.viewport(0,0,canvas.width,canvas.height);
     gl.uniform2f(loc.uResolution,canvas.width,canvas.height);
@@ -1271,10 +1277,9 @@ a{ color:inherit; text-decoration:none; }
     initialized=true; fade=1; canvas.style.opacity='1';
   }
   function onMove(e){
-    var dpr=Math.min(window.devicePixelRatio||1,CFG.maxDPR);
     var w=window.innerWidth,h=window.innerHeight;
-    var x=Math.max(0,Math.min(e.clientX,w))*dpr;
-    var y=Math.max(0,Math.min(h-e.clientY,h))*dpr;
+    var x=Math.max(0,Math.min(e.clientX,w))*pxScale;
+    var y=Math.max(0,Math.min(h-e.clientY,h))*pxScale;
     if(!initialized) initTrail(x,y);
     target.x=x; target.y=y;
     pointerInside=true; lastInput=performance.now();
@@ -1294,7 +1299,6 @@ a{ color:inherit; text-decoration:none; }
     var settled=initialized&&(Math.abs(target.x-head.x)+Math.abs(target.y-head.y)<0.5);
     flip=!flip;
     if(settled&&pointerInside&&flip) return;
-    var dpr=Math.min(window.devicePixelRatio||1,CFG.maxDPR);
     if(initialized){
       var headEase=1-Math.pow(1-Math.min(Math.max(CFG.followSpeed,0.01),0.99),delta);
       var chainBase=Math.min(0.28+CFG.followSpeed*0.35,0.92);
@@ -1325,7 +1329,7 @@ a{ color:inherit; text-decoration:none; }
     gl.uniform1f(loc.uPointCount,Math.round(CFG.trailLength));
     gl.uniform3fv(loc.uColor,CFG.color);
     gl.uniform3fv(loc.uSecondaryColor,CFG.secondaryColor);
-    gl.uniform1f(loc.uTrailWidth,CFG.trailWidth*dpr);
+    gl.uniform1f(loc.uTrailWidth,CFG.trailWidth*pxScale);
     gl.uniform1f(loc.uTaper,CFG.trailTaper);
     gl.uniform1f(loc.uGlowIntensity,CFG.glowIntensity);
     gl.uniform1f(loc.uGlowSpread,CFG.glowSpread);
@@ -1672,6 +1676,21 @@ a{ color:inherit; text-decoration:none; }
     window.addEventListener('load',function(){ setTimeout(mfPrefetch,4000); });
     root.addEventListener('pointerenter', mfPrefetch, {once:true});
   }
+})();
+</script><script>
+/* ===== GPU 减负：离屏的无限流光/点阵动画自动暂停（回到视口即恢复，视觉无差） ===== */
+(function(){
+  if(!('IntersectionObserver' in window)||!('animationPlayState' in document.body.style)) return;
+  var SEL='.ll-zh,.ll-en,.lat,.silver-flow,.ll-cell,.hc-kicker,.hc-kicker-en,.hc-hl,.hc-go,.seo-pre,.seo-hl,.seo-en,.seo-title,.hero-en,.hs-go,.seo-line,.scroll-txt,.stars,.stars2';
+  var els=document.querySelectorAll(SEL);
+  if(!els.length) return;
+  var io=new IntersectionObserver(function(es){
+    es.forEach(function(e){
+      /* 顶栏隐藏(translateY(-100%))时 IO 也会报离屏 → 动画随之暂停 */
+      e.target.style.animationPlayState=e.isIntersecting?'':'paused';
+    });
+  },{rootMargin:'12% 0px'});
+  els.forEach(function(el){ io.observe(el); });
 })();
 </script>
 </body>
