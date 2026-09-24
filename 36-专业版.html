@@ -2828,7 +2828,7 @@ function refreshOverviewNews(){
       mil:['舰艇建造：镍铬不锈钢与特种船体钢','航发 Inconel/哈氏合金热端部件','燃气轮机叶片与耐蚀管路','高镍电池：海军装备与特种车辆'],
       tech:['HPAL 高压酸浸（成本击穿硫化镍）','富氧侧吹冶炼（中国工艺输出）','印尼"镍版 OPEC"配额控价机制']},
     gr:{name:'石墨',en:'GRAPHITE',mineBy:'中国',mine:65,refineBy:'中国',refine:90,
-      markers:[{c:'中国',v:65,x:838.5,y:158.4,refine:90},{c:'马达加斯加',v:12,x:676,y:336},{c:'巴西',v:6,x:390,y:310},{c:'莫桑比克',v:5,x:655,y:335}],
+      markers:[{c:'中国',v:65,x:838.5,y:158.4,refine:90},{c:'马达加斯加',v:12,x:676,y:336,ly:1},{c:'巴西',v:6,x:390,y:310},{c:'莫桑比克',v:5,x:655,y:335}],
       summary:'天然石墨中国 65%，球化-包覆等负极高端加工 90% 在中国；2025.12 起对负极材料实施出口许可，直接卡住海外电池产业链扩产节奏。',
       demand:[['锂电负极',62],['耐火材料',14],['铸造润滑',9],['核石墨',6],['其他',9]],
       driver:'动力+储能电池负极刚性增长；核电机组重启拉动核石墨；人造石墨石墨化产能向西部电价洼地转移。',
@@ -2933,10 +2933,10 @@ function refreshOverviewNews(){
   function select(k){
     cur=k; const d=RSC[k];
     tabsEl.querySelectorAll('.res-tab').forEach(b=>b.classList.toggle('on',b.dataset.k===k));
-    /* 视觉尺寸守恒：地图列变窄时反向放大标记与文字，屏幕上的大小不变（780px 为基准宽度） */
+    /* 视觉尺寸守恒 v2：标签屏幕恒定 ~13px、气泡 ~1.6 倍——adj=1280/实际宽度，任何窗口宽度下清晰可读 */
     const svgEl=document.getElementById('res-map');
     const w=svgEl.clientWidth||780;
-    const adj=Math.max(.85,Math.min(2.2,780/w));
+    const adj=Math.min(4.2, 1280/w);
     mkG.innerHTML='';
     d.markers.forEach((m,i)=>{
       const g=document.createElementNS(RNS,'g');
@@ -2944,9 +2944,10 @@ function refreshOverviewNews(){
       const r=bubble(m.v)*adj;
       let inner='<circle class="rmap-halo" cx="'+m.x+'" cy="'+m.y+'" r="'+(r+7*adj).toFixed(1)+'"/>';
       if(m.refine) inner+='<circle cx="'+m.x+'" cy="'+m.y+'" r="'+(r+4.5*adj).toFixed(1)+'" fill="none" stroke="'+GOLD+'" stroke-width="'+(1.1*adj).toFixed(2)+'" stroke-dasharray="2.5 3.5" opacity=".75"/>';
+      const lblY=m.ly?(m.y-r-9*adj).toFixed(1):(m.y+r+14*adj).toFixed(1);
       inner+='<circle cx="'+m.x+'" cy="'+m.y+'" r="'+r.toFixed(1)+'" fill="'+GOLD+'" fill-opacity=".3" stroke="'+GOLD+'" stroke-width="'+(1.3*adj).toFixed(2)+'"/>'
         +'<circle cx="'+m.x+'" cy="'+m.y+'" r="'+(2.2*adj).toFixed(1)+'" fill="'+GOLD+'"/>'
-        +'<text class="rmap-lbl" style="font-size:'+(11*adj).toFixed(1)+'px" x="'+m.x+'" y="'+(m.y+r+14*adj).toFixed(1)+'">'+m.c+' '+m.v+'%</text>';
+        +'<text class="rmap-lbl" style="font-size:'+(11*adj).toFixed(1)+'px" x="'+m.x+'" y="'+lblY+'">'+m.c+' '+m.v+'%</text>';
       if(m.refine) inner+='<text class="rmap-lbl rmap-lbl2" style="font-size:'+(9.5*adj).toFixed(1)+'px" x="'+m.x+'" y="'+(m.y+r+26*adj).toFixed(1)+'">精炼 '+m.refine+'%+</text>';
       g.innerHTML=inner;
       g.addEventListener('click',()=>renderCountry(m.c));
