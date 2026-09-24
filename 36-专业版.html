@@ -453,8 +453,8 @@ svg.gdim .gtier{ opacity:.3; }
 .rsc-name{ font-family:var(--serif); font-size:1.06rem; font-weight:600; }
 .rsc-en{ font-family:var(--mono); font-size:.58rem; color:var(--faint); letter-spacing:.14em; margin-left:6px; font-weight:400; }
 .rsc-sum{ font-size:.84rem; color:var(--muted); line-height:1.75; }
-.rsc-top{ font-family:var(--mono); font-size:.72rem; color:var(--faint); line-height:1.8; border-top:1px solid var(--line); padding-top:10px; margin-top:auto; }
-.rc-key{ display:inline-block; font-family:var(--mono); font-size:.7rem; font-weight:500; letter-spacing:.03em; border:1px solid; border-radius:99px; padding:2px 10px; margin:5px 6px 1px 0; white-space:nowrap; }
+.rsc-top{ font-family:var(--mono); font-size:.72rem; color:var(--faint); line-height:1.85; border-top:1px solid var(--line); padding-top:10px; margin-top:auto; }
+.rsc-top span{ font-weight:500; }
 .rmap-lbl{ font-family:var(--mono); font-size:11px; fill:var(--fg); text-anchor:middle; pointer-events:none; }
 .rmap-lbl2{ font-size:9.5px; fill:#EAD08A; }
 .rmap-halo{ fill:rgba(234,208,138,.16); opacity:0; transition:opacity .2s ease; }
@@ -2998,7 +2998,7 @@ function refreshOverviewNews(){
       +barRow('开采 CR1 · '+hlCountry(d.mineBy), d.mine, COUNTRY_COLOR[d.mineBy]||GOLD)
       +barRow('精炼 CR1 · '+hlCountry(d.refineBy), d.refine, COUNTRY_COLOR[d.refineBy]||GOLD)
       +'<p class="rsc-sum">'+hlCountry(d.summary)+'</p>'
-      +'<div class="rsc-top">主要产地'+d.markers.map(m=>'<span class="rc-key" style="color:'+mColor(m)+';background:'+hexA(mColor(m),.10)+';border-color:'+hexA(mColor(m),.35)+';">'+m.c+' '+m.v+'%</span>').join('')+'</div>';
+      +'<div class="rsc-top">主要产地'+d.markers.map(m=>'<span style="color:'+mColor(m)+';">'+m.c+' '+m.v+'%</span>').join(' · ')+'</div>';
     document.getElementById('res-chain').innerHTML=
       '<div class="rsc-col"><h4>DEMAND · 需求结构</h4>'+d.demand.map(x=>barRow(x[0],x[1])).join('')
       +'<p class="rsc-driver"><b>增长驱动</b>：'+hlCountry(d.driver)+'</p></div>'
@@ -3034,13 +3034,35 @@ function refreshOverviewNews(){
     side.innerHTML=
       '<button class="rsc-back" type="button">← 返回「'+d.name+'」资源总览</button>'
       +'<div class="rsc-name"><span style="color:'+cc+';">'+name+'</span><span class="rsc-en">'+c.en+' × '+d.en+'</span></div>'
-      +'<div class="rsc-chips">'+c.assets.map(a=>'<span style="color:'+cc+';border-color:'+hexA(cc,.4)+';background:'+hexA(cc,.07)+';">'+hlCountry(a,cc)+'</span>').join('')+'</div>'
+      +'<div class="rsc-chips">'+c.assets.map(a=>'<span style="color:'+cc+';">'+a+'</span>').join('')+'</div>'
       +'<p class="rsc-sum">'+hlCountry(c.profile,cc)+'</p>'
       +'<div class="rsc-news-h">LATEST · 相关动态</div>'
-      +c.news.map(n=>'<div class="rsc-news-item" style="border-left:2px solid '+hexA(cc,.45)+';padding-left:9px;"><span class="d" style="color:'+cc+';">'+n.d+'</span><div><div class="t">'+hlCountry(n.t,cc)+'</div><div class="s">'+hlCountry(n.s,cc)+'</div></div></div>').join('');
+      +c.news.map(n=>'<div class="rsc-news-item"><span class="d" style="color:'+cc+';">'+n.d+'</span><div><div class="t">'+hlCountry(n.t,cc)+'</div><div class="s">'+hlCountry(n.s,cc)+'</div></div></div>').join('');
     side.querySelector('.rsc-back').addEventListener('click',()=>select(cur));
     side.scrollTop=0;
   }
+  /* PRODUCERS 表格：第一生产国/精炼主导/占比列按国家角色色染色，破除单一红色 */
+  function hlProducersTable(){
+    var tbl=document.querySelector('#view-resources table.data-table');
+    if(!tbl) return;
+    var last=GOLD;
+    tbl.querySelectorAll('tbody tr').forEach(function(tr){
+      Array.from(tr.cells).forEach(function(td){
+        if(td.colSpan>1) return;
+        var raw=td.textContent;
+        if(!raw) return;
+        var out='', localLast=last;
+        raw.replace(TOK_PAT,function(m,name,num){
+          if(name){ localLast=COUNTRY_COLOR[name]; out+=cspan(name,localLast); }
+          else out+= localLast? cspan(num,localLast):num;
+          return '';
+        });
+        td.innerHTML=out;
+        last=localLast;
+      });
+    });
+  }
+  hlProducersTable();
   select(cur);
 })();
 
