@@ -454,6 +454,7 @@ svg.gdim .gtier{ opacity:.3; }
 .rsc-en{ font-family:var(--mono); font-size:.58rem; color:var(--faint); letter-spacing:.14em; margin-left:6px; font-weight:400; }
 .rsc-sum{ font-size:.84rem; color:var(--muted); line-height:1.75; }
 .rsc-top{ font-family:var(--mono); font-size:.72rem; color:var(--faint); line-height:1.8; border-top:1px solid var(--line); padding-top:10px; margin-top:auto; }
+.rc-key{ display:inline-block; font-family:var(--mono); font-size:.7rem; font-weight:500; letter-spacing:.03em; border:1px solid; border-radius:99px; padding:2px 10px; margin:5px 6px 1px 0; white-space:nowrap; }
 .rmap-lbl{ font-family:var(--mono); font-size:11px; fill:var(--fg); text-anchor:middle; pointer-events:none; }
 .rmap-lbl2{ font-size:9.5px; fill:#EAD08A; }
 .rmap-halo{ fill:rgba(234,208,138,.16); opacity:0; transition:opacity .2s ease; }
@@ -2818,11 +2819,20 @@ function refreshOverviewNews(){
   /* 气泡角色配色：金=中国精炼中枢 · 蓝=盟友/友岸供给 · 红=地缘风险供给 · 青=全球南方资源国（与图例一致） */
   const ROLE_COLOR={'中国':GOLD,'美国':'#5EC4FF','澳大利亚':'#5EC4FF','加拿大':'#5EC4FF','俄罗斯':'#FF6B6B','缅甸':'#FF6B6B'};
   const mColor=m=>ROLE_COLOR[m.c]||'#B0FFEB';
-  /* 文字高亮：侧栏文本中的国家名跟随地图气泡角色色 */
+  /* 关键信息高亮：国家名 + 百分比等核心数据跟随地图角色色；百分比继承最近提及国名（defC 为默认上下文色，传 null 则首个国名前不着色） */
   const COUNTRY_COLOR=Object.assign({},ROLE_COLOR);
   ['智利','阿根廷','秘鲁','巴西','刚果(金)','印尼','菲律宾','津巴布韦','马达加斯加','莫桑比克','越南'].forEach(function(c){ if(!COUNTRY_COLOR[c]) COUNTRY_COLOR[c]='#B0FFEB'; });
-  const C_PAT=new RegExp('('+Object.keys(COUNTRY_COLOR).sort(function(a,b){return b.length-a.length;}).map(function(c){return c.replace(/[()]/g,'\\$&');}).join('|')+')','g');
-  const hlCountry=function(s){ return String(s).replace(C_PAT,function(m){ return '<span style="color:'+COUNTRY_COLOR[m]+';">'+m+'</span>'; }); };
+  const C_ALT=Object.keys(COUNTRY_COLOR).sort(function(a,b){return b.length-a.length;}).map(function(c){return c.replace(/[()]/g,'\\$&');}).join('|');
+  const TOK_PAT=new RegExp('('+C_ALT+')|(\\d+(?:\\.\\d+)?%\\+?)','g');
+  const hexA=function(hex,a){ var n=parseInt(hex.slice(1),16); return 'rgba('+((n>>16)&255)+','+((n>>8)&255)+','+(n&255)+','+a+')'; };
+  const cspan=function(t,c){ return '<span style="color:'+c+';">'+t+'</span>'; };
+  const hlCountry=function(s,defC){
+    var last=(defC===undefined)?GOLD:defC;
+    return String(s).replace(TOK_PAT,function(m,name,num){
+      if(name){ last=COUNTRY_COLOR[name]; return cspan(name,last); }
+      return last?cspan(num,last):num;
+    });
+  };
   const RSC={
     ree:{name:'稀土',en:'RARE EARTHS',mineBy:'中国',mine:60,refineBy:'中国',refine:90,
       markers:[{c:'中国',v:60,x:838.5,y:158.4,refine:90},{c:'美国',v:15,x:267,y:144.5},{c:'缅甸',v:8,x:806,y:228},{c:'澳大利亚',v:6,x:929.1,y:366.7}],
@@ -2957,7 +2967,7 @@ function refreshOverviewNews(){
   });
 
   const bubble=v=>Math.min(18, 4+Math.sqrt(v)*1.55);
-  const barRow=(n,v)=>'<div class="rsc-bar-row"><span class="rsc-bar-name">'+n+'</span><span class="rsc-bar-track"><i class="rsc-bar-fill" data-w="'+v+'"></i></span><span class="rsc-bar-val">'+v+'%</span></div>';
+  const barRow=(n,v,c)=>'<div class="rsc-bar-row"><span class="rsc-bar-name">'+n+'</span><span class="rsc-bar-track"><i class="rsc-bar-fill" data-w="'+v+'"'+(c?' style="background:'+c+'"':'')+'></i></span><span class="rsc-bar-val"'+(c?' style="color:'+c+'"':'')+'>'+v+'%</span></div>';
 
   function select(k){
     cur=k; const d=RSC[k];
@@ -2985,10 +2995,10 @@ function refreshOverviewNews(){
     });
     document.getElementById('res-side').innerHTML=
       '<div class="rsc-name">'+d.name+'<span class="rsc-en">'+d.en+'</span></div>'
-      +barRow('开采 CR1 · '+hlCountry(d.mineBy), d.mine)
-      +barRow('精炼 CR1 · '+hlCountry(d.refineBy), d.refine)
+      +barRow('开采 CR1 · '+hlCountry(d.mineBy), d.mine, COUNTRY_COLOR[d.mineBy]||GOLD)
+      +barRow('精炼 CR1 · '+hlCountry(d.refineBy), d.refine, COUNTRY_COLOR[d.refineBy]||GOLD)
       +'<p class="rsc-sum">'+hlCountry(d.summary)+'</p>'
-      +'<div class="rsc-top">主要产地：'+d.markers.map(m=>'<span style="color:'+mColor(m)+';">'+m.c+'</span> '+m.v+'%').join(' · ')+'</div>';
+      +'<div class="rsc-top">主要产地'+d.markers.map(m=>'<span class="rc-key" style="color:'+mColor(m)+';background:'+hexA(mColor(m),.10)+';border-color:'+hexA(mColor(m),.35)+';">'+m.c+' '+m.v+'%</span>').join('')+'</div>';
     document.getElementById('res-chain').innerHTML=
       '<div class="rsc-col"><h4>DEMAND · 需求结构</h4>'+d.demand.map(x=>barRow(x[0],x[1])).join('')
       +'<p class="rsc-driver"><b>增长驱动</b>：'+hlCountry(d.driver)+'</p></div>'
@@ -3020,13 +3030,14 @@ function refreshOverviewNews(){
     const c=RC[name]; if(!c) return;
     const d=RSC[cur];
     const side=document.getElementById('res-side');
+    const cc=COUNTRY_COLOR[name]||GOLD;
     side.innerHTML=
       '<button class="rsc-back" type="button">← 返回「'+d.name+'」资源总览</button>'
-      +'<div class="rsc-name"><span style="color:'+(COUNTRY_COLOR[name]||'inherit')+';">'+name+'</span><span class="rsc-en">'+c.en+' × '+d.en+'</span></div>'
-      +'<div class="rsc-chips">'+c.assets.map(a=>'<span>'+hlCountry(a)+'</span>').join('')+'</div>'
-      +'<p class="rsc-sum">'+hlCountry(c.profile)+'</p>'
+      +'<div class="rsc-name"><span style="color:'+cc+';">'+name+'</span><span class="rsc-en">'+c.en+' × '+d.en+'</span></div>'
+      +'<div class="rsc-chips">'+c.assets.map(a=>'<span style="color:'+cc+';border-color:'+hexA(cc,.4)+';background:'+hexA(cc,.07)+';">'+hlCountry(a,cc)+'</span>').join('')+'</div>'
+      +'<p class="rsc-sum">'+hlCountry(c.profile,cc)+'</p>'
       +'<div class="rsc-news-h">LATEST · 相关动态</div>'
-      +c.news.map(n=>'<div class="rsc-news-item"><span class="d">'+n.d+'</span><div><div class="t">'+hlCountry(n.t)+'</div><div class="s">'+hlCountry(n.s)+'</div></div></div>').join('');
+      +c.news.map(n=>'<div class="rsc-news-item" style="border-left:2px solid '+hexA(cc,.45)+';padding-left:9px;"><span class="d" style="color:'+cc+';">'+n.d+'</span><div><div class="t">'+hlCountry(n.t,cc)+'</div><div class="s">'+hlCountry(n.s,cc)+'</div></div></div>').join('');
     side.querySelector('.rsc-back').addEventListener('click',()=>select(cur));
     side.scrollTop=0;
   }
