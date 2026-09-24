@@ -604,7 +604,7 @@ a{ color:inherit; text-decoration:none; }
     <div class="se-stage" id="seStage">
       <div class="se-frame" id="seFrame">
         <div class="se-lotus-wrap" id="seLotusWrap">
-          <video class="se-lotus" id="seLotus" muted loop playsinline webkit-playsinline poster="assets/memorial-poster.jpg" preload="auto" src="assets/memorial-bg.mp4"></video>
+          <video class="se-lotus" id="seLotus" muted loop playsinline webkit-playsinline poster="assets/memorial-poster.jpg?v=hd1" preload="auto" src="assets/memorial-bg.mp4?v=hd1"></video>
           <div class="se-lotus-scrim"></div>
         </div>
         <div class="se-frame-title" id="seFrameTitle">
@@ -939,10 +939,14 @@ a{ color:inherit; text-decoration:none; }
     /* 花较满时两组文字对称交叉；旧字上移虚化远去，新字下移聚焦浮现 */
     var cross=reduced?0:smoothstep(.52,.78,p);
     seoA.style.opacity=''+(ovIn*(1-cross));
-    seoA.style.filter=reduced?'none':('blur('+(cross*6).toFixed(2)+'px)');
+    /* 动态 blur 是全屏重绘大户：量化到 0.1px 步进、端点卸载滤镜，滚动帧不再整层光栅化 */
+    var opA=ovIn*(1-cross);
+    var bA=cross*6;
+    seoA.style.filter=(opA<=0.01||bA<0.05)?'none':'blur('+bA.toFixed(1)+'px)';
     seoA.style.transform='translate3d(0,'+(-(cross*14).toFixed(2))+'px,0) scale('+(1-cross*0.03).toFixed(3)+')';
     seoB.style.opacity=''+(cross*0.5);
-    seoB.style.filter=reduced?'none':('blur('+((1-cross)*6).toFixed(2)+'px)');
+    var bB=(1-cross)*6;
+    seoB.style.filter=(cross<=0.01||bB<0.05)?'none':'blur('+bB.toFixed(1)+'px)';
     seoB.style.transform='translate3d(0,'+((1-cross)*14).toFixed(2)+'px,0)';
     seoB.style.mixBlendMode=cross>0.02?'screen':'normal';
     seOverlay.style.opacity='1';
@@ -1251,7 +1255,7 @@ a{ color:inherit; text-decoration:none; }
   var points=[]; for(var k=0;k<MAX_POINTS;k++) points.push({x:0,y:0});
   var target={x:0,y:0}, head={x:0,y:0};
   var initialized=false, pointerInside=false, fade=0;
-  var lastInput=performance.now(), lastFrame=performance.now();
+  var lastInput=performance.now(), lastFrame=performance.now(), flip=false;
 
   function resize(){
     var dpr=Math.min(window.devicePixelRatio||1,CFG.maxDPR);
@@ -1286,6 +1290,10 @@ a{ color:inherit; text-decoration:none; }
   function render(now){
     requestAnimationFrame(render);
     var delta=Math.min((now-lastFrame)/16.667,3); lastFrame=now;
+    /* 静止检测：光迹收敛到目标后降为半帧率，GPU 占用减半（脉动仍流畅） */
+    var settled=initialized&&(Math.abs(target.x-head.x)+Math.abs(target.y-head.y)<0.5);
+    flip=!flip;
+    if(settled&&pointerInside&&flip) return;
     var dpr=Math.min(window.devicePixelRatio||1,CFG.maxDPR);
     if(initialized){
       var headEase=1-Math.pow(1-Math.min(Math.max(CFG.followSpeed,0.01),0.99),delta);
@@ -1415,6 +1423,20 @@ a{ color:inherit; text-decoration:none; }
     instances.push(inst);
   }
   function gauss(d,radius){ var n=d/(radius/2); return Math.exp(-(n*n)/2); }
+  /* 字母相对容器的位置与滚动无关 → 缓存，避免每帧全量 getBoundingClientRect 重排 */
+  function measureVP(inst){
+    var cr=inst.container.getBoundingClientRect();
+    inst.letters.forEach(function(o){
+      var rr=o.s.getBoundingClientRect();
+      o.cx=rr.left+rr.width/2-cr.left; o.cy=rr.top+rr.height/2-cr.top;
+      o.last=-1;
+    });
+  }
+  var measureTimer=null;
+  function measureAll(){ instances.forEach(measureVP); }
+  window.addEventListener('resize',function(){ clearTimeout(measureTimer); measureTimer=setTimeout(measureAll,180); });
+  window.addEventListener('load',function(){ measureAll(); });
+  if(document.fonts&&document.fonts.ready){ document.fonts.ready.then(function(){ measureAll(); }); }
   var active=false;
   function onMove(e){
     active=true;
@@ -1434,11 +1456,16 @@ a{ color:inherit; text-decoration:none; }
       if(!inst.dirty) return;
       inst.dirty=false;
       var cr=inst.container.getBoundingClientRect();
+      /* 容器滚出视口则整组跳过 */
+      if(cr.bottom<-80||cr.top>window.innerHeight+80) return;
+      var mx=inst.mx, my=inst.my;
       inst.letters.forEach(function(o){
-        var rr=o.s.getBoundingClientRect();
-        var cx=rr.left+rr.width/2-cr.left, cy=rr.top+rr.height/2-cr.top;
-        var d=Math.sqrt((inst.mx-cx)*(inst.mx-cx)+(inst.my-cy)*(inst.my-cy));
+        if(o.cx===undefined) return;
+        var dx=mx-o.cx, dy=my-o.cy;
+        var d=Math.sqrt(dx*dx+dy*dy);
         var k=(active&&d<inst.radius)?gauss(d,inst.radius):0;
+        if(Math.abs(k-o.last)<0.02) return; /* 变化低于阈值不写样式，避免无谓重排 */
+        o.last=k;
         var wval="'wght' "+(o.from+(o.to-o.from)*k).toFixed(0);
         o.s.style.fontVariationSettings=wval;
         o.s.style.webkitFontVariationSettings=wval;
