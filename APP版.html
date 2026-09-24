@@ -150,6 +150,22 @@ main{ padding:0 20px calc(env(safe-area-inset-bottom) + 100px); }
 @media(prefers-reduced-motion:reduce){ .vhero video,.vfoot video{ display:none; } .vhero,.vfoot{ height:150px;
   background:radial-gradient(80% 90% at 50% 40%, rgba(41,115,255,.10), transparent 75%),var(--bg); } }
 
+/* ── 品牌 header（与网页版同源，点击切换回网页版） ── */
+.app-head{ align-items:center; }
+.brand{ display:flex; align-items:center; gap:10px; text-decoration:none; color:inherit; transition:opacity .25s ease; }
+.brand:active{ opacity:.7; }
+.ll-grid{ display:grid; grid-template-columns:repeat(3,5px); grid-template-rows:repeat(3,5px); gap:1.5px; width:18px; height:18px; flex:none; }
+.ll-cell{ width:5px; height:5px; border-radius:50%; background:var(--fg); opacity:.18; animation:ll-on 864ms cubic-bezier(.77,0,.175,1) infinite; }
+.ll-cell.hole{ opacity:.05; animation:none; }
+@keyframes ll-on{ 0%,100%{opacity:.18;} 18%,42%{opacity:1;} 62%{opacity:.18;} }
+.brand h1{ font-weight:500; font-size:14px; letter-spacing:.04em; line-height:1.15; margin:0; color:#fff; }
+.ll-zh{ background:linear-gradient(100deg,rgba(255,255,255,.30) 0%,rgba(255,255,255,.30) 14%,#ffffff 30%,rgba(255,255,255,.62) 44%,rgba(255,255,255,.26) 60%,rgba(255,255,255,.55) 74%,#ffffff 88%,rgba(255,255,255,.30) 100%); background-size:300% 100%; -webkit-background-clip:text; background-clip:text; color:transparent; -webkit-text-fill-color:transparent; animation:llSilver 6.5s linear infinite; }
+.brand h1 .lat{ font-family:var(--mono); font-size:9px; letter-spacing:.24em; background:linear-gradient(100deg,rgba(255,255,255,.30) 0%,rgba(255,255,255,.30) 14%,#ffffff 30%,rgba(255,255,255,.62) 44%,rgba(255,255,255,.26) 60%,rgba(255,255,255,.55) 74%,#ffffff 88%,rgba(255,255,255,.30) 100%); background-size:300% 100%; -webkit-background-clip:text; background-clip:text; color:transparent; -webkit-text-fill-color:transparent; text-transform:uppercase; margin-left:9px; font-weight:400; vertical-align:middle; animation:llSilver 6.5s linear infinite; }
+.brand .tagline{ display:block; font-size:9.5px; color:var(--muted); letter-spacing:.12em; margin-top:2px; line-height:1.3; }
+.silver-flow{ background:linear-gradient(100deg,rgba(255,255,255,.32) 0%,rgba(255,255,255,.32) 14%,#ffffff 30%,rgba(255,255,255,.62) 44%,rgba(255,255,255,.26) 60%,rgba(255,255,255,.55) 74%,#ffffff 88%,rgba(255,255,255,.32) 100%); background-size:300% 100%; -webkit-background-clip:text; background-clip:text; color:transparent; -webkit-text-fill-color:transparent; animation:llSilver 6.5s linear infinite; }
+@keyframes llSilver{ 0%{background-position:0% 50%;} 100%{background-position:300% 50%;} }
+@media(prefers-reduced-motion:reduce){ .ll-zh,.brand h1 .lat,.silver-flow{ animation:none; background:none; color:var(--fg); -webkit-text-fill-color:var(--fg); } }
+
 /* ── 头部动作按钮 ── */
 .head-r{ display:flex; flex-direction:column; align-items:flex-end; gap:7px; }
 .head-actions{ display:flex; gap:8px; }
@@ -241,13 +257,25 @@ nav.tabbar svg{ width:20px; height:20px; }
 <div class="cosmos"><div class="nebula"></div><div class="stars"></div><div class="stars2"></div></div>
 <div id="app">
   <header class="app-head" id="appHead">
-    <div>
-      <div class="eyebrow">三变六反 · Geosandbox</div>
-      <h1>风险沙盘<span class="lat">RISK SANDBOX</span></h1>
-    </div>
+    <a class="brand" href="36-专业版.html" aria-label="切换回网页版">
+      <span class="ll-grid" aria-hidden="true">
+        <span class="ll-cell" style="animation-delay:0ms"></span>
+        <span class="ll-cell" style="animation-delay:108ms"></span>
+        <span class="ll-cell" style="animation-delay:216ms"></span>
+        <span class="ll-cell" style="animation-delay:756ms"></span>
+        <span class="ll-cell hole"></span>
+        <span class="ll-cell" style="animation-delay:324ms"></span>
+        <span class="ll-cell" style="animation-delay:648ms"></span>
+        <span class="ll-cell" style="animation-delay:540ms"></span>
+        <span class="ll-cell" style="animation-delay:432ms"></span>
+      </span>
+      <span class="brand-txt">
+        <h1><span class="ll-zh">三变 · 六反</span><span class="lat">GeoSandbox</span></h1>
+        <span class="tagline silver-flow">地缘风险跟踪与推演沙盘 · GEOPOLITICAL COMMAND</span>
+      </span>
+    </a>
     <div class="head-r">
       <div class="head-actions">
-        <button class="hbtn" id="btnWeb"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3.5 9h17M3.5 15h17M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg>网页版</button>
         <button class="hbtn" id="btnLive"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg>实时更新</button>
       </div>
       <div class="updated" id="liveStamp">数据核实<br><b>2026-09-24</b></div>
@@ -642,8 +670,7 @@ document.getElementById('tabbar').addEventListener('click',e=>{
   memGate();
 });
 
-/* ═══ 头部动作：网页版 / 实时更新 ═══ */
-document.getElementById('btnWeb').addEventListener('click',function(){ location.href='36-专业版.html'; });
+/* ═══ 头部动作：实时更新（logo 点击即切换回网页版，为原生 <a href>） ═══ */
 var liveBtn=document.getElementById('btnLive'),liveBusy=false;
 liveBtn.addEventListener('click',function(){
   if(liveBusy) return; liveBusy=true;
