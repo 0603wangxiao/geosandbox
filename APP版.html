@@ -12,7 +12,7 @@
   色彩体系  深空底 #070B18 / 星云辉光 radial / 浮层 rgba(255,255,255,.04-.07)
             发丝线 rgba(255,255,255,.08) / 主色品牌蓝 #2973FF
             霓虹警示粉 #FF5C8A（仅极值）/ 分类色：冲突#FF6B6B 资源#EAD08A 技术#8FD8FF 金融#7FB0FF
-  字体层级  Display衬线大数字 56/40（NotoTitleVF）· 标题 17/500 · 正文 14/1.7
+  字体层级  与网页版统一：Inter / PingFang SC（衬线=sans同栈）· SF Mono · 标题 17/500 · 正文 14/1.7
             眉题 mono 10-11 大写 letter-spacing .22em · 注释 12 muted
   间距栅格  4pt 网格：页边距 20 / 卡内边距 18 / 卡间距 12 / 区块间 28
             圆角：卡 20 · 内件 14 · 胶囊 999
@@ -32,9 +32,9 @@
   --hair:rgba(255,255,255,.08); --fg:#F2F5FF; --muted:rgba(226,233,255,.62); --faint:rgba(226,233,255,.36);
   --brand:#2973FF; --brand-400:#5792FF; --brand-200:#C4DAFF;
   --neon:#FF5C8A; --c-conflict:#FF6B6B; --c-resource:#EAD08A; --c-tech:#8FD8FF; --c-finance:#7FB0FF;
-  --serif:'NotoTitleVF','Songti SC','STSong',Georgia,serif;
-  --mono:ui-monospace,'SF Mono',Menlo,monospace;
-  --sans:-apple-system,'PingFang SC','Noto Sans SC',sans-serif;
+  --serif:"Inter","Helvetica Neue",Helvetica,"PingFang SC","Microsoft YaHei",sans-serif;
+  --mono:"SF Mono","SFMono-Regular",Menlo,Consolas,"Liberation Mono",monospace;
+  --sans:"Inter","Helvetica Neue",Helvetica,"PingFang SC","Microsoft YaHei",sans-serif;
   --r-lg:20px; --r-md:14px;
   --tabbar-h:56px;
   --ease:cubic-bezier(.22,1,.36,1);
@@ -141,19 +141,50 @@ main{ padding:0 20px calc(env(safe-area-inset-bottom) + 100px); }
 
 /* ── 生命之祭 · 视频碑铭（花启 / 树终）── */
 .vhero,.vfoot{ position:relative; margin:0 -20px; height:240px; overflow:hidden; background:var(--bg); }
-.vhero video,.vfoot video{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; }
-/* 双端渐隐入深空底，视频如自虚空浮出的一线光 */
+.vhero video,.vfoot video{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; mix-blend-mode:screen; }
+/* screen 混合：视频黑底即界面底色，天然融合；仅保留轻渐隐收边 */
 .vhero::after,.vfoot::after{ content:''; position:absolute; inset:0; pointer-events:none; }
-.vhero::after{ background:linear-gradient(180deg, rgba(7,11,24,.30), rgba(7,11,24,0) 32%, rgba(7,11,24,.48) 74%, #070B18 100%); }
-.vfoot::after{ background:linear-gradient(0deg, rgba(7,11,24,.30), rgba(7,11,24,0) 32%, rgba(7,11,24,.48) 74%, #070B18 100%); }
-.vcap{ position:absolute; left:22px; bottom:16px; z-index:2; font-family:var(--mono); font-size:10px; letter-spacing:.32em;
-  color:rgba(242,245,255,.85); text-transform:uppercase; display:flex; align-items:center; gap:10px;
-  text-shadow:0 1px 14px rgba(0,0,0,.65); }
-.vcap::before{ content:''; width:22px; height:1px; background:rgba(242,245,255,.45); }
-.vcap .cn{ font-family:var(--serif); font-size:11px; letter-spacing:.42em; color:rgba(242,245,255,.62); }
+.vhero::after{ background:linear-gradient(180deg, rgba(7,11,24,.16), rgba(7,11,24,0) 30%, rgba(7,11,24,.30) 76%, #070B18 100%); }
+.vfoot::after{ background:linear-gradient(0deg, rgba(7,11,24,.16), rgba(7,11,24,0) 30%, rgba(7,11,24,.30) 76%, #070B18 100%); }
 .vfoot{ margin-top:8px; }
 @media(prefers-reduced-motion:reduce){ .vhero video,.vfoot video{ display:none; } .vhero,.vfoot{ height:150px;
   background:radial-gradient(80% 90% at 50% 40%, rgba(41,115,255,.10), transparent 75%),var(--bg); } }
+
+/* ── 头部动作按钮 ── */
+.head-r{ display:flex; flex-direction:column; align-items:flex-end; gap:7px; }
+.head-actions{ display:flex; gap:8px; }
+.hbtn{ -webkit-appearance:none; appearance:none; background:rgba(41,115,255,.13); border:1px solid rgba(87,146,255,.35);
+  color:var(--brand-200); font-family:var(--mono); font-size:10px; letter-spacing:.12em; padding:0 13px; height:32px;
+  border-radius:999px; transition:all .18s var(--ease); display:inline-flex; align-items:center; gap:5px; }
+.hbtn:active{ transform:scale(.95); background:rgba(41,115,255,.28); }
+.hbtn svg{ width:12px; height:12px; flex:none; }
+.hbtn.busy svg{ animation:spin .8s linear infinite; }
+.hbtn.busy{ color:var(--brand-400); border-color:rgba(87,146,255,.6); }
+@keyframes spin{ to{ transform:rotate(360deg); } }
+
+/* ── 战略纵深板块（04/05/06） ── */
+.rrow{ display:flex; align-items:baseline; gap:8px; padding:7px 0; border-bottom:1px solid var(--hair); font-size:12px; }
+.rrow:last-child{ border-bottom:none; }
+.rrow b{ width:70px; flex:none; color:var(--fg); font-weight:600; }
+.rrow .p{ flex:1; color:var(--muted); line-height:1.6; }
+.rrow .r{ color:var(--brand-200); font-family:var(--mono); font-size:10px; flex:none; max-width:76px; text-align:right; }
+.card-h{ display:flex; align-items:center; gap:8px; font-size:13.5px; font-weight:600; margin-bottom:10px; }
+.card-h .tag{ font-family:var(--mono); font-size:9px; letter-spacing:.18em; color:var(--faint); border:1px solid var(--hair); padding:2px 8px; border-radius:999px; }
+.insight{ font-size:12.5px; color:var(--muted); line-height:1.8; }
+.insight b{ color:var(--fg); font-weight:600; }
+.insight .warn{ color:var(--c-conflict); }
+.co{ background:var(--surface); border:1px solid var(--hair); border-radius:var(--r-md); padding:14px 16px; margin-bottom:10px; }
+.co .nm{ display:flex; align-items:center; gap:8px; font-size:14px; font-weight:600; }
+.co .nm i{ width:7px; height:7px; border-radius:50%; flex:none; }
+.co .ct{ font-family:var(--mono); font-size:9px; color:var(--faint); letter-spacing:.08em; margin:2px 0 6px 15px; }
+.co .rl{ font-size:12px; color:var(--muted); line-height:1.7; }
+.co .tags{ margin-top:8px; display:flex; gap:6px; flex-wrap:wrap; }
+.co .tags span{ font-family:var(--mono); font-size:9px; padding:2px 8px; border-radius:999px; border:1px solid rgba(87,146,255,.35); color:var(--brand-200); }
+.al{ display:flex; gap:10px; padding:9px 0; border-bottom:1px solid var(--hair); font-size:12.5px; line-height:1.7; }
+.al:last-child{ border-bottom:none; }
+.al .ln{ font-family:var(--mono); font-size:9px; width:52px; flex:none; padding-top:4px; letter-spacing:.04em; }
+.al p{ color:var(--muted); }
+.al p b{ color:var(--fg); font-weight:600; }
 
 /* ── 滑杆（模型）── */
 .slider-row{ padding:14px 0; border-bottom:1px solid var(--hair); }
@@ -214,7 +245,13 @@ nav.tabbar svg{ width:20px; height:20px; }
       <div class="eyebrow">三变六反 · Geosandbox</div>
       <h1>风险沙盘<span class="lat">RISK SANDBOX</span></h1>
     </div>
-    <div class="updated">数据核实<br><b>2026-09-24</b></div>
+    <div class="head-r">
+      <div class="head-actions">
+        <button class="hbtn" id="btnWeb"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3.5 9h17M3.5 15h17M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg>网页版</button>
+        <button class="hbtn" id="btnLive"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg>实时更新</button>
+      </div>
+      <div class="updated" id="liveStamp">数据核实<br><b>2026-09-24</b></div>
+    </div>
   </header>
 
   <main>
@@ -261,7 +298,6 @@ nav.tabbar svg{ width:20px; height:20px; }
       <!-- 花 · 启 -->
       <div class="vhero" id="vhero">
         <video muted loop playsinline webkit-playsinline preload="metadata" poster="assets/memorial-poster.jpg" src="assets/memorial-bg.mp4"></video>
-        <div class="vcap">In Memoriam<span class="cn">誌</span></div>
       </div>
       <div class="v-kicker">Tribute of Life</div>
       <div class="v-title">生命之祭</div>
@@ -273,7 +309,6 @@ nav.tabbar svg{ width:20px; height:20px; }
       <!-- 树 · 终 -->
       <div class="vfoot" id="vfoot">
         <video muted loop playsinline webkit-playsinline preload="metadata" poster="assets/garden-poster.jpg" src="assets/ending-garden-lite.mp4"></video>
-        <div class="vcap">Life Persists<span class="cn">生生不息</span></div>
       </div>
     </section>
 
@@ -291,12 +326,48 @@ nav.tabbar svg{ width:20px; height:20px; }
       <div class="card" id="histList"></div>
     </section>
 
-    <!-- ═══ 视图 5：沙盘 ═══ -->
+    <!-- ═══ 视图 5：沙盘 + 战略纵深 ═══ -->
     <section class="view" id="v-map">
       <div class="v-kicker">Scenario Sandbox</div>
-      <div class="v-title">全球热点</div>
-      <div class="v-sub">十一大区域 · 风险等级实时标注</div>
+      <div class="v-title">战略沙盘</div>
+      <div class="v-sub">热点推演 × 战略资源 × 资源民族主义 × AI军事化</div>
       <div id="hotList"></div>
+
+      <div class="sect-label">04 · 战略资源全球分布</div>
+      <div class="card">
+        <div class="card-h"><span class="tag">CR3</span>全球产量集中度 <span style="font-family:var(--mono);font-size:9px;color:var(--faint);letter-spacing:.06em;margin-left:auto">USGS · IEA</span></div>
+        <div id="resBars"></div>
+      </div>
+      <div class="card">
+        <div class="card-h"><span class="tag">PRODUCERS</span>主要战略资源生产国明细</div>
+        <div id="prodList"></div>
+      </div>
+      <div class="card">
+        <div class="card-h"><span class="tag">INSIGHT</span>关键洞察</div>
+        <p class="insight">中国在全球 20 种关键矿产中，对 <b>19 种</b>的精炼加工占据主导地位，平均市占率约 <b>70%</b>。开采端的集中度虽低于精炼端，但钴（刚果金 74%）、镍（印尼 67%）、稀土（中国 60%）的 CR1 已极高。这意味着：即使开采不在中国手中，<b class="warn">精炼环节</b>仍是最大瓶颈——从矿石到电池级/磁材级材料的转化能力，才是真正的「卡脖子」环节。</p>
+      </div>
+
+      <div class="sect-label">05 · 资源民族主义兴起</div>
+      <div class="card">
+        <div class="card-h"><span class="tag">POLICY</span>政策时间线</div>
+        <div class="nt" id="natList" style="margin-top:4px"></div>
+      </div>
+      <div class="card">
+        <div class="card-h"><span class="tag">WHY</span>兴起缘由</div>
+        <div id="natWhy"></div>
+      </div>
+      <div class="card">
+        <div class="card-h"><span class="tag">MATRIX</span>受影响国家矩阵</div>
+        <div id="natMatrix"></div>
+      </div>
+
+      <div class="sect-label">06 · AI军事化企业图谱</div>
+      <div class="card">
+        <div class="card-h"><span class="tag">ARCHITECTURE</span>五层作战体系架构 <span style="font-family:var(--mono);font-size:9px;color:var(--faint);letter-spacing:.06em;margin-left:auto">2026 五角大楼签约层级</span></div>
+        <div id="aiArch"></div>
+      </div>
+      <div class="sect-label" style="margin-top:18px">企业名录 · DIRECTORY</div>
+      <div id="coGrid"></div>
     </section>
   </main>
 
@@ -391,22 +462,24 @@ document.getElementById('dialProg').style.strokeDashoffset=(CIRC*(1-8.42/10)).to
   requestAnimationFrame(tick); })();
 document.getElementById('factorBars').innerHTML=factors.map(f=>
   `<div class="frow"><div class="fname">${f.name}</div><div class="fbar"><i style="width:${f.val*10}%"></i></div><div class="fval">${f.val.toFixed(1)}</div></div>`).join('');
-document.getElementById('homeNews').innerHTML=newsData.slice(0,4).map(n=>
+function renderHN(){ return newsData.slice(0,4).map(n=>
   `<div class="card press" onclick="location.href='${n.url}'">
     <div style="display:flex;gap:8px;align-items:center;margin-bottom:6px">
       <span style="width:8px;height:8px;border-radius:50%;background:${CATC[n.cat]};box-shadow:0 0 8px ${CATC[n.cat]}"></span>
       <span style="font-family:var(--mono);font-size:10px;color:var(--faint);letter-spacing:.1em">${n.date} · ${n.tag}</span></div>
     <div style="font-size:14.5px;font-weight:600;line-height:1.5;margin-bottom:4px">${n.title}</div>
-    <div style="font-size:12px;color:var(--muted);line-height:1.65">${n.desc.slice(0,72)}…</div></div>`).join('');
+    <div style="font-size:12px;color:var(--muted);line-height:1.65">${n.desc.slice(0,72)}…</div></div>`).join(''); }
+document.getElementById('homeNews').innerHTML=renderHN();
 
 /* ═══ 时间流 ═══ */
-document.getElementById('ntList').innerHTML=newsData.map(n=>
+function renderNT(){ return newsData.map(n=>
   `<div class="nt-item ${n.key?'key':''}">
     <span class="dot" style="background:${CATC[n.cat]};box-shadow:0 0 8px ${CATC[n.cat]}"></span>
     <div class="meta"><span class="date">${n.date}</span><span class="tag" style="color:${CATC[n.cat]};border-color:${CATC[n.cat]}55">${n.tag}</span>${n.key?'<span class="tag" style="color:var(--neon);border-color:rgba(255,92,138,.4)">关键节点</span>':''}</div>
     <div class="ttl">${n.title}</div>
     <div class="dsc">${n.desc}</div>
-    <a class="src" href="${n.url}" target="_blank" rel="noopener">${n.src} ↗</a></div>`).join('');
+    <a class="src" href="${n.url}" target="_blank" rel="noopener">${n.src} ↗</a></div>`).join(''); }
+document.getElementById('ntList').innerHTML=renderNT();
 
 /* ═══ 生命之祭 ═══ */
 const MEM=[
@@ -460,13 +533,100 @@ document.getElementById('hotList').innerHTML=hotspots.map(h=>
     <div style="margin-top:8px"><span style="font-family:var(--mono);font-size:9px;letter-spacing:.12em;padding:2px 8px;border-radius:999px;border:1px solid ${LVLC[h.level]}55;color:${LVLC[h.level]}">${LVLT[h.level]}</span></div>
   </div></div></div>`).join('');
 
+/* ═══ 战略纵深（04 资源 / 05 民族主义 / 06 AI军事化） ═══ */
+const RES=[['钴',74,'#FF6B6B'],['镍',67,'#EAD08A'],['石墨',65,'#EAD08A'],['稀土',60,'#FF6B6B'],['锂(产量)',40,'#8FD8FF'],['铜',28,'#7FB0FF']];
+document.getElementById('resBars').innerHTML=RES.map(r=>
+  `<div class="frow"><div class="fname">${r[0]}</div><div class="fbar"><i style="width:${r[1]}%;background:${r[2]};box-shadow:0 0 8px ${r[2]}55"></i></div><div class="fval" style="width:36px;color:${r[2]}">${r[1]}%</div></div>`).join('');
+
+const PROD=[
+ ['稀土','中国 60% · 美国 15%','中国 90%+'],
+ ['钴','刚果(金) 74% · 印尼 5%','中国 70%'],
+ ['镍','印尼 67% · 菲律宾 7%','中国 65%'],
+ ['石墨','中国 65% · 马达加斯加 12%','中国 90%'],
+ ['铜','智利 28% · 秘鲁 10%','中国 ~40%'],
+ ['锂(储量)','智利 25% · 澳大利亚 ~20%','中国 60%'],
+ ['锂(产量)','澳大利亚 ~40% · 智利 ~25%','中国 60%'],
+ ['钨(加工)','中国 80% · 越南 ~5%','中国 80%'],
+ ['镁(进口)','欧盟 97% 进口来自中国','中国'],
+];
+document.getElementById('prodList').innerHTML=PROD.map(p=>
+  `<div class="rrow"><b>${p[0]}</b><span class="p">${p[1]}</span><span class="r">精炼 ${p[2]}</span></div>`).join('');
+
+const NAT=[
+ ['2025.10','中国稀土出口管制升级','新增钬、铒、铥、铕、镱 5 种稀土出口管制，17 种稀土中 12 种受限。加入域外管辖条款：含 0.1% 中国稀土成分的外国产品需中国许可。'],
+ ['2025年底','刚果(金)收紧钴出口配额','全球最大钴生产国（74%）收紧出口配额，修订矿业法要求外资本土化投资。钴价应声上涨。'],
+ ['2026.02','津巴布韦暂停锂矿出口','非洲最大锂资源供应国突然暂停锂原矿及锂精矿出口。2027 年起正式禁止未加工锂矿出口。'],
+ ['2026.03','印尼大幅削减镍矿配额','2026 年镍矿开采配额削减至约 2.1 亿吨。从「粗放式禁售」进化为「精细化控价」，推动「镍版 OPEC」。'],
+ ['2026.07','加纳：2030 年不再出口未加工矿石','长期被视为非洲最稳定矿业区的加纳也加入资源民族主义阵营，要求采矿业务转移至本土。'],
+ ['2026','布基纳法索金矿国有化','国家直接控制 3 座金矿，本国公司控制 6/15 座工业金矿。西非资源民族主义扩散。'],
+];
+document.getElementById('natList').innerHTML=NAT.map(n=>
+  `<div class="nt-item"><span class="dot" style="background:var(--c-resource);box-shadow:0 0 8px rgba(234,208,138,.5)"></span>
+    <div class="meta"><span class="date">${n[0]}</span></div>
+    <div class="ttl" style="font-size:13.5px">${n[1]}</div>
+    <div class="dsc">${n[2]}</div></div>`).join('');
+
+const WHY=[
+ ['能源转型红利重估','新能源转型使关键矿产需求暴增，资源国意识到自己手握的不是普通矿石，而是工业文明的「新石油」。'],
+ ['价值链回收诉求','传统「卖原料」模式下，资源国仅获固定租金，高附加值加工环节全在海外。资源国要求把加工、冶炼、制造留在本国。'],
+ ['地缘杠杆工具化','稀土、钴、镍等成为地缘博弈筹码。中国出口管制开了先例，其他资源国纷纷效仿——地质成为杠杆。'],
+ ['经济自主需求','后疫情时代，全球南方国家追求经济独立，资源民族主义是发展中国家争取更大经济主权的表现。'],
+];
+document.getElementById('natWhy').innerHTML=WHY.map((w,i)=>
+  `<div style="padding:${i?10:0}px 0 ${i<3?10:0}px;${i?'border-top:1px solid var(--hair);':''}">
+    <div style="font-size:13px;font-weight:600;margin-bottom:3px">${i+1}. ${w[0]}</div>
+    <div style="font-size:12px;color:var(--muted);line-height:1.7">${w[1]}</div></div>`).join('');
+
+const MAT=[
+ ['刚果(金)','钴 74%','出口配额收紧'],['印尼','镍 67%','配额削减 + 镍版OPEC'],
+ ['津巴布韦','锂','禁止原矿出口'],['加纳','黄金/锰','2030 年禁原矿出口'],
+ ['越南','稀土','原矿出口禁令'],['智利','锂储量 25%','国家锂战略强化'],
+ ['中国','稀土精炼 90%','出口管制 + 域外管辖'],
+];
+document.getElementById('natMatrix').innerHTML=MAT.map(m=>
+  `<div class="rrow"><b>${m[0]}</b><span class="p">${m[1]}</span><span class="r" style="max-width:130px">${m[2]}</span></div>`).join('');
+
+const ARCH=[
+ ['L1 · 战略中枢','#FF6B6B','<b>Palantir</b> — 哥谭系统嵌入国防决策全流程，统筹调度所有 AI 作战资源'],
+ ['L2 · 前线执行','#FF6B6B','<b>Anduril</b> — 边缘 AI、无人机蜂群、反无人系统，美军 AI 作战的前线终端'],
+ ['L3 · 自主飞行','#8FD8FF','<b>Shield AI</b> — Hivemind 自主飞行软件，入选空军 CCA 协同战斗机项目'],
+ ['L4 · 底层技术','#8FD8FF','<b>SpaceX / OpenAI / Google / NVIDIA / Microsoft / AWS / Oracle / Reflection</b> — 芯片、大模型、云、卫星全产业链'],
+ ['伦理排除','#EAD08A','<b>Anthropic</b> — 因坚守「不研发 AI 致命武器」伦理底线被排除在美军供应链之外'],
+];
+document.getElementById('aiArch').innerHTML=ARCH.map(a=>
+  `<div class="al"><span class="ln" style="color:${a[1]}">${a[0]}</span><p>${a[2]}</p></div>`).join('');
+
+const COS=[
+ ['Palantir','美国 · 丹佛','美军「数字底座」，哥谭情报分析系统深度嵌入国防决策流程。Maven 智能系统统筹 AI 作战资源。',['战略中枢','Gotham','Maven'],'#FF6B6B'],
+ ['Anduril','美国 · 加州','前线战术执行终端，自主无人机蜂群、反无人系统。10 年 200 亿美元陆军反无人机合约。',['前线执行','无人机','Lattice'],'#EAD08A'],
+ ['Shield AI','美国 · 圣地亚哥','Hivemind 自主飞行软件，入选空军 CCA 协同战斗机项目。收购 Aechelon 增强仿真能力。',['自主飞行','CCA','Hivemind'],'#8FD8FF'],
+ ['SpaceX','美国 · 加州','星链卫星通信网络为战场提供通信保障。与国防部签约将技术部署到机密网络。',['卫星通信','星链'],'#8FD8FF'],
+ ['OpenAI','美国 · 旧金山','大模型能力接入国防机密网络，用于情报分析、作战规划。五角大楼 7 家签约企业之一。',['大模型','情报分析'],'#8FD8FF'],
+ ['Google','美国 · 山景城','云计算 + AI 模型接入国防部。Project Maven 合作伙伴，提供 AI 目标识别能力。',['云计算','AI目标识别'],'#8FD8FF'],
+ ['NVIDIA','美国 · 圣克拉拉','GPU 算力底座，为军事 AI 训练与推理提供硬件加速。五角大楼核心芯片供应商。',['GPU','算力底座'],'#8FD8FF'],
+ ['Microsoft','美国 · 雷德蒙德','Azure 云 + OpenAI 模型，为国防部提供密级云环境。梅文项目数据集成平台合作伙伴。',['密级云','Azure'],'#8FD8FF'],
+ ['AWS','美国 · 西雅图','亚马逊云服务为美军提供云计算基础设施。与国防部签云服务合同。',['云计算','DoD云'],'#8FD8FF'],
+ ['Oracle','美国 · 奥斯汀','搭建高安全涉密数据库与全域数据融合架构。8 家底层技术签约企业之一。',['涉密数据库','数据融合'],'#8FD8FF'],
+ ['Reflection AI','美国','生成式 AI 初创，五角大楼 7 家签约 AI 公司之一。专注国防领域 AI 应用。',['生成式AI','国防'],'#EAD08A'],
+ ['Anthropic','美国 · 旧金山','被排除在外——因坚守「不研发 AI 致命武器」的科技伦理底线，明确拒绝参与美军供应链。',['伦理排除','Claude'],'rgba(226,233,255,.35)'],
+];
+document.getElementById('coGrid').innerHTML=COS.map(c=>
+  `<div class="co"><div class="nm"><i style="background:${c[4]};box-shadow:0 0 6px ${c[4]}"></i>${c[0]}</div>
+    <div class="ct">${c[1]}</div><div class="rl">${c[2]}</div>
+    <div class="tags">${c[3].map(t=>`<span>${t}</span>`).join('')}</div></div>`).join('');
+
 /* ═══ 底栏切换 ═══ */
 var activeView='v-home';
-/* 生命之祭视频门控：仅在该 Tab 激活且页面可见时解码播放 */
+/* 视频门控：Tab 激活 + 页面可见 + 在视口内，三者同时满足才解码播放 */
 var memVids=[].slice.call(document.querySelectorAll('.vhero video,.vfoot video'));
+memVids.forEach(function(v){ v.ioVisible=false; });
+var vidIO=('IntersectionObserver' in window)?new IntersectionObserver(function(es){
+  es.forEach(function(e){ e.target.ioVisible=e.isIntersecting; }); memGate();
+},{rootMargin:'20% 0px'}):null;
+if(vidIO){ memVids.forEach(function(v){ vidIO.observe(v); }); }
 function memGate(){
-  var on=(activeView==='v-memorial')&&!document.hidden;
   memVids.forEach(function(v){
+    var on=(activeView==='v-memorial')&&!document.hidden&&(vidIO? v.ioVisible : true);
     if(on){ if(v.paused){ v.muted=true; v.play().catch(function(){}); } }
     else if(!v.paused){ v.pause(); }
   });
@@ -480,6 +640,27 @@ document.getElementById('tabbar').addEventListener('click',e=>{
   activeView=b.dataset.v;
   window.scrollTo({top:0,behavior:'instant'});
   memGate();
+});
+
+/* ═══ 头部动作：网页版 / 实时更新 ═══ */
+document.getElementById('btnWeb').addEventListener('click',function(){ location.href='36-专业版.html'; });
+var liveBtn=document.getElementById('btnLive'),liveBusy=false;
+liveBtn.addEventListener('click',function(){
+  if(liveBusy) return; liveBusy=true;
+  liveBtn.classList.add('busy');
+  setTimeout(function(){
+    var pick=refreshNewsPool[Math.floor(Math.random()*refreshNewsPool.length)];
+    var suf=pick.date.split('·').pop().trim();
+    var catOf={'外储':'finance','稀土':'resource','金融':'finance','能源':'resource','突发':'conflict','矿产':'resource','AI':'tech'};
+    var now=new Date();
+    var item={ date:'2026.09.24 '+String(now.getHours()).padStart(2,'0')+':'+String(now.getMinutes()).padStart(2,'0'),
+      tag:'实时', cat:catOf[suf]||'finance', title:pick.title, desc:pick.summary, src:'实时更新池', url:'36-专业版.html', key:false };
+    newsData.unshift(item);
+    document.getElementById('ntList').innerHTML=renderNT();
+    document.getElementById('homeNews').innerHTML=renderHN();
+    document.getElementById('liveStamp').innerHTML='实时更新<br><b>'+String(now.getHours()).padStart(2,'0')+':'+String(now.getMinutes()).padStart(2,'0')+'</b>';
+    liveBtn.classList.remove('busy'); liveBusy=false;
+  },700);
 });
 
 /* ═══ 头部滚动视差（0.4x + 淡出） ═══ */
