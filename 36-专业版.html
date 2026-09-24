@@ -436,6 +436,43 @@ svg.gdim .gnode:not(.on){ opacity:.2; }
 svg.gdim .glink:not(.on){ opacity:.08; }
 svg.gdim .gtier{ opacity:.3; }
 #graph-detail{ min-height:96px; }
+/* ── 战略资源 · 分布地图与供需产业链 ── */
+.res-tabs{ display:flex; flex-wrap:wrap; gap:8px; margin:12px 0 12px; }
+.res-tab{ font-family:var(--mono); font-size:.68rem; letter-spacing:.05em; color:var(--muted); border:1px solid var(--line); background:var(--panel); border-radius:var(--r-pill); padding:5px 14px; cursor:pointer; transition:all var(--t) var(--ease); }
+.res-tab:hover{ border-color:var(--line-strong); color:var(--fg); }
+.res-tab.on{ color:#15181A; background:#EAD08A; border-color:#EAD08A; font-weight:600; }
+.resmap-grid{ display:grid; grid-template-columns:1fr 236px; gap:14px; align-items:stretch; }
+@media(max-width:900px){ .resmap-grid{ grid-template-columns:1fr; } }
+.resmap-frame{ border:1px solid var(--line); border-radius:var(--r-sm); overflow:hidden; background:#14161A; }
+.resmap-frame svg{ display:block; width:100%; height:auto; }
+.resmap-side{ border:1px solid var(--line); border-radius:var(--r-sm); background:var(--bg-2); padding:14px 16px; display:flex; flex-direction:column; gap:10px; }
+.rsc-name{ font-family:var(--serif); font-size:1.06rem; font-weight:600; }
+.rsc-en{ font-family:var(--mono); font-size:.58rem; color:var(--faint); letter-spacing:.14em; margin-left:6px; font-weight:400; }
+.rsc-sum{ font-size:.74rem; color:var(--muted); line-height:1.75; }
+.rsc-top{ font-family:var(--mono); font-size:.64rem; color:var(--faint); line-height:1.8; border-top:1px solid var(--line); padding-top:10px; margin-top:auto; }
+.rmap-lbl{ font-family:var(--mono); font-size:11px; fill:var(--fg); text-anchor:middle; pointer-events:none; }
+.rmap-lbl2{ font-size:9.5px; fill:#EAD08A; }
+.rmap-halo{ fill:rgba(234,208,138,.16); opacity:0; transition:opacity .2s ease; }
+.gm{ animation:gfade .45s ease both; }
+.gm:hover .rmap-halo{ opacity:1; }
+@keyframes gfade{ from{opacity:0;} to{opacity:1;} }
+.rsc-cols{ display:grid; grid-template-columns:repeat(auto-fit,minmax(232px,1fr)); gap:14px; }
+.rsc-col{ border:1px solid var(--line); border-radius:var(--r-sm); background:var(--bg-2); padding:14px 16px; }
+.rsc-col h4{ font-size:.7rem; font-family:var(--mono); color:#EAD08A; letter-spacing:.16em; margin-bottom:12px; font-weight:600; }
+.rsc-bar-row{ display:flex; align-items:center; gap:8px; margin-bottom:7px; font-size:.72rem; }
+.rsc-bar-name{ width:9.5em; color:var(--muted); flex:none; }
+.rsc-bar-track{ flex:1; height:5px; background:rgba(255,255,255,.07); border-radius:3px; overflow:hidden; }
+.rsc-bar-fill{ display:block; height:100%; border-radius:3px; background:#EAD08A; width:0; transition:width .7s ease; }
+.rsc-bar-val{ width:3.2em; text-align:right; font-family:var(--mono); color:var(--fg); font-size:.66rem; flex:none; }
+.rsc-driver{ font-size:.72rem; color:var(--muted); line-height:1.75; margin-top:10px; border-top:1px dashed var(--line); padding-top:10px; }
+.rsc-mil{ list-style:none; }
+.rsc-mil li{ font-size:.74rem; color:var(--muted); line-height:1.65; padding-left:14px; position:relative; margin-bottom:8px; }
+.rsc-mil li::before{ content:''; position:absolute; left:0; top:.5em; width:5px; height:5px; border-radius:50%; background:#EAD08A; }
+.rsc-chain-step{ display:flex; gap:8px; margin-bottom:9px; }
+.rsc-step-tag{ flex:none; font-family:var(--mono); font-size:.58rem; color:#15181A; background:#EAD08A; border-radius:4px; padding:2.5px 7px; height:fit-content; font-weight:600; letter-spacing:.08em; }
+.rsc-step-txt{ font-size:.73rem; color:var(--muted); line-height:1.6; }
+.rsc-tech{ display:flex; flex-wrap:wrap; gap:6px; margin-top:10px; border-top:1px dashed var(--line); padding-top:10px; }
+.rsc-tech span{ font-family:var(--mono); font-size:.62rem; color:var(--muted); border:1px solid var(--line-strong); border-radius:4px; padding:3px 8px; }
 
 /* ===== Casualties ===== */
 .casualty-hero{
@@ -1591,7 +1628,34 @@ svg.gdim .gtier{ opacity:.3; }
 <!-- ===== VIEW 04: Resources ===== -->
 <div class="view" id="view-resources">
   <div class="view-head"><div class="view-head-l"><h2 class="view-title"><span class="vi">04</span>战略资源全球分布</h2></div><button class="refresh-btn refresh-view" data-target="resources" style="margin-left:12px;vertical-align:middle;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg> 实时更新</button></div>
-  <p class="view-sub">2026年关键矿产开采产量集中度 · 数据来源：USGS / IEA / Critical Minerals News</p>
+  <p class="view-sub">2026年关键矿产全球分布 · 供需结构与产业链 · 数据来源：USGS / IEA / Critical Minerals News</p>
+
+  <div class="card" style="margin-bottom:18px;">
+    <h3><span class="tag-h">MAP</span>全球资源分布地图 <span style="font-family:var(--mono);font-size:.62rem;color:var(--faint);letter-spacing:.06em;">切换资源查看产地气泡 · 金色虚环 = 中国精炼主导</span></h3>
+    <div class="res-tabs" id="res-tabs"></div>
+    <div class="resmap-grid">
+      <div class="resmap-frame">
+        <svg id="res-map" viewBox="0 0 1080 560" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="战略资源全球分布地图">
+          <defs>
+            <radialGradient id="resOceanGrad" cx="50%" cy="42%" r="75%">
+              <stop offset="0" stop-color="#1E2125"/>
+              <stop offset=".6" stop-color="#191C20"/>
+              <stop offset="1" stop-color="#14161A"/>
+            </radialGradient>
+          </defs>
+          <rect x="0" y="0" width="1080" height="560" fill="url(#resOceanGrad)"/>
+          <g id="res-map-base"></g>
+          <g id="res-map-markers"></g>
+        </svg>
+      </div>
+      <div class="resmap-side" id="res-side"></div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-bottom:18px;">
+    <h3><span class="tag-h">S·D·C</span>供需结构 × 军事应用 × 产业链透视</h3>
+    <div class="rsc-cols" id="res-chain"></div>
+  </div>
 
   <div class="card" style="margin-bottom:18px;">
     <h3><span class="tag-h">CR3</span>全球产量集中度</h3>
@@ -2715,6 +2779,125 @@ function refreshOverviewNews(){
   },900);
 }
 
+/* ===== 战略资源 · 全球分布地图 + 供需产业链 ===== */
+(function(){
+  const RNS='http://www.w3.org/2000/svg';
+  const GOLD='#EAD08A';
+  const RSC={
+    ree:{name:'稀土',en:'RARE EARTHS',mineBy:'中国',mine:60,refineBy:'中国',refine:90,
+      markers:[{c:'中国',v:60,x:838.5,y:158.4,refine:90},{c:'美国',v:15,x:267,y:144.5},{c:'缅甸',v:8,x:822,y:210},{c:'澳大利亚',v:6,x:929.1,y:366.7}],
+      summary:'开采端中国占 60%，精炼端 90%+ 绝对主导。2025.10 管制升级：17 种中 12 种受限，含 0.1% 中国成分的境外产品亦需许可——精炼技术才是真正的"卡脖子"环节。',
+      demand:[['钕铁硼永磁',45],['催化材料',18],['冶金添加剂',12],['抛光粉',9],['荧光/激光',8],['其他',8]],
+      driver:'新能源车驱动电机、直驱风机与机器人伺服放量；军工端每架 F-35 需稀土约 417kg，弗吉尼亚级核潜艇约 4.2 吨。',
+      chain:['离子型中重稀土矿 / 氟碳铈矿 / 独居石','萃取分离提纯 → 稀土金属电解','钕铁硼磁材 / 激光晶体 / 储氢合金'],
+      mil:['精确制导武器：永磁电机翼舵执行机构','相控阵雷达 T/R 组件与行波管','F-35 每架约 417kg · 核潜艇约 4.2 吨','夜视仪（镧）/ 激光测距（钕）/ 瞄准镜（钇）'],
+      tech:['串级萃取理论（中国原创主导）','晶界扩散：重稀土用量减 30-50%','再生回收 · 城市矿山']},
+    li:{name:'锂',en:'LITHIUM',mineBy:'澳大利亚',mine:40,refineBy:'中国',refine:60,
+      markers:[{c:'澳大利亚',v:40,x:929.1,y:366.7},{c:'智利',v:25,x:335,y:350},{c:'中国',v:17,x:838.5,y:158.4,refine:60},{c:'阿根廷',v:6,x:352,y:412},{c:'津巴布韦',v:4,x:622,y:336}],
+      summary:'开采集中"澳矿+南美盐湖"双极，但化学提纯（碳酸锂/氢氧化锂）60%+ 在中国；津巴布韦已禁原矿出口，资源国正沿链条向冶炼端爬升。',
+      demand:[['动力电池',82],['储能电池',7],['陶瓷玻璃',3],['润滑脂',2],['其他',6]],
+      driver:'全球电动化 + 电网级储能双引擎；2026 年锂价触底后随储能装机回升，南美"锂三角"主权意识觉醒。',
+      chain:['锂辉石（澳）/ 盐湖卤水（智利·阿根廷）','碳酸锂 · 氢氧化锂（中国 60%+）','三元/磷酸铁锂正极 → 电芯 → 电池包'],
+      mil:['单兵/无人机高倍率锂电池组','锂-6：热核武器聚变材料（氘化锂）','铝锂合金：航天器结构减重','潜艇与导弹电源系统'],
+      tech:['盐湖直接提锂 DLE 工业化','干法电极（储能降本）','钠离子电池替代边界（低端场景）']},
+    co:{name:'钴',en:'COBALT',mineBy:'刚果(金)',mine:74,refineBy:'中国',refine:70,
+      markers:[{c:'刚果(金)',v:74,x:613.2,y:300.8},{c:'印尼',v:5,x:872,y:288},{c:'俄罗斯',v:4,x:766.1,y:71.2},{c:'澳大利亚',v:3,x:929.1,y:366.7},{c:'加拿大',v:3,x:240,y:92}],
+      summary:'单一国家风险最高品种：刚果(金) 74% 开采 + 中国 70% 精炼双重集中。2025 年底 DRC 出口配额收紧后 LME 钴价较年内低点暴涨 26%，欧盟已组建联合采购储备。',
+      demand:[['三元正极',62],['高温合金',11],['硬质合金',8],['催化材料',6],['磁材与其他',13]],
+      driver:'三元电池高端化 + 航空发动机需求刚性；LFP 无钴化持续分流中低端市场。',
+      chain:['铜钴伴生矿（DRC）/ 红土镍钴（印尼 MHP）','氢氧化钴 → 硫酸钴 → 四氧化三钴（中国 70%）','三元正极 / 钴基高温合金 / 硬质合金'],
+      mil:['航空发动机叶片：钴基超合金（国产航发瓶颈）','硬质合金：装甲加工与穿甲弹药','永磁体：电机与声呐换能器','无人机与精确弹药电池电源'],
+      tech:['印尼 MHP 高压酸浸（中资园区）','无钴高锰正极研发','废旧电池钴回收梯次利用']},
+    ni:{name:'镍',en:'NICKEL',mineBy:'印尼',mine:67,refineBy:'中国',refine:65,
+      markers:[{c:'印尼',v:67,x:872,y:288},{c:'菲律宾',v:7,x:898,y:240},{c:'俄罗斯',v:6,x:766.1,y:71.2},{c:'澳大利亚',v:5,x:929.1,y:366.7},{c:'中国',v:4,x:838.5,y:158.4,refine:65}],
+      summary:'印尼以 RKEF+HPAL 两条路线拿下 67% 开采，配合出口禁令吸引中资冶炼园区落地，正推动"镍版 OPEC"控价；中国精炼 65%。2026 年配额削减至约 2.1 亿吨。',
+      demand:[['不锈钢',63],['三元正极',14],['合金钢',9],['电镀',5],['其他',9]],
+      driver:'印尼配额收紧 + 不锈钢回暖；高镍三元在高端车与航空电池渗透，舰艇与航发合金需求刚性。',
+      chain:['红土镍矿（印尼/菲）/ 硫化镍（俄·加）','RKEF 镍铁 / HPAL 中间品 MHP / 电解镍','不锈钢 / 高镍三元 811 / 镍基高温合金'],
+      mil:['舰艇建造：镍铬不锈钢与特种船体钢','航发 Inconel/哈氏合金热端部件','燃气轮机叶片与耐蚀管路','高镍电池：海军装备与特种车辆'],
+      tech:['HPAL 高压酸浸（成本击穿硫化镍）','富氧侧吹冶炼（中国工艺输出）','印尼"镍版 OPEC"配额控价机制']},
+    gr:{name:'石墨',en:'GRAPHITE',mineBy:'中国',mine:65,refineBy:'中国',refine:90,
+      markers:[{c:'中国',v:65,x:838.5,y:158.4,refine:90},{c:'马达加斯加',v:12,x:676,y:336},{c:'巴西',v:6,x:390,y:310},{c:'莫桑比克',v:5,x:655,y:335}],
+      summary:'天然石墨中国 65%，球化-包覆等负极高端加工 90% 在中国；2025.12 起对负极材料实施出口许可，直接卡住海外电池产业链扩产节奏。',
+      demand:[['锂电负极',62],['耐火材料',14],['铸造润滑',9],['核石墨',6],['其他',9]],
+      driver:'动力+储能电池负极刚性增长；核电机组重启拉动核石墨；人造石墨石墨化产能向西部电价洼地转移。',
+      chain:['天然鳞片石墨（黑龙江/内蒙古）/ 针状焦','球化 → 表面包覆 → 石墨化（中国 90%）','人造/天然负极 → 电芯；核堆慢化剂'],
+      mil:['核反应堆中子慢化与反射层（核石墨）','导弹鼻锥/火箭喉衬：碳-碳复合','石墨烯：电磁屏蔽与特种涂层','军用无人机电池负极（对华脱钩难点）'],
+      tech:['球化-包覆一体化（良率与能耗壁垒）','连续石墨化炉（电耗占成本 40%+）','2025.12 中国负极出口许可管制']},
+    cu:{name:'铜',en:'COPPER',mineBy:'智利',mine:28,refineBy:'中国',refine:40,
+      markers:[{c:'智利',v:28,x:335,y:350},{c:'刚果(金)',v:12,x:613.2,y:300.8},{c:'秘鲁',v:10,x:312,y:312},{c:'中国',v:8,x:838.5,y:158.4,refine:40},{c:'印尼',v:5,x:872,y:288}],
+      summary:'集中度最低但增量最紧的品种：AI 数据中心、全球电网更换周期与电动化三浪叠加，长期缺口机构预测达 500 万吨级；中国精炼 40%、消费过半。',
+      demand:[['电力电网',28],['建筑',27],['交通运输',12],['电子',10],['机械设备',9],['其他',14]],
+      driver:'AI 数据中心供电密度激增 + 电网更换周期 + 电动车单车用铜约 83kg（燃油车 3.5 倍）。',
+      chain:['斑岩铜矿（智利/秘鲁）· 铜钴伴生（DRC）','SX-EW 湿法 / 火法精炼（中国 40%）','电线电缆 / 电机电磁线 / 引线框架'],
+      mil:['电磁弹射与电磁炮：超高电流导轨','全电舰艇综合电力系统','相控阵雷达射频电缆与波导','电机/发电机绕组（全谱军工）'],
+      tech:['SX-EW 湿法占比升至 25%+','废铜再生（二次铜占供给 18%）','极薄铜箔（≤6μm，高端覆铜板）']},
+    w:{name:'钨',en:'TUNGSTEN',mineBy:'中国',mine:80,refineBy:'中国',refine:80,
+      markers:[{c:'中国',v:80,x:838.5,y:158.4,refine:80},{c:'越南',v:5,x:852,y:232},{c:'俄罗斯',v:3,x:766.1,y:71.2},{c:'加拿大',v:2,x:240,y:92}],
+      summary:'战略地位最高的小金属：中国 80% 开采 + 80% 加工双主导，2025.02 已实施出口管制。穿甲弹、高温合金与硬质合金刀具的不可替代原料，全球再武装周期下弹性最大。',
+      demand:[['硬质合金',55],['高速钢/特钢',22],['穿甲与军工',7],['配重屏蔽',6],['其他',10]],
+      driver:'弹药补充、机床刀具、采矿钻具三线共振；中国配额+管制推动海外钨矿重启（加拿大 Sisson 等项目）。',
+      chain:['黑钨/白钨精矿（赣南·湘南）','APT 仲钨酸铵 → 钨粉/碳化钨（中国 80%）','硬质合金刀具 / 穿甲弹芯 / 高比重合金'],
+      mil:['穿甲弹弹芯：钨合金替代贫铀（WHA）','动能打击弹药与预制破片','装甲防护：W-Fe-Ni 高比重合金','火箭喷管钨铜喉衬'],
+      tech:['超细晶硬质合金（晶粒 <0.2μm）','钨基高熵合金（下一代弹芯）','再生钨循环（占中国供给约 1/4）']},
+  };
+  const order=['ree','li','co','ni','gr','cu','w'];
+
+  const tabsEl=document.getElementById('res-tabs');
+  const baseG=document.getElementById('res-map-base');
+  const mkG=document.getElementById('res-map-markers');
+  ['map-graticule',MAPGRATICULE,'map-land',MAPLAND,'map-borders',MAPBORDERS].forEach((v,i,arr)=>{
+    if(i%2) return;
+    const p=document.createElementNS(RNS,'path');
+    p.setAttribute('d',arr[i+1]); p.setAttribute('class',v);
+    baseG.appendChild(p);
+  });
+
+  let cur='ree';
+  order.forEach(k=>{
+    const b=document.createElement('button');
+    b.type='button'; b.className='res-tab'; b.dataset.k=k; b.textContent=RSC[k].name;
+    b.addEventListener('click',()=>select(k));
+    tabsEl.appendChild(b);
+  });
+
+  const bubble=v=>Math.min(18, 4+Math.sqrt(v)*1.55);
+  const barRow=(n,v)=>'<div class="rsc-bar-row"><span class="rsc-bar-name">'+n+'</span><span class="rsc-bar-track"><i class="rsc-bar-fill" data-w="'+v+'"></i></span><span class="rsc-bar-val">'+v+'%</span></div>';
+
+  function select(k){
+    cur=k; const d=RSC[k];
+    tabsEl.querySelectorAll('.res-tab').forEach(b=>b.classList.toggle('on',b.dataset.k===k));
+    mkG.innerHTML='';
+    d.markers.forEach((m,i)=>{
+      const g=document.createElementNS(RNS,'g');
+      g.setAttribute('class','gm'); g.style.animationDelay=(i*45)+'ms';
+      const r=bubble(m.v);
+      let inner='<circle class="rmap-halo" cx="'+m.x+'" cy="'+m.y+'" r="'+(r+7)+'"/>';
+      if(m.refine) inner+='<circle cx="'+m.x+'" cy="'+m.y+'" r="'+(r+4.5).toFixed(1)+'" fill="none" stroke="'+GOLD+'" stroke-width="1.1" stroke-dasharray="2.5 3.5" opacity=".75"/>';
+      inner+='<circle cx="'+m.x+'" cy="'+m.y+'" r="'+r.toFixed(1)+'" fill="'+GOLD+'" fill-opacity=".3" stroke="'+GOLD+'" stroke-width="1.3"/>'
+        +'<circle cx="'+m.x+'" cy="'+m.y+'" r="2.2" fill="'+GOLD+'"/>'
+        +'<text class="rmap-lbl" x="'+m.x+'" y="'+(m.y+r+14).toFixed(1)+'">'+m.c+' '+m.v+'%</text>';
+      if(m.refine) inner+='<text class="rmap-lbl rmap-lbl2" x="'+m.x+'" y="'+(m.y+r+26).toFixed(1)+'">精炼 '+m.refine+'%+</text>';
+      g.innerHTML=inner;
+      mkG.appendChild(g);
+    });
+    document.getElementById('res-side').innerHTML=
+      '<div class="rsc-name">'+d.name+'<span class="rsc-en">'+d.en+'</span></div>'
+      +barRow('开采 CR1 · '+d.mineBy, d.mine)
+      +barRow('精炼 CR1 · '+d.refineBy, d.refine)
+      +'<p class="rsc-sum">'+d.summary+'</p>'
+      +'<div class="rsc-top">主要产地：'+d.markers.map(m=>m.c+' '+m.v+'%').join(' · ')+'</div>';
+    document.getElementById('res-chain').innerHTML=
+      '<div class="rsc-col"><h4>DEMAND · 需求结构</h4>'+d.demand.map(x=>barRow(x[0],x[1])).join('')
+      +'<p class="rsc-driver"><b>增长驱动</b>：'+d.driver+'</p></div>'
+      +'<div class="rsc-col"><h4>MILITARY · 关键军事应用</h4><ul class="rsc-mil">'+d.mil.map(x=>'<li>'+x+'</li>').join('')+'</ul></div>'
+      +'<div class="rsc-col"><h4>CHAIN · 产业链与关键技术</h4>'
+      +d.chain.map((s,i)=>'<div class="rsc-chain-step"><span class="rsc-step-tag">'+['上游','中游','下游'][i]+'</span><span class="rsc-step-txt">'+s+'</span></div>').join('')
+      +'<div class="rsc-tech">'+d.tech.map(t=>'<span>'+t+'</span>').join('')+'</div></div>';
+    setTimeout(()=>{ document.querySelectorAll('#res-side .rsc-bar-fill,#res-chain .rsc-bar-fill').forEach(b=>{ b.style.width=b.dataset.w+'%'; }); },120);
+  }
+  select(cur);
+})();
 })();
 </script>
 
