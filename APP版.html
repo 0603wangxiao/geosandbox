@@ -139,6 +139,22 @@ main{ padding:0 20px calc(var(--tabbar-h) + env(safe-area-inset-bottom) + 28px);
 .mem-note{ border-left:2px solid var(--neon); padding:2px 0 2px 12px; font-size:12px; color:var(--muted); line-height:1.8; margin:14px 2px 0; }
 .mem-note b{ color:var(--fg); font-weight:500; }
 
+/* ── 生命之祭 · 视频碑铭（花启 / 树终）── */
+.vhero,.vfoot{ position:relative; margin:0 -20px; height:240px; overflow:hidden; background:var(--bg); }
+.vhero video,.vfoot video{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; }
+/* 双端渐隐入深空底，视频如自虚空浮出的一线光 */
+.vhero::after,.vfoot::after{ content:''; position:absolute; inset:0; pointer-events:none; }
+.vhero::after{ background:linear-gradient(180deg, rgba(7,11,24,.30), rgba(7,11,24,0) 32%, rgba(7,11,24,.48) 74%, #070B18 100%); }
+.vfoot::after{ background:linear-gradient(0deg, rgba(7,11,24,.30), rgba(7,11,24,0) 32%, rgba(7,11,24,.48) 74%, #070B18 100%); }
+.vcap{ position:absolute; left:22px; bottom:16px; z-index:2; font-family:var(--mono); font-size:10px; letter-spacing:.32em;
+  color:rgba(242,245,255,.85); text-transform:uppercase; display:flex; align-items:center; gap:10px;
+  text-shadow:0 1px 14px rgba(0,0,0,.65); }
+.vcap::before{ content:''; width:22px; height:1px; background:rgba(242,245,255,.45); }
+.vcap .cn{ font-family:var(--serif); font-size:11px; letter-spacing:.42em; color:rgba(242,245,255,.62); }
+.vfoot{ margin-top:8px; }
+@media(prefers-reduced-motion:reduce){ .vhero video,.vfoot video{ display:none; } .vhero,.vfoot{ height:150px;
+  background:radial-gradient(80% 90% at 50% 40%, rgba(41,115,255,.10), transparent 75%),var(--bg); } }
+
 /* ── 滑杆（模型）── */
 .slider-row{ padding:14px 0; border-bottom:1px solid var(--hair); }
 .slider-row:last-child{ border-bottom:none; }
@@ -239,6 +255,11 @@ nav.tabbar svg{ width:20px; height:20px; }
 
     <!-- ═══ 视图 3：生命之祭 ═══ -->
     <section class="view" id="v-memorial">
+      <!-- 花 · 启 -->
+      <div class="vhero" id="vhero">
+        <video muted loop playsinline webkit-playsinline preload="metadata" poster="assets/memorial-poster.jpg" src="assets/memorial-bg.mp4"></video>
+        <div class="vcap">In Memoriam<span class="cn">誌</span></div>
+      </div>
       <div class="v-kicker">Tribute of Life</div>
       <div class="v-title">生命之祭</div>
       <div class="v-sub">一次性快照 · 经核实的最低确证数 · 核实 2026-09-24</div>
@@ -246,6 +267,11 @@ nav.tabbar svg{ width:20px; height:20px; }
       <p class="mem-note">所有数字均为<b>经核实的最低确证数</b>——实际更高，儿童与平民的低估最严重。加沙卫生部口径不区分战斗人员；标注「一方称」者未经独立核实。</p>
       <div class="sect-label">正在进行的主要冲突</div>
       <div id="memConflicts"></div>
+      <!-- 树 · 终 -->
+      <div class="vfoot" id="vfoot">
+        <video muted loop playsinline webkit-playsinline preload="metadata" poster="assets/garden-poster.jpg" src="assets/ending-garden-lite.mp4"></video>
+        <div class="vcap">Life Persists<span class="cn">生生不息</span></div>
+      </div>
     </section>
 
     <!-- ═══ 视图 4：模型 ═══ -->
@@ -432,12 +458,25 @@ document.getElementById('hotList').innerHTML=hotspots.map(h=>
   </div></div></div>`).join('');
 
 /* ═══ 底栏切换 ═══ */
+var activeView='v-home';
+/* 生命之祭视频门控：仅在该 Tab 激活且页面可见时解码播放 */
+var memVids=[].slice.call(document.querySelectorAll('.vhero video,.vfoot video'));
+function memGate(){
+  var on=(activeView==='v-memorial')&&!document.hidden;
+  memVids.forEach(function(v){
+    if(on){ if(v.paused){ v.muted=true; v.play().catch(function(){}); } }
+    else if(!v.paused){ v.pause(); }
+  });
+}
+document.addEventListener('visibilitychange',memGate);
 document.getElementById('tabbar').addEventListener('click',e=>{
   const b=e.target.closest('button'); if(!b) return;
   document.querySelectorAll('.tabbar button').forEach(x=>x.classList.toggle('on',x===b));
   document.querySelectorAll('.view').forEach(v=>v.classList.remove('on'));
   document.getElementById(b.dataset.v).classList.add('on');
+  activeView=b.dataset.v;
   window.scrollTo({top:0,behavior:'instant'});
+  memGate();
 });
 
 /* ═══ 头部滚动视差（0.4x + 淡出） ═══ */
