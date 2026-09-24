@@ -73,7 +73,7 @@ header.app-head{
 .updated{ font-family:var(--mono); font-size:10px; color:var(--faint); text-align:right; line-height:1.6; }
 .updated b{ color:var(--brand-400); font-weight:500; }
 
-main{ padding:0 20px calc(var(--tabbar-h) + env(safe-area-inset-bottom) + 28px); }
+main{ padding:0 20px calc(env(safe-area-inset-bottom) + 100px); }
 
 /* ── 视图切换转场 ── */
 .view{ display:none; }
@@ -182,23 +182,28 @@ input[type=range]::-webkit-slider-thumb{ -webkit-appearance:none; width:22px; he
 .hot .chain{ margin-top:7px; font-size:11px; color:var(--brand-200); line-height:1.6; }
 .hot .chain::before{ content:'⛓ '; opacity:.6; }
 
-/* ── 底栏 ── */
+/* ── 悬浮胶囊底栏（玻璃质感） ── */
 nav.tabbar{
-  position:fixed; left:0; right:0; bottom:0; z-index:10;
-  padding-bottom:env(safe-area-inset-bottom);
-  background:rgba(7,11,24,.78); backdrop-filter:blur(24px) saturate(1.3); -webkit-backdrop-filter:blur(24px) saturate(1.3);
-  border-top:1px solid var(--hair);
+  position:fixed; left:14px; right:14px; bottom:calc(env(safe-area-inset-bottom) + 12px); z-index:10;
+  height:var(--tabbar-h);
+  background:rgba(13,18,34,.60);
+  backdrop-filter:blur(28px) saturate(1.4); -webkit-backdrop-filter:blur(28px) saturate(1.4);
+  border:1px solid rgba(255,255,255,.10);
+  border-radius:999px;
+  box-shadow:0 12px 40px rgba(0,0,0,.50), inset 0 1px 0 rgba(255,255,255,.08);
   display:grid; grid-template-columns:repeat(5,1fr);
 }
 nav.tabbar button{
   -webkit-appearance:none; appearance:none; background:none; border:none; color:var(--faint);
-  height:var(--tabbar-h); display:flex; flex-direction:column; align-items:center; justify-content:center; gap:3px;
+  height:100%; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:3px;
   font-family:var(--mono); font-size:9px; letter-spacing:.14em; cursor:pointer; position:relative;
   transition:color .2s var(--ease), transform .12s var(--ease);
 }
 nav.tabbar button:active{ transform:scale(.92); }
 nav.tabbar button.on{ color:var(--brand-400); }
-nav.tabbar button.on::before{ content:''; position:absolute; top:0; width:20px; height:2px; border-radius:1px; background:var(--brand-400); box-shadow:0 0 8px rgba(87,146,255,.8); }
+nav.tabbar button.on svg{ filter:drop-shadow(0 0 8px rgba(87,146,255,.85)); }
+nav.tabbar button.on::after{ content:''; position:absolute; bottom:7px; left:50%; transform:translateX(-50%);
+  width:4px; height:4px; border-radius:50%; background:var(--brand-400); box-shadow:0 0 8px rgba(87,146,255,.9); }
 nav.tabbar svg{ width:20px; height:20px; }
 @media(prefers-reduced-motion:reduce){ *,*::before,*::after{ animation:none !important; transition:none !important; } }
 </style>
