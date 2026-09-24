@@ -446,6 +446,7 @@ svg.gdim .gtier{ opacity:.3; }
 .resmap-frame{ border:1px solid var(--line); border-radius:var(--r-sm); overflow:hidden; background:#14161A; }
 .resmap-frame svg{ display:block; width:100%; height:auto; }
 .resmap-side{ border:1px solid var(--line); border-radius:var(--r-sm); background:var(--bg-2); padding:14px 16px; display:flex; flex-direction:column; gap:10px; overflow:auto; }
+@media(min-width:901px){ .resmap-side{ max-height:60vh; } }
 .rsc-name{ font-family:var(--serif); font-size:1.06rem; font-weight:600; }
 .rsc-en{ font-family:var(--mono); font-size:.58rem; color:var(--faint); letter-spacing:.14em; margin-left:6px; font-weight:400; }
 .rsc-sum{ font-size:.74rem; color:var(--muted); line-height:1.75; }
@@ -2967,19 +2968,23 @@ function refreshOverviewNews(){
     setTimeout(()=>{ document.querySelectorAll('#res-side .rsc-bar-fill,#res-chain .rsc-bar-fill').forEach(b=>{ b.style.width=b.dataset.w+'%'; }); },120);
     fitSide();
   }
-  /* 侧栏高度对齐地图高度（宽屏）；窄屏单列时解除限制 */
+  /* 侧栏高度对齐地图高度（宽屏）；隐藏态测量无效(h<=10)不设值，可见时由 IO 重算 */
   function fitSide(){
     const frame=document.querySelector('.resmap-frame');
     const side=document.getElementById('res-side');
     if(!frame||!side) return;
-    if(window.matchMedia('(min-width:901px)').matches){
-      side.style.maxHeight=frame.getBoundingClientRect().height+'px';
-    }else{
-      side.style.maxHeight='';
-    }
+    if(!window.matchMedia('(min-width:901px)').matches){ side.style.maxHeight=''; return; }
+    const h=frame.getBoundingClientRect().height;
+    if(h>10) side.style.maxHeight=h+'px';
   }
   let rzT=null;
   window.addEventListener('resize',()=>{ clearTimeout(rzT); rzT=setTimeout(()=>{ select(cur); },160); });
+  /* 页签切到本视图时重算：隐藏态 clientWidth=0/高度=0，测量全部失真 */
+  if(window.IntersectionObserver){
+    new IntersectionObserver(function(es){
+      es.forEach(function(e){ if(e.isIntersecting) select(cur); });
+    }).observe(document.querySelector('.resmap-frame'));
+  }
   function renderCountry(name){
     const c=RC[name]; if(!c) return;
     const d=RSC[cur];
