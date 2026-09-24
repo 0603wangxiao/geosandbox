@@ -441,11 +441,11 @@ svg.gdim .gtier{ opacity:.3; }
 .res-tab{ font-family:var(--mono); font-size:.68rem; letter-spacing:.05em; color:var(--muted); border:1px solid var(--line); background:var(--panel); border-radius:var(--r-pill); padding:5px 14px; cursor:pointer; transition:all var(--t) var(--ease); }
 .res-tab:hover{ border-color:var(--line-strong); color:var(--fg); }
 .res-tab.on{ color:#15181A; background:#EAD08A; border-color:#EAD08A; font-weight:600; }
-.resmap-grid{ display:grid; grid-template-columns:1fr 236px; gap:14px; align-items:stretch; }
+.resmap-grid{ display:grid; grid-template-columns:minmax(0,1fr) 340px; gap:14px; align-items:stretch; }
 @media(max-width:900px){ .resmap-grid{ grid-template-columns:1fr; } }
 .resmap-frame{ border:1px solid var(--line); border-radius:var(--r-sm); overflow:hidden; background:#14161A; }
 .resmap-frame svg{ display:block; width:100%; height:auto; }
-.resmap-side{ border:1px solid var(--line); border-radius:var(--r-sm); background:var(--bg-2); padding:14px 16px; display:flex; flex-direction:column; gap:10px; }
+.resmap-side{ border:1px solid var(--line); border-radius:var(--r-sm); background:var(--bg-2); padding:14px 16px; display:flex; flex-direction:column; gap:10px; overflow:auto; }
 .rsc-name{ font-family:var(--serif); font-size:1.06rem; font-weight:600; }
 .rsc-en{ font-family:var(--mono); font-size:.58rem; color:var(--faint); letter-spacing:.14em; margin-left:6px; font-weight:400; }
 .rsc-sum{ font-size:.74rem; color:var(--muted); line-height:1.75; }
@@ -474,7 +474,6 @@ svg.gdim .gtier{ opacity:.3; }
 .rsc-tech{ display:flex; flex-wrap:wrap; gap:6px; margin-top:10px; border-top:1px dashed var(--line); padding-top:10px; }
 .rsc-tech span{ font-family:var(--mono); font-size:.62rem; color:var(--muted); border:1px solid var(--line-strong); border-radius:4px; padding:3px 8px; }
 .gm{ cursor:pointer; }
-@media(min-width:901px){ .resmap-side{ max-height:478px; overflow:auto; } }
 .rsc-back{ font-family:var(--mono); font-size:.62rem; letter-spacing:.06em; color:var(--muted); border:1px solid var(--line); background:none; border-radius:var(--r-pill); padding:4px 12px; cursor:pointer; transition:all var(--t) var(--ease); align-self:flex-start; }
 .rsc-back:hover{ color:var(--fg); border-color:var(--line-strong); }
 .rsc-chips{ display:flex; flex-wrap:wrap; gap:6px; }
@@ -2796,7 +2795,7 @@ function refreshOverviewNews(){
   const GOLD='#EAD08A';
   const RSC={
     ree:{name:'稀土',en:'RARE EARTHS',mineBy:'中国',mine:60,refineBy:'中国',refine:90,
-      markers:[{c:'中国',v:60,x:838.5,y:158.4,refine:90},{c:'美国',v:15,x:267,y:144.5},{c:'缅甸',v:8,x:822,y:210},{c:'澳大利亚',v:6,x:929.1,y:366.7}],
+      markers:[{c:'中国',v:60,x:838.5,y:158.4,refine:90},{c:'美国',v:15,x:267,y:144.5},{c:'缅甸',v:8,x:806,y:228},{c:'澳大利亚',v:6,x:929.1,y:366.7}],
       summary:'开采端中国占 60%，精炼端 90%+ 绝对主导。2025.10 管制升级：17 种中 12 种受限，含 0.1% 中国成分的境外产品亦需许可——精炼技术才是真正的"卡脖子"环节。',
       demand:[['钕铁硼永磁',45],['催化材料',18],['冶金添加剂',12],['抛光粉',9],['荧光/激光',8],['其他',8]],
       driver:'新能源车驱动电机、直驱风机与机器人伺服放量；军工端每架 F-35 需稀土约 417kg，弗吉尼亚级核潜艇约 4.2 吨。',
@@ -2933,17 +2932,21 @@ function refreshOverviewNews(){
   function select(k){
     cur=k; const d=RSC[k];
     tabsEl.querySelectorAll('.res-tab').forEach(b=>b.classList.toggle('on',b.dataset.k===k));
+    /* 视觉尺寸守恒：地图列变窄时反向放大标记与文字，屏幕上的大小不变（780px 为基准宽度） */
+    const svgEl=document.getElementById('res-map');
+    const w=svgEl.clientWidth||780;
+    const adj=Math.max(.85,Math.min(2.2,780/w));
     mkG.innerHTML='';
     d.markers.forEach((m,i)=>{
       const g=document.createElementNS(RNS,'g');
       g.setAttribute('class','gm'); g.style.animationDelay=(i*45)+'ms';
-      const r=bubble(m.v);
-      let inner='<circle class="rmap-halo" cx="'+m.x+'" cy="'+m.y+'" r="'+(r+7)+'"/>';
-      if(m.refine) inner+='<circle cx="'+m.x+'" cy="'+m.y+'" r="'+(r+4.5).toFixed(1)+'" fill="none" stroke="'+GOLD+'" stroke-width="1.1" stroke-dasharray="2.5 3.5" opacity=".75"/>';
-      inner+='<circle cx="'+m.x+'" cy="'+m.y+'" r="'+r.toFixed(1)+'" fill="'+GOLD+'" fill-opacity=".3" stroke="'+GOLD+'" stroke-width="1.3"/>'
-        +'<circle cx="'+m.x+'" cy="'+m.y+'" r="2.2" fill="'+GOLD+'"/>'
-        +'<text class="rmap-lbl" x="'+m.x+'" y="'+(m.y+r+14).toFixed(1)+'">'+m.c+' '+m.v+'%</text>';
-      if(m.refine) inner+='<text class="rmap-lbl rmap-lbl2" x="'+m.x+'" y="'+(m.y+r+26).toFixed(1)+'">精炼 '+m.refine+'%+</text>';
+      const r=bubble(m.v)*adj;
+      let inner='<circle class="rmap-halo" cx="'+m.x+'" cy="'+m.y+'" r="'+(r+7*adj).toFixed(1)+'"/>';
+      if(m.refine) inner+='<circle cx="'+m.x+'" cy="'+m.y+'" r="'+(r+4.5*adj).toFixed(1)+'" fill="none" stroke="'+GOLD+'" stroke-width="'+(1.1*adj).toFixed(2)+'" stroke-dasharray="2.5 3.5" opacity=".75"/>';
+      inner+='<circle cx="'+m.x+'" cy="'+m.y+'" r="'+r.toFixed(1)+'" fill="'+GOLD+'" fill-opacity=".3" stroke="'+GOLD+'" stroke-width="'+(1.3*adj).toFixed(2)+'"/>'
+        +'<circle cx="'+m.x+'" cy="'+m.y+'" r="'+(2.2*adj).toFixed(1)+'" fill="'+GOLD+'"/>'
+        +'<text class="rmap-lbl" style="font-size:'+(11*adj).toFixed(1)+'px" x="'+m.x+'" y="'+(m.y+r+14*adj).toFixed(1)+'">'+m.c+' '+m.v+'%</text>';
+      if(m.refine) inner+='<text class="rmap-lbl rmap-lbl2" style="font-size:'+(9.5*adj).toFixed(1)+'px" x="'+m.x+'" y="'+(m.y+r+26*adj).toFixed(1)+'">精炼 '+m.refine+'%+</text>';
       g.innerHTML=inner;
       g.addEventListener('click',()=>renderCountry(m.c));
       mkG.appendChild(g);
@@ -2962,7 +2965,21 @@ function refreshOverviewNews(){
       +d.chain.map((s,i)=>'<div class="rsc-chain-step"><span class="rsc-step-tag">'+['上游','中游','下游'][i]+'</span><span class="rsc-step-txt">'+s+'</span></div>').join('')
       +'<div class="rsc-tech">'+d.tech.map(t=>'<span>'+t+'</span>').join('')+'</div></div>';
     setTimeout(()=>{ document.querySelectorAll('#res-side .rsc-bar-fill,#res-chain .rsc-bar-fill').forEach(b=>{ b.style.width=b.dataset.w+'%'; }); },120);
+    fitSide();
   }
+  /* 侧栏高度对齐地图高度（宽屏）；窄屏单列时解除限制 */
+  function fitSide(){
+    const frame=document.querySelector('.resmap-frame');
+    const side=document.getElementById('res-side');
+    if(!frame||!side) return;
+    if(window.matchMedia('(min-width:901px)').matches){
+      side.style.maxHeight=frame.getBoundingClientRect().height+'px';
+    }else{
+      side.style.maxHeight='';
+    }
+  }
+  let rzT=null;
+  window.addEventListener('resize',()=>{ clearTimeout(rzT); rzT=setTimeout(()=>{ select(cur); },160); });
   function renderCountry(name){
     const c=RC[name]; if(!c) return;
     const d=RSC[cur];
