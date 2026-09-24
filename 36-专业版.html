@@ -2818,6 +2818,11 @@ function refreshOverviewNews(){
   /* 气泡角色配色：金=中国精炼中枢 · 蓝=盟友/友岸供给 · 红=地缘风险供给 · 青=全球南方资源国（与图例一致） */
   const ROLE_COLOR={'中国':GOLD,'美国':'#5EC4FF','澳大利亚':'#5EC4FF','加拿大':'#5EC4FF','俄罗斯':'#FF6B6B','缅甸':'#FF6B6B'};
   const mColor=m=>ROLE_COLOR[m.c]||'#B0FFEB';
+  /* 文字高亮：侧栏文本中的国家名跟随地图气泡角色色 */
+  const COUNTRY_COLOR=Object.assign({},ROLE_COLOR);
+  ['智利','阿根廷','秘鲁','巴西','刚果(金)','印尼','菲律宾','津巴布韦','马达加斯加','莫桑比克','越南'].forEach(function(c){ if(!COUNTRY_COLOR[c]) COUNTRY_COLOR[c]='#B0FFEB'; });
+  const C_PAT=new RegExp('('+Object.keys(COUNTRY_COLOR).sort(function(a,b){return b.length-a.length;}).map(function(c){return c.replace(/[()]/g,'\\$&');}).join('|')+')','g');
+  const hlCountry=function(s){ return String(s).replace(C_PAT,function(m){ return '<span style="color:'+COUNTRY_COLOR[m]+';">'+m+'</span>'; }); };
   const RSC={
     ree:{name:'稀土',en:'RARE EARTHS',mineBy:'中国',mine:60,refineBy:'中国',refine:90,
       markers:[{c:'中国',v:60,x:838.5,y:158.4,refine:90},{c:'美国',v:15,x:267,y:144.5},{c:'缅甸',v:8,x:806,y:228},{c:'澳大利亚',v:6,x:929.1,y:366.7}],
@@ -2980,17 +2985,17 @@ function refreshOverviewNews(){
     });
     document.getElementById('res-side').innerHTML=
       '<div class="rsc-name">'+d.name+'<span class="rsc-en">'+d.en+'</span></div>'
-      +barRow('开采 CR1 · '+d.mineBy, d.mine)
-      +barRow('精炼 CR1 · '+d.refineBy, d.refine)
-      +'<p class="rsc-sum">'+d.summary+'</p>'
-      +'<div class="rsc-top">主要产地：'+d.markers.map(m=>m.c+' '+m.v+'%').join(' · ')+'</div>';
+      +barRow('开采 CR1 · '+hlCountry(d.mineBy), d.mine)
+      +barRow('精炼 CR1 · '+hlCountry(d.refineBy), d.refine)
+      +'<p class="rsc-sum">'+hlCountry(d.summary)+'</p>'
+      +'<div class="rsc-top">主要产地：'+d.markers.map(m=>'<span style="color:'+mColor(m)+';">'+m.c+'</span> '+m.v+'%').join(' · ')+'</div>';
     document.getElementById('res-chain').innerHTML=
       '<div class="rsc-col"><h4>DEMAND · 需求结构</h4>'+d.demand.map(x=>barRow(x[0],x[1])).join('')
-      +'<p class="rsc-driver"><b>增长驱动</b>：'+d.driver+'</p></div>'
-      +'<div class="rsc-col"><h4>MILITARY · 关键军事应用</h4><ul class="rsc-mil">'+d.mil.map(x=>'<li>'+x+'</li>').join('')+'</ul></div>'
+      +'<p class="rsc-driver"><b>增长驱动</b>：'+hlCountry(d.driver)+'</p></div>'
+      +'<div class="rsc-col"><h4>MILITARY · 关键军事应用</h4><ul class="rsc-mil">'+d.mil.map(x=>'<li>'+hlCountry(x)+'</li>').join('')+'</ul></div>'
       +'<div class="rsc-col"><h4>CHAIN · 产业链与关键技术</h4>'
-      +d.chain.map((s,i)=>'<div class="rsc-chain-step"><span class="rsc-step-tag">'+['上游','中游','下游'][i]+'</span><span class="rsc-step-txt">'+s+'</span></div>').join('')
-      +'<div class="rsc-tech">'+d.tech.map(t=>'<span>'+t+'</span>').join('')+'</div></div>';
+      +d.chain.map((s,i)=>'<div class="rsc-chain-step"><span class="rsc-step-tag">'+['上游','中游','下游'][i]+'</span><span class="rsc-step-txt">'+hlCountry(s)+'</span></div>').join('')
+      +'<div class="rsc-tech">'+d.tech.map(t=>'<span>'+hlCountry(t)+'</span>').join('')+'</div></div>';
     setTimeout(()=>{ document.querySelectorAll('#res-side .rsc-bar-fill,#res-chain .rsc-bar-fill').forEach(b=>{ b.style.width=b.dataset.w+'%'; }); },120);
     fitSide();
   }
@@ -3017,11 +3022,11 @@ function refreshOverviewNews(){
     const side=document.getElementById('res-side');
     side.innerHTML=
       '<button class="rsc-back" type="button">← 返回「'+d.name+'」资源总览</button>'
-      +'<div class="rsc-name">'+name+'<span class="rsc-en">'+c.en+' × '+d.en+'</span></div>'
-      +'<div class="rsc-chips">'+c.assets.map(a=>'<span>'+a+'</span>').join('')+'</div>'
-      +'<p class="rsc-sum">'+c.profile+'</p>'
+      +'<div class="rsc-name"><span style="color:'+(COUNTRY_COLOR[name]||'inherit')+';">'+name+'</span><span class="rsc-en">'+c.en+' × '+d.en+'</span></div>'
+      +'<div class="rsc-chips">'+c.assets.map(a=>'<span>'+hlCountry(a)+'</span>').join('')+'</div>'
+      +'<p class="rsc-sum">'+hlCountry(c.profile)+'</p>'
       +'<div class="rsc-news-h">LATEST · 相关动态</div>'
-      +c.news.map(n=>'<div class="rsc-news-item"><span class="d">'+n.d+'</span><div><div class="t">'+n.t+'</div><div class="s">'+n.s+'</div></div></div>').join('');
+      +c.news.map(n=>'<div class="rsc-news-item"><span class="d">'+n.d+'</span><div><div class="t">'+hlCountry(n.t)+'</div><div class="s">'+hlCountry(n.s)+'</div></div></div>').join('');
     side.querySelector('.rsc-back').addEventListener('click',()=>select(cur));
     side.scrollTop=0;
   }
