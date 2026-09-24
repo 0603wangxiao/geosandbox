@@ -441,6 +441,9 @@ svg.gdim .gtier{ opacity:.3; }
 .res-tab{ font-family:var(--mono); font-size:.68rem; letter-spacing:.05em; color:var(--muted); border:1px solid var(--line); background:var(--panel); border-radius:var(--r-pill); padding:5px 14px; cursor:pointer; transition:all var(--t) var(--ease); }
 .res-tab:hover{ border-color:var(--line-strong); color:var(--fg); }
 .res-tab.on{ color:#15181A; background:#EAD08A; border-color:#EAD08A; font-weight:600; }
+.res-legend{ display:flex; flex-wrap:wrap; gap:6px 20px; margin:-4px 0 12px; font-size:.68rem; color:var(--muted); letter-spacing:.04em; }
+.res-legend span{ display:inline-flex; align-items:center; gap:6px; }
+.res-legend i{ display:inline-block; width:8px; height:8px; border-radius:50%; flex:none; }
 .resmap-grid{ display:grid; grid-template-columns:minmax(0,1fr) 340px; gap:14px; align-items:stretch; }
 @media(max-width:900px){ .resmap-grid{ grid-template-columns:1fr; } }
 .resmap-frame{ border:1px solid var(--line); border-radius:var(--r-sm); overflow:hidden; background:#14161A; }
@@ -1644,6 +1647,7 @@ svg.gdim .gtier{ opacity:.3; }
   <div class="card" style="margin-bottom:18px;">
     <h3><span class="tag-h">MAP</span>全球资源分布地图 <span style="font-family:var(--mono);font-size:.62rem;color:var(--faint);letter-spacing:.06em;">点击气泡查看该国资源档案与最新动态 · 金色虚环 = 中国精炼主导</span></h3>
     <div class="res-tabs" id="res-tabs"></div>
+    <div class="res-legend"><span><i style="background:#EAD08A;"></i>中国 · 精炼中枢</span><span><i style="background:#5EC4FF;"></i>盟友 / 友岸供给</span><span><i style="background:#FF6B6B;"></i>地缘风险供给</span><span><i style="background:#B0FFEB;"></i>全球南方资源国</span></div>
     <div class="resmap-grid">
       <div class="resmap-frame">
         <svg id="res-map" viewBox="0 0 1080 560" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="战略资源全球分布地图">
@@ -2186,12 +2190,12 @@ tick(); setInterval(tick,30000);
 
 /* ===== Resource Bars ===== */
 const resources=[
-  {name:'钴',pct:74,color:'var(--red)'},
-  {name:'镍',pct:67,color:'var(--gold)'},
-  {name:'石墨',pct:65,color:'var(--gold)'},
-  {name:'稀土',pct:60,color:'var(--red)'},
-  {name:'锂(产量)',pct:40,color:'var(--teal)'},
-  {name:'铜',pct:28,color:'var(--blue)'},
+  {name:'钴',pct:74,color:'#FF6B6B'},
+  {name:'镍',pct:67,color:'#EAD08A'},
+  {name:'石墨',pct:65,color:'#EAD08A'},
+  {name:'稀土',pct:60,color:'#FF6B6B'},
+  {name:'锂(产量)',pct:40,color:'#B0FFEB'},
+  {name:'铜',pct:28,color:'#FF5C9D'},
 ];
 const rb=document.getElementById('resource-bars');
 resources.forEach(r=>{
@@ -2811,6 +2815,9 @@ function refreshOverviewNews(){
 (function(){
   const RNS='http://www.w3.org/2000/svg';
   const GOLD='#EAD08A';
+  /* 气泡角色配色：金=中国精炼中枢 · 蓝=盟友/友岸供给 · 红=地缘风险供给 · 青=全球南方资源国（与图例一致） */
+  const ROLE_COLOR={'中国':GOLD,'美国':'#5EC4FF','澳大利亚':'#5EC4FF','加拿大':'#5EC4FF','俄罗斯':'#FF6B6B','缅甸':'#FF6B6B'};
+  const mColor=m=>ROLE_COLOR[m.c]||'#B0FFEB';
   const RSC={
     ree:{name:'稀土',en:'RARE EARTHS',mineBy:'中国',mine:60,refineBy:'中国',refine:90,
       markers:[{c:'中国',v:60,x:838.5,y:158.4,refine:90},{c:'美国',v:15,x:267,y:144.5},{c:'缅甸',v:8,x:806,y:228},{c:'澳大利亚',v:6,x:929.1,y:366.7}],
@@ -2959,11 +2966,12 @@ function refreshOverviewNews(){
       const g=document.createElementNS(RNS,'g');
       g.setAttribute('class','gm'); g.style.animationDelay=(i*45)+'ms';
       const r=bubble(m.v)*adj;
-      let inner='<circle class="rmap-halo" cx="'+m.x+'" cy="'+m.y+'" r="'+(r+7*adj).toFixed(1)+'"/>';
+      const mc=mColor(m);
+      let inner='<circle class="rmap-halo" cx="'+m.x+'" cy="'+m.y+'" r="'+(r+7*adj).toFixed(1)+'" style="fill:'+mc+';fill-opacity:.16"/>';
       if(m.refine) inner+='<circle cx="'+m.x+'" cy="'+m.y+'" r="'+(r+4.5*adj).toFixed(1)+'" fill="none" stroke="'+GOLD+'" stroke-width="'+(1.1*adj).toFixed(2)+'" stroke-dasharray="2.5 3.5" opacity=".75"/>';
       const lblY=m.ly?(m.y-r-9*adj).toFixed(1):(m.y+r+14*adj).toFixed(1);
-      inner+='<circle cx="'+m.x+'" cy="'+m.y+'" r="'+r.toFixed(1)+'" fill="'+GOLD+'" fill-opacity=".3" stroke="'+GOLD+'" stroke-width="'+(1.3*adj).toFixed(2)+'"/>'
-        +'<circle cx="'+m.x+'" cy="'+m.y+'" r="'+(2.2*adj).toFixed(1)+'" fill="'+GOLD+'"/>'
+      inner+='<circle cx="'+m.x+'" cy="'+m.y+'" r="'+r.toFixed(1)+'" fill="'+mc+'" fill-opacity=".3" stroke="'+mc+'" stroke-width="'+(1.3*adj).toFixed(2)+'"/>'
+        +'<circle cx="'+m.x+'" cy="'+m.y+'" r="'+(2.2*adj).toFixed(1)+'" fill="'+mc+'"/>'
         +'<text class="rmap-lbl" style="font-size:'+(11*adj).toFixed(1)+'px" x="'+m.x+'" y="'+lblY+'">'+m.c+' '+m.v+'%</text>';
       if(m.refine) inner+='<text class="rmap-lbl rmap-lbl2" style="font-size:'+(9.5*adj).toFixed(1)+'px" x="'+m.x+'" y="'+(m.y+r+26*adj).toFixed(1)+'">精炼 '+m.refine+'%+</text>';
       g.innerHTML=inner;
