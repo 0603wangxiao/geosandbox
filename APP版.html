@@ -186,11 +186,11 @@ input[type=range]::-webkit-slider-thumb{ -webkit-appearance:none; width:22px; he
 nav.tabbar{
   position:fixed; left:14px; right:14px; bottom:calc(env(safe-area-inset-bottom) + 12px); z-index:10;
   height:var(--tabbar-h);
-  background:rgba(13,18,34,.60);
+  background:rgba(13,18,34,.38);
   backdrop-filter:blur(28px) saturate(1.4); -webkit-backdrop-filter:blur(28px) saturate(1.4);
-  border:1px solid rgba(255,255,255,.10);
+  border:1px solid rgba(255,255,255,.09);
   border-radius:999px;
-  box-shadow:0 12px 40px rgba(0,0,0,.50), inset 0 1px 0 rgba(255,255,255,.08);
+  box-shadow:0 12px 40px rgba(0,0,0,.38), inset 0 1px 0 rgba(255,255,255,.07);
   display:grid; grid-template-columns:repeat(5,1fr);
 }
 nav.tabbar button{
@@ -202,8 +202,6 @@ nav.tabbar button{
 nav.tabbar button:active{ transform:scale(.92); }
 nav.tabbar button.on{ color:var(--brand-400); }
 nav.tabbar button.on svg{ filter:drop-shadow(0 0 8px rgba(87,146,255,.85)); }
-nav.tabbar button.on::after{ content:''; position:absolute; bottom:7px; left:50%; transform:translateX(-50%);
-  width:4px; height:4px; border-radius:50%; background:var(--brand-400); box-shadow:0 0 8px rgba(87,146,255,.9); }
 nav.tabbar svg{ width:20px; height:20px; }
 @media(prefers-reduced-motion:reduce){ *,*::before,*::after{ animation:none !important; transition:none !important; } }
 </style>
