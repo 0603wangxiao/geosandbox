@@ -347,6 +347,16 @@ a{ color:inherit; text-decoration:none; }
   color:#16181b; font-size:.72rem; letter-spacing:.03em; text-decoration:none; transition:color .22s ease; }
 .mf-song:hover{ color:var(--brand-500); }
 .mf-link{ width:12px; height:12px; }
+/* ===== 移动端：音乐播放器置于开屏（hero）右下角，气泡向上弹出 ===== */
+@media(max-width:700px){
+  .hero .music-fab{ left:auto; right:20px; top:auto; bottom:28px; transform:none; }
+  .hero .music-fab .mf-pop{ left:auto; right:0; top:auto; bottom:100%; transform:translate(0,6px); }
+  .hero .music-fab.show-pop .mf-pop{ transform:translate(0,0); }
+  .hero .music-fab .mf-pop-arrow{ left:auto; right:14px; top:auto; bottom:-5px;
+    transform:rotate(225deg);
+    border-bottom-color:rgba(0,0,0,.10); border-right-color:rgba(0,0,0,.10);
+    border-top-color:transparent; border-left-color:transparent; }
+}
 @media(prefers-reduced-motion:reduce){ .mf-disc{ animation:none; } }
 @media(prefers-reduced-motion:reduce){
   .memorial-kicker,.mi-quote .mi-red,.mi-text strong,.ch-src b,.mi-meta b,.db-mm,.ch-num,.stat-box .val,.db-title,.hero h1 .hl,.hero-en,.hc-kicker,.hc-kicker-en,.hc-hl,.hc-go,.scroll-txt,.seo-pre,.seo-hl,.seo-en,.music-fab{ animation:none; }
@@ -1675,6 +1685,18 @@ a{ color:inherit; text-decoration:none; }
     window.addEventListener('load',function(){ setTimeout(mfPrefetch,4000); });
     root.addEventListener('pointerenter', mfPrefetch, {once:true});
   }
+  /* 移动端：播放器移入开屏（hero）右下角；≥700px 回到顶栏原位，PC 不受影响 */
+  var mfHome=root.parentNode, mfNext=root.nextSibling, mfHero=document.querySelector('.hero');
+  var mfMq=window.matchMedia('(max-width:700px)');
+  function mfPlace(){
+    if(!mfHero) return;
+    if(mfMq.matches){ if(root.parentNode!==mfHero) mfHero.appendChild(root); }
+    else if(root.parentNode!==mfHome){ mfHome.insertBefore(root,mfNext); }
+  }
+  mfPlace();
+  if(mfMq.addEventListener){ mfMq.addEventListener('change',mfPlace); }
+  else if(mfMq.addListener){ mfMq.addListener(mfPlace); }
+  window.addEventListener('resize',mfPlace);
 })();
 </script><script>
 /* ===== GPU 减负：离屏的无限流光/点阵动画自动暂停（回到视口即恢复，视觉无差） ===== */
