@@ -911,6 +911,11 @@ svg.gdim .gtier{ opacity:.3; }
 @keyframes spin{ to{ transform:rotate(360deg); } }
 .refresh-btn svg{ width:13px; height:13px; }
 .last-updated{ font-size:.64rem; color:var(--faint); margin-left:8px; font-family:var(--mono); }
+/* 自动刷新微标识：小脉冲点+文字，随时间戳一起更新，弱机静态呈现 */
+.auto-live{ display:inline-flex; align-items:center; gap:4px; vertical-align:baseline; }
+.auto-dot{ width:4px; height:4px; border-radius:50%; background:var(--brand-400,#5B8CFF); opacity:.7; animation:autoPulse 2.4s ease-in-out infinite; }
+@keyframes autoPulse{ 0%,100%{ opacity:.7; } 50%{ opacity:.2; } }
+html.weak .auto-dot{ animation:none; opacity:.55; }
 
 /* ===== Responsive ===== */
 @media(max-width:768px){
@@ -2971,9 +2976,10 @@ const refreshNewsPool=[
   }
   function stampTime(){
     const hm=nowHM();
-    if(lastUpdated) lastUpdated.textContent='更新于 '+hm;
+    const badge='<span class="auto-live"><i class="auto-dot"></i>自动刷新</span> · 更新于 '+hm;
+    if(lastUpdated) lastUpdated.innerHTML=badge;
     const tl=document.getElementById('tl-updated');
-    if(tl) tl.textContent='更新于 '+hm;
+    if(tl) tl.innerHTML=badge;
   }
   function renderFeed(items){
     if(!newsFeed||!items.length) return;
@@ -3035,7 +3041,9 @@ const refreshNewsPool=[
     else if(manual!==false){ fallback(target); }
     stampTime();
   };
-  /* ===== 自动更新：每 3 分钟后台拉取；页面隐藏时跳过，回到可见立即补一次 ===== */
+  /* ===== 自动更新：开屏 2.5s 先抓一次，之后每 3 分钟后台轮询；页面隐藏时跳过，回到可见立即补一次 ===== */
+  stampTime();
+  setTimeout(function(){ if(!document.hidden) window.refreshLiveNews('overview',false); },2500);
   setInterval(function(){ if(!document.hidden) window.refreshLiveNews('overview',false); },180000);
   document.addEventListener('visibilitychange',function(){
     if(!document.hidden) window.refreshLiveNews('overview',false);
