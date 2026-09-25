@@ -313,6 +313,7 @@ button{ font:inherit; color:inherit; background:none; border:none; cursor:pointe
 .news-item.live{ border-left-color:var(--brand-500,#2973FF); }
 .news-item.live::before{ content:""; position:absolute; left:9px; top:17px; width:5px; height:5px; border-radius:50%; background:var(--brand-400); animation:livePulse 1.8s ease-in-out infinite; }
 @keyframes livePulse{ 0%,100%{ opacity:1; } 50%{ opacity:.3; } }
+html.weak .news-item.live::before{ animation:none; opacity:.55; }
 
 /* ===== News Timeline ===== */
 .news-tl-wrap{ display:grid; grid-template-columns:1fr 300px; gap:20px; }
@@ -2114,6 +2115,10 @@ svg.gdim .gtier{ opacity:.3; }
 (function(){
 "use strict";
 
+/* ===== 弱设备检测（全局）===== 渲染层据此跳过非必要动画 */
+window.__weakDevice=(navigator.hardwareConcurrency&&navigator.hardwareConcurrency<=4)||(navigator.deviceMemory&&navigator.deviceMemory<=4);
+if(window.__weakDevice) document.documentElement.classList.add('weak');
+
 /* ===== Tab Switching ===== */
 const tabs=document.querySelectorAll('.tab');
 const views=document.querySelectorAll('.view');
@@ -2871,8 +2876,12 @@ document.querySelectorAll('.refresh-view').forEach(btn=>{
       setTimeout(()=>{ btn.innerHTML=origHTML; btn.style.background=''; btn.style.color=''; },1500);
     };
     if(target==='overview'||target==='news'){
+      /* 等待期即时反馈：两处时间小字切为抓取中，完成后由 stampTime() 覆写 */
+      const lu=document.getElementById('last-updated'), tu=document.getElementById('tl-updated');
+      if(lu) lu.textContent='正在抓取实时讯号…';
+      if(tu) tu.textContent='正在抓取实时讯号…';
       refreshLiveNews(target).then(finish).catch(finish);
-      setTimeout(finish,9000);   /* 网络停滞兜底 */
+      setTimeout(finish,6500);   /* 网络停滞兜底 */
     } else {
       setTimeout(finish,800);
     }
@@ -2925,23 +2934,30 @@ const refreshNewsPool=[
       e=>{ clearTimeout(timer); throw e; }
     );
   }
-  async function viaRss2json(feed){
-    const r=await grab('https://api.rss2json.com/v1/api.json?rss_url='+encodeURIComponent(feed.url),6000);
-    const j=await r.json();
-    if(!j||j.status!=='ok'||!Array.isArray(j.items)||!j.items.length) throw new Error('empty');
-    return j.items.map(it=>({title:clean(it.title),link:it.link||'',desc:clean(it.description).slice(0,140),date:it.pubDate||'',src:feed.name}));
-  }
-  async function viaProxy(feed){
-    const r=await grab('https://api.allorigins.win/raw?url='+encodeURIComponent(feed.url),6000);
-    const doc=new DOMParser().parseFromString(await r.text(),'text/xml');
+  function parseXml(text,feed){
+    const doc=new DOMParser().parseFromString(text,'text/xml');
     const nodes=[].slice.call(doc.querySelectorAll('item')).slice(0,14);
     if(!nodes.length) throw new Error('empty');
     const g=(n,tag)=>{ const el=n.querySelector(tag); return el?el.textContent:''; };
     return nodes.map(n=>({title:clean(g(n,'title')),link:(g(n,'link')||'').trim(),desc:clean(g(n,'description')).slice(0,140),date:g(n,'pubDate'),src:feed.name}));
   }
+  async function viaRss2json(feed){
+    const r=await grab('https://api.rss2json.com/v1/api.json?rss_url='+encodeURIComponent(feed.url),4500);
+    const j=await r.json();
+    if(!j||j.status!=='ok'||!Array.isArray(j.items)||!j.items.length) throw new Error('empty');
+    return j.items.map(it=>({title:clean(it.title),link:it.link||'',desc:clean(it.description).slice(0,140),date:it.pubDate||'',src:feed.name}));
+  }
+  async function viaProxy(feed){
+    const r=await grab('https://api.allorigins.win/raw?url='+encodeURIComponent(feed.url),4500);
+    return parseXml(await r.text(),feed);
+  }
+  async function viaCodetabs(feed){
+    const r=await grab('https://api.codetabs.com/v1/proxy?quest='+encodeURIComponent(feed.url),4500);
+    return parseXml(await r.text(),feed);
+  }
   async function fetchLive(){
     const jobs=[];
-    FEEDS.forEach(f=>{ jobs.push(viaRss2json(f).catch(()=>[]), viaProxy(f).catch(()=>[])); });
+    FEEDS.forEach(f=>{ jobs.push(viaRss2json(f).catch(()=>[]), viaProxy(f).catch(()=>[]), viaCodetabs(f).catch(()=>[])); });
     const bag=await Promise.all(jobs);
     const all=[],dup=new Set();
     bag.forEach(list=>list.forEach(it=>{ const k=fp(it.title); if(!it.title||dup.has(k)) return; dup.add(k); all.push(it); }));
@@ -2965,27 +2981,30 @@ const refreshNewsPool=[
   }
   function renderFeed(items){
     if(!newsFeed||!items.length) return;
+    const frag=document.createDocumentFragment();
     items.forEach(it=>{
       const el=document.createElement('div');
       el.className='news-item live';
-      el.style.animation='fadeIn .4s var(--ease)';
+      if(!window.__weakDevice) el.style.animation='fadeIn .4s var(--ease)';
       const titleLink=it.link
         ?'<a class="news-src-link" href="'+esc(it.link)+'" target="_blank" rel="noopener noreferrer">'+esc(it.title)+'<span class="news-src-tag">'+esc(it.src)+' ↗</span></a>'
         :esc(it.title)+'<span class="news-src-tag">'+esc(it.src)+'</span>';
       el.innerHTML='<div class="news-date">'+relTime(it.date)+' · 实时快讯</div>'
         +'<div class="news-title">'+titleLink+'</div>'
         +(it.desc?'<div class="news-summary">'+esc(it.desc)+'</div>':'');
-      newsFeed.insertBefore(el,newsFeed.firstChild);
+      frag.insertBefore(el,frag.firstChild);
     });
+    newsFeed.insertBefore(frag,newsFeed.firstChild);
     while(newsFeed.children.length>9) newsFeed.removeChild(newsFeed.lastChild);
   }
   function renderTl(items){
     if(!newsTl||!items.length) return;
+    const frag=document.createDocumentFragment();
     items.forEach(it=>{
       const cat=guessCat(it.title+' '+it.desc);
       const row=document.createElement('div');
       row.className='nt-row cat-'+cat;
-      row.style.animation='fadeIn .4s var(--ease)';
+      if(!window.__weakDevice) row.style.animation='fadeIn .4s var(--ease)';
       row.innerHTML='<div class="nt-axis"><span class="nt-dot"></span></div>'
         +'<div class="nt-card"><div class="nt-top">'
         +'<span class="nt-date">'+relTime(it.date)+'</span>'
@@ -2995,8 +3014,9 @@ const refreshNewsPool=[
         +'</div><div class="nt-title">'+esc(it.title)+'</div>'
         +(it.desc?'<div class="nt-desc">'+esc(it.desc)+'</div>':'')
         +'</div>';
-      newsTl.insertBefore(row,newsTl.firstChild);
+      frag.insertBefore(row,frag.firstChild);
     });
+    newsTl.insertBefore(frag,newsTl.firstChild);
   }
   function fallback(target){
     /* 源不可达：降级为本地精选池，保证按钮始终有真实反馈 */
