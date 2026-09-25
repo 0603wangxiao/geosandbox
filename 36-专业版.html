@@ -74,7 +74,7 @@ button{ font:inherit; color:inherit; background:none; border:none; cursor:pointe
 @keyframes led{ 0%,100%{opacity:1;} 50%{opacity:.35;} }
 
 /* ===== Tabs · CardNav 展开卡片导航 ===== */
-.tabs{ position:relative; z-index:90; background:var(--bg); }
+.tabs{ position:sticky; top:53px; z-index:90; background:var(--bg); border-bottom:1px solid var(--line); }
 .tabs-bar{ height:54px; display:flex; align-items:center; gap:16px; padding:0 18px; }
 .tabs-burger{
   display:inline-flex; align-items:center; gap:10px; color:var(--fg);
@@ -102,14 +102,19 @@ button{ font:inherit; color:inherit; background:none; border:none; cursor:pointe
   border:1px solid var(--neutral-500,#383B3E); background:rgba(41,115,255,.1);
 }
 .cur-view .cur-dot{ width:6px; height:6px; border-radius:50%; background:var(--brand-400); box-shadow:0 0 6px var(--brand-400); }
-.tabs-drawer{ display:grid; grid-template-rows:0fr; transition:grid-template-rows .46s cubic-bezier(.22,1,.36,1); }
-.tabs.open .tabs-drawer{ grid-template-rows:1fr; }
-.tabs-drawer-inner{
-  overflow:hidden; min-height:0; display:grid;
-  grid-template-columns:repeat(4,1fr); gap:10px; padding:0;
-  transition:padding .46s cubic-bezier(.22,1,.36,1);
+/* 视图导航：下拉悬浮层——默认收起隐藏，触碰上边栏（悬停/点按）时向下展开 */
+.tabs-drawer{
+  position:absolute; top:100%; left:0; right:0; z-index:85;
+  background:var(--bg); border-bottom:1px solid var(--line-strong,var(--line));
+  box-shadow:0 22px 48px rgba(0,0,0,.5);
+  opacity:0; visibility:hidden; pointer-events:none; transform:translateY(-12px);
+  transition:opacity .28s ease, transform .4s cubic-bezier(.22,1,.36,1), visibility .4s;
 }
-.tabs.open .tabs-drawer-inner{ padding:0 18px 16px; }
+.tabs.open .tabs-drawer{ opacity:1; visibility:visible; pointer-events:auto; transform:translateY(0); }
+.tabs-drawer-inner{
+  display:grid;
+  grid-template-columns:repeat(4,1fr); gap:10px; padding:12px 18px 16px;
+}
 .tab{
   position:relative; text-align:left; display:flex; flex-direction:column; gap:14px;
   padding:14px 16px; min-width:0; border-radius:var(--r-sm,8px);
@@ -376,6 +381,12 @@ button{ font:inherit; color:inherit; background:none; border:none; cursor:pointe
 .data-table .res-refine{ color:#EAD08A; font-weight:500; }
 .data-table tfoot td{ font-weight:500; background:var(--red-soft); }
 .hint{ font-size:.7rem; color:var(--faint); margin-top:12px; line-height:1.65; }
+/* 维度证据链（07 风险因子模型） */
+.ev-lede{ font-size:.8rem; color:var(--muted); line-height:1.75; margin:2px 0 10px; }
+.ev-table{ margin-top:4px; }
+.ev-table td{ vertical-align:top; font-size:.78rem; line-height:1.7; color:var(--muted); }
+.ev-table tbody tr td:first-child{ white-space:nowrap; }
+.ev-src{ font-family:var(--mono); font-size:.62rem; color:var(--faint); border:1px solid var(--line); border-radius:3px; padding:1px 6px; margin-left:6px; white-space:nowrap; }
 
 /* ===== Policy Timeline ===== */
 .timeline{ position:relative; padding-left:28px; }
@@ -579,31 +590,6 @@ svg.gdim .gtier{ opacity:.3; }
 .he-now .he-score{ color:var(--red); }
 .he-name{ font-size:.64rem; color:var(--muted); line-height:1.45; }
 @media(max-width:768px){ .hist-events{ grid-template-columns:repeat(2,1fr); } }
-
-/* ===== Flowers ===== */
-.memorial-zone{
-  background:var(--panel);
-  border:1px solid var(--neutral-500,#383B3E); border-radius:var(--r);
-  padding:28px; text-align:center;
-}
-.memorial-title{ font-weight:500; font-size:1.06rem; margin-bottom:5px; }
-.memorial-sub{ font-size:.74rem; color:var(--muted); margin-bottom:20px; }
-.flower-field{
-  display:flex; flex-wrap:wrap; justify-content:center; gap:8px;
-  min-height:110px; padding:16px;
-  background:var(--bg-2); border:1px dashed var(--line-strong); border-radius:var(--r-sm);
-}
-.flower{ width:18px; height:18px; position:relative; animation:bloom .7s var(--ease); }
-.flower svg{ width:100%; height:100%; }
-@keyframes bloom{ from{ transform:scale(0); opacity:0; } to{ transform:scale(1); opacity:1; } }
-.bloom-btn{
-  margin-top:16px; padding:10px 28px; border-radius:var(--r-pill);
-  background:rgba(255,107,107,.1); color:var(--red-hi); font-size:.8rem;
-  letter-spacing:.1em; transition:all var(--t) var(--ease); border:1px solid rgba(255,107,107,.45);
-}
-.bloom-btn:hover{ background:var(--red); color:#fff; border-color:var(--red); }
-.bloom-count{ margin-top:12px; font-size:.74rem; color:var(--muted); }
-.bloom-count strong{ color:var(--red); font-weight:500; }
 
 /* ===== Risk Model ===== */
 .algo-card{
@@ -910,8 +896,7 @@ svg.gdim .gtier{ opacity:.3; }
   .motto,.status-clock{ display:none; }
   .tabs-bar{ padding:0 12px; gap:10px; }
   .tabs-bar-title{ display:none; }
-  .tabs-drawer-inner{ grid-template-columns:repeat(2,1fr); gap:8px; }
-  .tabs.open .tabs-drawer-inner{ padding:0 12px 14px; }
+  .tabs-drawer-inner{ grid-template-columns:repeat(2,1fr); gap:8px; padding:10px 12px 14px; }
   .tab-card-name{ font-size:.9rem; }
   .main{ padding:20px 16px; }
   .view-title{ font-size:1.5rem; }
@@ -1633,14 +1618,6 @@ svg.gdim .gtier{ opacity:.3; }
   </div>
 
   <p class="hint" style="margin-bottom:18px;">说明：本页同时是缅怀页——苏丹 El Fasher 三天六千人、加沙三万儿童、缅甸近半平民死于空袭，这些数字不用于战报对比，仅用于不被遗忘。凡标「一方称」「无核实总数」之处，均为诚实留白；数字只会更高。</p>
-
-  <div class="memorial-zone">
-    <div class="memorial-title">献花 · 缅怀逝者</div>
-    <div class="memorial-sub">每一朵花代表战中逝去的无辜生命 · 点击献花，寄以哀思</div>
-    <div class="flower-field" id="flower-field"></div>
-    <button class="bloom-btn" id="bloom-btn">献一束花</button>
-    <div class="bloom-count">已献花束：<strong id="bloom-count">0</strong> · 总计 <strong id="bloom-total">0</strong> 朵</div>
-  </div>
 </div>
 
 <!-- ===== VIEW 04: Resources ===== -->
@@ -1882,6 +1859,48 @@ svg.gdim .gtier{ opacity:.3; }
     </p>
   </div>
 
+  <div class="card algo-card" style="margin-bottom:18px;">
+    <h3><span class="tag-h">EVIDENCE</span>维度证据链 · 六维评分对应 04 / 05 / 06 板块实证</h3>
+    <p class="ev-lede">WCRI 的六个维度不是抽象打分——每一项都由站内 04 战略资源、05 资源民族主义、06 AI军事化的量化事实支撑。下表为当前口径的证据映射（数值随板块数据同步更新）。</p>
+    <table class="data-table ev-table">
+      <colgroup><col style="width:19%"><col style="width:9%"><col style="width:60%"><col style="width:12%"></colgroup>
+      <thead><tr><th>维度</th><th>当前 r</th><th>关键证据（可回溯至站内板块）</th><th>来源</th></tr></thead>
+      <tbody>
+        <tr>
+          <td class="res-prod">地缘冲突烈度</td><td class="num">8.4</td>
+          <td>俄乌：450 架无人机夜袭莫斯科、俄 45% 炼能停摆；美伊战争第 205 天、霍尔木兹"零出口"、沙特东西管道遇袭；台海演训常态化与对台军售升级</td>
+          <td class="num">01 / 03</td>
+        </tr>
+        <tr>
+          <td class="res-prod">供应链断裂风险</td><td class="num">8.6</td>
+          <td>中国精炼 19/20 种关键矿产、平均市占约 70%；稀土域外管辖（含 0.1% 中国成分的境外产品亦需许可）；石墨负极出口许可（2025.12）；镍 67% / 钴 74% / 钨 80% 的 CR1 极端集中</td>
+          <td class="num">04</td>
+        </tr>
+        <tr>
+          <td class="res-prod">货币秩序震荡</td><td class="num">7.3</td>
+          <td>10Y 美债收益率破 5.1%（2007 年来新高）；美元储备份额降至 56.8%；伦敦白银隔夜租赁利率一度超 100%、实物库存争夺</td>
+          <td class="num">02</td>
+        </tr>
+        <tr>
+          <td class="res-prod">AI军事化进度</td><td class="num">8.8</td>
+          <td>五角大楼 6 万架无人机订单授予 9 家初创、"零中国零件"成为硬性门槛；7 家 AI 巨头接入国防机密网络；盟友体系 Helsing / Baykar / Elbit / BAE；大疆列入"中国军事企业"清单、CETC 形成对手体系</td>
+          <td class="num">06</td>
+        </tr>
+        <tr>
+          <td class="res-prod">资源民族主义</td><td class="num">9.0</td>
+          <td>六起政策事件（稀土 / 镍 / 钴 / 锂 / 金）× 四类政策工具；刚果(金) 74% 钴全面禁运、LME 钴价较年内低点 +26%；印尼镍配额降至约 2.1 亿吨；津巴布韦 2027 起禁未加工锂矿；布基纳法索 3 座金矿国有化</td>
+          <td class="num">05</td>
+        </tr>
+        <tr>
+          <td class="res-prod">金融稳定风险</td><td class="num">8.1</td>
+          <td>美债规模突破 40 万亿、利息支出超过军费；美国柴油 6.52 美元/加仑创纪录（同比 +77%）引发通胀螺旋；AI 资本开支与估值集中度抬升</td>
+          <td class="num">01 / 02</td>
+        </tr>
+      </tbody>
+    </table>
+    <p class="hint">阅读方式：左侧维度对应上方 WCRI 权重表；"来源"标注该证据所属站内板块编号，可直接跳转核对原始图表与数据。</p>
+  </div>
+
   <div class="grid-2">
     <div class="card">
       <h3><span class="tag-h">TUNE</span>因子权重调节</h3>
@@ -1896,12 +1915,12 @@ svg.gdim .gtier{ opacity:.3; }
       <div class="card" style="margin-bottom:14px;">
         <h3><span class="tag-h">DEFINE</span>因子说明</h3>
         <div style="font-size:.8rem;line-height:1.8;color:var(--muted);">
-          <p style="margin-bottom:10px;"><strong style="color:var(--red-hi);">地缘冲突烈度</strong>：俄乌、中东、印太三大热点冲突的强度与升级概率</p>
-          <p style="margin-bottom:10px;"><strong style="color:var(--gold-hi);">供应链断裂风险</strong>：关键矿产、半导体、能源供应链的集中度与替代难度</p>
-          <p style="margin-bottom:10px;"><strong style="color:var(--blue-hi);">货币秩序震荡</strong>：去美元化进程、储备货币多元化、汇率波动风险</p>
-          <p style="margin-bottom:10px;"><strong style="color:var(--red-hi);">AI军事化进度</strong>：自主武器、战场AI部署、技术扩散速度与失控风险</p>
-          <p style="margin-bottom:10px;"><strong style="color:var(--teal-hi);">资源民族主义</strong>：出口管制、国有化、加工本土化政策的扩散速度</p>
-          <p><strong style="color:var(--gold-hi);">金融稳定风险</strong>：主权债务、套息交易、资产泡沫的破裂概率</p>
+          <p style="margin-bottom:10px;"><strong style="color:var(--red-hi);">地缘冲突烈度</strong>：俄乌、中东、印太三大热点冲突的强度与升级概率 <span class="ev-src">01 / 03</span></p>
+          <p style="margin-bottom:10px;"><strong style="color:var(--gold-hi);">供应链断裂风险</strong>：关键矿产、半导体、能源供应链的集中度与替代难度 <span class="ev-src">04 战略资源</span></p>
+          <p style="margin-bottom:10px;"><strong style="color:var(--blue-hi);">货币秩序震荡</strong>：去美元化进程、储备货币多元化、汇率波动风险 <span class="ev-src">02</span></p>
+          <p style="margin-bottom:10px;"><strong style="color:var(--red-hi);">AI军事化进度</strong>：自主武器、战场AI部署、技术扩散速度与失控风险 <span class="ev-src">06 AI军事化</span></p>
+          <p style="margin-bottom:10px;"><strong style="color:var(--teal-hi);">资源民族主义</strong>：出口管制、国有化、加工本土化政策的扩散速度 <span class="ev-src">05 资源民族主义</span></p>
+          <p><strong style="color:var(--gold-hi);">金融稳定风险</strong>：主权债务、套息交易、资产泡沫的破裂概率 <span class="ev-src">01 / 02</span></p>
         </div>
       </div>
       <div class="card">
@@ -1971,7 +1990,7 @@ svg.gdim .gtier{ opacity:.3; }
 <!-- ===== VIEW 08: Scenario Map ===== -->
 <div class="view" id="view-scenario">
   <div class="view-head"><div class="view-head-l"><h2 class="view-title"><span class="vi">08</span>推演沙盘 · 地缘风险地图</h2></div><button class="refresh-btn refresh-view" data-target="scenario" style="margin-left:12px;vertical-align:middle;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg> 实时更新</button></div>
-  <p class="view-sub">全球风险热点实景投影 · 点击节点查看态势评估与连锁反应推演 · Natural Earth 投影</p>
+  <p class="view-sub" id="sandbox-sub">全球风险热点实景投影 · 点击节点查看态势评估与连锁反应推演 · Natural Earth 投影</p>
 
   <div class="map-frame">
     <div class="mc1"></div>
@@ -2101,16 +2120,41 @@ window.addEventListener('hashchange',function(){
     var act=tabsNav.querySelector('.tab.active');
     if(act&&curLabel) curLabel.textContent=NAMES[act.dataset.view]||act.dataset.view;
   }
-  if(burger){
-    burger.addEventListener('click',function(){
-      var open=tabsNav.classList.toggle('open');
-      burger.setAttribute('aria-expanded',open?'true':'false');
+  var tabsBar=tabsNav.querySelector('.tabs-bar');
+  var closeTimer=null;
+  function setOpen(v){
+    tabsNav.classList.toggle('open',v);
+    if(burger) burger.setAttribute('aria-expanded',v?'true':'false');
+  }
+  function openNav(){ if(closeTimer){ clearTimeout(closeTimer); closeTimer=null; } setOpen(true); }
+  function closeNav(delay){
+    if(closeTimer) clearTimeout(closeTimer);
+    closeTimer=setTimeout(function(){ setOpen(false); closeTimer=null; },delay||0);
+  }
+  /* 悬停上边栏弹出（PC）；移开自动收起 */
+  var hoverable=window.matchMedia('(hover:hover) and (pointer:fine)').matches;
+  if(hoverable){
+    tabsNav.addEventListener('pointerenter',openNav);
+    tabsNav.addEventListener('pointerleave',function(){ closeNav(260); });
+  }
+  /* 点按/触摸上边栏切换（手机端主入口），点击抽屉内页签除外 */
+  if(tabsBar){
+    tabsBar.addEventListener('click',function(e){
+      if(e.target.closest('.tab')) return;
+      if(tabsNav.classList.contains('open')) closeNav(0); else openNav();
     });
   }
+  /* 点按抽屉之外区域收起 */
+  document.addEventListener('pointerdown',function(e){
+    if(!tabsNav.classList.contains('open')) return;
+    if(e.target.closest('#tabs')) return;
+    closeNav(0);
+  });
+  /* Esc 收起 */
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') closeNav(0); });
   tabsNav.querySelectorAll('.tab').forEach(function(t){
     t.addEventListener('click',function(){
-      tabsNav.classList.remove('open');
-      if(burger) burger.setAttribute('aria-expanded','false');
+      closeNav(0);
       sync();
     });
   });
@@ -2380,32 +2424,6 @@ companies.forEach(c=>{
   });
 })();
 
-/* ===== Flowers ===== */
-const field=document.getElementById('flower-field');
-const bloomBtn=document.getElementById('bloom-btn');
-const bloomCount=document.getElementById('bloom-count');
-const bloomTotal=document.getElementById('bloom-total');
-let flowers=0;
-const flowerSVG=()=>`<svg viewBox="0 0 24 24" fill="none">
-  <circle cx="12" cy="8" r="3" fill="#FF8A8A" opacity="0.95"/>
-  <circle cx="8" cy="12" r="3" fill="#FF6B6B" opacity="0.9"/>
-  <circle cx="16" cy="12" r="3" fill="#FF6B6B" opacity="0.9"/>
-  <circle cx="10" cy="16" r="2.5" fill="#E14B4B" opacity="0.85"/>
-  <circle cx="14" cy="16" r="2.5" fill="#E14B4B" opacity="0.85"/>
-  <circle cx="12" cy="12" r="1.5" fill="#8FD8FF" opacity="0.95"/>
-</svg>`;
-function addFlowers(n){
-  for(let i=0;i<n;i++){
-    const f=document.createElement('div'); f.className='flower';
-    f.innerHTML=flowerSVG();
-    f.style.animationDelay=(i*45)+'ms';
-    field.appendChild(f); flowers++;
-  }
-  bloomCount.textContent=flowers; bloomTotal.textContent=flowers;
-}
-bloomBtn.addEventListener('click',()=>addFlowers(7));
-addFlowers(13);
-
 /* ===== Risk Factors ===== */
 const factors=[
   {name:'地缘冲突烈度',val:8.4,desc:'美伊战争第205天，乌史上最大规模袭莫斯科，三线同时升级'},
@@ -2505,7 +2523,7 @@ const hotspots=[
   {id:'usa',name:'美国',x:267.0,y:144.5,level:'high',
    title:'美国 · 债务与AI军事中枢',
    meta:'NORTH AMERICA · 40T DEBT',
-   body:'联邦债务突破40万亿美元，利息支出超过军费。五角大楼与9家AI科技巨头签约，将先进AI部署到国防机密网络。Palantir为战略中枢。',
+   body:'联邦债务突破 40 万亿美元，利息支出超过军费。五角大楼 6 万架无人机订单授予 9 家初创，"零中国零件"成为硬性门槛；与 7 家 AI 巨头签约将先进 AI 部署至国防机密网络，Palantir 为战略中枢。',
    chain:'美债可持续性质疑 → 收益率波动 → 全球资产重定价 → 黄金/避险资产重估'},
   {id:'latam',name:'南美锂三角',x:341.0,y:361.5,level:'med',
    title:'南美锂三角 · 智利/阿根廷',
@@ -2515,8 +2533,8 @@ const hotspots=[
   {id:'europe',name:'欧洲',x:567.3,y:107.0,level:'med',
    title:'欧洲 · 能源与防务',
    meta:'EUROPE · ENERGY / DEFENSE',
-   body:'俄乌战争持续推高欧洲能源成本与防务开支，欧洲重新武装进程加速，能源安全与再工业化成为政策主轴。欧盟对俄能源依赖加速脱钩。',
-   chain:'俄乌僵持 → 欧洲能源溢价 → 防务开支上升 → 欧元区财政承压'},
+   body:'俄乌战争持续推高能源成本与防务开支，重新武装进程加速。AI 防务端 Helsing（德）与 BAE（英）构成欧洲自主体系；欧盟组建"关键原材料公司"以需求端集中对冲供给端碎片化，并推进"友岸开采—盟国精炼"。',
+   chain:'俄乌僵持 → 能源溢价与防务开支上升 → 关键原材料联合采购 → 欧元区财政承压'},
   {id:'ukraine',name:'俄乌战区',x:622.5,y:112.0,level:'high',
    title:'俄乌战区 · 东欧',
    meta:'EASTERN EUROPE · CONFLICT',
@@ -2540,13 +2558,13 @@ const hotspots=[
   {id:'congo',name:'刚果(金)',x:613.2,y:300.8,level:'med',
    title:'刚果(金) · 钴矿心脏',
    meta:'CENTRAL AFRICA · COBALT 74%',
-   body:'全球74%钴产量来自刚果(金)。2025年底收紧出口配额，修订矿业法要求外资本土化。钴价波动直接影响全球电池供应链。',
-   chain:'钴配额收紧 → 电池成本波动 → 新能源供应链重组 → 钠电池替代加速'},
+   body:'全球 74% 钴产量来自刚果(金)。2026.09 全面禁钴后 LME 钴价较年内低点暴涨 26%，全球可流通钴原料收缩 60% 以上；欧盟已组建"关键原材料公司"联合采购储备对冲，矿业法本土化条款同步推进。',
+   chain:'钴出口全面禁止 → 电池成本跳升 → 新能源供应链重组 → 钠电/无钴替代加速'},
   {id:'china',name:'中国',x:838.5,y:158.4,level:'med',
    title:'中国 · 稀土与制造枢纽',
    meta:'EAST ASIA · REFINING 19/20',
-   body:'中国精炼19/20种关键矿产，平均市占率70%+。2025.10稀土管制升级（17种中12种受限），加入域外管条款。2025.12中央经济工作会议定调稳增长。',
-   chain:'稀土管制 → 全球磁材/电机成本上升 → 替代材料研发加速 → 中国议价权上升'},
+   body:'精炼 19/20 种关键矿产、平均市占约 70%。管制体系化：稀土（17 种中 12 种受限 + 域外管辖，含 0.1% 成分即需许可）、石墨负极（2025.12 出口许可）、钨（80% 开采与加工）、镁（欧盟 97% 进口依赖）。竞争面：大疆被列入"中国军事企业"清单、CETC 构成对手体系。',
+   chain:'出口管制体系化 → 海外磁材/负极/硬质合金成本上升 → 替代与回收加速 → 精炼议价权进一步固化'},
   {id:'taiwan',name:'台海',x:890.3,y:195.0,level:'high',
    title:'台海 · 半导体枢纽',
    meta:'TAIWAN STRAIT · 90% ADV. NODE',
@@ -2560,8 +2578,23 @@ const hotspots=[
   {id:'australia',name:'澳大利亚',x:929.1,y:366.7,level:'low',
    title:'澳大利亚 · 锂矿供应中枢',
    meta:'OCEANIA · LITHIUM ~40%',
-   body:'全球锂产量第一（约40%）。2026年锂价触及18个月新低，供给过剩叠加需求放缓。作为关键矿产联盟核心成员，澳锂出口格局影响新能源供应链成本。',
-   chain:'锂价下行 → 供给出清 → 矿产联盟重构 → 定价权再分配'},
+   body:'全球锂产量第一（约 40%），同时是稀土 6% / 镍 5% / 钴 3% 的重要产地。关键矿产联盟与 AUKUS 核心成员，"友岸开采—盟国精炼"体系提速；2026 年锂价触及 18 个月新低，高成本产能率先出清。',
+   chain:'锂价下行 → 高成本产能出清 → 矿产联盟重构 → 定价权再分配'},
+  {id:'indonesia',name:'印尼',x:872.0,y:288.0,level:'med',
+   title:'印尼 · 镍版 OPEC',
+   meta:'SOUTHEAST ASIA · NICKEL 67%',
+   body:'2026 年镍矿开采配额削减至约 2.1 亿吨，以出口禁令吸引中资冶炼园区，RKEF + HPAL 双路线拿下全球 67% 开采——从"粗放禁售"升级为"精细化控价"，推动"镍版 OPEC"成型；中国精炼镍 65%。',
+   chain:'配额削减 → 镍价中枢上移 → 不锈钢/三元电池成本抬升 → 中资冶炼园区议价权上升'},
+  {id:'africa-graphite',name:'南部非洲石墨锂带',x:652.0,y:336.0,level:'med',
+   title:'南部非洲 · 石墨与锂',
+   meta:'SOUTHERN AFRICA · GRAPHITE / LI',
+   body:'津巴布韦 2026.02 暂停锂原矿出口、2027 年起全面禁止；莫桑比克 Balama 与马达加斯加 Molo 合计约占 17% 石墨供给，配套"非洲矿—美国材"一体化链路。原矿禁令正倒逼选矿冶炼产能落地本土。',
+   chain:'原矿出口禁令 → 负极/正极原料成本抬升 → 中资选矿冶炼产能落地 → 海外电池扩产节奏被打断'},
+  {id:'canada',name:'加拿大',x:240.0,y:92.0,level:'low',
+   title:'加拿大 · 友岸钨镍重启',
+   meta:'NORTH AMERICA · TUNGSTEN / URANIUM',
+   body:'"干净供应链"候选：钨/镍/铀/钾矿充裕，Sisson 钨矿等战时重启项目获美加官方出口信贷，与中国的钨管制（80% 开采与加工）形成替代叙事——但成本曲线显著更高。',
+   chain:'对华管制升级 → 友岸矿权重启获融资 → 替代供给缓慢爬坡 → 成本溢价长期化'},
 ];
 
 const links=[
@@ -2577,9 +2610,20 @@ const links=[
   {from:'middleeast',to:'india',type:'supply'},
   {from:'usa',to:'taiwan',type:'tech'},
   {from:'usa',to:'europe',type:'tech'},
+  {from:'indonesia',to:'china',type:'supply'},
+  {from:'africa-graphite',to:'china',type:'supply'},
+  {from:'china',to:'europe',type:'supply'},
+  {from:'usa',to:'australia',type:'tech'},
+  {from:'usa',to:'canada',type:'tech'},
 ];
 const lkClass={conflict:'lk-conflict',supply:'lk-supply',tech:'lk-tech'};
 const hpById={}; hotspots.forEach(h=>hpById[h.id]=h);
+/* 概况统计：热点数 / 传导链数（随数据自动更新） */
+(function(){
+  var sub=document.getElementById('sandbox-sub'); if(!sub) return;
+  var hi=hotspots.filter(function(h){return h.level==='high';}).length;
+  sub.insertAdjacentHTML('afterbegin','<b style="color:var(--fg);font-weight:500;">'+hotspots.length+' 个热点</b>（高风险 '+hi+'） · <b style="color:var(--fg);font-weight:500;">'+links.length+' 条传导链</b> · ');
+})();
 
 /* ---- 渲染地图 ---- */
 const geoMap=document.getElementById('geo-map');
