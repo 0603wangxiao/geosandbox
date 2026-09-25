@@ -387,8 +387,8 @@ button{ font:inherit; color:inherit; background:none; border:none; cursor:pointe
   letter-spacing:.08em; color:var(--faint);
   border-bottom:1px solid var(--line-strong);
 }
-.data-table td{ padding:10px 12px; border-bottom:1px solid var(--line); word-break:break-word; }
-.data-table tr:hover td{ background:rgba(255,255,255,.02); }
+.data-table td{ padding:10px 12px; border-bottom:1px solid var(--line); word-break:break-word; transition:background .25s ease; }
+.data-table tr:hover td{ background:rgba(255,255,255,.05); }
 .data-table .highlight{ color:var(--red); font-weight:500; }
 /* PRODUCERS 表格列级配色：第一生产国中性强调、精炼主导国统一金色（单一色源，避免通篇多色交错） */
 .data-table .res-prod{ color:var(--fg); font-weight:500; }
@@ -1274,7 +1274,7 @@ svg.gdim .gtier{ opacity:.3; }
       <tbody>
         <tr><td>俄乌战争</td><td>进行中</td><td>军人伤亡 1,500,000+（估计）；乌克兰平民确认死亡 12,000+</td><td>—</td><td>独立媒体核实 · OHCHR</td></tr>
         <tr><td>加沙战争</td><td>停火后空袭持续</td><td class="num">73,919 死 · 174,977 伤（MoH 2026-09-23，不区分战斗人员）</td></td><td>约 200 万境内流离</td><td>加沙卫生部登记 · 联合国转引</td></tr>
-        <tr style="background:var(--red-soft);"><td><strong>苏丹内战</strong></td><td>进行中 · 第四年</td><td>直接暴力致死 ≥59,000（ACLED）；含间接死亡估计超 150,000</td><td>约 1,400 万（IDP 860 万 + 难民约 450 万）</td><td>ACLED · OHCHR · UNHCR</td></tr>
+        <tr><td><strong>苏丹内战</strong></td><td>进行中 · 第四年</td><td>直接暴力致死 ≥59,000（ACLED）；含间接死亡估计超 150,000</td><td>约 1,400 万（IDP 860 万 + 难民约 450 万）</td><td>ACLED · OHCHR · UNHCR</td></tr>
         <tr><td>缅甸内战</td><td>进行中</td><td>冲突相关死亡 100,114（ACLED·含战斗人员）；经核实平民死亡 6,764</td><td>IDP 约 360 万 · 罗兴亚难民约 100 万</td><td>ACLED · OHCHR · OCHA</td></tr>
         <tr><td>也门内战</td><td>停火破裂 · 2026.9 再升级</td><td>直接致死 ≥150,000；含饥荒疾病间接死亡估计约 377,000</td><td>数百万境内流离</td><td>联合国估计 · UCDP</td></tr>
         <tr><td>刚果(金)东部</td><td>进行中</td><td>无全口径核实总数；联合国逐波次核实（戈马战役据刚政府称 8,500+，一方称）</td><td>IDP 670–780 万（非洲最多）</td><td>UN OCHA · UNHCR</td></tr>
