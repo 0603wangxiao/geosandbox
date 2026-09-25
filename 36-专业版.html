@@ -312,7 +312,7 @@ button{ font:inherit; color:inherit; background:none; border:none; cursor:pointe
 /* 实时快讯 · LIVE 标记（蓝色脉冲点，克制不喧宾） */
 .news-item.live{ border-left-color:var(--brand-500,#2973FF); }
 .news-item.live::before{ content:""; position:absolute; left:9px; top:17px; width:5px; height:5px; border-radius:50%; background:var(--brand-400); animation:livePulse 1.8s ease-in-out infinite; }
-@keyframes livePulse{ 0%,100%{ opacity:1; box-shadow:0 0 6px var(--brand-400);} 50%{ opacity:.3; box-shadow:none; } }
+@keyframes livePulse{ 0%,100%{ opacity:1; } 50%{ opacity:.3; } }
 
 /* ===== News Timeline ===== */
 .news-tl-wrap{ display:grid; grid-template-columns:1fr 300px; gap:20px; }
@@ -924,6 +924,11 @@ svg.gdim .gtier{ opacity:.3; }
   .map-tools{ flex-wrap:wrap; }
   .map-head{ flex-wrap:wrap; padding:10px 16px; }
   .news-summary,.nt-desc,.md-body-text,.co-role,.tl-desc,.md-chain{ font-size:.82rem; }
+  /* 移动端性能降级：停用逐帧重绘型动画（渐变文字/地图流光/脉冲圈），保留 opacity/transform 类 */
+  .silver-flow,.ll-zh,.ll-en,.brand h1 .lat{ animation:none !important; }
+  .link-flow,.glink.flow{ animation:none !important; opacity:.75; }
+  .map-hotspot .pulse{ animation:none !important; opacity:.35; }
+  .map-hotspot.selected .halo{ animation:none !important; opacity:.45; }
 }
 @media(prefers-reduced-motion:reduce){
   *,*::before,*::after{ animation:none !important; transition:none !important; }
@@ -3398,7 +3403,7 @@ const refreshNewsPool=[
   if(!window.matchMedia('(pointer:fine)').matches) return;
   if(window.matchMedia('(prefers-reduced-motion:reduce)').matches) return;
   var canvas=document.getElementById('glowCursor');
-  var gl=canvas.getContext('webgl',{alpha:true,antialias:false,depth:false,stencil:false,powerPreference:'high-performance'});
+  var gl=canvas.getContext('webgl',{alpha:true,antialias:false,depth:false,stencil:false});
   if(!gl){ return; }
 
   /* ---- 参数（品牌蓝） ---- */
@@ -3602,6 +3607,9 @@ const refreshNewsPool=[
     var fadeTarget=(initialized&&!shouldFade)?1:0;
     fade+=(fadeTarget-fade)*Math.min(1,fadeStep*7);
     if(fade<0.01) canvas.style.opacity='0'; else canvas.style.opacity='1';
+    /* 性能门控（与首页同款）：拖尾已淡出且指针闲置/离开时跳过全部 GPU 绘制；页面隐藏时跳过。指针一动立即恢复 */
+    if(fade<0.005 && shouldFade && !pointerInside) return;
+    if(document.hidden) return;
 
     gl.uniform2fv(loc.uPoints,pointData);
     gl.uniform1f(loc.uPointCount,Math.round(CFG.trailLength));

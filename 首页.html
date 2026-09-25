@@ -356,6 +356,8 @@ a{ color:inherit; text-decoration:none; }
     transform:rotate(225deg);
     border-bottom-color:rgba(0,0,0,.10); border-right-color:rgba(0,0,0,.10);
     border-top-color:transparent; border-left-color:transparent; }
+  /* 移动端性能降级：停用渐变文字逐帧重绘动画，静态呈现同款配色（不影响布局与内容） */
+  .ll-zh,.ll-en,.seo-pre,#seoB .seo-title,.seo-hl,.seo-en,.hc-kicker,.hc-kicker-en,.hc-hl,.hc-go,.hero-en,.hs-go,.scroll-txt{ animation:none !important; }
 }
 @media(prefers-reduced-motion:reduce){ .mf-disc{ animation:none; } }
 @media(prefers-reduced-motion:reduce){
@@ -1121,7 +1123,7 @@ a{ color:inherit; text-decoration:none; }
   if(!window.matchMedia('(pointer:fine)').matches) return;
   if(window.matchMedia('(prefers-reduced-motion:reduce)').matches) return;
   var canvas=document.getElementById('glowCursor');
-  var gl=canvas.getContext('webgl',{alpha:true,antialias:false,depth:false,stencil:false,powerPreference:'high-performance'});
+  var gl=canvas.getContext('webgl',{alpha:true,antialias:false,depth:false,stencil:false});
   if(!gl){ return; }
 
   /* ---- 参数（品牌蓝） ---- */
