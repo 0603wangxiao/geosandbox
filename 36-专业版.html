@@ -2133,7 +2133,7 @@ window.addEventListener('hashchange',function(){
   var h=(location.hash||'').replace('#',''); if(h) activateTab(h);
 });
 
-/* ===== 上边栏下拉视图导航 · 整条栏默认隐身，触碰上边栏时弹出 ===== */
+/* ===== 上边栏下拉视图导航 · 初始常显，向下滚动才隐身，触碰上边栏再次弹出 ===== */
 (function(){
   var topbar=document.getElementById('topbar');
   var tabsNav=document.getElementById('tabs');
@@ -2154,20 +2154,28 @@ window.addEventListener('hashchange',function(){
   function openDrawer(){ if(drawerTimer){ clearTimeout(drawerTimer); drawerTimer=null; } tabsNav.classList.add('open'); if(burger) burger.setAttribute('aria-expanded','true'); }
   function closeDrawer(delay){ if(drawerTimer) clearTimeout(drawerTimer); drawerTimer=setTimeout(function(){ tabsNav.classList.remove('open'); if(burger) burger.setAttribute('aria-expanded','false'); drawerTimer=null; },delay||0); }
   function hideAll(delay){ closeDrawer(delay); hideBar(delay); }
+  /* 页面顶部阈值：其上导航常显，其下（向下滚动）才隐身 */
+  var TOP_LIMIT=60;
+  var atTop=function(){ return window.scrollY<=TOP_LIMIT; };
+  var hovering=false;
 
   var hoverable=window.matchMedia('(hover:hover) and (pointer:fine)').matches;
-  /* 桌面端：悬停上边栏 → 导航栏下滑出现；移开 → 自动隐身 */
+  /* 桌面端：悬停上边栏 → 导航栏下滑出现；移开时仅已滚动离开顶部才隐身 */
   if(hoverable){
-    topbar.addEventListener('pointerenter',showBar);
-    topbar.addEventListener('pointerleave',function(){ hideAll(240); });
+    topbar.addEventListener('pointerenter',function(){ hovering=true; showBar(); });
+    topbar.addEventListener('pointerleave',function(){
+      hovering=false;
+      if(!atTop()) hideAll(240); else closeDrawer(240);
+    });
   }
-  /* 点按/触摸上边栏（品牌区除外）→ 弹出或收起整条导航 */
+  /* 点按/触摸上边栏（品牌区除外）→ 弹出导航；已弹出时按位置决定收起方式 */
   topbar.addEventListener('click',function(e){
     if(hoverable) return;
     if(e.target.closest('.tabs')) return;
     if(e.target.closest('.brand')) return;
-    if(topbar.classList.contains('nav-open')) hideAll(0);
-    else { showBar(); openDrawer(); }
+    if(!topbar.classList.contains('nav-open')){ showBar(); openDrawer(); }
+    else if(!atTop()) hideAll(0);
+    else closeDrawer(0);
   });
   /* 点按导航栏空白处 → 展开/收起 8 个视图卡片 */
   if(tabsBar){
@@ -2176,21 +2184,28 @@ window.addEventListener('hashchange',function(){
       if(tabsNav.classList.contains('open')) closeDrawer(0); else openDrawer();
     });
   }
-  /* 点按导航栏之外 → 全部收起 */
+  /* 向下滚动离开顶部 → 整条隐身；滚回顶部 → 恢复常显；悬停中不抢动画 */
+  window.addEventListener('scroll',function(){
+    if(hovering) return;
+    if(!atTop()) hideAll(0); else showBar();
+  },{passive:true});
+  /* 点按导航栏之外 → 已滚动时全部收起，顶部仅收卡片 */
   document.addEventListener('pointerdown',function(e){
     if(!topbar.classList.contains('nav-open')) return;
     if(e.target.closest('#topbar')) return;
-    hideAll(0);
+    if(!atTop()) hideAll(0); else closeDrawer(0);
   });
   /* Esc 收起 */
-  document.addEventListener('keydown',function(e){ if(e.key==='Escape') hideAll(0); });
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape'){ if(!atTop()) hideAll(0); else closeDrawer(0); } });
   tabsNav.querySelectorAll('.tab').forEach(function(t){
     t.addEventListener('click',function(){
-      hideAll(0);
+      if(!atTop()) hideAll(0); else closeDrawer(0);
       sync();
     });
   });
   window.addEventListener('hashchange',sync);
+  /* 初始状态：导航栏保持显示 */
+  showBar();
   sync();
 })();
 
