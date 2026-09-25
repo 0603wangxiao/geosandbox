@@ -41,9 +41,11 @@ button{ font:inherit; color:inherit; background:none; border:none; cursor:pointe
 :focus-visible{ outline:2px solid var(--brand-500); outline-offset:2px; }
 .num{ font-family:var(--mono); font-variant-numeric:tabular-nums; letter-spacing:.01em; }
 
+/* ===== Topbar · 上边栏 ===== */
+.topbar{ position:sticky; top:0; z-index:100; }
 /* ===== Header ===== */
 .header{
-  position:sticky; top:0; z-index:100;
+  position:relative; z-index:2;
   display:flex; align-items:center; gap:16px;
   padding:10px 26px;
   border-bottom:1px solid var(--neutral-500,#383B3E);
@@ -73,8 +75,16 @@ button{ font:inherit; color:inherit; background:none; border:none; cursor:pointe
 .status-clock .led{ width:5px; height:5px; border-radius:50%; background:var(--brand-500); animation:led 2.4s ease-in-out infinite; }
 @keyframes led{ 0%,100%{opacity:1;} 50%{opacity:.35;} }
 
-/* ===== Tabs · CardNav 展开卡片导航 ===== */
-.tabs{ position:sticky; top:53px; z-index:90; background:var(--bg); border-bottom:1px solid var(--line); }
+/* ===== Tabs · 下拉式视图导航：整条栏默认隐身于上边栏之下，触碰上边栏时下滑弹出 ===== */
+.tabs{
+  position:absolute; top:100%; left:0; right:0; z-index:1;
+  background:var(--bg); border-bottom:1px solid var(--line);
+  box-shadow:0 24px 52px rgba(0,0,0,.55);
+  opacity:0; visibility:hidden; pointer-events:none;
+  transform:translateY(-18px);
+  transition:opacity .26s ease, transform .42s cubic-bezier(.22,1,.36,1), visibility .42s;
+}
+.topbar.nav-open .tabs{ opacity:1; visibility:visible; pointer-events:auto; transform:translateY(0); }
 .tabs-bar{ height:54px; display:flex; align-items:center; gap:16px; padding:0 18px; }
 .tabs-burger{
   display:inline-flex; align-items:center; gap:10px; color:var(--fg);
@@ -102,11 +112,11 @@ button{ font:inherit; color:inherit; background:none; border:none; cursor:pointe
   border:1px solid var(--neutral-500,#383B3E); background:rgba(41,115,255,.1);
 }
 .cur-view .cur-dot{ width:6px; height:6px; border-radius:50%; background:var(--brand-400); box-shadow:0 0 6px var(--brand-400); }
-/* 视图导航：下拉悬浮层——默认收起隐藏，触碰上边栏（悬停/点按）时向下展开 */
+/* 视图导航栏内的 8 个视图卡片：再点按「视图导航」时向下展开 */
 .tabs-drawer{
-  position:absolute; top:100%; left:0; right:0; z-index:85;
+  position:absolute; top:100%; left:0; right:0; z-index:2;
   background:var(--bg); border-bottom:1px solid var(--line-strong,var(--line));
-  box-shadow:0 22px 48px rgba(0,0,0,.5);
+  box-shadow:0 24px 52px rgba(0,0,0,.5);
   opacity:0; visibility:hidden; pointer-events:none; transform:translateY(-12px);
   transition:opacity .28s ease, transform .4s cubic-bezier(.22,1,.36,1), visibility .4s;
 }
@@ -299,6 +309,10 @@ button{ font:inherit; color:inherit; background:none; border:none; cursor:pointe
 .news-title{ font-weight:500; font-size:.9rem; margin:4px 0; }
 .news-summary{ font-size:.76rem; color:var(--muted); line-height:1.55; }
 .news-feed .refreshing{ opacity:.45; transition:opacity .3s; }
+/* 实时快讯 · LIVE 标记（蓝色脉冲点，克制不喧宾） */
+.news-item.live{ border-left-color:var(--brand-500,#2973FF); }
+.news-item.live::before{ content:""; position:absolute; left:9px; top:17px; width:5px; height:5px; border-radius:50%; background:var(--brand-400); animation:livePulse 1.8s ease-in-out infinite; }
+@keyframes livePulse{ 0%,100%{ opacity:1; box-shadow:0 0 6px var(--brand-400);} 50%{ opacity:.3; box-shadow:none; } }
 
 /* ===== News Timeline ===== */
 .news-tl-wrap{ display:grid; grid-template-columns:1fr 300px; gap:20px; }
@@ -913,7 +927,8 @@ svg.gdim .gtier{ opacity:.3; }
 <body>
 <div class="grain" aria-hidden="true"></div>
 
-<!-- ===== Header ===== -->
+<!-- ===== Topbar · 上边栏（常显）+ 下拉视图导航（默认整条隐身，触碰上边栏才弹出） ===== -->
+<div class="topbar" id="topbar">
 <header class="header">
   <a class="brand" href="首页.html" aria-label="返回首页">
       <span class="ll-grid" aria-hidden="true">
@@ -961,6 +976,7 @@ svg.gdim .gtier{ opacity:.3; }
     </div>
   </div>
 </nav>
+</div>
 
 <!-- ===== Main ===== -->
 <main class="main">
@@ -1118,7 +1134,7 @@ svg.gdim .gtier{ opacity:.3; }
 <!-- ===== VIEW 02: News Timeline ===== -->
 <div class="view" id="view-newstimeline">
   <div class="view-head"><div class="view-head-l"><h2 class="view-title"><span class="vi">02</span>新闻时间流</h2></div><button class="refresh-btn refresh-view" data-target="news" style="margin-left:12px;vertical-align:middle;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg> 实时更新</button></div>
-  <p class="view-sub">2025.10 — 2026.09 · 地缘风险事件垂直时间线 · 按时间倒序</p>
+  <p class="view-sub">2025.10 — 2026.09 · 地缘风险事件垂直时间线 · 按时间倒序<span class="last-updated" id="tl-updated"></span></p>
   <div class="news-tl-wrap">
     <div class="news-tl" id="news-tl"></div>
     <div>
@@ -2110,9 +2126,11 @@ window.addEventListener('hashchange',function(){
   var h=(location.hash||'').replace('#',''); if(h) activateTab(h);
 });
 
-/* ===== CardNav 抽屉交互 ===== */
+/* ===== 上边栏下拉视图导航 · 整条栏默认隐身，触碰上边栏时弹出 ===== */
 (function(){
+  var topbar=document.getElementById('topbar');
   var tabsNav=document.getElementById('tabs');
+  if(!topbar||!tabsNav) return;
   var burger=document.getElementById('tabsBurger');
   var curLabel=document.getElementById('curViewLabel');
   var NAMES={overview:'风险总览',newstimeline:'新闻时间流',casualties:'生命之祭',resources:'战略资源',nationalism:'资源民族主义',aimilitary:'AI军事化',riskmodel:'风险因子模型',scenario:'推演沙盘'};
@@ -2121,40 +2139,47 @@ window.addEventListener('hashchange',function(){
     if(act&&curLabel) curLabel.textContent=NAMES[act.dataset.view]||act.dataset.view;
   }
   var tabsBar=tabsNav.querySelector('.tabs-bar');
-  var closeTimer=null;
-  function setOpen(v){
-    tabsNav.classList.toggle('open',v);
-    if(burger) burger.setAttribute('aria-expanded',v?'true':'false');
-  }
-  function openNav(){ if(closeTimer){ clearTimeout(closeTimer); closeTimer=null; } setOpen(true); }
-  function closeNav(delay){
-    if(closeTimer) clearTimeout(closeTimer);
-    closeTimer=setTimeout(function(){ setOpen(false); closeTimer=null; },delay||0);
-  }
-  /* 悬停上边栏弹出（PC）；移开自动收起 */
+  var barTimer=null, drawerTimer=null;
+  /* 整条导航栏的显隐 */
+  function showBar(){ if(barTimer){ clearTimeout(barTimer); barTimer=null; } topbar.classList.add('nav-open'); }
+  function hideBar(delay){ if(barTimer) clearTimeout(barTimer); barTimer=setTimeout(function(){ topbar.classList.remove('nav-open'); barTimer=null; },delay||0); }
+  /* 8 个视图卡片的展开/收起 */
+  function openDrawer(){ if(drawerTimer){ clearTimeout(drawerTimer); drawerTimer=null; } tabsNav.classList.add('open'); if(burger) burger.setAttribute('aria-expanded','true'); }
+  function closeDrawer(delay){ if(drawerTimer) clearTimeout(drawerTimer); drawerTimer=setTimeout(function(){ tabsNav.classList.remove('open'); if(burger) burger.setAttribute('aria-expanded','false'); drawerTimer=null; },delay||0); }
+  function hideAll(delay){ closeDrawer(delay); hideBar(delay); }
+
   var hoverable=window.matchMedia('(hover:hover) and (pointer:fine)').matches;
+  /* 桌面端：悬停上边栏 → 导航栏下滑出现；移开 → 自动隐身 */
   if(hoverable){
-    tabsNav.addEventListener('pointerenter',openNav);
-    tabsNav.addEventListener('pointerleave',function(){ closeNav(260); });
+    topbar.addEventListener('pointerenter',showBar);
+    topbar.addEventListener('pointerleave',function(){ hideAll(240); });
   }
-  /* 点按/触摸上边栏切换（手机端主入口），点击抽屉内页签除外 */
+  /* 点按/触摸上边栏（品牌区除外）→ 弹出或收起整条导航 */
+  topbar.addEventListener('click',function(e){
+    if(hoverable) return;
+    if(e.target.closest('.tabs')) return;
+    if(e.target.closest('.brand')) return;
+    if(topbar.classList.contains('nav-open')) hideAll(0);
+    else { showBar(); openDrawer(); }
+  });
+  /* 点按导航栏空白处 → 展开/收起 8 个视图卡片 */
   if(tabsBar){
     tabsBar.addEventListener('click',function(e){
       if(e.target.closest('.tab')) return;
-      if(tabsNav.classList.contains('open')) closeNav(0); else openNav();
+      if(tabsNav.classList.contains('open')) closeDrawer(0); else openDrawer();
     });
   }
-  /* 点按抽屉之外区域收起 */
+  /* 点按导航栏之外 → 全部收起 */
   document.addEventListener('pointerdown',function(e){
-    if(!tabsNav.classList.contains('open')) return;
-    if(e.target.closest('#tabs')) return;
-    closeNav(0);
+    if(!topbar.classList.contains('nav-open')) return;
+    if(e.target.closest('#topbar')) return;
+    hideAll(0);
   });
   /* Esc 收起 */
-  document.addEventListener('keydown',function(e){ if(e.key==='Escape') closeNav(0); });
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') hideAll(0); });
   tabsNav.querySelectorAll('.tab').forEach(function(t){
     t.addEventListener('click',function(){
-      closeNav(0);
+      hideAll(0);
       sync();
     });
   });
@@ -2806,26 +2831,24 @@ selectHot('usa');
 /* ===== All-view Refresh Buttons ===== */
 document.querySelectorAll('.refresh-view').forEach(btn=>{
   btn.addEventListener('click',()=>{
+    if(btn.classList.contains('spinning')) return;   /* 防重入 */
     const target=btn.dataset.target;
     btn.classList.add('spinning');
-    if(target==='overview' && typeof refreshOverviewNews==='function') refreshOverviewNews();
-    setTimeout(()=>{
+    let done=false;
+    const finish=()=>{
+      if(done) return; done=true;
       btn.classList.remove('spinning');
-      const feedbackMap={
-        overview:'数据与要闻已更新',
-        news:'时间流已加载最新事件',
-        resources:'矿产产量数据已更新',
-        nationalism:'资源民族主义政策数据库已同步',
-        aimilitary:'AI军事化企业名录已更新',
-        casualties:'战损数据已同步最新联合国报告',
-        riskmodel:'风险因子权重已校准',
-        scenario:'地图热点风险等级已刷新',
-      };
       const origHTML=btn.innerHTML;
       btn.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg> 已更新';
       btn.style.background='rgba(41,115,255,.14)'; btn.style.color='var(--brand-400)';
       setTimeout(()=>{ btn.innerHTML=origHTML; btn.style.background=''; btn.style.color=''; },1500);
-    },800);
+    };
+    if(target==='overview'||target==='news'){
+      refreshLiveNews(target).then(finish).catch(finish);
+      setTimeout(finish,9000);   /* 网络停滞兜底 */
+    } else {
+      setTimeout(finish,800);
+    }
   });
 });
 
@@ -2841,23 +2864,134 @@ const refreshNewsPool=[
   {date:'2026.09 · 矿产',title:'刚果(金)全面禁钴，LME钴价较年内低点暴涨26%',summary:'全球可流通钴原料收缩60%以上且无替代产能。欧盟宣布组建"关键原材料公司"联合采购储备。'},
   {date:'2026.09 · AI',title:'五角大楼6万架无人机订单授予9家初创',summary:'"零中国零件"成为硬性门槛。美军"红龙26-3"演习验证AI+电子战反制100架无人机蜂群。'},
 ];
-function refreshOverviewNews(){
-  if(!newsFeed) return;
-  newsFeed.classList.add('refreshing');
-  setTimeout(()=>{
-    const pick=refreshNewsPool[Math.floor(Math.random()*refreshNewsPool.length)];
-    const newItem=document.createElement('div');
-    newItem.className='news-item high';
-    newItem.style.animation='fadeIn .4s var(--ease)';
-    newItem.innerHTML=`<div class="news-date">${pick.date}</div><div class="news-title">${pick.title}</div><div class="news-summary">${pick.summary}</div>`;
-    newsFeed.insertBefore(newItem,newsFeed.firstChild);
-    const now=new Date();
-    const hh=String(now.getHours()).padStart(2,'0');
-    const mm=String(now.getMinutes()).padStart(2,'0');
-    if(lastUpdated) lastUpdated.textContent='更新于 '+hh+':'+mm;
-    newsFeed.classList.remove('refreshing');
-  },900);
-}
+
+/* ===== 实时新闻更新 · LIVE WIRE =====
+   点击「实时更新」→ 并行拉取公开中文媒体 RSS（经 CORS 网关，双通道互备）
+   → 关键词相关性排序 → 标题去重 → 注入 01 实时要闻 / 02 新闻时间流
+   → 刷新更新时间小字。全部源不可达时降级为本地精选池补条。 */
+(function(){
+  const FEEDS=[
+    {name:'德国之声中文',url:'https://rss.dw.com/xml/rss-chi-all'},
+    {name:'RFI法广中文',url:'https://www.rfi.fr/cn/rss'},
+    {name:'纽约时报中文网',url:'https://cn.nytimes.com/rss'},
+  ];
+  /* 地缘沙盘相关域：冲突/资源/金融/技术军备 */
+  const KW=/战争|冲突|停火|停战|制裁|关税|军事|军演|军费|导弹|无人机|袭击|空袭|加沙|乌克兰|俄罗斯|伊朗|以色列|叙利亚|也门|胡塞|台海|南海|朝鲜|稀土|锂|镍|钴|铜|矿产|石油|天然气|原油|OPEC|出口管制|禁运|央行|美联储|美债|利率|通胀|汇率|外储|美元|AI|人工智能|芯片|半导体|选举|政变|峰会|G7|G20|北约|联合国|安理会|地震|洪水|疫情|核/;
+  const seen=new Set();
+  const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const fp=s=>String(s||'').replace(/\s+/g,'').slice(0,42);
+  const clean=s=>String(s||'').replace(/<[^>]*>/g,'').replace(/\s+/g,' ').trim();
+  function nowHM(){ const d=new Date(); return String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0'); }
+  function relTime(iso){
+    const t=Date.parse(iso||''); if(isNaN(t)) return '刚刚';
+    const diff=(Date.now()-t)/1000;
+    if(diff<3600) return '刚刚';
+    if(diff<86400) return Math.max(1,Math.floor(diff/3600))+'小时前';
+    const d=new Date(t);
+    return String(d.getMonth()+1).padStart(2,'0')+'.'+String(d.getDate()).padStart(2,'0');
+  }
+  function grab(url,ms){
+    const ctl=('AbortController' in window)?new AbortController():null;
+    const timer=setTimeout(()=>{ if(ctl) ctl.abort(); },ms);
+    return fetch(url,ctl?{signal:ctl.signal}:{}).then(
+      r=>{ clearTimeout(timer); if(!r.ok) throw new Error('http '+r.status); return r; },
+      e=>{ clearTimeout(timer); throw e; }
+    );
+  }
+  async function viaRss2json(feed){
+    const r=await grab('https://api.rss2json.com/v1/api.json?rss_url='+encodeURIComponent(feed.url),6000);
+    const j=await r.json();
+    if(!j||j.status!=='ok'||!Array.isArray(j.items)||!j.items.length) throw new Error('empty');
+    return j.items.map(it=>({title:clean(it.title),link:it.link||'',desc:clean(it.description).slice(0,140),date:it.pubDate||'',src:feed.name}));
+  }
+  async function viaProxy(feed){
+    const r=await grab('https://api.allorigins.win/raw?url='+encodeURIComponent(feed.url),6000);
+    const doc=new DOMParser().parseFromString(await r.text(),'text/xml');
+    const nodes=[].slice.call(doc.querySelectorAll('item')).slice(0,14);
+    if(!nodes.length) throw new Error('empty');
+    const g=(n,tag)=>{ const el=n.querySelector(tag); return el?el.textContent:''; };
+    return nodes.map(n=>({title:clean(g(n,'title')),link:(g(n,'link')||'').trim(),desc:clean(g(n,'description')).slice(0,140),date:g(n,'pubDate'),src:feed.name}));
+  }
+  async function fetchLive(){
+    const jobs=[];
+    FEEDS.forEach(f=>{ jobs.push(viaRss2json(f).catch(()=>[]), viaProxy(f).catch(()=>[])); });
+    const bag=await Promise.all(jobs);
+    const all=[],dup=new Set();
+    bag.forEach(list=>list.forEach(it=>{ const k=fp(it.title); if(!it.title||dup.has(k)) return; dup.add(k); all.push(it); }));
+    return all;
+  }
+  function rank(items,n){
+    const scored=items.map(it=>({it,hit:KW.test(it.title+' '+it.desc)}));
+    return scored.sort((a,b)=>(b.hit?1:0)-(a.hit?1:0)).map(s=>s.it).slice(0,n);
+  }
+  function guessCat(t){
+    if(/稀土|锂|镍|钴|铜|矿|出口管制|关税|贸易|石油|天然气|原油|OPEC|战略资源/.test(t)) return 'resource';
+    if(/央行|美联储|美债|利率|通胀|汇率|外储|美元|金融|债券|股市/.test(t)) return 'finance';
+    if(/AI|人工智能|芯片|半导体|算力|算法|网安|网络/.test(t)) return 'tech';
+    return 'conflict';
+  }
+  function stampTime(){
+    const hm=nowHM();
+    if(lastUpdated) lastUpdated.textContent='更新于 '+hm;
+    const tl=document.getElementById('tl-updated');
+    if(tl) tl.textContent='更新于 '+hm;
+  }
+  function renderFeed(items){
+    if(!newsFeed||!items.length) return;
+    items.forEach(it=>{
+      const el=document.createElement('div');
+      el.className='news-item live';
+      el.style.animation='fadeIn .4s var(--ease)';
+      const titleLink=it.link
+        ?'<a class="news-src-link" href="'+esc(it.link)+'" target="_blank" rel="noopener noreferrer">'+esc(it.title)+'<span class="news-src-tag">'+esc(it.src)+' ↗</span></a>'
+        :esc(it.title)+'<span class="news-src-tag">'+esc(it.src)+'</span>';
+      el.innerHTML='<div class="news-date">'+relTime(it.date)+' · 实时快讯</div>'
+        +'<div class="news-title">'+titleLink+'</div>'
+        +(it.desc?'<div class="news-summary">'+esc(it.desc)+'</div>':'');
+      newsFeed.insertBefore(el,newsFeed.firstChild);
+    });
+    while(newsFeed.children.length>9) newsFeed.removeChild(newsFeed.lastChild);
+  }
+  function renderTl(items){
+    if(!newsTl||!items.length) return;
+    items.forEach(it=>{
+      const cat=guessCat(it.title+' '+it.desc);
+      const row=document.createElement('div');
+      row.className='nt-row cat-'+cat;
+      row.style.animation='fadeIn .4s var(--ease)';
+      row.innerHTML='<div class="nt-axis"><span class="nt-dot"></span></div>'
+        +'<div class="nt-card"><div class="nt-top">'
+        +'<span class="nt-date">'+relTime(it.date)+'</span>'
+        +'<span class="nt-tag">实时快讯</span>'
+        +'<span class="nt-spacer"></span>'
+        +(it.link?'<a class="nt-src" href="'+esc(it.link)+'" target="_blank" rel="noopener">'+esc(it.src)+'<svg viewBox="0 0 24 24" width="10" height="10" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M9 7h8v8"/></svg></a>':'')
+        +'</div><div class="nt-title">'+esc(it.title)+'</div>'
+        +(it.desc?'<div class="nt-desc">'+esc(it.desc)+'</div>':'')
+        +'</div>';
+      newsTl.insertBefore(row,newsTl.firstChild);
+    });
+  }
+  function fallback(target){
+    /* 源不可达：降级为本地精选池，保证按钮始终有真实反馈 */
+    if(target==='overview'&&newsFeed){
+      const pick=refreshNewsPool[Math.floor(Math.random()*refreshNewsPool.length)];
+      const el=document.createElement('div');
+      el.className='news-item high';
+      el.style.animation='fadeIn .4s var(--ease)';
+      el.innerHTML='<div class="news-date">'+pick.date+'</div><div class="news-title">'+pick.title+'</div><div class="news-summary">'+pick.summary+'</div>';
+      newsFeed.insertBefore(el,newsFeed.firstChild);
+      while(newsFeed.children.length>9) newsFeed.removeChild(newsFeed.lastChild);
+    }
+  }
+  window.refreshLiveNews=async function(target){
+    let items=[];
+    try{ items=rank(await fetchLive(),5); }catch(e){ items=[]; }
+    const fresh=items.filter(it=>{ const k=fp(it.title); if(seen.has(k)) return false; seen.add(k); return true; });
+    if(fresh.length){ renderFeed(fresh); renderTl(fresh); }
+    else fallback(target);
+    stampTime();
+  };
+})();
 
 /* ===== 战略资源 · 全球分布地图 + 供需产业链 ===== */
 (function(){
