@@ -389,6 +389,13 @@ button{ font:inherit; color:inherit; background:none; border:none; cursor:pointe
 }
 .data-table td{ padding:10px 12px; border-bottom:1px solid var(--line); word-break:break-word; transition:background .25s ease; }
 .data-table tr:hover td{ background:rgba(255,255,255,.05); }
+/* 全站表格统一悬停变色（含 weight-table 等一切数据表） */
+table tbody td{ transition:background .25s ease; }
+table tbody tr:hover td{ background:rgba(255,255,255,.05); }
+/* 合计行：静态浅红底保留，悬停时同系加深 */
+.data-table tr.sum-row td, .weight-table tr.sum-row td{ background:var(--red-soft); }
+.data-table tr.sum-row:hover td, .weight-table tr.sum-row:hover td{ background:rgba(255,107,107,.17); }
+.data-table tfoot tr:hover td{ background:rgba(255,107,107,.17); }
 .data-table .highlight{ color:var(--red); font-weight:500; }
 /* PRODUCERS 表格列级配色：第一生产国中性强调、精炼主导国统一金色（单一色源，避免通篇多色交错） */
 .data-table .res-prod{ color:var(--fg); font-weight:500; }
@@ -1228,7 +1235,7 @@ svg.gdim .gtier{ opacity:.3; }
         <tr><td>2026.04</td><td class="num">238</td><td class="num">1,404</td><td style="color:var(--red-hi);" class="num">+13%</td></tr>
         <tr><td>2026.07</td><td class="num">437</td><td class="num">2,610</td><td style="color:var(--red-hi);" class="num">+70%</td></tr>
         <tr><td>2026.08</td><td class="num">372</td><td class="num">2,349</td><td class="num">—</td></tr>
-        <tr style="background:var(--red-soft);"><td><strong>2026上半年合计</strong></td><td class="num"><strong>1,396</strong></td><td class="num"><strong>7,978</strong></td><td class="num" style="color:var(--red-hi);"><strong>+37%</strong></td></tr>
+        <tr class="sum-row"><td><strong>2026上半年合计</strong></td><td class="num"><strong>1,396</strong></td><td class="num"><strong>7,978</strong></td><td class="num" style="color:var(--red-hi);"><strong>+37%</strong></td></tr>
       </tbody>
     </table>
     <p class="hint">2026年前8个月平民伤亡已超2025全年。远程导弹与无人机袭击为主要致因。</p>
@@ -1864,7 +1871,7 @@ svg.gdim .gtier{ opacity:.3; }
         <tr><td>AI军事化进度</td><td class="num">17%</td><td class="num">8.8</td><td class="num">1.50</td><td><div class="weight-bar"><div class="weight-bar-fill" style="width:17%;background:var(--red);"></div></div></td></tr>
         <tr><td>资源民族主义</td><td class="num">18%</td><td class="num">9.0</td><td class="num">1.62</td><td><div class="weight-bar"><div class="weight-bar-fill" style="width:18%;background:var(--gold);"></div></div></td></tr>
         <tr><td>金融稳定风险</td><td class="num">12%</td><td class="num">8.1</td><td class="num">0.97</td><td><div class="weight-bar"><div class="weight-bar-fill" style="width:12%;background:var(--teal);"></div></div></td></tr>
-        <tr style="background:var(--red-soft);"><td><strong>合计</strong></td><td class="num"><strong>100%</strong></td><td>—</td><td class="highlight num"><strong>8.42</strong></td><td>—</td></tr>
+        <tr class="sum-row"><td><strong>合计</strong></td><td class="num"><strong>100%</strong></td><td>—</td><td class="highlight num"><strong>8.42</strong></td><td>—</td></tr>
       </tbody>
     </table>
     <p class="hint">
