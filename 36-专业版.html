@@ -3402,6 +3402,9 @@ const refreshNewsPool=[
   if(!window.matchMedia) return;
   if(!window.matchMedia('(pointer:fine)').matches) return;
   if(window.matchMedia('(prefers-reduced-motion:reduce)').matches) return;
+  /* 弱设备禁用拖尾：核显弱机跑全屏着色器易掉帧，直接跳过（能力强的主力机不受影响） */
+  var weakDevice=(navigator.hardwareConcurrency&&navigator.hardwareConcurrency<=4)||(navigator.deviceMemory&&navigator.deviceMemory<=4);
+  if(weakDevice) return;
   var canvas=document.getElementById('glowCursor');
   var gl=canvas.getContext('webgl',{alpha:true,antialias:false,depth:false,stencil:false});
   if(!gl){ return; }
