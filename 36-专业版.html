@@ -181,12 +181,13 @@ button{ font:inherit; color:inherit; background:none; border:none; cursor:pointe
 .view-title{
   font-weight:300; font-size:2.2rem; line-height:1.15;
   letter-spacing:.01em; margin:0;
+  display:flex; align-items:center;    /* 标题/编号/描述与右侧小字按钮同一条视觉中线 */
 }
-.view-title .vi{ color:var(--brand-400); font-size:1em; margin-right:14px; font-family:Didot,'Bodoni 72','Bodoni MT',Georgia,serif; font-weight:600; letter-spacing:.04em; }
-.view-title .vt-desc{ font-size:.34em; letter-spacing:.05em; color:var(--faint); font-weight:400; margin-left:18px; vertical-align:middle; }
+.view-title .vi{ color:var(--brand-400); font-size:1em; margin-right:14px; font-family:Didot,'Bodoni 72','Bodoni MT',Georgia,serif; font-weight:600; letter-spacing:.04em; flex:none; }
+.view-title .vt-desc{ font-size:.34em; letter-spacing:.05em; color:var(--faint); font-weight:400; margin-left:18px; }
 .view-sub{ font-size:.74rem; color:var(--faint); letter-spacing:.08em; margin-bottom:32px; line-height:1.7; }
 @media (max-width:768px){
-  .view-title{ font-size:1.55rem; }
+  .view-title{ font-size:1.55rem; display:block; }
   .view-title .vt-desc{ display:block; margin:8px 0 0 28px; }
 }
 
