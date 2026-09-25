@@ -371,6 +371,9 @@ button{ font:inherit; color:inherit; background:none; border:none; cursor:pointe
 .data-table td{ padding:10px 12px; border-bottom:1px solid var(--line); word-break:break-word; }
 .data-table tr:hover td{ background:rgba(255,255,255,.02); }
 .data-table .highlight{ color:var(--red); font-weight:500; }
+/* PRODUCERS 表格列级配色：第一生产国中性强调、精炼主导国统一金色（单一色源，避免通篇多色交错） */
+.data-table .res-prod{ color:var(--fg); font-weight:500; }
+.data-table .res-refine{ color:#EAD08A; font-weight:500; }
 .data-table tfoot td{ font-weight:500; background:var(--red-soft); }
 .hint{ font-size:.7rem; color:var(--faint); margin-top:12px; line-height:1.65; }
 
@@ -1686,15 +1689,15 @@ svg.gdim .gtier{ opacity:.3; }
         <tr><th>资源</th><th>第一生产国</th><th>占比</th><th>第二生产国</th><th>占比</th><th>精炼主导国</th></tr>
       </thead>
       <tbody>
-        <tr><td>稀土</td><td class="highlight">中国</td><td class="num">60%</td><td>美国</td><td class="num">15%</td><td class="highlight">中国 90%+</td></tr>
-        <tr><td>钴</td><td class="highlight">刚果(金)</td><td class="num">74%</td><td>印尼</td><td class="num">5%</td><td class="highlight">中国 70%</td></tr>
-        <tr><td>镍</td><td class="highlight">印尼</td><td class="num">67%</td><td>菲律宾</td><td class="num">7%</td><td class="highlight">中国 65%</td></tr>
-        <tr><td>石墨</td><td class="highlight">中国</td><td class="num">65%</td><td>马达加斯加</td><td class="num">12%</td><td class="highlight">中国 90%</td></tr>
-        <tr><td>铜</td><td class="highlight">智利</td><td class="num">28%</td><td>秘鲁</td><td class="num">10%</td><td>中国 ~40%</td></tr>
-        <tr><td>锂(储量)</td><td class="highlight">智利</td><td class="num">25%</td><td>澳大利亚</td><td class="num">~20%</td><td class="highlight">中国 60%</td></tr>
-        <tr><td>锂(产量)</td><td class="highlight">澳大利亚</td><td class="num">~40%</td><td>智利</td><td class="num">~25%</td><td class="highlight">中国 60%</td></tr>
-        <tr><td>钨(加工)</td><td class="highlight">中国</td><td class="num">80%</td><td>越南</td><td class="num">~5%</td><td class="highlight">中国 80%</td></tr>
-        <tr><td>镁(进口)</td><td colspan="2">欧盟97%镁进口来自中国</td><td>—</td><td>—</td><td class="highlight">中国</td></tr>
+        <tr><td>稀土</td><td class="res-prod">中国</td><td class="num">60%</td><td>美国</td><td class="num">15%</td><td class="res-refine">中国 90%+</td></tr>
+        <tr><td>钴</td><td class="res-prod">刚果(金)</td><td class="num">74%</td><td>印尼</td><td class="num">5%</td><td class="res-refine">中国 70%</td></tr>
+        <tr><td>镍</td><td class="res-prod">印尼</td><td class="num">67%</td><td>菲律宾</td><td class="num">7%</td><td class="res-refine">中国 65%</td></tr>
+        <tr><td>石墨</td><td class="res-prod">中国</td><td class="num">65%</td><td>马达加斯加</td><td class="num">12%</td><td class="res-refine">中国 90%</td></tr>
+        <tr><td>铜</td><td class="res-prod">智利</td><td class="num">28%</td><td>秘鲁</td><td class="num">10%</td><td class="res-refine">中国 ~40%</td></tr>
+        <tr><td>锂(储量)</td><td class="res-prod">智利</td><td class="num">25%</td><td>澳大利亚</td><td class="num">~20%</td><td class="res-refine">中国 60%</td></tr>
+        <tr><td>锂(产量)</td><td class="res-prod">澳大利亚</td><td class="num">~40%</td><td>智利</td><td class="num">~25%</td><td class="res-refine">中国 60%</td></tr>
+        <tr><td>钨(加工)</td><td class="res-prod">中国</td><td class="num">80%</td><td>越南</td><td class="num">~5%</td><td class="res-refine">中国 80%</td></tr>
+        <tr><td>镁(进口)</td><td colspan="2">欧盟97%镁进口来自中国</td><td>—</td><td>—</td><td class="res-refine">中国</td></tr>
       </tbody>
     </table>
   </div>
@@ -3034,20 +3037,6 @@ function refreshOverviewNews(){
     side.querySelector('.rsc-back').addEventListener('click',()=>select(cur));
     side.scrollTop=0;
   }
-  /* PRODUCERS 表格：仅国家列按角色色着色，占比数值列保持中性——行内规整、破除单一红 */
-  function hlProducersTable(){
-    var tbl=document.querySelector('#view-resources table.data-table');
-    if(!tbl) return;
-    tbl.querySelectorAll('tbody tr').forEach(function(tr){
-      Array.from(tr.cells).forEach(function(td){
-        if(td.classList.contains('num')) return;
-        var raw=td.textContent;
-        if(!raw) return;
-        td.innerHTML=hlCountry(raw);
-      });
-    });
-  }
-  hlProducersTable();
   select(cur);
 })();
 
