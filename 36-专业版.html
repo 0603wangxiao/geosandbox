@@ -701,6 +701,9 @@ svg.gdim .gtier{ opacity:.3; }
 .lk-conflict .link-flow{ stroke:var(--red-hi); }
 .lk-supply .link-flow{ stroke:var(--gold-hi); }
 .lk-tech .link-flow{ stroke:var(--teal-hi); }
+.map-link.lk-maritime{ stroke:var(--blue); }
+.lk-maritime .link-arrow{ stroke:var(--blue); }
+.lk-maritime .link-flow{ stroke:var(--blue-hi); }
 @keyframes flow{ to{ stroke-dashoffset:-26; } }
 .map-hotspot{ cursor:pointer; outline:none !important; }
 .map-hotspot:focus,.map-hotspot:focus-visible{ outline:none !important; }
@@ -1057,7 +1060,7 @@ html.weak .ca-orbit{ animation:none; }
   <div class="grid-4 ov-stats" style="margin-bottom:22px;">
     <div class="card">
       <div class="stat-kicker">RISK SCORE</div>
-      <div class="num-big num blue">8.41</div>
+      <div class="num-big num blue">8.38</div>
       <div class="num-label">综合地缘风险评分 / 10</div>
     </div>
     <div class="card">
@@ -1082,8 +1085,8 @@ html.weak .ca-orbit{ animation:none; }
       <h3><span class="tag-h">RISK RADAR</span>风险因子雷达</h3>
       <div class="radar-wrap">
         <svg viewBox="0 0 300 304" width="300" height="304" role="img" aria-labelledby="radar-title radar-desc">
-  <title id="radar-title">六维风险因子雷达</title>
-  <desc id="radar-desc">资源民族主义90、AI军事化88、供应链86为当前最高风险因子，货币秩序73相对最低；刻度0至100，越靠外风险越高。</desc>
+  <title id="radar-title">七维风险因子雷达</title>
+  <desc id="radar-desc">资源民族主义90、AI军事化88、供应链86为当前最高风险因子，货币秩序73相对最低；海运物流（MSI）82为新增维度；刻度0至100，越靠外风险越高。</desc>
   <defs>
     <radialGradient id="radarFill" cx="50%" cy="50%" r="62%">
       <stop offset="0%" stop-color="rgba(80,140,255,.22)"/>
@@ -1104,19 +1107,20 @@ html.weak .ca-orbit{ animation:none; }
   </defs>
   <circle class="r-halo" cx="150" cy="140" r="100" fill="url(#radarHalo)"/>
   <g class="r-grid">
-    <polygon class="r-dash" points="150,120 167.3,130 167.3,150 150,160 132.7,150 132.7,130"/>
-    <polygon class="r-solid" points="150,100 184.6,120 184.6,160 150,180 115.4,160 115.4,120"/>
-    <polygon class="r-dash" points="150,80 202,110 202,170 150,200 98,170 98,110"/>
-    <polygon class="r-solid" points="150,60 219.3,100 219.3,180 150,220 80.7,180 80.7,100"/>
-    <polygon class="r-grid-out" points="150,40 236.6,90 236.6,190 150,240 63.4,190 63.4,90"/>
+    <polygon class="r-dash" points="150,120 165.6,127.5 169.5,144.5 158.7,158 141.3,158 130.5,144.5 134.4,127.5"/>
+    <polygon class="r-solid" points="150,100 181.3,115.1 189,149 167.4,176 132.6,176 111,149 118.7,115.1"/>
+    <polygon class="r-dash" points="150,80 196.9,102.6 208.5,153.4 176,194.1 124,194.1 91.5,153.4 103.1,102.6"/>
+    <polygon class="r-solid" points="150,60 212.5,90.1 228,157.8 184.7,212.1 115.3,212.1 72,157.8 87.5,90.1"/>
+    <polygon class="r-grid-out" points="150,40 228.2,77.6 247.5,162.3 193.4,230.1 106.6,230.1 52.5,162.3 71.8,77.6"/>
   </g>
   <g class="r-axis">
     <line x1="150" y1="140" x2="150" y2="40"/>
-    <line x1="150" y1="140" x2="236.6" y2="90"/>
-    <line x1="150" y1="140" x2="236.6" y2="190"/>
-    <line x1="150" y1="140" x2="150" y2="240"/>
-    <line x1="150" y1="140" x2="63.4" y2="190"/>
-    <line x1="150" y1="140" x2="63.4" y2="90"/>
+    <line x1="150" y1="140" x2="228.2" y2="77.6"/>
+    <line x1="150" y1="140" x2="247.5" y2="162.3"/>
+    <line x1="150" y1="140" x2="193.4" y2="230.1"/>
+    <line x1="150" y1="140" x2="106.6" y2="230.1"/>
+    <line x1="150" y1="140" x2="52.5" y2="162.3"/>
+    <line x1="150" y1="140" x2="71.8" y2="77.6"/>
   </g>
   <g class="r-tick">
     <text x="143" y="40" text-anchor="end" dominant-baseline="middle">100</text>
@@ -1128,34 +1132,38 @@ html.weak .ca-orbit{ animation:none; }
   <g class="r-label">
     <text class="r-en" x="150" y="12" text-anchor="middle" dominant-baseline="middle">GEO CONFLICT</text>
     <text x="150" y="23" text-anchor="middle" dominant-baseline="middle">地缘冲突</text>
-    <text class="r-en" x="265" y="70.5" text-anchor="middle" dominant-baseline="middle">SUPPLY</text>
-    <text x="265" y="81.5" text-anchor="middle" dominant-baseline="middle">供应链</text>
-    <text x="269" y="198.5" text-anchor="middle" dominant-baseline="middle">货币秩序</text>
-    <text class="r-en" x="269" y="209.5" text-anchor="middle" dominant-baseline="middle">MONETARY</text>
-    <text x="150" y="255" text-anchor="middle" dominant-baseline="middle">AI军事化</text>
-    <text class="r-en" x="150" y="266" text-anchor="middle" dominant-baseline="middle">AI MILITARY</text>
-    <text class="r-en" x="39" y="209.5" text-anchor="middle" dominant-baseline="middle">NATIONALISM</text>
-    <text x="39" y="198.5" text-anchor="middle" dominant-baseline="middle">资源民族主义</text>
-    <text class="r-en" x="31" y="70.5" text-anchor="middle" dominant-baseline="middle">FINANCIAL</text>
-    <text x="31" y="81.5" text-anchor="middle" dominant-baseline="middle">金融稳定</text>
+    <text class="r-en" x="262" y="64.5" text-anchor="middle" dominant-baseline="middle">SUPPLY</text>
+    <text x="262" y="75.5" text-anchor="middle" dominant-baseline="middle">供应链</text>
+    <text x="263" y="156.5" text-anchor="middle" dominant-baseline="middle">海运物流</text>
+    <text class="r-en" x="263" y="167.5" text-anchor="middle" dominant-baseline="middle">MARITIME·MSI</text>
+    <text x="197" y="246.5" text-anchor="middle" dominant-baseline="middle">货币秩序</text>
+    <text class="r-en" x="197" y="257.5" text-anchor="middle" dominant-baseline="middle">MONETARY</text>
+    <text x="104" y="246.5" text-anchor="middle" dominant-baseline="middle">AI军事化</text>
+    <text class="r-en" x="104" y="257.5" text-anchor="middle" dominant-baseline="middle">AI MILITARY</text>
+    <text class="r-en" x="36" y="167.5" text-anchor="middle" dominant-baseline="middle">NATIONALISM</text>
+    <text x="36" y="156.5" text-anchor="middle" dominant-baseline="middle">资源民族主义</text>
+    <text class="r-en" x="31" y="64.5" text-anchor="middle" dominant-baseline="middle">FINANCIAL</text>
+    <text x="31" y="75.5" text-anchor="middle" dominant-baseline="middle">金融稳定</text>
   </g>
-  <polygon class="r-poly-fill" points="150,56 224.5,97 213.2,176.5 150,228 72.1,185 79.9,99.5" fill="url(#radarFill)"/>
-  <polygon class="r-poly-line" pathLength="100" points="150,56 224.5,97 213.2,176.5 150,228 72.1,185 79.9,99.5"/>
+  <polygon class="r-poly-fill" points="150,56 217.2,86.4 229.9,158.2 181.7,205.8 111.8,219.3 62.3,160 86.7,89.5" fill="url(#radarFill)"/>
+  <polygon class="r-poly-line" pathLength="100" points="150,56 217.2,86.4 229.9,158.2 181.7,205.8 111.8,219.3 62.3,160 86.7,89.5"/>
   <g class="r-dot">
     <circle cx="150" cy="56" r="2.3"/>
-    <circle cx="224.5" cy="97" r="2.3"/>
-    <circle cx="213.2" cy="176.5" r="2.3"/>
-    <circle cx="150" cy="228" r="2.3"/>
-    <circle cx="72.1" cy="185" r="2.3"/>
-    <circle cx="79.9" cy="99.5" r="2.3"/>
+    <circle cx="217.2" cy="86.4" r="2.3"/>
+    <circle cx="229.9" cy="158.2" r="2.3"/>
+    <circle cx="181.7" cy="205.8" r="2.3"/>
+    <circle cx="111.8" cy="219.3" r="2.3"/>
+    <circle cx="62.3" cy="160" r="2.3"/>
+    <circle cx="86.7" cy="89.5" r="2.3"/>
   </g>
   <g class="r-val">
     <text x="150" y="44" text-anchor="middle" dominant-baseline="middle">84</text>
-    <text x="234.9" y="91" text-anchor="start" dominant-baseline="middle">86</text>
-    <text x="223.6" y="182.5" text-anchor="start" dominant-baseline="middle">73</text>
-    <text x="150" y="240" text-anchor="middle" dominant-baseline="middle">88</text>
-    <text x="61.7" y="191" text-anchor="end" dominant-baseline="middle">90</text>
-    <text x="69.5" y="93.5" text-anchor="end" dominant-baseline="middle">81</text>
+    <text x="227.6" y="80.4" text-anchor="start" dominant-baseline="middle">86</text>
+    <text x="240.3" y="152.2" text-anchor="start" dominant-baseline="middle">82</text>
+    <text x="192.1" y="211.8" text-anchor="start" dominant-baseline="middle">73</text>
+    <text x="111.8" y="230.9" text-anchor="middle" dominant-baseline="middle">88</text>
+    <text x="51.9" y="166" text-anchor="end" dominant-baseline="middle">90</text>
+    <text x="76.3" y="83.5" text-anchor="end" dominant-baseline="middle">81</text>
   </g>
   <line class="r-legend-line" x1="40" y1="276" x2="260" y2="276"/>
   <rect class="r-legend-swatch" x="40" y="282.5" width="14" height="7"/>
@@ -1854,6 +1862,41 @@ html.weak .ca-orbit{ animation:none; }
     <div class="card" id="rn-detail" style="margin-bottom:6px;"><span style="color:var(--faint);font-size:.76rem;">点击图谱节点查看解读 · 悬停节点查看其在传导逻辑中的位置</span></div>
   </div>
 
+  <div class="card" style="margin-bottom:18px;">
+    <h3><span class="tag-h">FREIGHT</span>海运传导层 · 集运航道 × 运费保险 × 租船 × 订舱 <span style="font-family:var(--mono);font-size:.62rem;color:var(--faint);letter-spacing:.06em;">政策工具 → 海运定价 → 贸易流 · 2026.09</span></h3>
+    <table class="data-table">
+      <colgroup><col style="width:13%"><col style="width:15%"><col style="width:40%"><col style="width:32%"></colgroup>
+      <thead><tr><th>因子</th><th>压力评分</th><th>当前状态（2026.09）</th><th>对民族主义传导的放大机制</th></tr></thead>
+      <tbody>
+        <tr>
+          <td class="res-prod">集运航道</td>
+          <td class="num"><strong>8.6</strong><div class="weight-bar"><div class="weight-bar-fill" style="width:86%;background:var(--red);"></div></div></td>
+          <td>红海-曼德袭击常态化，集装箱船队绕行好望角（单程 +9–14 天），苏伊士通行量较 2023 高点 −60%+；霍尔木兹"零出口"、黑海走廊受限、巴拿马枯水限行</td>
+          <td>航道受阻是出口管制的"地理执行器"——资源国与护航方无需立法即可收紧通道，管制意愿被地理直接放大</td>
+        </tr>
+        <tr>
+          <td class="res-prod">大宗运费/保险</td>
+          <td class="num"><strong>8.2</strong><div class="weight-bar"><div class="weight-bar-fill" style="width:82%;background:var(--gold);"></div></div></td>
+          <td>BDI 干散货指数携带地缘溢价；红海战争险费率升至约 1.0%（年初约 0.4%）， hull war premium 变相"战争税"；油价重上 100 美元推高燃油附加费</td>
+          <td>保险撤离比制裁跑得更快——承保方退出战区即"市场自发的禁运"，运费+保费重写每一条贸易航线的经济性</td>
+        </tr>
+        <tr>
+          <td class="res-prod">租船市场</td>
+          <td class="num"><strong>8.0</strong><div class="weight-bar"><div class="weight-bar-fill" style="width:80%;background:var(--gold);"></div></div></td>
+          <td>Capesize/Panamax 期租租金随紧张周期跳升；绕行与压港等待吞噬有效运力；租约普遍改注「战区除外 / 绕行加价 / 战争险由租家承担」条款</td>
+          <td>租约条款成为资源交割的隐形关卡——「能不能租到船、以什么条款租」直接决定禁令能否落地执行</td>
+        </tr>
+        <tr>
+          <td class="res-prod">集运订舱</td>
+          <td class="num"><strong>7.4</strong><div class="weight-bar"><div class="weight-bar-fill" style="width:74%;background:var(--teal);"></div></div></td>
+          <td>SCFI 运价指数高波动；订舱量随制裁/关税节点出现"抢运—空窗"脉冲；班轮公司空白航班与运力调配放大波动</td>
+          <td>抢运节奏让"管制预期"先于管制本身改变贸易流——订舱数据成为监测资源民族主义的先行指标</td>
+        </tr>
+      </tbody>
+    </table>
+    <p class="hint">阅读方式：四因子加权构成 07 板块 MSI 海运物流压力子指数（40% / 25% / 20% / 15% → r₃=8.2），作为 WCRI 第三维度进入综合风险运算。</p>
+  </div>
+
   <div class="grid-2">
     <div class="card">
       <h3><span class="tag-h">POLICY</span>政策时间线</h3>
@@ -1942,6 +1985,17 @@ html.weak .ca-orbit{ animation:none; }
     </div>
   </div>
 
+  <div class="card" style="margin-bottom:18px;">
+    <h3><span class="tag-h">MARITIME</span>AI × 海运外溢 · 无人化航道 × 算法定价 × 智能租船</h3>
+    <div style="font-size:.82rem;line-height:1.85;color:var(--muted);">
+      <p style="margin-bottom:8px;"><strong style="color:var(--red-hi);">集运航道 × AI</strong>：USV 无人艇蜂群让「封锁航道」成本骤降——红海与霍尔木兹的袭击-护航博弈已是海上无人系统的实战试验场；商船端 AI 航线引擎自动重算绕行方案，航道攻防进入算法对算法阶段。</p>
+      <p style="margin-bottom:8px;"><strong style="color:var(--gold-hi);">大宗运费/保险 × AI</strong>：劳合社与再保险体系引入 AI 实时战区定价——战争险费率从月度重估变为分钟级重估，保费即市场自发的"算法禁运"，比任何官方制裁跑得更快。</p>
+      <p style="margin-bottom:8px;"><strong style="color:var(--teal-hi);">租船市场 × AI</strong>：智能租船平台自动嵌入战区除外/绕行加价条款；AIS 信号关闭检测算法识别影子船队，对俄油与折价货流的制裁执行从人工排查转向模型筛查。</p>
+      <p style="margin-bottom:8px;"><strong style="color:var(--blue-hi);">集运订舱 × AI</strong>：货主订舱预测模型抢跑制裁与关税节点，制造脉冲式抢运；港口 AI 调度承接绕行冲击的到港拥堵，班轮时刻表由算法重排。</p>
+      <p><strong style="color:var(--fg);">外溢终点</strong>：五角大楼海上无人项目（Replicator 系列与盟友海军 USV 采购）提速——AI 军事化的下一战场，正是海运航道本身。</p>
+    </div>
+  </div>
+
   <h3 style="font-family:var(--serif);font-size:.95rem;margin:18px 0 12px;font-weight:600;display:flex;align-items:center;gap:8px;"><span class="tag-h">NETWORK</span>供应链关系图谱<span id="graph-stats" style="font-family:var(--mono);font-size:.62rem;color:var(--faint);letter-spacing:.06em;font-weight:400;"></span></h3>
   <div class="graph-wrap">
     <svg id="net-graph" viewBox="0 0 640 610" role="img" aria-label="AI军事化企业供应链关系图谱：五角大楼—Palantir战略中枢—前线执行—底层技术四层网络"></svg>
@@ -1966,44 +2020,75 @@ html.weak .ca-orbit{ animation:none; }
 <!-- ===== VIEW 07: Risk Model ===== -->
 <div class="view" id="view-riskmodel">
   <div class="view-head"><div class="view-head-l"><h2 class="view-title"><span class="vi">07</span>风险因子模型</h2></div><button class="refresh-btn refresh-view" data-target="riskmodel" style="margin-left:12px;vertical-align:middle;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg> 实时更新</button></div>
-  <p class="view-sub">六大维度交互式风险评估 · 基于三变六反框架的加权算法模型</p>
+  <p class="view-sub">七大维度交互式风险评估 · 海运物流子指数（MSI）嵌套 · 基于三变六反框架的加权算法模型</p>
 
   <div class="algo-card">
     <h3><span class="tag-h">WCRI</span>算法模型 · 加权综合风险指数（WCRI）</h3>
     <p style="font-size:.8rem;color:var(--muted);line-height:1.75;margin-bottom:8px;">
-      本模型基于<strong style="color:var(--fg);">三变六反</strong>框架，将地缘风险拆解为六个维度的量化评分（0-10分），
-      通过加权求和得出综合风险指数。权重设计反映各维度对系统性风险的边际贡献。
+      本模型基于<strong style="color:var(--fg);">三变六反</strong>框架，将地缘风险拆解为七个维度的量化评分（0-10分），
+      通过加权求和得出综合风险指数。权重设计反映各维度对系统性风险的边际贡献；
+      第三维度「海运物流通道」由 MSI 子指数（航道/运费保险/租船/订舱四因子）运算得出。
     </p>
     <div class="algo-formula">
       <span class="var">R</span> <span class="op">=</span>
       <span class="var">w₁·r₁</span> <span class="op">+</span> <span class="var">w₂·r₂</span> <span class="op">+</span>
-      <span class="var">w₃·r₃</span> <span class="op">+</span> <span class="var">w₄·r₄</span> <span class="op">+</span>
-      <span class="var">w₅·r₅</span> <span class="op">+</span> <span class="var">w₆·r₆</span>
+      <span class="var">w₃·MSI</span> <span class="op">+</span> <span class="var">w₄·r₄</span> <span class="op">+</span>
+      <span class="var">w₅·r₅</span> <span class="op">+</span> <span class="var">w₆·r₆</span> <span class="op">+</span> <span class="var">w₇·r₇</span>
     </div>
     <table class="weight-table">
       <colgroup><col style="width:24%"><col style="width:12%"><col style="width:12%"><col style="width:14%"><col style="width:38%"></colgroup>
       <thead><tr><th>维度</th><th>权重 w</th><th>当前值 r</th><th>贡献 w·r</th><th>权重分布</th></tr></thead>
       <tbody>
-        <tr><td>地缘冲突烈度</td><td class="num">20%</td><td class="num">8.4</td><td class="num">1.68</td><td><div class="weight-bar"><div class="weight-bar-fill" style="width:20%;background:var(--red);"></div></div></td></tr>
-        <tr><td>供应链断裂风险</td><td class="num">18%</td><td class="num">8.6</td><td class="num">1.55</td><td><div class="weight-bar"><div class="weight-bar-fill" style="width:18%;background:var(--gold);"></div></div></td></tr>
-        <tr><td>货币秩序震荡</td><td class="num">15%</td><td class="num">7.3</td><td class="num">1.10</td><td><div class="weight-bar"><div class="weight-bar-fill" style="width:15%;background:var(--blue);"></div></div></td></tr>
-        <tr><td>AI军事化进度</td><td class="num">17%</td><td class="num">8.8</td><td class="num">1.50</td><td><div class="weight-bar"><div class="weight-bar-fill" style="width:17%;background:var(--red);"></div></div></td></tr>
-        <tr><td>资源民族主义</td><td class="num">18%</td><td class="num">9.0</td><td class="num">1.62</td><td><div class="weight-bar"><div class="weight-bar-fill" style="width:18%;background:var(--gold);"></div></div></td></tr>
-        <tr><td>金融稳定风险</td><td class="num">12%</td><td class="num">8.1</td><td class="num">0.97</td><td><div class="weight-bar"><div class="weight-bar-fill" style="width:12%;background:var(--teal);"></div></div></td></tr>
-        <tr class="sum-row"><td><strong>合计</strong></td><td class="num"><strong>100%</strong></td><td>—</td><td class="highlight num"><strong>8.41</strong></td><td>—</td></tr>
+        <tr><td>地缘冲突烈度</td><td class="num">18%</td><td class="num">8.4</td><td class="num">1.51</td><td><div class="weight-bar"><div class="weight-bar-fill" style="width:18%;background:var(--red);"></div></div></td></tr>
+        <tr><td>供应链断裂风险</td><td class="num">17%</td><td class="num">8.6</td><td class="num">1.46</td><td><div class="weight-bar"><div class="weight-bar-fill" style="width:17%;background:var(--gold);"></div></div></td></tr>
+        <tr><td>海运物流通道（MSI）</td><td class="num">15%</td><td class="num">8.2</td><td class="num">1.23</td><td><div class="weight-bar"><div class="weight-bar-fill" style="width:15%;background:var(--blue);"></div></div></td></tr>
+        <tr><td>货币秩序震荡</td><td class="num">12%</td><td class="num">7.3</td><td class="num">0.88</td><td><div class="weight-bar"><div class="weight-bar-fill" style="width:12%;background:var(--blue);"></div></div></td></tr>
+        <tr><td>AI军事化进度</td><td class="num">14%</td><td class="num">8.8</td><td class="num">1.23</td><td><div class="weight-bar"><div class="weight-bar-fill" style="width:14%;background:var(--red);"></div></div></td></tr>
+        <tr><td>资源民族主义</td><td class="num">14%</td><td class="num">9.0</td><td class="num">1.26</td><td><div class="weight-bar"><div class="weight-bar-fill" style="width:14%;background:var(--gold);"></div></div></td></tr>
+        <tr><td>金融稳定风险</td><td class="num">10%</td><td class="num">8.1</td><td class="num">0.81</td><td><div class="weight-bar"><div class="weight-bar-fill" style="width:10%;background:var(--teal);"></div></div></td></tr>
+        <tr class="sum-row"><td><strong>合计</strong></td><td class="num"><strong>100%</strong></td><td>—</td><td class="highlight num"><strong>8.38</strong></td><td>—</td></tr>
       </tbody>
     </table>
     <p class="hint">
-      注：权重设计参考CSIS地缘风险指数、Eurasia Group Global Risk Index方法论，结合三变六反框架调整。
-      当前综合分8.41对应"高度风险"区间（7.0-8.5）上沿，距历史极值8.5（2022俄乌战争爆发）仅一步之遥。
+      注：权重设计参考CSIS地缘风险指数、Eurasia Group Global Risk Index方法论，结合三变六反框架调整；
+      引入海运物流通道维度（MSI）后，各维度权重按边际贡献重新归一。
+      当前综合分8.38对应"高度风险"区间（7.0-8.5）上沿，距历史极值8.5（2022俄乌战争爆发）仅一步之遥。
       本期上调主因：全球柴油供应危机（俄45%炼能停摆+美国拟限出口）、10年期美债收益率创2007年来新高、
-      刚果(金)全面禁钴与津巴布韦14矿种战略化、美伊战争多线升级与乌克兰史上最大规模对莫斯科无人机袭击。
+      刚果(金)全面禁钴与津巴布韦14矿种战略化、美伊战争多线升级与乌克兰史上最大规模对莫斯科无人机袭击；
+      海运端：红海绕行常态化+战争险费率翻倍+租船战区条款扩散，构成 MSI 8.2 的高压读数。
     </p>
   </div>
 
+  <div class="algo-card">
+    <h3><span class="tag-h">MSI</span>海运物流压力子指数（MSI · Maritime Stress Index）</h3>
+    <p style="font-size:.8rem;color:var(--muted);line-height:1.75;margin-bottom:8px;">
+      WCRI 第三维度 r₃ 不再人工打分，而是由四个海运因子<strong style="color:var(--fg);">加权运算</strong>得出：
+      集运航道通行风险、大宗运费与战争险、租船市场紧张度、集运订舱波动。
+      因子评分锚定 08 推演沙盘的航道热点研判与 05 海运传导层跟踪。
+    </p>
+    <div class="algo-formula">
+      <span class="var">r₃（MSI）</span> <span class="op">=</span>
+      <span class="var">0.40·s₁</span> <span class="op">+</span> <span class="var">0.25·s₂</span> <span class="op">+</span>
+      <span class="var">0.20·s₃</span> <span class="op">+</span> <span class="var">0.15·s₄</span>
+      <span class="op">=</span> <span class="var">3.44 + 2.05 + 1.60 + 1.11</span>
+      <span class="op">=</span> <span class="var" style="color:var(--red-hi);">8.20</span>
+    </div>
+    <table class="weight-table">
+      <colgroup><col style="width:22%"><col style="width:12%"><col style="width:12%"><col style="width:54%"></colgroup>
+      <thead><tr><th>因子</th><th>权重</th><th>评分 s</th><th>当前状态（2026.09）</th></tr></thead>
+      <tbody>
+        <tr><td>集运航道通行风险</td><td class="num">40%</td><td class="num">8.6</td><td>红海-曼德袭击常态化、船队绕行好望角（+9–14 天）、苏伊士通行量 −60%+；霍尔木兹"零出口"、巴拿马枯水限行、黑海走廊受限</td></tr>
+        <tr><td>大宗运费/战争险</td><td class="num">25%</td><td class="num">8.2</td><td>BDI 携带地缘溢价；红海战争险约 1.0%（年初约 0.4%）翻倍；油价重上 100 美元推高燃油附加费（BAF）</td></tr>
+        <tr><td>租船市场紧张度</td><td class="num">20%</td><td class="num">8.0</td><td>Capesize/Panamax 期租跳升、绕行+压港吞噬有效运力；「战区除外/绕行加价」条款成为租约标配</td></tr>
+        <tr><td>集运订舱波动</td><td class="num">15%</td><td class="num">7.4</td><td>SCFI 高波动、抢运-空窗脉冲；空白航班与运力错配放大到港拥堵</td></tr>
+        <tr class="sum-row"><td><strong>MSI → r₃</strong></td><td class="num"><strong>100%</strong></td><td>—</td><td class="highlight num"><strong>8.20</strong>（进入 WCRI：×15% = 1.23）</td></tr>
+      </tbody>
+    </table>
+  </div>
+
   <div class="card algo-card" style="margin-bottom:18px;">
-    <h3><span class="tag-h">EVIDENCE</span>维度证据链 · 六维评分对应 04 / 05 / 06 板块实证</h3>
-    <p class="ev-lede">WCRI 的六个维度不是抽象打分——每一项都由站内 04 战略资源、05 资源民族主义、06 AI军事化的量化事实支撑。下表为当前口径的证据映射（数值随板块数据同步更新）。</p>
+    <h3><span class="tag-h">EVIDENCE</span>维度证据链 · 七维评分对应 04 / 05 / 06 / 08 板块实证</h3>
+    <p class="ev-lede">WCRI 的七个维度不是抽象打分——每一项都由站内 04 战略资源、05 资源民族主义、06 AI军事化、08 推演沙盘的量化事实支撑。下表为当前口径的证据映射（数值随板块数据同步更新）。</p>
     <table class="data-table ev-table">
       <colgroup><col style="width:19%"><col style="width:9%"><col style="width:60%"><col style="width:12%"></colgroup>
       <thead><tr><th>维度</th><th>当前 r</th><th>关键证据（可回溯至站内板块）</th><th>来源</th></tr></thead>
@@ -2017,6 +2102,11 @@ html.weak .ca-orbit{ animation:none; }
           <td class="res-prod">供应链断裂风险</td><td class="num">8.6</td>
           <td>中国精炼 19/20 种关键矿产、平均市占约 70%；稀土域外管辖（含 0.1% 中国成分的境外产品亦需许可）；石墨负极出口许可（2025.12）；镍 67% / 钴 74% / 钨 80% 的 CR1 极端集中</td>
           <td class="num">04</td>
+        </tr>
+        <tr>
+          <td class="res-prod">海运物流通道</td><td class="num">8.2</td>
+          <td>苏伊士通行量较 2023 高点 −60%+、红海船队绕行好望角（+9–14 天）；红海战争险约 1.0%（年初约 0.4%）翻倍、BDI 地缘溢价；霍尔木兹"零出口"、巴拿马枯水限行；Capesize 期租跳升与 SCFI 订舱"抢运-空窗"脉冲（详见 05 海运传导层 / 08 航道热点）</td>
+          <td class="num">05 / 08</td>
         </tr>
         <tr>
           <td class="res-prod">货币秩序震荡</td><td class="num">7.3</td>
@@ -2048,7 +2138,7 @@ html.weak .ca-orbit{ animation:none; }
       <h3><span class="tag-h">TUNE</span>因子权重调节</h3>
       <div id="risk-factors"></div>
       <div class="risk-score">
-        <div class="score-val num" id="total-score">8.41</div>
+        <div class="score-val num" id="total-score">8.38</div>
         <div class="score-label">综合地缘风险评分 / 10</div>
       </div>
     </div>
@@ -2059,6 +2149,7 @@ html.weak .ca-orbit{ animation:none; }
         <div style="font-size:.8rem;line-height:1.8;color:var(--muted);">
           <p style="margin-bottom:10px;"><strong style="color:var(--red-hi);">地缘冲突烈度</strong>：俄乌、中东、印太三大热点冲突的强度与升级概率 <span class="ev-src">01 / 03</span></p>
           <p style="margin-bottom:10px;"><strong style="color:var(--gold-hi);">供应链断裂风险</strong>：关键矿产、半导体、能源供应链的集中度与替代难度 <span class="ev-src">04 战略资源</span></p>
+          <p style="margin-bottom:10px;"><strong style="color:var(--blue-hi);">海运物流通道</strong>：集运航道通行、大宗运费与战争险、租船市场、集运订舱的合成压力（MSI 子指数） <span class="ev-src">05 / 08</span></p>
           <p style="margin-bottom:10px;"><strong style="color:var(--blue-hi);">货币秩序震荡</strong>：去美元化进程、储备货币多元化、汇率波动风险 <span class="ev-src">02</span></p>
           <p style="margin-bottom:10px;"><strong style="color:var(--red-hi);">AI军事化进度</strong>：自主武器、战场AI部署、技术扩散速度与失控风险 <span class="ev-src">06 AI军事化</span></p>
           <p style="margin-bottom:10px;"><strong style="color:var(--teal-hi);">资源民族主义</strong>：出口管制、国有化、加工本土化政策的扩散速度 <span class="ev-src">05 资源民族主义</span></p>
@@ -2070,7 +2161,7 @@ html.weak .ca-orbit{ animation:none; }
         <div class="hist-chart">
           <div class="hc-head">
             <div class="hc-title">综合地缘风险指数 <span class="hc-sub">WCRI · 2022 — 2026</span></div>
-            <div class="hc-now">当前 <strong class="num">8.41</strong><span class="hc-now-tag">五浪叠加</span></div>
+            <div class="hc-now">当前 <strong class="num">8.38</strong><span class="hc-now-tag">五浪叠加</span></div>
           </div>
           <svg viewBox="0 0 480 252" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="历史风险评分走势图">
             <defs>
@@ -2099,17 +2190,17 @@ html.weak .ca-orbit{ animation:none; }
               <text x="28" y="224">0</text><text x="28" y="182">2</text><text x="28" y="141">4</text>
               <text x="28" y="99">6</text><text x="28" y="58">8</text><text x="28" y="16">10</text>
             </g>
-            <path d="M34,43 L171,70 L309,64 L446,45 L446,220 L34,220 Z" fill="url(#histFill)"/>
-            <path d="M34,43 L171,70 L309,64 L446,45" fill="none" stroke="var(--red)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
-            <circle cx="446" cy="45" r="16" fill="url(#nowGlow)"/>
+            <path d="M34,43 L171,70 L309,64 L446,46 L446,220 L34,220 Z" fill="url(#histFill)"/>
+            <path d="M34,43 L171,70 L309,64 L446,46" fill="none" stroke="var(--red)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="446" cy="46" r="16" fill="url(#nowGlow)"/>
             <circle cx="34" cy="43" r="4.6" fill="var(--panel)" stroke="var(--red)" stroke-width="2"/>
             <circle cx="171" cy="70" r="4.2" fill="var(--panel)" stroke="var(--gold)" stroke-width="2"/>
             <circle cx="309" cy="64" r="4.2" fill="var(--panel)" stroke="var(--gold)" stroke-width="2"/>
-            <circle cx="446" cy="45" r="5.6" fill="var(--red-hi)" stroke="var(--panel)" stroke-width="1.6"/>
+            <circle cx="446" cy="46" r="5.6" fill="var(--red-hi)" stroke="var(--panel)" stroke-width="1.6"/>
             <text x="34" y="30" fill="var(--red-hi)" font-size="11" font-family="var(--serif)" font-weight="700" text-anchor="middle">8.5</text>
             <text x="171" y="57" fill="var(--gold-hi)" font-size="11" font-family="var(--serif)" font-weight="700" text-anchor="middle">7.2</text>
             <text x="309" y="51" fill="var(--gold-hi)" font-size="11" font-family="var(--serif)" font-weight="700" text-anchor="middle">7.5</text>
-            <text x="446" y="32" fill="var(--red-hi)" font-size="13" font-family="var(--serif)" font-weight="800" text-anchor="middle">8.41</text>
+            <text x="446" y="32" fill="var(--red-hi)" font-size="13" font-family="var(--serif)" font-weight="800" text-anchor="middle">8.38</text>
             <g font-size="9.5" font-family="var(--sans)" text-anchor="middle" fill="var(--muted)">
               <text x="34" y="238">2022.02</text>
               <text x="171" y="238">2023.10</text>
@@ -2122,7 +2213,7 @@ html.weak .ca-orbit{ animation:none; }
           <div class="he"><span class="he-date">2022.02</span><span class="he-score num">8.5</span><span class="he-name">俄乌战争爆发</span></div>
           <div class="he"><span class="he-date">2023.10</span><span class="he-score num">7.2</span><span class="he-name">巴以冲突升级</span></div>
           <div class="he"><span class="he-date">2025.10</span><span class="he-score num">7.5</span><span class="he-name">白银逼空+稀土管制</span></div>
-          <div class="he he-now"><span class="he-date">2026.09</span><span class="he-score num">8.41</span><span class="he-name">五浪叠加 · 当前</span></div>
+          <div class="he he-now"><span class="he-date">2026.09</span><span class="he-score num">8.38</span><span class="he-name">五浪叠加 · 当前</span></div>
         </div>
       </div>
     </div>
@@ -2143,6 +2234,7 @@ html.weak .ca-orbit{ animation:none; }
         <button class="fbtn on" data-f="all">全部</button>
         <button class="fbtn" data-f="conflict">冲突</button>
         <button class="fbtn" data-f="supply">供应链</button>
+        <button class="fbtn" data-f="maritime">海运</button>
         <button class="fbtn" data-f="tech">技术</button>
       </div>
       <div class="mh-status"><span class="led" style="display:inline-block;width:6px;height:6px;background:var(--teal);box-shadow:0 0 6px var(--teal);border-radius:50%;margin-right:5px;"></span>LIVE</div>
@@ -2180,6 +2272,7 @@ html.weak .ca-orbit{ animation:none; }
           <div class="md-label" style="margin-bottom:8px;">CONDUIT</div>
           <div class="mt"><svg width="26" height="8" viewBox="0 0 26 8"><path d="M0 4 H20" stroke="var(--red)" stroke-width="1.6"/><path d="M17 1 L22 4 L17 7" fill="none" stroke="var(--red)" stroke-width="1.6"/></svg> 冲突/地缘传导</div>
           <div class="mt"><svg width="26" height="8" viewBox="0 0 26 8"><path d="M0 4 H20" stroke="var(--gold)" stroke-width="1.6"/><path d="M17 1 L22 4 L17 7" fill="none" stroke="var(--gold)" stroke-width="1.6"/></svg> 资源/能源供应链</div>
+          <div class="mt"><svg width="26" height="8" viewBox="0 0 26 8"><path d="M0 4 H20" stroke="var(--blue)" stroke-width="1.6"/><path d="M17 1 L22 4 L17 7" fill="none" stroke="var(--blue)" stroke-width="1.6"/></svg> 海运航道/集运订舱</div>
           <div class="mt"><svg width="26" height="8" viewBox="0 0 26 8"><path d="M0 4 H20" stroke="var(--teal)" stroke-width="1.6"/><path d="M17 1 L22 4 L17 7" fill="none" stroke="var(--teal)" stroke-width="1.6"/></svg> 技术/军事工业链</div>
         </div>
         <div class="md-attr">地图数据：Natural Earth (public domain) 110m · 等差分纬线多圆锥投影<br>热点与传导链基于 2026.09 公开信源研判</div>
@@ -2615,6 +2708,7 @@ companies.forEach(c=>{
 const factors=[
   {name:'地缘冲突烈度',val:8.4,desc:'美伊战争第205天，乌克兰450架无人机夜袭莫斯科创开战纪录，三线同时升级'},
   {name:'供应链断裂风险',val:8.6,desc:'俄45%炼能停摆，全球柴油危机，美或禁柴油出口'},
+  {name:'海运物流通道',val:8.2,desc:'MSI子指数：航道通行8.6×40%+运费战争险8.2×25%+租船8.0×20%+订舱7.4×15%'},
   {name:'货币秩序震荡',val:7.3,desc:'10Y美债破5.1%创2007年来新高，去美元化持续'},
   {name:'AI军事化进度',val:8.8,desc:'6万架无人机订单+蜂群实战测试，450架单日规模'},
   {name:'资源民族主义',val:9.0,desc:'刚果(金)全面禁钴，津巴布韦14矿种战略化，欧盟组建采购公司'},
@@ -2632,8 +2726,8 @@ factors.forEach((f,i)=>{
   `;
   rf.appendChild(div);
 });
-/* 权重与上方 WCRI 权重表一一对应：地缘冲突20% 供应链18% 货币秩序15% AI军事化17% 资源民族主义18% 金融稳定12% */
-const W=[.20,.18,.15,.17,.18,.12];
+/* 权重与上方 WCRI 权重表一一对应：地缘冲突18% 供应链17% 海运MSI15% 货币秩序12% AI军事化14% 资源民族主义14% 金融稳定10% */
+const W=[.18,.17,.15,.12,.14,.14,.10];
 function updateScore(){
   let sum=0;
   document.querySelectorAll('.risk-slider').forEach(s=>{ sum+=parseFloat(s.value)*W[+s.dataset.i]; });
@@ -2784,6 +2878,31 @@ const hotspots=[
    meta:'NORTH AMERICA · TUNGSTEN / URANIUM',
    body:'"干净供应链"候选：钨/镍/铀/钾矿充裕，Sisson 钨矿等战时重启项目获美加官方出口信贷，与中国的钨管制（80% 开采与加工）形成替代叙事——但成本曲线显著更高。',
    chain:'对华管制升级 → 友岸矿权重启获融资 → 替代供给缓慢爬坡 → 成本溢价长期化'},
+  {id:'redsea',name:'红海-曼德',x:665.0,y:236.0,level:'high',
+   title:'红海-曼德 · 集运咽喉',
+   meta:'RED SEA / BAB EL-MANDEB · LANES',
+   body:'胡塞袭击令集装箱船队绕行好望角常态化（单程 +9–14 天，苏伊士通行量较高点 −60%+）。红海战争险费率升至约 1.0%（年初约 0.4%），运费与保费改写亚欧航线经济性；租船合约普遍加注「战区除外/绕行加价」条款，SCFI 订舱量随停火/袭击脉冲波动。',
+   chain:'航道袭击常态化 → 绕行吞噬有效运力 → 运费与保费中枢抬升 → 亚欧集运成本长期化'},
+  {id:'suez',name:'苏伊士运河',x:634.0,y:174.0,level:'med',
+   title:'苏伊士运河 · 通行量断层',
+   meta:'SUEZ CANAL · TRANSIT -60%',
+   body:'运河通行量较 2023 高点下降超六成、埃及运河收入骤降；绕行船队推高好望角航线燃油与加注需求，集装箱大船改道使拥堵点从地中海转移至南非与西非加注港——班轮时刻表全面重排。',
+   chain:'通行量断层 → 埃及财政收入承压 → 好望角航线拥堵转移 → 全球班轮时刻表重排'},
+  {id:'malacca',name:'马六甲海峡',x:826.0,y:268.0,level:'med',
+   title:'马六甲海峡 · 东亚能源命门',
+   meta:'STRAIT OF MALACCA · CHOKEPOINT',
+   body:'东亚约八成海运油气经此、无可替代绕行。租船市场对战争险附加条款敏感度最高，紧张周期干散货与油轮期租报价跳升；大型油轮与集装箱船订舱向东南亚枢纽港集中，到港排队抬升至岸成本。',
+   chain:'海峡紧张 → 战争险与租金跳升 → 绕行龙目/巽他成本上升 → 东亚能源与原料到岸价抬升'},
+  {id:'panama',name:'巴拿马运河',x:319.0,y:248.0,level:'med',
+   title:'巴拿马运河 · 枯水限行',
+   meta:'PANAMA CANAL · DROUGHT',
+   body:'枯水期限行压低日均通行量，等待时间与竞拍溢价推高租船成本；美国湾—亚洲的 LPG/集装箱航线被迫分流苏伊士与好望角，订舱节奏与班期可靠性同步受损。',
+   chain:'枯水限行 → 等待与竞拍成本 → 租约条款改约 → 美湾出口分流远洋'},
+  {id:'goodhope',name:'好望角绕行带',x:595.0,y:399.0,level:'med',
+   title:'好望角 · 绕行时代枢纽',
+   meta:'CAPE OF GOOD HOPE · REROUTING HUB',
+   body:'绕行使非洲南端成为亚欧贸易的「计划内航道」：加注、船员换班与港口拥堵全面上升，船燃需求推高当地油价；有效运力缺口支撑集运运价与期租租金中枢上移。',
+   chain:'绕行常态化 → 加注与拥堵外溢 → 有效运力缺口 → 运费与租金中枢上移'},
 ];
 
 const links=[
@@ -2804,8 +2923,17 @@ const links=[
   {from:'china',to:'europe',type:'supply'},
   {from:'usa',to:'australia',type:'tech'},
   {from:'usa',to:'canada',type:'tech'},
+  {from:'suez',to:'europe',type:'maritime'},
+  {from:'redsea',to:'suez',type:'maritime'},
+  {from:'redsea',to:'india',type:'maritime'},
+  {from:'malacca',to:'china',type:'maritime'},
+  {from:'malacca',to:'india',type:'maritime'},
+  {from:'panama',to:'usa',type:'maritime'},
+  {from:'goodhope',to:'china',type:'maritime'},
+  {from:'goodhope',to:'europe',type:'maritime'},
+  {from:'middleeast',to:'redsea',type:'conflict'},
 ];
-const lkClass={conflict:'lk-conflict',supply:'lk-supply',tech:'lk-tech'};
+const lkClass={conflict:'lk-conflict',supply:'lk-supply',tech:'lk-tech',maritime:'lk-maritime'};
 const hpById={}; hotspots.forEach(h=>hpById[h.id]=h);
 /* 概况统计：热点数 / 传导链数（随数据自动更新） */
 (function(){
@@ -2900,7 +3028,7 @@ function selectHot(id){
   const typeCount={};
   linksOf.forEach(l=>{ typeCount[l.type]=(typeCount[l.type]||0)+1; });
   const typeTxt=Object.keys(typeCount).length?Object.keys(typeCount).map(t=>{
-    const nm={conflict:'冲突',supply:'供应',tech:'技术'}[t]||t;
+    const nm={conflict:'冲突',supply:'供应',tech:'技术',maritime:'海运'}[t]||t;
     return nm+'×'+typeCount[t];
   }).join(' · '):'—';
   const judgeTxt={
