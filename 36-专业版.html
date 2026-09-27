@@ -918,6 +918,55 @@ svg.gdim .gtier{ opacity:.3; }
 @keyframes autoPulse{ 0%,100%{ opacity:.7; } 50%{ opacity:.2; } }
 html.weak .auto-dot{ animation:none; opacity:.55; }
 
+/* ===== Cloud Atlas 云图独白 ===== */
+.ca-stage{ margin-top:46px; padding-top:26px; border-top:1px solid rgba(255,255,255,.08); display:flex; align-items:center; gap:26px; }
+.ca-play{ position:relative; flex:none; width:62px; height:62px; border-radius:50%; border:1px solid rgba(255,255,255,.28); background:transparent; color:rgba(255,255,255,.8); cursor:pointer; display:flex; align-items:center; justify-content:center; transition:border-color .35s var(--ease), color .35s var(--ease), transform .35s var(--ease); }
+.ca-play:hover{ border-color:var(--brand-400); color:var(--brand-200); transform:scale(1.05); }
+.ca-play .ca-ico{ width:22px; height:22px; display:block; transition:opacity .25s var(--ease); }
+.ca-ico-pause{ position:absolute; opacity:0; }
+.ca-play.on .ca-ico-play{ opacity:0; }
+.ca-play.on .ca-ico-pause{ opacity:1; }
+.ca-orbit{ position:absolute; inset:-7px; border-radius:50%; border:1px dashed rgba(255,255,255,.16); animation:caOrbit 26s linear infinite; transition:border-color .35s var(--ease); }
+.ca-play:hover .ca-orbit{ border-color:rgba(87,146,255,.4); }
+.ca-play.on .ca-orbit{ animation-duration:9s; border-color:rgba(87,146,255,.45); }
+@keyframes caOrbit{ to{ transform:rotate(360deg); } }
+html.weak .ca-orbit{ animation:none; }
+.ca-tip{ position:absolute; bottom:calc(100% + 12px); left:50%; transform:translate(-50%,6px); white-space:nowrap; font-size:.68rem; letter-spacing:.1em; color:var(--muted); background:rgba(10,16,30,.92); border:1px solid rgba(255,255,255,.14); padding:6px 12px; border-radius:4px; opacity:0; pointer-events:none; transition:opacity .3s var(--ease), transform .3s var(--ease); z-index:5; }
+.ca-play:hover .ca-tip{ opacity:1; transform:translate(-50%,0); }
+.ca-marquee{ flex:1; min-width:0; overflow:hidden; -webkit-mask-image:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent); mask-image:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent); }
+.ca-track{ display:inline-flex; align-items:baseline; width:max-content; animation:caScroll 58s linear infinite; }
+.ca-marquee:hover .ca-track{ animation-play-state:paused; }
+@keyframes caScroll{ to{ transform:translateX(-50%); } }
+.ca-seg{ display:inline-flex; align-items:baseline; flex:none; }
+.ca-seg::after{ content:""; display:inline-block; width:1px; height:10px; background:rgba(255,255,255,.18); margin:0 26px; align-self:center; }
+.ca-cn{ font-size:.78rem; color:rgba(255,255,255,.62); letter-spacing:.06em; white-space:nowrap; }
+.ca-en{ font-family:var(--mono); font-size:.66rem; color:rgba(255,255,255,.34); letter-spacing:.04em; white-space:nowrap; margin-left:16px; }
+.ca-modal{ position:fixed; inset:0; z-index:200; display:none; align-items:center; justify-content:center; }
+.ca-modal.open{ display:flex; }
+.ca-modal-bg{ position:absolute; inset:0; background:rgba(4,9,20,.86); backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px); }
+.ca-modal-card{ position:relative; width:min(880px,92vw); background:#070D1A; border:1px solid rgba(255,255,255,.14); border-radius:6px; overflow:hidden; box-shadow:0 30px 80px rgba(0,0,0,.55); animation:caIn .35s var(--ease); }
+@keyframes caIn{ from{ opacity:0; transform:translateY(14px) scale(.985); } to{ opacity:1; transform:none; } }
+.ca-modal-head{ display:flex; align-items:center; gap:14px; padding:12px 16px; border-bottom:1px solid rgba(255,255,255,.08); }
+.ca-modal-title{ font-size:.78rem; letter-spacing:.12em; color:var(--muted); }
+.ca-modal-src{ font-size:.68rem; letter-spacing:.08em; color:var(--brand-400); text-decoration:none; margin-left:auto; }
+.ca-modal-src:hover{ color:var(--brand-200); }
+.ca-modal-x{ background:none; border:none; color:var(--faint); font-size:1.3rem; line-height:1; cursor:pointer; padding:0 2px; }
+.ca-modal-x:hover{ color:#fff; }
+.ca-modal-frame{ position:relative; padding-top:56.25%; background:#000; }
+.ca-modal-frame iframe{ position:absolute; inset:0; width:100%; height:100%; border:0; }
+@media (prefers-reduced-motion: reduce){ .ca-track{ animation:none; } .ca-marquee{ overflow-x:auto; } .ca-orbit{ animation:none; } }
+@media (max-width:768px){
+  .ca-stage{ flex-direction:column; align-items:flex-start; gap:18px; }
+  .ca-marquee{ width:100%; }
+  .ca-cn{ font-size:.72rem; white-space:normal; }
+  .ca-en{ white-space:normal; }
+  .ca-seg{ display:block; }
+  .ca-seg::after{ display:none; }
+  .ca-track{ animation:none; width:auto; }
+  .ca-seg[aria-hidden="true"]{ display:none; }
+  .ca-seg + .ca-seg{ margin-top:12px; }
+}
+
 /* ===== Responsive ===== */
 @media(max-width:768px){
   .header{ flex-wrap:wrap; padding:12px 16px; }
@@ -1652,6 +1701,39 @@ html.weak .auto-dot{ animation:none; opacity:.55; }
   </div>
 
   <p class="hint" style="margin-bottom:18px;">说明：本页同时是缅怀页——苏丹 El Fasher 三天六千人、加沙三万儿童、缅甸近半平民死于空袭，这些数字不用于战报对比，仅用于不被遗忘。凡标「一方称」「无核实总数」之处，均为诚实留白；数字只会更高。</p>
+
+  <!-- ===== CLOUD ATLAS · 云图独白（线框播放键 + 双语循环） ===== -->
+  <div class="ca-stage">
+    <button class="ca-play" id="caPlay" aria-label="播放 Cloud Atlas 云图剪辑">
+      <span class="ca-orbit" aria-hidden="true"></span>
+      <svg class="ca-ico ca-ico-play" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round" aria-hidden="true"><path d="M9 6.5v11l9-5.5z"/></svg>
+      <svg class="ca-ico ca-ico-pause" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" aria-hidden="true"><path d="M9 6.5v11M15 6.5v11"/></svg>
+      <span class="ca-tip" role="tooltip">【Cloud Atlas】云图剪辑 ↗</span>
+    </button>
+    <div class="ca-marquee" aria-label="Cloud Atlas 中英独白">
+      <div class="ca-track">
+        <span class="ca-seg"><span class="ca-cn">「我们的生命并不属于我们自己——从子宫到坟墓，我们与他人紧紧相连。无论前世，还是今生，每一桩恶行，每一份善举，都在孕育着我们的未来。」</span><span class="ca-en">"Our lives are not our own. From womb to tomb, we are bound to others, past and present. And by each crime and every kindness, we birth our future."</span></span>
+        <span class="ca-seg"><span class="ca-cn">「我相信还有另一个世界在等着我们，西斯密斯——一个更好的世界。我会在那里等你。」</span><span class="ca-en">"I believe there is another world waiting for us, Sixsmith. A better world. And I'll be waiting for you there."</span></span>
+        <span class="ca-seg"><span class="ca-cn">「我的生命不过是无垠沧海中的一滴水，可若非万千水滴，又何来沧海？」</span><span class="ca-en">"My life amounts to no more than one drop in a limitless ocean. Yet what is any ocean, but a multitude of drops?"</span></span>
+        <span class="ca-seg" aria-hidden="true"><span class="ca-cn">「我们的生命并不属于我们自己——从子宫到坟墓，我们与他人紧紧相连。无论前世，还是今生，每一桩恶行，每一份善举，都在孕育着我们的未来。」</span><span class="ca-en">"Our lives are not our own. From womb to tomb, we are bound to others, past and present. And by each crime and every kindness, we birth our future."</span></span>
+        <span class="ca-seg" aria-hidden="true"><span class="ca-cn">「我相信还有另一个世界在等着我们，西斯密斯——一个更好的世界。我会在那里等你。」</span><span class="ca-en">"I believe there is another world waiting for us, Sixsmith. A better world. And I'll be waiting for you there."</span></span>
+        <span class="ca-seg" aria-hidden="true"><span class="ca-cn">「我的生命不过是无垠沧海中的一滴水，可若非万千水滴，又何来沧海？」</span><span class="ca-en">"My life amounts to no more than one drop in a limitless ocean. Yet what is any ocean, but a multitude of drops?"</span></span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== CLOUD ATLAS · 弹窗播放器（B站嵌入） ===== -->
+<div class="ca-modal" id="caModal" role="dialog" aria-modal="true" aria-label="Cloud Atlas 云图剪辑">
+  <div class="ca-modal-bg" id="caModalBg"></div>
+  <div class="ca-modal-card">
+    <div class="ca-modal-head">
+      <span class="ca-modal-title">【Cloud Atlas】云图剪辑</span>
+      <a class="ca-modal-src" href="https://www.bilibili.com/video/BV1FA41187AP" target="_blank" rel="noopener noreferrer">B站原视频 ↗</a>
+      <button class="ca-modal-x" id="caModalX" aria-label="关闭">×</button>
+    </div>
+    <div class="ca-modal-frame" id="caModalFrame"></div>
+  </div>
 </div>
 
 <!-- ===== VIEW 04: Resources ===== -->
@@ -3419,6 +3501,35 @@ const refreshNewsPool=[
 }
 @media (prefers-reduced-motion: reduce){ .ll-zh,.brand h1 .lat{ animation:none; background:none; color:#ffffff; -webkit-text-fill-color:#ffffff;} }
 </style>
+<script>
+/* ===== Cloud Atlas 云图剪辑 · 弹窗播放 ===== */
+(function(){
+  var play=document.getElementById('caPlay'), modal=document.getElementById('caModal'),
+      bg=document.getElementById('caModalBg'), x=document.getElementById('caModalX'),
+      frame=document.getElementById('caModalFrame');
+  if(!play||!modal) return;
+  var SRC='https://player.bilibili.com/player.html?bvid=BV1FA41187AP&autoplay=1&high_quality=1&danmaku=0';
+  function openM(){
+    if(!frame.querySelector('iframe')){
+      var f=document.createElement('iframe');
+      f.src=SRC; f.setAttribute('allow','autoplay; fullscreen; encrypted-media; picture-in-picture');
+      f.setAttribute('scrolling','no'); f.setAttribute('frameborder','0');
+      frame.appendChild(f);
+    }
+    modal.classList.add('open'); play.classList.add('on');
+    document.body.style.overflow='hidden';
+  }
+  function closeM(){
+    modal.classList.remove('open'); play.classList.remove('on');
+    document.body.style.overflow='';
+    setTimeout(function(){ frame.innerHTML=''; },350);
+  }
+  play.addEventListener('click',openM);
+  bg.addEventListener('click',closeM);
+  x.addEventListener('click',closeM);
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape'&&modal.classList.contains('open')) closeM(); });
+})();
+</script>
 
 </body>
 </html>
