@@ -1063,7 +1063,7 @@ html.weak .ca-orbit{ animation:none; }
   <div class="grid-4 ov-stats" style="margin-bottom:22px;">
     <div class="card">
       <div class="stat-kicker">RISK SCORE</div>
-      <div class="num-big num blue">8.38</div>
+      <div class="num-big num blue">8.44</div>
       <div class="num-label">综合地缘风险评分 / 10</div>
     </div>
     <div class="card">
@@ -1089,7 +1089,7 @@ html.weak .ca-orbit{ animation:none; }
       <div class="radar-wrap">
         <svg viewBox="0 0 300 304" width="300" height="304" role="img" aria-labelledby="radar-title radar-desc">
   <title id="radar-title">七维风险因子雷达</title>
-  <desc id="radar-desc">资源民族主义90、AI军事化88、供应链86为当前最高风险因子，货币秩序73相对最低；海运物流（MSI）82为新增维度；刻度0至100，越靠外风险越高。</desc>
+  <desc id="radar-desc">资源民族主义90为最高，AI军事化88、地缘冲突86（已并入军售军贸热度子指数）、供应链86次之，货币秩序73相对最低；海运物流（MSI）82、金融稳定83（已并入AI泡沫压力子指数）；刻度0至100，越靠外风险越高。</desc>
   <defs>
     <radialGradient id="radarFill" cx="50%" cy="50%" r="62%">
       <stop offset="0%" stop-color="rgba(80,140,255,.22)"/>
@@ -1148,25 +1148,25 @@ html.weak .ca-orbit{ animation:none; }
     <text class="r-en" x="31" y="64.5" text-anchor="middle" dominant-baseline="middle">FINANCIAL</text>
     <text x="31" y="75.5" text-anchor="middle" dominant-baseline="middle">金融稳定</text>
   </g>
-  <polygon class="r-poly-fill" points="150,56 217.2,86.4 229.9,158.2 181.7,205.8 111.8,219.3 62.3,160 86.7,89.5" fill="url(#radarFill)"/>
-  <polygon class="r-poly-line" pathLength="100" points="150,56 217.2,86.4 229.9,158.2 181.7,205.8 111.8,219.3 62.3,160 86.7,89.5"/>
+  <polygon class="r-poly-fill" points="150,54 217.2,86.4 229.9,158.2 181.7,205.8 111.8,219.3 62.3,160 85.1,88.2" fill="url(#radarFill)"/>
+  <polygon class="r-poly-line" pathLength="100" points="150,54 217.2,86.4 229.9,158.2 181.7,205.8 111.8,219.3 62.3,160 85.1,88.2"/>
   <g class="r-dot">
-    <circle cx="150" cy="56" r="2.3"/>
+    <circle cx="150" cy="54" r="2.3"/>
     <circle cx="217.2" cy="86.4" r="2.3"/>
     <circle cx="229.9" cy="158.2" r="2.3"/>
     <circle cx="181.7" cy="205.8" r="2.3"/>
     <circle cx="111.8" cy="219.3" r="2.3"/>
     <circle cx="62.3" cy="160" r="2.3"/>
-    <circle cx="86.7" cy="89.5" r="2.3"/>
+    <circle cx="85.1" cy="88.2" r="2.3"/>
   </g>
   <g class="r-val">
-    <text x="156.5" y="70" text-anchor="start" dominant-baseline="middle">84</text>
+    <text x="156.5" y="68" text-anchor="start" dominant-baseline="middle">86</text>
     <text x="207.1" y="94.5" text-anchor="middle" dominant-baseline="middle">86</text>
     <text x="217.2" y="155.3" text-anchor="middle" dominant-baseline="middle">82</text>
     <text x="176.1" y="194.1" text-anchor="middle" dominant-baseline="middle">73</text>
     <text x="117.4" y="207.6" text-anchor="middle" dominant-baseline="middle">88</text>
     <text x="75" y="157.1" text-anchor="middle" dominant-baseline="middle">90</text>
-    <text x="96.9" y="97.6" text-anchor="middle" dominant-baseline="middle">81</text>
+    <text x="95.3" y="96.3" text-anchor="middle" dominant-baseline="middle">83</text>
   </g>
   <line class="r-legend-line" x1="40" y1="276" x2="260" y2="276"/>
   <rect class="r-legend-swatch" x="40" y="282.5" width="14" height="7"/>
@@ -2045,12 +2045,35 @@ html.weak .ca-orbit{ animation:none; }
 
   <h3 style="font-family:var(--serif);font-size:.95rem;margin:18px 0 12px;font-weight:600;display:flex;align-items:center;gap:8px;"><span class="tag-h">DIRECTORY</span>企业名录</h3>
   <div class="co-grid" id="company-grid"></div>
+
+  <!-- ===== 军售军贸订单跟踪（MTI 数据锚） ===== -->
+  <h3 style="font-family:var(--serif);font-size:.95rem;margin:22px 0 12px;font-weight:600;display:flex;align-items:center;gap:8px;"><span class="tag-h">ARMS TRADE</span>全球军售军贸订单跟踪（2026）<span id="arms-stats" style="font-family:var(--mono);font-size:.62rem;color:var(--faint);letter-spacing:.06em;font-weight:400;"></span></h3>
+  <div class="card">
+    <table class="data-table">
+      <colgroup><col style="width:15%"><col style="width:34%"><col style="width:13%"><col style="width:13%"><col style="width:25%"></colgroup>
+      <thead><tr><th>卖方 → 买方</th><th>订单 / 交付内容</th><th>量级</th><th>状态（2026.09）</th><th>传导方向</th></tr></thead>
+      <tbody>
+        <tr><td><strong>美国 → 中国台湾</strong></td><td>对台军售升级：多批次武器系统与弹药包（国会通知程序）</td><td>20 亿美元级</td><td>推进中 · 中方反制</td><td>台海风险溢价 → r₁</td></tr>
+        <tr><td><strong>韩国 → 波兰</strong></td><td>K2 主战坦克第二轮 + K9 自行火炮后续批次（千辆级框架）</td><td>百亿美元级</td><td>交付中 · 产能满载</td><td>欧洲再武装 → r₁</td></tr>
+        <tr><td><strong>美国 → 波兰</strong></td><td>M1A2 艾布拉姆斯 + AH-64E 阿帕奇后续批次</td><td>十亿美元级</td><td>交付中</td><td>东欧前线化 → r₁</td></tr>
+        <tr><td><strong>美国 → 日本</strong></td><td>战斧 Block V 巡航导弹（约 400 枚）+ 反导体系扩容</td><td>十亿美元级</td><td>预算编列</td><td>西太打击纵深 → r₁</td></tr>
+        <tr><td><strong>日英意联合</strong></td><td>GCAP 次世代战机联合研制（日本防务预算迈向 GDP 2%）</td><td>百亿美元级</td><td>研制中</td><td>盟友军工业整合 → r₁</td></tr>
+        <tr><td><strong>美国 → 菲律宾</strong></td><td>「堤丰」中导系统部署吕宋 + EDCA 九站点轮驻军援</td><td>部署级</td><td>已部署 · 对峙常态化</td><td>南海/第一岛链 → r₁</td></tr>
+        <tr><td><strong>德国 → 乌克兰</strong></td><td>IRIS-T SLM 新批次 + 豹 2 补充（欧洲安全援助框架）</td><td>十亿欧元级</td><td>交付中</td><td>俄乌消耗战延续 → r₁</td></tr>
+        <tr><td><strong>朝鲜 → 俄罗斯</strong></td><td>弹道导弹与炮弹（影子军贸，未公开承认；乌战场弹片残骸实证）</td><td>数百万发级</td><td>持续 · 制裁衰减</td><td>半岛-东欧双向联动 → r₁</td></tr>
+        <tr><td><strong>土耳其 → 多国</strong></td><td>Baykar 无人机出口扩大（乌克兰/海湾/非洲新客户）</td><td>十亿美元级</td><td>交付中</td><td>无人机扩散 → r₁/r₅</td></tr>
+        <tr><td><strong>美国 → 9 家初创</strong></td><td>6 万架无人机订单（"零中国零件"硬门槛）+ 4,000 架 Kiwi 巡飞弹</td><td>60 亿美元级</td><td>授予 · 执行中</td><td>AI 军工景气 → r₅</td></tr>
+      </tbody>
+    </table>
+    <p class="hint">军贸热度子指数（MTI）= 9.0：2026 年全球军售呈「订单井喷 + 交付加速」双高——欧洲再武装（波兰/乌克兰）、西太纵深强化（战斧/堤丰/GCAP）、AI 军工景气（无人机大单）与影子军贸（朝鲜→俄）四条线同时放量。</p>
+    <div class="src-line"><b>数据口径</b>：SIPRI 军贸转让趋势值（TIV）方法论参考 · 简氏防务 · 各国国防部公告与美国国会通知 · 量级为公开报道区间，「影子军贸」为战场实证推断（已标注）<br><b>参考信源</b>：SIPRI Arms Transfers Database · Janes（janes.com）· 美国国防部合同公告（defense.gov）· 央视新闻/新华社军贸报道 · 2026.09 快照</div>
+  </div>
 </div>
 
 <!-- ===== VIEW 07: Risk Model ===== -->
 <div class="view" id="view-riskmodel">
   <div class="view-head"><div class="view-head-l"><h2 class="view-title"><span class="vi">07</span>风险因子模型</h2></div><button class="refresh-btn refresh-view" data-target="riskmodel" style="margin-left:12px;vertical-align:middle;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg> 实时更新</button></div>
-  <p class="view-sub">七大维度交互式风险评估 · MSI 海运子指数嵌套 · 三变六反内核：三变分层（结构）× 六反定向（行为）× 过三必变过六必反（时间）</p>
+  <p class="view-sub">七大维度交互式风险评估 · MSI 海运 / MTI 军贸热度 / AIB AI 泡沫三子指数嵌套 · 三变六反内核：三变分层（结构）× 六反定向（行为）× 过三必变过六必反（时间）</p>
 
   <div class="algo-card">
     <h3><span class="tag-h">KERNEL</span>三变·六反 × 沙盘内核</h3>
@@ -2075,9 +2098,10 @@ html.weak .ca-orbit{ animation:none; }
       </tbody>
     </table>
     <div style="font-size:.8rem;line-height:1.8;color:var(--muted);margin-top:10px;">
-      <p><strong style="color:var(--fg);">分数怎么变成 8.38（与公式的咬合）</strong>：每个维度独立打分 r（依据见证据链表）→ 乘各自权重 w → 七项相加。
-      以海运为例：r₃ = 0.40×8.6（航道）+ 0.25×8.2（运费/保险）+ 0.20×8.0（租船）+ 0.15×7.4（订舱）= 8.2，
-      四个子分各有硬数据锚（苏伊士通行量、战争险费率、期租租金、SCFI 订舱），再 ×15% = 1.23 计入总分。每个 r 都能这样拆到数据。</p>
+      <p><strong style="color:var(--fg);">分数怎么变成 8.44（与公式的咬合）</strong>：每个维度独立打分 r（依据见证据链表）→ 乘各自权重 w → 七项相加。
+      三个维度由子指数运算得出：r₃ = 0.40×8.6（航道）+ 0.25×8.2（运费/保险）+ 0.20×8.0（租船）+ 0.15×7.4（订舱）= 8.2；
+      r₁ = 0.65×8.4（事件烈度）+ 0.35×9.0（军贸热度 MTI）= 8.61 ≈ 8.6；r₇ = 0.60×8.1（主权/流动性）+ 0.40×8.6（AI 泡沫 AIB）= 8.3。
+      子分各有硬数据锚（苏伊士通行量、战争险费率、军贸订单簿、数据中心债规模），再乘各自权重计入总分。每个 r 都能这样拆到数据。</p>
     </div>
     <p style="font-size:.8rem;color:var(--muted);line-height:1.75;margin:12px 0 6px;">
       <strong style="color:var(--teal-hi);">二、六反：与直觉相反的反应方向——给评分定向</strong><br>
@@ -2107,7 +2131,7 @@ html.weak .ca-orbit{ animation:none; }
       <p>· <strong style="color:var(--fg);">反向提醒</strong>：反共识头寸同样会拥挤——做空共识本身也会踩踏。拥挤度不进权重、进执行纪律。</p>
     </div>
     <p class="hint" style="margin-top:10px;">
-      阅读方法：想知道 8.38 怎么算的 → 看下方权重表与 MSI 卡；想知道某个分数凭什么 → 看证据链表；想知道某条危机走到哪一步 → 看 08 沙盘链路的步进标记。
+      阅读方法：想知道 8.44 怎么算的 → 看下方权重表与 MSI / MTI / AIB 三张子指数卡；想知道某个分数凭什么 → 看证据链表；想知道某条危机走到哪一步 → 看 08 沙盘链路的步进标记。
     </p>
   </div>
 
@@ -2117,7 +2141,8 @@ html.weak .ca-orbit{ animation:none; }
       本模型基于三变六反框架（归位依据与实证见上方 KERNEL 卡），将地缘风险拆解为七个维度的量化评分（0-10 分），
       加权求和得出综合指数。七个维度按冲击三段归位：
       事件类（r₁ 地缘冲突、r₅ AI军事化）、传导类（r₂ 供应链、r₃ 海运、r₆ 资源民族主义）、格局类（r₄ 货币秩序、r₇ 金融稳定）——
-      编号与权重即下表。第三维度「海运物流通道」由 MSI 子指数（航道/运费保险/租船/订舱四因子）运算得出。
+      编号与权重即下表。三个维度由子指数运算得出：r₃ 海运物流通道 = MSI 子指数（航道/运费保险/租船/订舱）、
+      r₁ 地缘冲突 = 0.65×事件烈度 + 0.35×MTI 军贸热度、r₇ 金融稳定 = 0.60×主权流动性 + 0.40×AIB AI 泡沫压力。
     </p>
     <div class="algo-formula">
       <span class="var">R</span> <span class="op">=</span>
@@ -2129,23 +2154,25 @@ html.weak .ca-orbit{ animation:none; }
       <colgroup><col style="width:24%"><col style="width:12%"><col style="width:12%"><col style="width:14%"><col style="width:38%"></colgroup>
       <thead><tr><th>维度</th><th>权重 w</th><th>当前值 r</th><th>贡献 w·r</th><th>权重分布</th></tr></thead>
       <tbody>
-        <tr><td>地缘冲突烈度</td><td class="num">18%</td><td class="num">8.4</td><td class="num">1.51</td><td><div class="weight-bar"><div class="weight-bar-fill" style="width:18%;background:var(--red);"></div></div></td></tr>
+        <tr><td>地缘冲突烈度</td><td class="num">18%</td><td class="num">8.6</td><td class="num">1.55</td><td><div class="weight-bar"><div class="weight-bar-fill" style="width:18%;background:var(--red);"></div></div></td></tr>
         <tr><td>供应链断裂风险</td><td class="num">17%</td><td class="num">8.6</td><td class="num">1.46</td><td><div class="weight-bar"><div class="weight-bar-fill" style="width:17%;background:var(--gold);"></div></div></td></tr>
         <tr><td>海运物流通道（MSI）</td><td class="num">15%</td><td class="num">8.2</td><td class="num">1.23</td><td><div class="weight-bar"><div class="weight-bar-fill" style="width:15%;background:var(--blue);"></div></div></td></tr>
         <tr><td>货币秩序震荡</td><td class="num">12%</td><td class="num">7.3</td><td class="num">0.88</td><td><div class="weight-bar"><div class="weight-bar-fill" style="width:12%;background:var(--blue);"></div></div></td></tr>
         <tr><td>AI军事化进度</td><td class="num">14%</td><td class="num">8.8</td><td class="num">1.23</td><td><div class="weight-bar"><div class="weight-bar-fill" style="width:14%;background:var(--red);"></div></div></td></tr>
         <tr><td>资源民族主义</td><td class="num">14%</td><td class="num">9.0</td><td class="num">1.26</td><td><div class="weight-bar"><div class="weight-bar-fill" style="width:14%;background:var(--gold);"></div></div></td></tr>
-        <tr><td>金融稳定风险</td><td class="num">10%</td><td class="num">8.1</td><td class="num">0.81</td><td><div class="weight-bar"><div class="weight-bar-fill" style="width:10%;background:var(--teal);"></div></div></td></tr>
-        <tr class="sum-row"><td><strong>合计</strong></td><td class="num"><strong>100%</strong></td><td>—</td><td class="highlight num"><strong>8.38</strong></td><td>—</td></tr>
+        <tr><td>金融稳定风险</td><td class="num">10%</td><td class="num">8.3</td><td class="num">0.83</td><td><div class="weight-bar"><div class="weight-bar-fill" style="width:10%;background:var(--teal);"></div></div></td></tr>
+        <tr class="sum-row"><td><strong>合计</strong></td><td class="num"><strong>100%</strong></td><td>—</td><td class="highlight num"><strong>8.44</strong></td><td>—</td></tr>
       </tbody>
     </table>
     <p class="hint">
       注：权重设计参考CSIS地缘风险指数、Eurasia Group Global Risk Index方法论，结合三变六反框架调整；
       引入海运物流通道维度（MSI）后，各维度权重按边际贡献重新归一。
-      当前综合分8.38对应"高度风险"区间（7.0-8.5）上沿，距历史极值8.5（2022俄乌战争爆发）仅一步之遥。
+      当前综合分8.44对应"高度风险"区间（7.0-8.5）上沿，距历史极值8.5（2022俄乌战争爆发）仅 0.06。
       本期上调主因：全球柴油供应危机（俄45%炼能停摆+美国拟限出口）、10年期美债收益率创2007年来新高、
       刚果(金)全面禁钴与津巴布韦14矿种战略化、美伊战争多线升级与乌克兰史上最大规模对莫斯科无人机袭击；
       海运端：红海绕行常态化+战争险费率翻倍+租船战区条款扩散，构成 MSI 8.2 的高压读数。
+      本期并入两个新子指数：<strong style="color:var(--red-hi);">军售军贸热度（MTI 9.0）并入 r₁</strong>——2026 年全球军售订单井喷（对台军售升级、波兰 K 系列第二轮、战斧对日、堤丰对菲、朝鲜影子军贸）；
+      <strong style="color:var(--gold-hi);">AI 泡沫压力（AIB 8.6）并入 r₇</strong>——AI 资本开支循环融资、市场集中度与数据中心债务化扩张（详见下方两张子指数卡）。
     </p>
   </div>
 
@@ -2176,6 +2203,62 @@ html.weak .ca-orbit{ animation:none; }
     </table>
   </div>
 
+  <div class="algo-card">
+    <h3><span class="tag-h">MTI</span>军售军贸热度子指数（MTI · Military Trade Index）</h3>
+    <p style="font-size:.8rem;color:var(--muted);line-height:1.75;margin-bottom:8px;">
+      WCRI 第一维度 r₁ 不再只看单点冲突事件，而是由两个分项<strong style="color:var(--fg);">加权合成</strong>：
+      事件烈度（战况研判）与军贸热度（订单/交付/军援通道）。
+      军贸热度的逻辑：军售订单是冲突的「期货」——大单签约到交付跨越数年，订单井喷意味着未来 3-5 年的军备水位已被锁定。
+      订单明细见 06 板块「全球军售军贸订单跟踪」表。
+    </p>
+    <div class="algo-formula">
+      <span class="var">r₁</span> <span class="op">=</span>
+      <span class="var">0.65·事件烈度</span> <span class="op">+</span> <span class="var">0.35·MTI</span>
+      <span class="op">=</span> <span class="var">5.46 + 3.15</span>
+      <span class="op">=</span> <span class="var" style="color:var(--red-hi);">8.61 ≈ 8.6</span>
+    </div>
+    <table class="weight-table">
+      <colgroup><col style="width:22%"><col style="width:12%"><col style="width:12%"><col style="width:54%"></colgroup>
+      <thead><tr><th>因子</th><th>权重</th><th>评分 s</th><th>当前状态（2026.09）</th></tr></thead>
+      <tbody>
+        <tr><td>军购大单交付</td><td class="num">30%</td><td class="num">9.2</td><td>波兰 K2/K9 千辆级框架第二轮、M1A2/AH-64E 交付中；战斧 Block V 对日 400 枚级预算编列</td></tr>
+        <tr><td>军援通道流量</td><td class="num">25%</td><td class="num">9.0</td><td>对乌援助框架延续（IRIS-T/豹 2 批次）；对台军售升级走国会通知；EDCA 九站点轮驻</td></tr>
+        <tr><td>联合研制项目</td><td class="num">20%</td><td class="num">8.8</td><td>GCAP 日英意次世代战机、日澳护卫舰共同开发——盟友军工业深度整合</td></tr>
+        <tr><td>影子军贸</td><td class="num">15%</td><td class="num">9.4</td><td>朝鲜→俄弹道导弹与炮弹持续输俄（战场弹片实证），制裁效力衰减</td></tr>
+        <tr><td>军工产能景气</td><td class="num">10%</td><td class="num">8.2</td><td>韩军工出口全球第四、土 Baykar 多国订单、美 6 万架无人机订单拉动初创产能</td></tr>
+        <tr class="sum-row"><td><strong>MTI → r₁ 军贸分项</strong></td><td class="num"><strong>100%</strong></td><td>—</td><td class="highlight num"><strong>9.00</strong>（r₁ = 0.65×8.4 + 0.35×9.0 = 8.61 ≈ 8.6，进入 WCRI：×18% = 1.55）</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="algo-card">
+    <h3><span class="tag-h">AIB</span>AI 泡沫压力子指数（AIB · AI Bubble Stress）</h3>
+    <p style="font-size:.8rem;color:var(--muted);line-height:1.75;margin-bottom:8px;">
+      WCRI 第七维度 r₇ 同样由两个分项<strong style="color:var(--fg);">加权合成</strong>：
+      主权债务与流动性风险（美债/套息，既有研判）与 AI 泡沫压力。
+      AI 泡沫入模的逻辑：全球风险偏好的「单点依赖」——AI 板块吸收了本轮周期最大份额的资本流入，
+      其估值回撤会经由财富效应、信用市场（数据中心债/算力抵押）与风险偏好三个通道外溢至整体金融稳定。
+    </p>
+    <div class="algo-formula">
+      <span class="var">r₇</span> <span class="op">=</span>
+      <span class="var">0.60·主权/流动性</span> <span class="op">+</span> <span class="var">0.40·AIB</span>
+      <span class="op">=</span> <span class="var">4.86 + 3.44</span>
+      <span class="op">=</span> <span class="var" style="color:var(--red-hi);">8.30 → 8.3</span>
+    </div>
+    <table class="weight-table">
+      <colgroup><col style="width:22%"><col style="width:12%"><col style="width:12%"><col style="width:54%"></colgroup>
+      <thead><tr><th>因子</th><th>权重</th><th>评分 s</th><th>当前状态（2026.09）</th></tr></thead>
+      <tbody>
+        <tr><td>资本开支循环</td><td class="num">35%</td><td class="num">8.8</td><td>芯片商—云厂商—模型公司循环订单/供应商融资模式扩张：A 营收购 B 芯片、B 入股 A——闭环依赖度上升</td></tr>
+        <tr><td>市场集中度</td><td class="num">25%</td><td class="num">8.6</td><td>AI 七巨头占美股指市值的权重集中度处历史极值；指数上行动能高度绑定单一叙事</td></tr>
+        <tr><td>债务化融资</td><td class="num">25%</td><td class="num">8.6</td><td>数据中心债券/算力抵押贷款/私募信贷敞口扩张——资本开支从股权转向债权，风险向信用市场迁移</td></tr>
+        <tr><td>盈利兑现缺口</td><td class="num">15%</td><td class="num">8.2</td><td>应用端收入增速持续落后于基建资本开支增速；企业 AI 支出 ROI 核查周期临近</td></tr>
+        <tr class="sum-row"><td><strong>AIB → r₇ 泡沫分项</strong></td><td class="num"><strong>100%</strong></td><td>—</td><td class="highlight num"><strong>8.60</strong>（r₇ = 0.60×8.1 + 0.40×8.6 = 8.30，进入 WCRI：×10% = 0.83）</td></tr>
+      </tbody>
+    </table>
+    <p class="hint">口径说明：AIB 评估的是「泡沫破裂的脆弱性」而非「泡沫存在与否」——评级锚定脆弱性指标（依赖度/集中度/债务化），不预测破裂时点；泡沫可在高位维持远超预期的时长（反向提醒：拥挤做空同样是风险）。</p>
+  </div>
+
   <div class="card algo-card" style="margin-bottom:18px;">
     <h3><span class="tag-h">EVIDENCE</span>维度证据链 · 七维评分对应 04 / 05 / 06 / 08 板块实证</h3>
     <p class="ev-lede">WCRI 的七个维度不是抽象打分——每一项都由站内 04 战略资源、05 资源民族主义、06 AI军事化、08 推演沙盘的量化事实支撑。下表为当前口径的证据映射（数值随板块数据同步更新）。</p>
@@ -2184,9 +2267,9 @@ html.weak .ca-orbit{ animation:none; }
       <thead><tr><th>维度</th><th>当前 r</th><th>关键证据（可回溯至站内板块）</th><th>来源</th></tr></thead>
       <tbody>
         <tr>
-          <td class="res-prod">地缘冲突烈度</td><td class="num">8.4</td>
-          <td>俄乌：450 架无人机夜袭莫斯科、俄 45% 炼能停摆；美伊战争第 205 天、霍尔木兹"零出口"、沙特东西管道遇袭；台海演训常态化与对台军售升级</td>
-          <td class="num">01 / 03</td>
+          <td class="res-prod">地缘冲突烈度</td><td class="num">8.6</td>
+          <td>事件烈度 8.4：俄乌 450 架无人机夜袭莫斯科、俄 45% 炼能停摆；美伊战争第 205 天、霍尔木兹"零出口"、沙特东西管道遇袭；台海演训常态化。军贸热度（MTI）9.0：对台军售升级、波兰 K2/K9 第二轮、战斧对日、「堤丰」对菲部署、朝鲜→俄影子军贸（详见 06 军贸订单表 / MTI 卡）</td>
+          <td class="num">01 / 03 / 06</td>
         </tr>
         <tr>
           <td class="res-prod">供应链断裂风险</td><td class="num">8.6</td>
@@ -2214,9 +2297,9 @@ html.weak .ca-orbit{ animation:none; }
           <td class="num">05</td>
         </tr>
         <tr>
-          <td class="res-prod">金融稳定风险</td><td class="num">8.1</td>
-          <td>美债规模突破 40 万亿、利息支出超过军费；美国柴油 6.52 美元/加仑创纪录（同比 +77%）引发通胀螺旋；AI 资本开支与估值集中度抬升</td>
-          <td class="num">01 / 02</td>
+          <td class="res-prod">金融稳定风险</td><td class="num">8.3</td>
+          <td>主权/流动性 8.1：美债规模突破 40 万亿、利息支出超过军费；美国柴油 6.52 美元/加仑创纪录（同比 +77%）引发通胀螺旋。AI 泡沫压力（AIB）8.6：芯片商—云厂商—模型公司循环融资、七巨头权重集中度历史极值、数据中心债与算力抵押扩张（详见 AIB 卡）</td>
+          <td class="num">01 / 02 / 06</td>
         </tr>
       </tbody>
     </table>
@@ -2228,7 +2311,7 @@ html.weak .ca-orbit{ animation:none; }
       <h3><span class="tag-h">TUNE</span>因子权重调节</h3>
       <div id="risk-factors"></div>
       <div class="risk-score">
-        <div class="score-val num" id="total-score">8.38</div>
+        <div class="score-val num" id="total-score">8.44</div>
         <div class="score-label">综合地缘风险评分 / 10</div>
       </div>
     </div>
@@ -2237,13 +2320,13 @@ html.weak .ca-orbit{ animation:none; }
       <div class="card" style="margin-bottom:14px;">
         <h3><span class="tag-h">DEFINE</span>因子说明</h3>
         <div style="font-size:.8rem;line-height:1.8;color:var(--muted);">
-          <p style="margin-bottom:10px;"><strong style="color:var(--red-hi);">地缘冲突烈度</strong>：俄乌、中东、印太三大热点冲突的强度与升级概率 <span class="ev-src">01 / 03</span></p>
+          <p style="margin-bottom:10px;"><strong style="color:var(--red-hi);">地缘冲突烈度</strong>：俄乌、中东、印太三大热点冲突的强度与升级概率，加权并入军售军贸热度（MTI 子指数） <span class="ev-src">01 / 03 / 06</span></p>
           <p style="margin-bottom:10px;"><strong style="color:var(--gold-hi);">供应链断裂风险</strong>：关键矿产、半导体、能源供应链的集中度与替代难度 <span class="ev-src">04 战略资源</span></p>
           <p style="margin-bottom:10px;"><strong style="color:var(--blue-hi);">海运物流通道</strong>：集运航道通行、大宗运费与战争险、租船市场、集运订舱的合成压力（MSI 子指数） <span class="ev-src">05 / 08</span></p>
           <p style="margin-bottom:10px;"><strong style="color:var(--blue-hi);">货币秩序震荡</strong>：去美元化进程、储备货币多元化、汇率波动风险 <span class="ev-src">02</span></p>
           <p style="margin-bottom:10px;"><strong style="color:var(--red-hi);">AI军事化进度</strong>：自主武器、战场AI部署、技术扩散速度与失控风险 <span class="ev-src">06 AI军事化</span></p>
           <p style="margin-bottom:10px;"><strong style="color:var(--teal-hi);">资源民族主义</strong>：出口管制、国有化、加工本土化政策的扩散速度 <span class="ev-src">05 资源民族主义</span></p>
-          <p><strong style="color:var(--gold-hi);">金融稳定风险</strong>：主权债务、套息交易、资产泡沫的破裂概率 <span class="ev-src">01 / 02</span></p>
+          <p><strong style="color:var(--gold-hi);">金融稳定风险</strong>：主权债务、套息交易、AI 泡沫压力（AIB 子指数：循环融资/集中度/债务化融资）的破裂概率 <span class="ev-src">01 / 02 / 06</span></p>
         </div>
       </div>
       <div class="card">
@@ -2251,7 +2334,7 @@ html.weak .ca-orbit{ animation:none; }
         <div class="hist-chart">
           <div class="hc-head">
             <div class="hc-title">综合地缘风险指数 <span class="hc-sub">WCRI · 2022 — 2026</span></div>
-            <div class="hc-now">当前 <strong class="num">8.38</strong><span class="hc-now-tag">五浪叠加</span></div>
+            <div class="hc-now">当前 <strong class="num">8.44</strong><span class="hc-now-tag">五浪叠加 · 军贸/AI泡沫并入</span></div>
           </div>
           <svg viewBox="0 0 480 252" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="历史风险评分走势图">
             <defs>
@@ -2280,17 +2363,17 @@ html.weak .ca-orbit{ animation:none; }
               <text x="28" y="224">0</text><text x="28" y="182">2</text><text x="28" y="141">4</text>
               <text x="28" y="99">6</text><text x="28" y="58">8</text><text x="28" y="16">10</text>
             </g>
-            <path d="M34,43 L171,70 L309,64 L446,46 L446,220 L34,220 Z" fill="url(#histFill)"/>
-            <path d="M34,43 L171,70 L309,64 L446,46" fill="none" stroke="var(--red)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
-            <circle cx="446" cy="46" r="16" fill="url(#nowGlow)"/>
+            <path d="M34,43 L171,70 L309,64 L446,44 L446,220 L34,220 Z" fill="url(#histFill)"/>
+            <path d="M34,43 L171,70 L309,64 L446,44" fill="none" stroke="var(--red)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="446" cy="44" r="16" fill="url(#nowGlow)"/>
             <circle cx="34" cy="43" r="4.6" fill="var(--panel)" stroke="var(--red)" stroke-width="2"/>
             <circle cx="171" cy="70" r="4.2" fill="var(--panel)" stroke="var(--gold)" stroke-width="2"/>
             <circle cx="309" cy="64" r="4.2" fill="var(--panel)" stroke="var(--gold)" stroke-width="2"/>
-            <circle cx="446" cy="46" r="5.6" fill="var(--red-hi)" stroke="var(--panel)" stroke-width="1.6"/>
+            <circle cx="446" cy="44" r="5.6" fill="var(--red-hi)" stroke="var(--panel)" stroke-width="1.6"/>
             <text x="34" y="30" fill="var(--red-hi)" font-size="11" font-family="var(--serif)" font-weight="700" text-anchor="middle">8.5</text>
             <text x="171" y="57" fill="var(--gold-hi)" font-size="11" font-family="var(--serif)" font-weight="700" text-anchor="middle">7.2</text>
             <text x="309" y="51" fill="var(--gold-hi)" font-size="11" font-family="var(--serif)" font-weight="700" text-anchor="middle">7.5</text>
-            <text x="446" y="32" fill="var(--red-hi)" font-size="13" font-family="var(--serif)" font-weight="800" text-anchor="middle">8.38</text>
+            <text x="446" y="30" fill="var(--red-hi)" font-size="13" font-family="var(--serif)" font-weight="800" text-anchor="middle">8.44</text>
             <g font-size="9.5" font-family="var(--sans)" text-anchor="middle" fill="var(--muted)">
               <text x="34" y="238">2022.02</text>
               <text x="171" y="238">2023.10</text>
@@ -2303,7 +2386,7 @@ html.weak .ca-orbit{ animation:none; }
           <div class="he"><span class="he-date">2022.02</span><span class="he-score num">8.5</span><span class="he-name">俄乌战争爆发</span></div>
           <div class="he"><span class="he-date">2023.10</span><span class="he-score num">7.2</span><span class="he-name">巴以冲突升级</span></div>
           <div class="he"><span class="he-date">2025.10</span><span class="he-score num">7.5</span><span class="he-name">白银逼空+稀土管制</span></div>
-          <div class="he he-now"><span class="he-date">2026.09</span><span class="he-score num">8.38</span><span class="he-name">五浪叠加 · 当前</span></div>
+          <div class="he he-now"><span class="he-date">2026.09</span><span class="he-score num">8.44</span><span class="he-name">五浪叠加 · 军贸/AI泡沫并入</span></div>
         </div>
       </div>
     </div>
@@ -2835,13 +2918,13 @@ companies.forEach(c=>{
 
 /* ===== Risk Factors ===== */
 const factors=[
-  {name:'地缘冲突烈度',val:8.4,desc:'美伊战争第205天，乌克兰450架无人机夜袭莫斯科创开战纪录，三线同时升级'},
+  {name:'地缘冲突烈度',val:8.6,desc:'子指数合成：0.65×事件烈度8.4+0.35×军贸热度MTI9.0；美伊第205天+军售订单井喷'},
   {name:'供应链断裂风险',val:8.6,desc:'俄45%炼能停摆，全球柴油危机，美或禁柴油出口'},
   {name:'海运物流通道',val:8.2,desc:'MSI子指数：航道通行8.6×40%+运费战争险8.2×25%+租船8.0×20%+订舱7.4×15%'},
   {name:'货币秩序震荡',val:7.3,desc:'10Y美债破5.1%创2007年来新高，去美元化持续'},
   {name:'AI军事化进度',val:8.8,desc:'6万架无人机订单+蜂群实战测试，450架单日规模'},
   {name:'资源民族主义',val:9.0,desc:'刚果(金)全面禁钴，津巴布韦14矿种战略化，欧盟组建采购公司'},
-  {name:'金融稳定风险',val:8.1,desc:'美债收益率曲线全线上破关键位，柴油通胀螺旋'},
+  {name:'金融稳定风险',val:8.3,desc:'子指数合成：0.60×主权流动性8.1+0.40×AI泡沫AIB8.6；循环融资+集中度极值'},
 ];
 const rf=document.getElementById('risk-factors');
 factors.forEach((f,i)=>{
@@ -2992,6 +3075,26 @@ const hotspots=[
    meta:'SOUTH ASIA · CHINA+1',
    body:'受益于供应链多元化转移，印度成为"中国+1"战略的主要承接地。半导体制造、电子组装投资加速。',
    chain:'供应链转移 → 印度制造投资增加 → 全球产能重新分布 → 贸易流重塑'},
+  {id:'philippines',name:'菲律宾',x:892.2,y:239.9,level:'med',
+   title:'菲律宾 · 南海前沿',
+   meta:'PHILIPPINES · SOUTH CHINA SEA',
+   body:'「堤丰」中导系统部署吕宋、EDCA 九站点对美军开放轮驻；仁爱礁与黄岩岛对峙常态化，美菲共同防御条款被反复援引——第一岛链军事化的前沿支点。',
+   chain:'前沿部署 → 南海摩擦升温 → 航行自由冲突 → 第一岛链军事化'},
+  {id:'korea',name:'韩国',x:904.8,y:154.2,level:'med',
+   title:'韩国 · 军贸出口强国',
+   meta:'SOUTH KOREA · ARMS EXPORTER',
+   body:'K2 主战坦克与 K9 自行火炮对波兰千辆级框架第二轮交付、FA-50 多国订单，全球军贸出口排名升至第四；韩美核磋商小组机制化——军工产能成为国家战略资产。',
+   chain:'军贸订单交付 → 军工产能满载 → 对朝威慑强化 → 半岛军备水位抬升'},
+  {id:'dprk',name:'朝鲜',x:893.5,y:141.0,level:'med',ly:'up',
+   title:'朝鲜 · 弹道与援俄',
+   meta:'NORTH KOREA · MISSILES / RUSSIA',
+   body:'弹道导弹与炮弹持续输俄（乌战场弹片残骸实证），换取粮食、能源与导弹技术反哺；2026 年试射常态化，火星系列固体燃料迭代加速——半岛与东欧两条战线双向联动。',
+   chain:'援俄换取技术 → 导弹迭代加速 → 半岛-东欧双向联动 → 制裁效力持续衰减'},
+  {id:'japan',name:'日本',x:936.6,y:156.0,level:'med',
+   title:'日本 · 防务正常化',
+   meta:'JAPAN · REARMAMENT',
+   body:'防务预算迈向 GDP 2%、战斧 Block V 约 400 枚采购、GCAP 日英意次世代战机联合研制、护卫舰对澳共同开发——军工出口三原则持续放宽，从「专守防卫」转向「威慑主体」。',
+   chain:'防务开支扩张 → 军购订单落地 → 西太军备水位抬升 → 台海/东海联动'},
   {id:'australia',name:'澳大利亚',x:929.1,y:366.7,level:'low',
    title:'澳大利亚 · 锂矿供应中枢',
    meta:'OCEANIA · LITHIUM ~40%',
@@ -3061,6 +3164,13 @@ const links=[
   {from:'china',to:'europe',type:'supply'},
   {from:'usa',to:'australia',type:'tech'},
   {from:'usa',to:'canada',type:'tech'},
+  {from:'usa',to:'japan',type:'tech'},
+  {from:'japan',to:'taiwan',type:'conflict'},
+  {from:'usa',to:'korea',type:'tech'},
+  {from:'dprk',to:'korea',type:'conflict'},
+  {from:'dprk',to:'russia',type:'supply'},
+  {from:'usa',to:'philippines',type:'tech'},
+  {from:'philippines',to:'china',type:'conflict'},
   {from:'suez',to:'europe',type:'maritime'},
   {from:'redsea',to:'suez',type:'maritime'},
   {from:'redsea',to:'india',type:'maritime'},
@@ -3148,7 +3258,7 @@ function drawHots(){
       '<circle class="halo" cx="'+h.x+'" cy="'+h.y+'" r="14"/>'+
       '<circle class="pulse" cx="'+h.x+'" cy="'+h.y+'" r="13"/>'+
       '<circle class="dot" cx="'+h.x+'" cy="'+h.y+'" r="5"/>'+
-      '<text class="hlabel" x="'+h.x+'" y="'+(h.y+26)+'">'+h.name+'</text>';
+      '<text class="hlabel" x="'+h.x+'" y="'+(h.ly==='up' ? h.y-17 : h.y+26)+'">'+h.name+'</text>';
     g.addEventListener('click',ev=>{ ev.stopPropagation(); selectHot(h.id); });
     g.addEventListener('keydown',ev=>{ if(ev.key==='Enter'||ev.key===' '){ ev.preventDefault(); selectHot(h.id); } });
     hotG.appendChild(g);
@@ -3270,6 +3380,13 @@ geoMap.addEventListener('click',ev=>{
 selectHot('usa');
 
 /* ===== All-view Refresh Buttons ===== */
+/* 军贸表统计小字 */
+(function(){
+  var st=document.getElementById('arms-stats'); if(!st) return;
+  var h3=st.closest('h3'); var card=h3&&h3.nextElementSibling;
+  var n=card?card.querySelectorAll('tbody tr').length:0;
+  st.textContent='　'+n+' 笔主要订单 / 交付 · 四条放量主线';
+})();
 /* 各视图真实刷新钩子：按钮点击时执行对应视图的实际重绘/重算动作 */
 window.__viewRefresh=window.__viewRefresh||{};
 __viewRefresh.riskmodel=function(){ updateScore(); };   /* 07：按当前滑块权重真实重算 WCRI 总分 */
