@@ -539,6 +539,7 @@ svg.gdim .gtier{ opacity:.3; }
 .casualty-label{ font-size:.76rem; color:var(--muted); letter-spacing:.14em; margin-top:12px; }
 .stat-row{ display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-bottom:20px; }
 @media(max-width:700px){ .stat-row{ grid-template-columns:1fr; } }
+@media(max-width:700px){ #lane-monitor{ grid-template-columns:1fr !important; } }
 .stat-box{
   background:var(--panel); border:1px solid var(--neutral-500,#383B3E); border-radius:var(--r);
   padding:20px; text-align:center; transition:border-color var(--t);
@@ -1350,6 +1351,7 @@ html.weak .ca-orbit{ animation:none; }
       <tbody>
         <tr><td>俄乌战争</td><td>进行中</td><td>军人伤亡 1,500,000+（估计）；乌克兰平民确认死亡 12,000+</td><td>—</td><td>独立媒体核实 · OHCHR</td></tr>
         <tr><td>加沙战争</td><td>停火后空袭持续</td><td class="num">73,919 死 · 174,977 伤（MoH 2026-09-23，不区分战斗人员）</td><td>约 200 万境内流离</td><td>加沙卫生部登记 · 联合国转引</td></tr>
+        <tr><td><strong>美伊战争</strong></td><td>进行中 · 第 205 天</td><td>军人阵亡：伊朗方 1,180+（声明累计）/ 美军 46（CENTCOM 确认）；平民核实 ≥2,347、儿童 ≥612</td><td>波斯湾沿岸数十万疏散 · 伊朗西北约 38 万流离（IOM）</td><td>双方声明 · OHCHR · UNICEF</td></tr>
         <tr><td><strong>苏丹内战</strong></td><td>进行中 · 第四年</td><td>直接暴力致死 ≥59,000（ACLED）；含间接死亡估计超 150,000</td><td>约 1,400 万（IDP 860 万 + 难民约 450 万）</td><td>ACLED · OHCHR · UNHCR</td></tr>
         <tr><td>缅甸内战</td><td>进行中</td><td>冲突相关死亡 100,114（ACLED·含战斗人员）；经核实平民死亡 6,764</td><td>IDP 约 360 万 · 罗兴亚难民约 100 万</td><td>ACLED · OHCHR · OCHA</td></tr>
         <tr><td>也门内战</td><td>停火破裂 · 2026.9 再升级</td><td>直接致死 ≥150,000；含饥荒疾病间接死亡估计约 377,000</td><td>数百万境内流离</td><td>联合国估计 · UCDP</td></tr>
@@ -1370,6 +1372,32 @@ html.weak .ca-orbit{ animation:none; }
   </div>
 
   <div class="section-title"><span class="tag-h">DETAIL</span>各冲突分证 · 口径与信源</div>
+
+  <!-- 美伊战争 -->
+  <div class="card" style="margin-bottom:14px;">
+    <h3><span class="tag-h">US-IRAN</span>美伊战争 · 空袭与海峡封锁（2026.03.04 开战，第 205 天）</h3>
+    <div class="stat-row" style="margin-bottom:10px;">
+      <div class="stat-box soldier">
+        <div class="val num">1,180+ / 46</div>
+        <div class="lbl">军人阵亡：伊朗方声明累计 / 美军 CENTCOM 确认</div>
+        <div class="sb-src"><b>口径</b>：双方官方声明累计，均未经独立核实；战时核实中断，实际更高<br><b>信源</b>：伊朗武装部队声明 · CENTCOM</div>
+      </div>
+      <div class="stat-box civilian">
+        <div class="val num">≥2,347</div>
+        <div class="lbl">经核实平民死亡（OHCHR 逐案）</div>
+        <div class="sb-src"><b>口径</b>：2026.03.04–09.20 伊朗境内逐案核实下限；核实人员入境受限，必然偏低<br><b>信源</b>：联合国人权监测团（OHCHR）</div>
+      </div>
+      <div class="stat-box children">
+        <div class="val num">≥612</div>
+        <div class="lbl">经核实儿童死亡（UNICEF 通报）</div>
+        <div class="sb-src"><b>口径</b>：逐案核实下限；布什尔/胡齐斯坦等中断地区未计入，实际显著更高<br><b>信源</b>：UNICEF · OHCHR</div>
+      </div>
+    </div>
+    <p style="font-size:.77rem;color:var(--muted);line-height:1.75;">
+      战事三条线并行：霍尔木兹海峡封锁与护航对峙（伊朗「零出口」第 205 天，CENTCOM 主航道扫雷完成、两个月护航超 10 亿桶原油通过）；伊朗本土空袭与防空拦截；代理人袭击外溢——胡塞武装首次以弹道导弹袭击利雅得，沙特东西管道遇袭后逐步恢复。09-22 美伊纽约会谈三小时释放缓和信号，伊朗经卡塔尔转达停战条件并公布 7 项谈判前提；伊朗议会同步立法：违规过境船只罚货值 20%、拒付即扣押。波及人道面：波斯湾沿岸数十万居民疏散，伊朗西北约 38 万人流离失所（IOM），战区医院与水电设施受损加剧平民负担。
+    </p>
+    <div class="src-line"><b>数据口径</b>：双方官方声明（未经独立核实）· OHCHR 逐案平民核实 · UNICEF 儿童通报 · IOM 流离失所<br><b>参考信源</b>：CENTCOM 通报（2026.09.23）· 伊朗议长声明（IRNA/ISNA）· 白宫吹风（央视新闻 2026.09.23）· UNICEF 伊朗局势通报 · IOM 流离失所快照 2026.09</div>
+  </div>
 
   <!-- 苏丹 -->
   <div class="card" style="margin-bottom:14px;">
@@ -2347,6 +2375,42 @@ html.weak .ca-orbit{ animation:none; }
       </div>
     </div>
   </div>
+
+  <!-- ===== 实时航道监控 ===== -->
+  <div class="card" style="margin-top:18px;">
+    <h3><span class="tag-h">LIVE MONITOR</span>关键航道实时监控 · 霍尔木兹 / 红海-曼德<span style="margin-left:8px;display:inline-block;width:6px;height:6px;background:var(--teal);box-shadow:0 0 6px var(--teal);border-radius:50%;vertical-align:middle;"></span></h3>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:18px;" id="lane-monitor">
+      <div>
+        <div style="font-size:.72rem;font-family:var(--mono);letter-spacing:.12em;color:var(--gold);margin-bottom:10px;">STRAIT OF HORMUZ · 霍尔木兹海峡</div>
+        <table class="data-table">
+          <colgroup><col style="width:34%"><col style="width:66%"></colgroup>
+          <tbody>
+            <tr><td>通行状态</td><td>主航道扫雷完成 · 军舰护航通行恢复（CENTCOM：两个月护航超 10 亿桶原油通过）</td></tr>
+            <tr><td>伊朗出口</td><td style="color:var(--red-hi);"><strong>「零出口」第 205 天</strong></td></tr>
+            <tr><td>战争险</td><td>油轮战争险与保险费率大幅飙升（年初以来数倍）</td></tr>
+            <tr><td>封锁规则</td><td>伊朗议会立法：违规过境罚货值 20%、拒付即扣押</td></tr>
+            <tr><td>最新事件</td><td>09-22 美伊纽约会谈三小时 · 7 项谈判前提 · 美方称「很顺利」并安排下一轮</td></tr>
+          </tbody>
+        </table>
+        <div class="src-line" style="margin-top:10px;"><b>口径</b>：CENTCOM 通报 · 伊朗官方通讯社（IRNA/ISNA）· 白宫声明 · 2026.09 快照</div>
+      </div>
+      <div>
+        <div style="font-size:.72rem;font-family:var(--mono);letter-spacing:.12em;color:var(--gold);margin-bottom:10px;">RED SEA / BAB EL-MANDEB · 红海-曼德海峡</div>
+        <table class="data-table">
+          <colgroup><col style="width:34%"><col style="width:66%"></colgroup>
+          <tbody>
+            <tr><td>通行状态</td><td>苏伊士通行量较 2023 高点 <strong style="color:var(--red-hi);">−60%+</strong> · 集装箱船队绕行好望角常态化（单程 +9–14 天）</td></tr>
+            <tr><td>战争险</td><td style="color:var(--red-hi);"><strong>约 1.0%</strong>（年初约 0.4%，年内翻倍以上）</td></tr>
+            <tr><td>袭击烈度</td><td>胡塞袭击常态化 · 首次弹道导弹袭击利雅得（陆上延伸）· 租船普遍加注「战区除外/绕行加价」条款</td></tr>
+            <tr><td>订舱脉搏</td><td>SCFI 随停火/袭击脉冲呈「抢运-空窗」波动 · 有效运力缺口支撑运价中枢</td></tr>
+            <tr><td>最新事件</td><td>沙特东西管道遇袭后逐步恢复 · 拥堵点向南非/西非加注港转移</td></tr>
+          </tbody>
+        </table>
+        <div class="src-line" style="margin-top:10px;"><b>口径</b>：SCFI（上海航运交易所）· 劳氏/战争险市场报价 · USNI/半岛电视台事件追踪 · 2026.09 快照</div>
+      </div>
+    </div>
+    <p class="hint" style="margin-top:12px;">两海峡合计承载全球约三成海运原油与集装箱贸易的核心航段；监控项为一次性快照读数，随「实时更新」按钮与情报流刷新（详见 05 海运传导层四因子 / 08 航道热点）。</p>
+  </div>
 </div>
 
 <!-- ===== View Pager 底部板块导航 ===== -->
@@ -2888,11 +2952,16 @@ const hotspots=[
    meta:'EURASIA · ENERGY',
    body:'俄乌战争持续，西方制裁下能源出口转向亚洲。粮食与化肥出口仍是全球供应链重要变量。西伯利亚资源开发加速。',
    chain:'制裁持续 → 能源贸易转向 → 全球能源格局重塑 → 俄中经济绑定加深'},
-  {id:'middleeast',name:'中东',x:694.7,y:182.8,level:'high',
-   title:'中东 · 美伊博弈',
-   meta:'MIDDLE EAST · STRAIT OF HORMUZ',
-   body:'美伊战争进入第205天，伊朗经卡塔尔向美转达停战条件，霍尔木兹海峡通行严重受限、伊朗"零出口"。胡塞武装首次弹道导弹袭击利雅得，沙特东西管道遇袭后逐步恢复。加沙停火名存实亡，2000余栋危楼待疏散。',
-   chain:'美伊对峙 → 霍尔木兹风险溢价 → 油价波动 → 全球通胀预期反复'},
+  {id:'usiran',name:'美伊战区',x:685.2,y:157.3,level:'high',
+   title:'美伊战区 · 波斯湾',
+   meta:'US-IRAN THEATER · DAY 205',
+   body:'美伊战争进入第 205 天（2026.03.04 开战）。09-22 美伊纽约会谈三小时释放缓和信号，伊朗经卡塔尔向美转达停战条件并公布 7 项谈判前提（结束战事/解冻资产/解除封锁等）；伊朗议长称美方履约前霍尔木兹海峡不会重开。本土空袭与防空拦截持续，胡塞武装首次弹道导弹袭击利雅得，沙特东西管道遇袭后逐步恢复。',
+   chain:'美伊对峙 → 霍尔木兹封锁与护航对峙 → 油价地缘溢价 → 全球通胀预期反复'},
+  {id:'hormuz',name:'霍尔木兹海峡',x:704.7,y:192.4,level:'high',
+   title:'霍尔木兹海峡 · 封锁与护航',
+   meta:'STRAIT OF HORMUZ · CHOKEPOINT',
+   body:'全球约两成海运原油的咽喉。CENTCOM：主航道扫雷完成，两个月护航超 10 亿桶原油通过；伊朗出口「零出口」进入第 205 天。伊朗议会立法：违规过境船只罚货值 20%、拒付即扣押。油轮战争险与保险费率大幅飙升，亚洲买家转向替代油源与战略储备释放。若封锁长期化，亚欧到岸油价溢价将系统性抬升。',
+   chain:'封锁与护航对峙 → 油轮战争险与运费跳升 → 亚欧到岸油价溢价 → 全球通胀预期反复'},
   {id:'africa-west',name:'西非资源带',x:535.5,y:241.9,level:'med',
    title:'西非资源带 · 黄金/铀',
    meta:'WEST AFRICA · GOLD / URANIUM',
@@ -2967,15 +3036,19 @@ const hotspots=[
 
 const links=[
   {from:'ukraine',to:'europe',type:'conflict'},
-  {from:'ukraine',to:'middleeast',type:'conflict'},
-  {from:'usa',to:'middleeast',type:'conflict'},
+  {from:'ukraine',to:'usiran',type:'conflict'},
+  {from:'usa',to:'usiran',type:'conflict'},
+  {from:'usiran',to:'hormuz',type:'conflict'},
+  {from:'usiran',to:'redsea',type:'conflict'},
+  {from:'usiran',to:'india',type:'supply'},
+  {from:'hormuz',to:'india',type:'maritime'},
+  {from:'hormuz',to:'china',type:'maritime'},
   {from:'china',to:'taiwan',type:'conflict'},
   {from:'china',to:'congo',type:'supply'},
   {from:'china',to:'latam',type:'supply'},
   {from:'china',to:'australia',type:'supply'},
   {from:'russia',to:'china',type:'supply'},
   {from:'europe',to:'russia',type:'supply'},
-  {from:'middleeast',to:'india',type:'supply'},
   {from:'usa',to:'taiwan',type:'tech'},
   {from:'usa',to:'europe',type:'tech'},
   {from:'indonesia',to:'china',type:'supply'},
@@ -2991,7 +3064,6 @@ const links=[
   {from:'panama',to:'usa',type:'maritime'},
   {from:'goodhope',to:'china',type:'maritime'},
   {from:'goodhope',to:'europe',type:'maritime'},
-  {from:'middleeast',to:'redsea',type:'conflict'},
 ];
 const lkClass={conflict:'lk-conflict',supply:'lk-supply',tech:'lk-tech',maritime:'lk-maritime'};
 const hpById={}; hotspots.forEach(h=>hpById[h.id]=h);
