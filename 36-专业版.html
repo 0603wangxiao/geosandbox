@@ -915,6 +915,8 @@ svg.gdim .gtier{ opacity:.3; }
 .refresh-btn.spinning svg{ animation:spin 1s linear infinite; }
 @keyframes spin{ to{ transform:rotate(360deg); } }
 .refresh-btn svg{ width:13px; height:13px; }
+.refresh-stamp{ font-size:.6rem; color:var(--faint); font-family:var(--mono); letter-spacing:.04em; margin-left:8px; white-space:nowrap; vertical-align:middle; }
+.refresh-stamp b{ color:var(--teal); font-weight:500; }
 .last-updated{ font-size:.64rem; color:var(--faint); margin-left:8px; font-family:var(--mono); }
 /* 自动刷新微标识：小脉冲点+文字，随时间戳一起更新，弱机静态呈现 */
 .auto-live{ display:inline-flex; align-items:center; gap:4px; vertical-align:baseline; }
@@ -1158,13 +1160,13 @@ html.weak .ca-orbit{ animation:none; }
     <circle cx="86.7" cy="89.5" r="2.3"/>
   </g>
   <g class="r-val">
-    <text x="150" y="44" text-anchor="middle" dominant-baseline="middle">84</text>
-    <text x="227.6" y="80.4" text-anchor="start" dominant-baseline="middle">86</text>
-    <text x="240.3" y="152.2" text-anchor="start" dominant-baseline="middle">82</text>
-    <text x="192.1" y="211.8" text-anchor="start" dominant-baseline="middle">73</text>
-    <text x="111.8" y="230.9" text-anchor="middle" dominant-baseline="middle">88</text>
-    <text x="51.9" y="166" text-anchor="end" dominant-baseline="middle">90</text>
-    <text x="76.3" y="83.5" text-anchor="end" dominant-baseline="middle">81</text>
+    <text x="156.5" y="70" text-anchor="start" dominant-baseline="middle">84</text>
+    <text x="207.1" y="94.5" text-anchor="middle" dominant-baseline="middle">86</text>
+    <text x="217.2" y="155.3" text-anchor="middle" dominant-baseline="middle">82</text>
+    <text x="176.1" y="194.1" text-anchor="middle" dominant-baseline="middle">73</text>
+    <text x="117.4" y="207.6" text-anchor="middle" dominant-baseline="middle">88</text>
+    <text x="75" y="157.1" text-anchor="middle" dominant-baseline="middle">90</text>
+    <text x="96.9" y="97.6" text-anchor="middle" dominant-baseline="middle">81</text>
   </g>
   <line class="r-legend-line" x1="40" y1="276" x2="260" y2="276"/>
   <rect class="r-legend-swatch" x="40" y="282.5" width="14" height="7"/>
@@ -2785,6 +2787,9 @@ companies.forEach(c=>{
   }
   render();
   if(mq.addEventListener) mq.addEventListener('change',render); else mq.addListener(render);
+  /* 刷新钩子：重绘 AI 军事化供应网络图 */
+  window.__viewRefresh=window.__viewRefresh||{};
+  __viewRefresh.aimilitary=render;
 
   const gs=document.getElementById('graph-stats');
   if(gs){
@@ -3109,39 +3114,48 @@ function arrowPath(x1,y1,x2,y2){
   return 'M'+bx.toFixed(1)+','+by.toFixed(1)+' L'+px1.toFixed(1)+','+py1.toFixed(1)+' L'+x2.toFixed(1)+','+y2.toFixed(1)+' L'+px2.toFixed(1)+','+py2.toFixed(1)+' Z';
 }
 const linkEls=[];
-links.forEach(lk=>{
-  const a=hpById[lk.from], b=hpById[lk.to];
-  if(!a||!b) return;
-  const g=document.createElementNS(NS,'g');
-  g.setAttribute('class','map-link '+lkClass[lk.type]);
-  g.setAttribute('data-type',lk.type);
-  const d=arcPath(a.x,a.y,b.x,b.y);
-  addPath(g,'link-base',d);
-  addPath(g,'link-arrow',arrowPath(a.x,a.y,b.x,b.y));
-  addPath(g,'link-flow',d);
-  linksG.appendChild(g);
-  linkEls.push(g);
-});
+function drawLinks(){
+  linksG.innerHTML='';
+  linkEls.length=0;
+  links.forEach(lk=>{
+    const a=hpById[lk.from], b=hpById[lk.to];
+    if(!a||!b) return;
+    const g=document.createElementNS(NS,'g');
+    g.setAttribute('class','map-link '+lkClass[lk.type]);
+    g.setAttribute('data-type',lk.type);
+    const d=arcPath(a.x,a.y,b.x,b.y);
+    addPath(g,'link-base',d);
+    addPath(g,'link-arrow',arrowPath(a.x,a.y,b.x,b.y));
+    addPath(g,'link-flow',d);
+    linksG.appendChild(g);
+    linkEls.push(g);
+  });
+}
 
 /* ---- 热点 ---- */
 const hotEls={};
-hotspots.forEach(h=>{
-  const g=document.createElementNS(NS,'g');
-  g.setAttribute('class','map-hotspot '+h.level);
-  g.setAttribute('data-id',h.id);
-  g.setAttribute('tabindex','0');
-  g.setAttribute('role','button');
-  g.setAttribute('aria-label',h.title);
-  g.innerHTML=
-    '<circle class="halo" cx="'+h.x+'" cy="'+h.y+'" r="14"/>'+
-    '<circle class="pulse" cx="'+h.x+'" cy="'+h.y+'" r="13"/>'+
-    '<circle class="dot" cx="'+h.x+'" cy="'+h.y+'" r="5"/>'+
-    '<text class="hlabel" x="'+h.x+'" y="'+(h.y+26)+'">'+h.name+'</text>';
-  g.addEventListener('click',ev=>{ ev.stopPropagation(); selectHot(h.id); });
-  g.addEventListener('keydown',ev=>{ if(ev.key==='Enter'||ev.key===' '){ ev.preventDefault(); selectHot(h.id); } });
-  hotG.appendChild(g);
-  hotEls[h.id]=g;
-});
+function drawHots(){
+  hotG.innerHTML='';
+  Object.keys(hotEls).forEach(k=>{ delete hotEls[k]; });
+  hotspots.forEach(h=>{
+    const g=document.createElementNS(NS,'g');
+    g.setAttribute('class','map-hotspot '+h.level);
+    g.setAttribute('data-id',h.id);
+    g.setAttribute('tabindex','0');
+    g.setAttribute('role','button');
+    g.setAttribute('aria-label',h.title);
+    g.innerHTML=
+      '<circle class="halo" cx="'+h.x+'" cy="'+h.y+'" r="14"/>'+
+      '<circle class="pulse" cx="'+h.x+'" cy="'+h.y+'" r="13"/>'+
+      '<circle class="dot" cx="'+h.x+'" cy="'+h.y+'" r="5"/>'+
+      '<text class="hlabel" x="'+h.x+'" y="'+(h.y+26)+'">'+h.name+'</text>';
+    g.addEventListener('click',ev=>{ ev.stopPropagation(); selectHot(h.id); });
+    g.addEventListener('keydown',ev=>{ if(ev.key==='Enter'||ev.key===' '){ ev.preventDefault(); selectHot(h.id); } });
+    hotG.appendChild(g);
+    hotEls[h.id]=g;
+  });
+}
+drawLinks(); drawHots();
 
 /* ---- 详情联动 ---- */
 const mdBody=document.getElementById('md-body');
@@ -3256,6 +3270,32 @@ geoMap.addEventListener('click',ev=>{
 selectHot('usa');
 
 /* ===== All-view Refresh Buttons ===== */
+/* 各视图真实刷新钩子：按钮点击时执行对应视图的实际重绘/重算动作 */
+window.__viewRefresh=window.__viewRefresh||{};
+__viewRefresh.riskmodel=function(){ updateScore(); };   /* 07：按当前滑块权重真实重算 WCRI 总分 */
+__viewRefresh.casualties=function(){                    /* 03：静态快照无实时源，重读并标注读取时间 */
+  const d=new Date();
+  const hm=String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0')+':'+String(d.getSeconds()).padStart(2,'0');
+  const sub=document.querySelector('#view-casualties .view-sub');
+  if(sub){
+    let sp=document.getElementById('cas-read-stamp');
+    if(!sp){ sp=document.createElement('span'); sp.id='cas-read-stamp'; sub.appendChild(sp); }
+    sp.style.color='var(--faint)';
+    sp.textContent=' · 快照读取于 '+hm;
+  }
+};
+__viewRefresh.scenario=function(){                      /* 08：重绘链路层与热点层，恢复过滤与选中状态 */
+  drawLinks(); drawHots();
+  if(selected) selectHot(selected); else applyLinks();
+};
+const STAMP_Q={overview:'实时讯号',news:'实时讯号',casualties:'快照读取',resources:'快照重绘',nationalism:'图谱重绘',aimilitary:'图谱重绘',riskmodel:'模型重算',scenario:'沙盘重绘'};
+function stampRefresh(btn,target){
+  const d=new Date();
+  const hm=String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0')+':'+String(d.getSeconds()).padStart(2,'0');
+  let st=btn.parentNode.querySelector('.refresh-stamp[data-for]');
+  if(!st){ st=document.createElement('span'); st.className='refresh-stamp'; st.dataset.for=target; btn.insertAdjacentElement('afterend',st); }
+  st.innerHTML='<b>'+(STAMP_Q[target]||'已更新')+'</b> · 更新于 '+hm;
+}
 document.querySelectorAll('.refresh-view').forEach(btn=>{
   btn.addEventListener('click',()=>{
     if(btn.classList.contains('spinning')) return;   /* 防重入 */
@@ -3268,6 +3308,7 @@ document.querySelectorAll('.refresh-view').forEach(btn=>{
       const origHTML=btn.innerHTML;
       btn.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg> 已更新';
       btn.style.background='rgba(41,115,255,.14)'; btn.style.color='var(--brand-400)';
+      stampRefresh(btn,target);
       setTimeout(()=>{ btn.innerHTML=origHTML; btn.style.background=''; btn.style.color=''; },1500);
     };
     if(target==='overview'||target==='news'){
@@ -3278,7 +3319,8 @@ document.querySelectorAll('.refresh-view').forEach(btn=>{
       refreshLiveNews(target).then(finish).catch(finish);
       setTimeout(finish,6500);   /* 网络停滞兜底 */
     } else {
-      setTimeout(finish,800);
+      try{ if(__viewRefresh[target]) __viewRefresh[target](); }catch(e){}
+      setTimeout(finish,500);
     }
   });
 });
@@ -3966,6 +4008,9 @@ const refreshNewsPool=[
     side.querySelector('.rsc-back').addEventListener('click',()=>select(cur));
     side.scrollTop=0;
   }
+  /* 刷新钩子：重绘资源地图与当前选中面板 */
+  window.__viewRefresh=window.__viewRefresh||{};
+  __viewRefresh.resources=function(){ select(cur); };
   select(cur);
 })();
 
@@ -4058,6 +4103,9 @@ const refreshNewsPool=[
   }
   render();
   if(mq.addEventListener) mq.addEventListener('change',render); else mq.addListener(render);
+  /* 刷新钩子：重绘传导逻辑图谱 */
+  window.__viewRefresh=window.__viewRefresh||{};
+  __viewRefresh.nationalism=render;
 
   const gs=document.getElementById('rn-stats');
   if(gs) gs.textContent=`　${N.length} 节点 · ${L.length} 条关系 · 四层传导逻辑`;
