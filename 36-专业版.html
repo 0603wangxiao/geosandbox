@@ -1779,7 +1779,7 @@ html.weak .ca-orbit{ animation:none; }
   </div>
 
   <div class="card" style="margin-bottom:18px;">
-    <h3><span class="tag-h">CR3</span>全球产量集中度</h3>
+    <h3><span class="tag-h">CR1</span>全球产量集中度 <span style="font-family:var(--mono);font-size:.62rem;color:var(--faint);letter-spacing:.06em;">第一生产国份额 · 15 类 · <i style="display:inline-block;width:8px;height:8px;background:#FF6B6B;border-radius:2px;margin:0 3px 0 8px;vertical-align:middle;"></i>≥65% <i style="display:inline-block;width:8px;height:8px;background:#EAD08A;border-radius:2px;margin:0 3px 0 8px;vertical-align:middle;"></i>35–64% <i style="display:inline-block;width:8px;height:8px;background:#B0FFEB;border-radius:2px;margin:0 3px 0 8px;vertical-align:middle;"></i>&lt;35%</span></h3>
     <div id="resource-bars"></div>
   </div>
 
@@ -1788,17 +1788,25 @@ html.weak .ca-orbit{ animation:none; }
     <table class="data-table">
       <colgroup><col style="width:13%"><col style="width:16%"><col style="width:9%"><col style="width:16%"><col style="width:9%"><col style="width:37%"></colgroup>
       <thead>
-        <tr><th>资源</th><th>第一生产国</th><th>占比</th><th>第二生产国</th><th>占比</th><th>精炼主导国</th></tr>
+        <tr><th>资源</th><th>第一生产国</th><th>占比</th><th>第二生产国</th><th>占比</th><th>精炼/加工主导</th></tr>
       </thead>
       <tbody>
-        <tr><td>稀土</td><td class="res-prod">中国</td><td class="num">60%</td><td>美国</td><td class="num">15%</td><td class="res-refine">中国 90%+</td></tr>
+        <tr><td>稀土</td><td class="res-prod">中国</td><td class="num">60%</td><td>美国</td><td class="num">15%</td><td class="res-refine">中国 90%</td></tr>
         <tr><td>钴</td><td class="res-prod">刚果(金)</td><td class="num">74%</td><td>印尼</td><td class="num">5%</td><td class="res-refine">中国 70%</td></tr>
         <tr><td>镍</td><td class="res-prod">印尼</td><td class="num">67%</td><td>菲律宾</td><td class="num">7%</td><td class="res-refine">中国 65%</td></tr>
         <tr><td>石墨</td><td class="res-prod">中国</td><td class="num">65%</td><td>马达加斯加</td><td class="num">12%</td><td class="res-refine">中国 90%</td></tr>
-        <tr><td>铜</td><td class="res-prod">智利</td><td class="num">28%</td><td>秘鲁</td><td class="num">10%</td><td class="res-refine">中国 ~40%</td></tr>
+        <tr><td>铜</td><td class="res-prod">智利</td><td class="num">28%</td><td>秘鲁</td><td class="num">10%</td><td class="res-refine">中国 40%</td></tr>
         <tr><td>锂(储量)</td><td class="res-prod">智利</td><td class="num">25%</td><td>澳大利亚</td><td class="num">~20%</td><td class="res-refine">中国 60%</td></tr>
         <tr><td>锂(产量)</td><td class="res-prod">澳大利亚</td><td class="num">~40%</td><td>智利</td><td class="num">~25%</td><td class="res-refine">中国 60%</td></tr>
-        <tr><td>钨(加工)</td><td class="res-prod">中国</td><td class="num">80%</td><td>越南</td><td class="num">~5%</td><td class="res-refine">中国 80%</td></tr>
+        <tr><td>钨</td><td class="res-prod">中国</td><td class="num">80%</td><td>越南</td><td class="num">~5%</td><td class="res-refine">中国 80%</td></tr>
+        <tr><td>铝</td><td class="res-prod">几内亚</td><td class="num">28%</td><td>澳大利亚</td><td class="num">17%</td><td class="res-refine">中国 59%（电解）</td></tr>
+        <tr><td>铂族</td><td class="res-prod">南非</td><td class="num">72%</td><td>俄罗斯</td><td class="num">12%</td><td class="res-refine">南非 78%</td></tr>
+        <tr><td>黄金</td><td class="res-prod">中国</td><td class="num">10%</td><td>澳大利亚</td><td class="num">10%</td><td class="res-refine">瑞士 70%</td></tr>
+        <tr><td>白银</td><td class="res-prod">墨西哥</td><td class="num">24%</td><td>中国</td><td class="num">13%</td><td class="res-refine">中国 35%</td></tr>
+        <tr><td>化肥</td><td class="res-prod">加拿大</td><td class="num">32%</td><td>白俄罗斯</td><td class="num">17%</td><td class="res-refine">中国 26%（加工）</td></tr>
+        <tr><td>粮食(产量)</td><td class="res-prod">中国</td><td class="num">18%</td><td>美国</td><td class="num">16%</td><td class="res-refine">巴西 27%（出口）</td></tr>
+        <tr><td>石油</td><td class="res-prod">美国</td><td class="num">20%</td><td>沙特</td><td class="num">11%</td><td class="res-refine">美国 18%</td></tr>
+        <tr><td>天然气</td><td class="res-prod">美国</td><td class="num">25%</td><td>俄罗斯</td><td class="num">15%</td><td class="res-refine">美国 21%（液化）</td></tr>
         <tr><td>镁(进口)</td><td colspan="2">欧盟97%镁进口来自中国</td><td>—</td><td>—</td><td class="res-refine">中国</td></tr>
       </tbody>
     </table>
@@ -1807,10 +1815,11 @@ html.weak .ca-orbit{ animation:none; }
   <div class="card">
     <h3><span class="tag-h">INSIGHT</span>关键洞察</h3>
     <p style="font-size:.84rem;line-height:1.85;color:var(--muted);">
-      中国在全球20种关键矿产中，对<strong style="color:var(--fg);">19种</strong>的精炼加工占据主导地位，平均市占率约70%。
-      开采端的集中度虽低于精炼端，但钴(刚果金74%)、镍(印尼67%)、稀土(中国60%)的CR1已极高。
-      这意味着：即使开采不在中国手中，<strong style="color:var(--red-hi);">精炼环节</strong>仍是最大瓶颈——
-      从矿石到电池级/磁材级材料的转化能力，才是真正的"卡脖子"环节。
+      纵览 15 类战略资源，<strong style="color:var(--fg);">"开采分散、精炼集中"</strong>是最普遍的结构性错位：
+      中国在全球20种关键矿产中对<strong style="color:var(--fg);">19种</strong>的精炼加工占据主导（稀土/石墨90%、钴70%、镍65%、锂60%、铝电解59%、白银35%、化肥加工26%），平均市占率约70%——即使开采不在中国手中，从矿石到电池级/磁材级材料的<strong style="color:var(--red-hi);">精炼转化能力</strong>仍是最大瓶颈。
+      但集中度风险并非中国独有：铂族精炼 78% 在南非，<strong style="color:var(--fg);">黄金精炼 70% 在瑞士</strong>——矿端分散、枢纽垄断是贵金属的镜像结构。
+      能源板块呈"美俄沙三角"：石油/天然气开采端美国 20%/25% 居首、OPEC+ 掌握闲置产能定价权，霍尔木兹海峡承担全球约两成海运原油。
+      农资与粮食是另一条主线：加拿大钾肥 32% 加上白俄-俄 BPC 出口联盟（掌控全球钾肥出口约四成）、摩洛哥坐拥七成磷矿储量，化肥禁运已成为间接武器；粮食则"产量在中国、出口在拉美与黑海"——巴西大豆出口 55%+、俄罗斯小麦出口 25%+，黑海走廊每一次中断都直接写进进口国的面包价格。
     </p>
   </div>
 </div>
@@ -2389,14 +2398,23 @@ function tick(){
 }
 tick(); setInterval(tick,30000);
 
-/* ===== Resource Bars ===== */
+/* ===== Resource Bars (CR1, 15类, 按 RSC mine 数据) ===== */
 const resources=[
+  {name:'钨',pct:80,color:'#FF6B6B'},
   {name:'钴',pct:74,color:'#FF6B6B'},
-  {name:'镍',pct:67,color:'#EAD08A'},
-  {name:'石墨',pct:65,color:'#EAD08A'},
-  {name:'稀土',pct:60,color:'#FF6B6B'},
-  {name:'锂(产量)',pct:40,color:'#B0FFEB'},
-  {name:'铜',pct:28,color:'#FF5C9D'},
+  {name:'铂族',pct:72,color:'#FF6B6B'},
+  {name:'镍',pct:67,color:'#FF6B6B'},
+  {name:'石墨',pct:65,color:'#FF6B6B'},
+  {name:'稀土',pct:60,color:'#EAD08A'},
+  {name:'锂(产量)',pct:40,color:'#EAD08A'},
+  {name:'化肥',pct:32,color:'#B0FFEB'},
+  {name:'铜',pct:28,color:'#B0FFEB'},
+  {name:'铝',pct:28,color:'#B0FFEB'},
+  {name:'天然气',pct:25,color:'#B0FFEB'},
+  {name:'白银',pct:24,color:'#B0FFEB'},
+  {name:'石油',pct:20,color:'#B0FFEB'},
+  {name:'粮食(产量)',pct:18,color:'#B0FFEB'},
+  {name:'黄金',pct:10,color:'#B0FFEB'},
 ];
 const rb=document.getElementById('resource-bars');
 resources.forEach(r=>{
