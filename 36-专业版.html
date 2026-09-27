@@ -1748,7 +1748,7 @@ html.weak .ca-orbit{ animation:none; }
 <!-- ===== VIEW 04: Resources ===== -->
 <div class="view" id="view-resources">
   <div class="view-head"><div class="view-head-l"><h2 class="view-title"><span class="vi">04</span>战略资源全球分布</h2></div><button class="refresh-btn refresh-view" data-target="resources" style="margin-left:12px;vertical-align:middle;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg> 实时更新</button></div>
-  <p class="view-sub">2026 年 13 类战略资源全球分布（能源 · 贵金属 · 关键矿产）· 供需结构与产业链 · 数据来源：USGS / IEA / EIA / World Metal Statistics</p>
+  <p class="view-sub">2026 年 15 类战略资源全球分布（能源 · 贵金属 · 农资与粮食 · 关键矿产）· 供需结构与产业链 · 数据来源：USGS / IEA / EIA / FAO / World Metal Statistics</p>
 
   <div class="card" style="margin-bottom:18px;">
     <h3><span class="tag-h">MAP</span>全球资源分布地图 <span style="font-family:var(--mono);font-size:.62rem;color:var(--faint);letter-spacing:.06em;">点击气泡查看该国资源档案与最新动态 · 虚环 = 精炼 CR1 所在国（金 = 中国）</span></h3>
@@ -3152,7 +3152,7 @@ const refreshNewsPool=[
   const mColor=m=>ROLE_COLOR[m.c]||'#B0FFEB';
   /* 规整规则：仅国名承接角色色，百分比等数字保持中性；不进入既有标签/徽章内部着色，避免颜色碎片化 */
   const COUNTRY_COLOR=Object.assign({},ROLE_COLOR);
-  ['智利','阿根廷','秘鲁','巴西','刚果(金)','印尼','菲律宾','津巴布韦','马达加斯加','莫桑比克','越南','墨西哥','玻利维亚','南非','几内亚','加纳','印度','沙特','伊拉克','伊朗','卡塔尔'].forEach(function(c){ if(!COUNTRY_COLOR[c]) COUNTRY_COLOR[c]='#B0FFEB'; });
+  ['智利','阿根廷','秘鲁','巴西','刚果(金)','印尼','菲律宾','津巴布韦','马达加斯加','莫桑比克','越南','墨西哥','玻利维亚','南非','几内亚','加纳','印度','沙特','伊拉克','伊朗','卡塔尔','白俄罗斯','摩洛哥','乌克兰'].forEach(function(c){ if(!COUNTRY_COLOR[c]) COUNTRY_COLOR[c]='#B0FFEB'; });
   const C_ALT=Object.keys(COUNTRY_COLOR).sort(function(a,b){return b.length-a.length;}).map(function(c){return c.replace(/[()]/g,'\\$&');}).join('|');
   const C_PAT=new RegExp('('+C_ALT+')','g');
   const cspan=function(t,c){ return '<span style="color:'+c+';">'+t+'</span>'; };
@@ -3214,7 +3214,7 @@ const refreshNewsPool=[
       chain:['黑钨/白钨精矿（赣南·湘南）','APT 仲钨酸铵 → 钨粉/碳化钨（中国 80%）','硬质合金刀具 / 穿甲弹芯 / 高比重合金'],
       mil:['穿甲弹弹芯：钨合金替代贫铀（WHA）','动能打击弹药与预制破片','装甲防护：W-Fe-Ni 高比重合金','火箭喷管钨铜喉衬'],
       tech:['超细晶硬质合金（晶粒 <0.2μm）','钨基高熵合金（下一代弹芯）','再生钨循环（占中国供给约 1/4）']},
-    al:{name:'铝',en:'ALUMINIUM',mineBy:'几内亚',mine:28,refineBy:'中国',refine:59,
+    al:{name:'铝',en:'ALUMINIUM',mineBy:'几内亚',mine:28,refineBy:'中国',refine:59,refineLbl:'电解',
       markers:[{c:'几内亚',v:28,x:501.9,y:242.0},{c:'澳大利亚',v:17,x:929.1,y:366.7},{c:'中国',v:16,x:838.5,y:158.4,refine:59},{c:'印度',v:5,x:762.6,y:203.5},{c:'巴西',v:4,x:390,y:310}],
       summary:'铝土矿开采向几内亚集中（28%），而氧化铝—电解铝环节中国 59% 绝对主导、消费过半；电解铝的高能耗属性使其成为"电价即主权"的品种——国内 4,500 万吨产能红线锁定全球供给弹性。',
       demand:[['建筑型材',28],['交通运输',24],['包装/其他',27],['电力电缆',12],['机械设备',9]],
@@ -3222,6 +3222,22 @@ const refreshNewsPool=[
       chain:['红土型三水铝土矿（几内亚 Boké）/ 澳洲堆积矿','拜耳法氧化铝 → 霍尔-埃鲁电解（中国 59%）','型材/板带箔 / 高纯铝 / 铝锂合金'],
       mil:['航空航天：铝锂合金与高强铝合金结构件','装甲车辆与两栖装备轻量化车体','野战输配电：全军电网铝导线','弹药壳体与无人机机体（6061/7075）'],
       tech:['惰性阳极无碳电解（减碳 90% 路线）','再生铝（二次铝占供给约 1/3）','几内亚矿业协议重审 → 出口费率上行']},
+    fert:{name:'化肥',en:'FERTILIZER',mineBy:'加拿大',mine:32,refineBy:'中国',refine:26,refineLbl:'加工',
+      markers:[{c:'加拿大',v:32,x:240,y:92},{c:'白俄罗斯',v:17,x:620.6,y:94.2},{c:'俄罗斯',v:17,x:766.1,y:71.2},{c:'摩洛哥',v:16,x:521.8,y:168.8},{c:'中国',v:13,x:838.5,y:158.4,refine:26}],
+      summary:'集中度最极端的农资品类：加拿大 32% 钾肥产量居首，白俄罗斯＋俄罗斯合计约 1/3 且联手掌握全球钾肥出口四成——2022 年制裁曾令钾价翻倍；氮肥锚定天然气（欧洲气价=尿素成本线），磷矿储量七成在摩洛哥。',
+      demand:[['粮食作物',58],['经济作物',18],['园艺果蔬',10],['饲料牧草',8],['其他',6]],
+      driver:'粮食安全军事化：印度/巴西进口招标抬价，白俄-俄钾肥"出口联盟"控量挺价，欧洲气价直接决定尿素开工率——化肥禁运已成为仅次于金融制裁的间接武器。',
+      chain:['钾矿（加拿大萨斯喀彻温 / 白俄索利戈尔斯克）/ 磷矿（摩洛哥 OCP）','合成氨（天然气/煤）→ 尿素 · 磷酸一铵 · 氯化钾','复合肥 / 水溶肥 / 控释肥'],
+      mil:['粮食安全即国家安全：化肥禁运=间接武器','合成氨双用途：硝酸铵=炸药前体','白俄-俄钾肥联盟：制裁与反制筹码','国家收储：尿素/磷肥战略储备'],
+      tech:['绿色氨（绿氢合成氨）中试放量','缓控释肥与测土配方减量','磷石膏综合利用与镉污染防治']},
+    grain:{name:'粮食',en:'GRAIN & OILSEEDS',mineBy:'中国',mine:18,refineBy:'巴西',refine:27,mineLbl:'产量 CR1',refineLbl:'出口',
+      markers:[{c:'中国',v:18,x:838.5,y:158.4},{c:'美国',v:16,x:267,y:144.5},{c:'印度',v:12,x:762.6,y:203.5},{c:'巴西',v:10,x:390,y:310,refine:27},{c:'俄罗斯',v:8,x:766.1,y:71.2},{c:'乌克兰',v:4,x:633.1,y:109.8}],
+      summary:'终极战略资源：谷物产量中国 18% 居首但以自用为主；出口端巴西（大豆 55%+、玉米约 30%）与俄罗斯（小麦出口 25%+）握有定价权——黑海走廊与红海航运每一次中断，都直接写进开罗与拉各斯的面包价格。',
+      demand:[['口粮（稻谷/小麦）',44],['饲料粮（玉米/豆粕）',33],['油籽压榨',12],['工业（淀粉/乙醇）',8],['其他',3]],
+      driver:'地缘即粮价：黑海粮食协议反复、红海绕行推高到岸成本；厄尔尼诺与出口禁令（印度大米）交替扰动，进口国加速多源化与海外农业布局。',
+      chain:['主产区种植（东北平原/北美平原/南美草原/黑海）','收储-物流：港口筒仓与散货船队（出口 CR1 巴西）','口粮 / 饲料压榨 / 深加工（淀粉·乙醇）'],
+      mil:['粮食禁运与出口禁令=非常规武器','战略储备粮体系与最低收购价托底','海外农业投资与远洋渔业补给链','军粮自给：战时配给与野战食品工业'],
+      tech:['耐盐碱稻/旱作农业（耕地红线外延）','精准农业与无人农场','生物育种（转基因玉米大豆产业化）']},
     pgm:{name:'铂族',en:'PLATINUM GROUP',mineBy:'南非',mine:72,refineBy:'南非',refine:78,
       markers:[{c:'南非',v:72,x:620.6,y:366.6,refine:78},{c:'俄罗斯',v:12,x:790.8,y:40.4,ly:1},{c:'津巴布韦',v:8,x:622,y:336,ly:1},{c:'加拿大',v:6,x:314.9,y:118.5},{c:'美国',v:3,x:233.2,y:122.3}],
       summary:'集中度最高的品种：南非 Bushveld 杂岩体 72% 开采 + 78% 精炼，俄罗斯（Norilsk）钯约 40% 为第二极；汽车催化与氢能催化不可替代——南非限电常态化压制产出，缺口长期化。',
@@ -3229,10 +3245,9 @@ const refreshNewsPool=[
       driver:'氢能电解槽铂载量刚性增长 + 排放法规收紧拉动钯铑；Eskom 限电使南非精炼负荷率降至八成以下，西方"去俄钯"加速替代布局。',
       chain:['Bushveld 梅林斯基矿层 / Norilsk 硫化镍铜伴生','富集 → 精炼（南非 78%，英国/日本少量）','三元催化 / 燃料电池膜电极 / 电解槽催化剂'],
       mil:['军用车辆与舰艇排气催化','电子：厚膜浆料与连接器镀层','氢燃料电池：AIP 潜艇与野战电源','强腐蚀介质催化与不溶性电极'],
-      tech:['低铂载量膜电极（MEA）技术','二次回收（占供给约 1/4）','津巴布韦 Great Dyke 扩产对冲南非集中'],
-      },
+      tech:['低铂载量膜电极（MEA）技术','二次回收（占供给约 1/4）','津巴布韦 Great Dyke 扩产对冲南非集中']},
     au:{name:'黄金',en:'GOLD',mineBy:'中国',mine:10,refineBy:'瑞士',refine:70,
-      markers:[{c:'中国',v:10,x:838.5,y:158.4},{c:'澳大利亚',v:10,x:929.1,y:366.7},{c:'俄罗斯',v:9,x:824.6,y:64.7},{c:'美国',v:5,x:267,y:144.5},{c:'加纳',v:4,x:539.6,y:252.4},{c:'瑞士',v:70,x:565.9,y:117.4,refine:70,ly:1}],
+      markers:[{c:'中国',v:10,x:838.5,y:158.4},{c:'澳大利亚',v:10,x:929.1,y:366.7},{c:'俄罗斯',v:9,x:824.6,y:64.7},{c:'美国',v:5,x:267,y:144.5},{c:'加纳',v:4,x:539.6,y:252.4},{c:'瑞士',v:70,x:565.9,y:117.4,refine:70,ly:1,hub:1}],
       summary:'矿山产出分散（中国/澳/俄各约一成），精炼与定价权却高度集中：瑞士四座精炼厂承担全球约七成金精矿加工，伦敦—苏黎世—纽约三地定价格局未变；去美元化周期下各国央行连续三年购金超 1,000 吨。',
       demand:[['首饰',44],['央行储备/投资',32],['ETF/金融持仓',12],['工业（电子/牙科）',8],['其他',4]],
       driver:'央行购金潮（储备多元化+地缘避险）推升金价创历史新高；矿端品位下滑与重启项目高成本对冲增量，副产金（铜冶炼阳极泥）占比持续上升。',
@@ -3255,7 +3270,7 @@ const refreshNewsPool=[
       chain:['常规油田 / 页岩油（Permian·Bakken）/ 油砂','常减压 → 催化裂化/加氢裂化（美国 18%）','汽柴油 / 航煤 / 化工轻烃 / 沥青'],
       mil:['喷气燃料 JP-8 与舰艇柴油','全装备谱系润滑油与液压油','野战机场与工事：沥青/泡沫汽油','石化：炸药前体与合成材料'],
       tech:['页岩压裂效率提升（单井产量+）','CCUS 强化采油（EOR）','炼厂轻质/重质原油适应切换']},
-    gas:{name:'天然气',en:'NATURAL GAS',mineBy:'美国',mine:25,refineBy:'美国',refine:21,
+    gas:{name:'天然气',en:'NATURAL GAS',mineBy:'美国',mine:25,refineBy:'美国',refine:21,refineLbl:'液化',
       markers:[{c:'美国',v:25,x:267,y:144.5,refine:21},{c:'俄罗斯',v:15,x:766.1,y:71.2},{c:'伊朗',v:6,x:711.9,y:164.3,ly:1},{c:'中国',v:5,x:838.5,y:158.4},{c:'卡塔尔',v:5,x:687.2,y:192.4},{c:'澳大利亚',v:4,x:929.1,y:366.7}],
       summary:'美国 25% 产量第一且已是最大 LNG 出口国（液化占 21%）；俄罗斯管道气全面转向亚洲，欧洲能源结构 LNG 化。AI 数据中心电力饥渴催生燃气机组获批潮，冬季储气与极寒天气是价格波动主变量。',
       demand:[['发电',39],['工业燃料与原料',26],['居民商用供暖',20],['化工（合成氨/甲醇）',9],['其他',3],['运输（LNG 车/船）',3]],
@@ -3264,7 +3279,7 @@ const refreshNewsPool=[
       mil:['舰艇 LNG 双燃料动力','野战燃气轮机发电机组','合成燃料（e-fuel）的氢碳源','LNG 接收站：高价值战略保护目标'],
       tech:['浮式液化船 FLNG（莫桑比克/毛里塔尼亚）','小型模块化液化装置','甲烷逃逸卫星监测（MRV）']},
   };
-  const order=['ree','li','co','ni','gr','cu','w','al','pgm','au','ag','oil','gas'];
+  const order=['ree','li','co','ni','gr','cu','w','al','pgm','au','ag','fert','grain','oil','gas'];
   /* 国家资源档案与最新动态（与站内 2026 叙事一致） */
   const RC={
     '中国':{en:'CHINA',profile:'全球精炼中枢：USGS 口径 20 种关键矿产中 19 种精炼主导（平均市占约 70%），稀土/石墨/钨/镁同时是最大生产国。出口管制已体系化——从单一商品许可升级为含 0.1% 成分的域外管辖。',assets:['稀土 60%','钨 80%','石墨 65%','锂精炼 60%+','电解铝 59%','白银精炼 35%','黄金 10%','镁 ~85%','镓/锗/锑管制'],news:[
@@ -3342,7 +3357,7 @@ const refreshNewsPool=[
       {d:'2026',t:'"金色席位"计划：央行本地产金增储',s:'央行'}]},
     '印度':{en:'INDIA',profile:'铝土矿/铝冶炼双增长极：PLI 制造激励拉动电解铝扩产，国家关键矿产使命首批区块拍卖落地——全球最大增量需求与国产化雄心并存的资源大国。',assets:['铝土矿 5%','电解铝 ~6%','煤炭'],news:[
       {d:'2026.07',t:'国家关键矿产使命首批区块拍卖完成',s:'矿业部'},
-      {d:'2026.03',t:'铝冶炼扩产对接 PLI 激励， Adani/韦丹塔项目并进',s:'公司公告'}]},
+      {d:'2026.03',t:'铝冶炼扩产对接 PLI 激励，阿达尼/韦丹塔项目并进',s:'公司公告'}]},
     '沙特':{en:'SAUDI ARABIA',profile:'OPEC+ 事实领袖与闲置产能持有者（约 400 万桶/日）：以产量配额行使油价定价权，Manifa 气田扩产与蓝氢战略并行——石油美元体系的中枢正在向"能源+矿业"多元化。',assets:['原油 11%','天然气 ~2.5%','闲置产能 400 万桶/日'],news:[
       {d:'2026.05',t:'OPEC+ 延长减产至年底，闲置产能维持 400 万桶/日',s:'OPEC+'},
       {d:'2026.08',t:'Manifa 气田扩产对接蓝氢出口战略',s:'Aramco'}]},
@@ -3355,6 +3370,15 @@ const refreshNewsPool=[
     '卡塔尔':{en:'QATAR',profile:'全球 LNG 出口前三：North Field 扩建使产能向 1.4 亿吨/年跃升，与欧盟签署长期供应框架——天然气地缘中"长约绑定"策略的最纯粹执行者。',assets:['LNG 出口前三','North Field 扩建 +80%'],news:[
       {d:'2026.08',t:'North Field 扩建首列液化线投产',s:'QatarEnergy'},
       {d:'2026.05',t:'与欧盟签署长期 LNG 供应框架',s:'政策文件'}]},
+    '白俄罗斯':{en:'BELARUS',profile:'全球钾肥第二极（17%）：索利戈尔斯克矿区的 Belaruskali 与俄罗斯乌拉尔钾肥组成 BPC 出口联盟，掌握全球钾肥出口约四成；2021 年制裁后转向亚洲折价销售——制裁与反制的教科书样本。',assets:['钾肥 17%','钾肥出口 ~20%','BPC 出口联盟'],news:[
+      {d:'2026.06',t:'钾肥出口联盟控量挺价，东南亚到岸价上行',s:'BPC 跟踪'},
+      {d:'2025.11',t:'美西方部分解除白俄钾肥制裁的博弈反复',s:'政策追踪'}]},
+    '摩洛哥':{en:'MOROCCO',profile:'全球磷矿心脏：磷矿储量约占七成、磷矿石出口 17% 全球第一，OCP 集团垄断经营；磷酸盐即粮食安全筹码，印度/巴西/欧洲均为 OCP 长约客户——"磷版 OPEC"的天然候选。',assets:['磷矿储量 ~70%','磷矿石出口 17%','化肥出口前三'],news:[
+      {d:'2026.05',t:'OCP 与印度 IFFCO 续签磷肥长约',s:'OCP'},
+      {d:'2026.03',t:'新磷矿扩产项目投产，对接非洲绿色氨计划',s:'公司公告'}]},
+    '乌克兰':{en:'UKRAINE',profile:'欧洲粮仓：黑土带谷物出口全球前列，战后黑海走廊运量恢复但仍受保险费率与港口设施袭击制约——粮食出口走廊本身就是战争谈判桌上最硬的筹码之一。',assets:['小麦出口 ~5%','玉米出口 ~4%','黑海走廊'],news:[
+      {d:'2026.08',t:'黑海走廊运量回升至战前七成，保险费率仍为三倍',s:'海务跟踪'},
+      {d:'2026.05',t:'出口廊道安全谈判反复，国际麦价波动放大',s:'路透'}]},
   };
 
   const tabsEl=document.getElementById('res-tabs');
@@ -3393,21 +3417,21 @@ const refreshNewsPool=[
       const mc=mColor(m);
       let inner='<circle class="rmap-halo" cx="'+m.x+'" cy="'+m.y+'" r="'+(r+7*adj).toFixed(1)+'" style="fill:'+mc+';fill-opacity:.16"/>';
       if(m.refine) inner+='<circle cx="'+m.x+'" cy="'+m.y+'" r="'+(r+4.5*adj).toFixed(1)+'" fill="none" stroke="'+(COUNTRY_COLOR[d.refineBy]||GOLD)+'" stroke-width="'+(1.1*adj).toFixed(2)+'" stroke-dasharray="2.5 3.5" opacity=".75"/>';
-      const lblY=m.ly?(m.y-r-9*adj).toFixed(1):(m.y+r+14*adj).toFixed(1);
+      const lblY=m.ly?Math.max(m.y-r-9*adj,9).toFixed(1):(m.y+r+14*adj).toFixed(1);
       inner+='<circle cx="'+m.x+'" cy="'+m.y+'" r="'+r.toFixed(1)+'" fill="'+mc+'" fill-opacity=".3" stroke="'+mc+'" stroke-width="'+(1.3*adj).toFixed(2)+'"/>'
         +'<circle cx="'+m.x+'" cy="'+m.y+'" r="'+(2.2*adj).toFixed(1)+'" fill="'+mc+'"/>'
         +'<text class="rmap-lbl" style="font-size:'+(11*adj).toFixed(1)+'px" x="'+m.x+'" y="'+lblY+'">'+m.c+' '+m.v+'%</text>';
-      if(m.refine) inner+='<text class="rmap-lbl rmap-lbl2" style="font-size:'+(9.5*adj).toFixed(1)+'px" x="'+m.x+'" y="'+(m.y+r+26*adj).toFixed(1)+'">精炼 '+m.refine+'%+</text>';
+      if(m.refine) inner+='<text class="rmap-lbl rmap-lbl2" style="font-size:'+(9.5*adj).toFixed(1)+'px" x="'+m.x+'" y="'+(m.y+r+26*adj).toFixed(1)+'">'+(d.refineLbl||'精炼')+' '+m.refine+'%+</text>';
       g.innerHTML=inner;
       g.addEventListener('click',()=>renderCountry(m.c));
       mkG.appendChild(g);
     });
     document.getElementById('res-side').innerHTML=
       '<div class="rsc-name">'+d.name+'<span class="rsc-en">'+d.en+'</span></div>'
-      +barRow('开采 CR1 · '+hlCountry(d.mineBy), d.mine, COUNTRY_COLOR[d.mineBy]||GOLD)
-      +barRow('精炼 CR1 · '+hlCountry(d.refineBy), d.refine, COUNTRY_COLOR[d.refineBy]||GOLD)
+      +barRow((d.mineLbl||'开采 CR1')+' · '+hlCountry(d.mineBy), d.mine, COUNTRY_COLOR[d.mineBy]||GOLD)
+      +barRow((d.refineLbl||'精炼 CR1')+' · '+hlCountry(d.refineBy), d.refine, COUNTRY_COLOR[d.refineBy]||GOLD)
       +'<p class="rsc-sum">'+hlCountry(d.summary)+'</p>'
-      +'<div class="rsc-top">主要产地'+d.markers.map(m=>'<span style="color:'+mColor(m)+';">'+m.c+'</span> '+m.v+'%').join(' · ')+'</div>';
+      +'<div class="rsc-top">主要产地'+d.markers.filter(m=>!m.hub).map(m=>'<span style="color:'+mColor(m)+';">'+m.c+'</span> '+m.v+'%').join(' · ')+'</div>';
     document.getElementById('res-chain').innerHTML=
       '<div class="rsc-col"><h4>DEMAND · 需求结构</h4>'+d.demand.map(x=>barRow(x[0],x[1])).join('')
       +'<p class="rsc-driver"><b>增长驱动</b>：'+hlCountry(d.driver)+'</p></div>'
