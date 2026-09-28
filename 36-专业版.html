@@ -2008,7 +2008,7 @@ html.weak .ca-orbit{ animation:none; }
 <!-- ===== VIEW 06: AI Military ===== -->
 <div class="view" id="view-aimilitary">
   <div class="view-head"><div class="view-head-l"><h2 class="view-title"><span class="vi">06</span>AI军事化企业图谱</h2></div><button class="refresh-btn refresh-view" data-target="aimilitary" style="margin-left:12px;vertical-align:middle;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg> 实时更新</button></div>
-  <p class="view-sub">深度介入军事AI的全球企业 · 美军供应链 × 盟友体系 × 竞争阵营 · 2026年9月</p>
+  <p class="view-sub">深度介入军事AI的全球企业 · 覆盖 18 个国家与地区 · 美军供应链 × 盟友体系 × 竞争阵营 · 2026年9月</p>
 
   <div class="card" style="margin-bottom:18px;">
     <h3><span class="tag-h">ARCHITECTURE</span>五层作战体系架构</h3>
@@ -2018,6 +2018,15 @@ html.weak .ca-orbit{ animation:none; }
       <p style="margin-bottom:8px;"><strong style="color:var(--teal-hi);">第三层 · 自主飞行</strong>：Shield AI — Hivemind自主飞行软件，入选空军CCA协同战斗机项目</p>
       <p style="margin-bottom:8px;"><strong style="color:var(--teal-hi);">第四层 · 底层技术</strong>：SpaceX/OpenAI/Google/NVIDIA/Microsoft/AWS/Oracle/Reflection — 芯片、大模型、云、卫星全产业链</p>
       <p><strong style="color:var(--gold-hi);">排除项</strong>：Anthropic — 因坚守"不研发AI致命武器"伦理底线被排除在美军供应链之外</p>
+    </div>
+  </div>
+
+  <div class="card" style="margin-bottom:18px;">
+    <h3><span class="tag-h">COVERAGE</span>覆盖面排查 · 本轮扩容 18 → 30 家企业</h3>
+    <div style="font-size:.82rem;line-height:1.85;color:var(--muted);">
+      <p style="margin-bottom:8px;"><strong style="color:var(--blue-hi);">本轮新增 12 节点</strong>：日本 NEC（自卫队 C4ISR/AI）· 韩国 Hanwha Systems（智能火力+美本土弹药建厂）· 中国台湾中山科学研究院（剑翔/腾云无人体系）· 加拿大 CAE（仿真训练AI）· 意大利 Leonardo（GCAP）· 法国 Thales（决策AI+主权模型）· 瑞典 Saab（传感融合）· 挪威 Kongsberg（精确打击/自主系统）· 澳大利亚 Anduril Australia（Ghost Shark）· 新西兰 Rocket Lab（军用航天）· 俄罗斯 ZALA 柳叶刀（巡飞弹AI）· 伊朗沙赫德（消耗型无人机）。</p>
+      <p style="margin-bottom:8px;"><strong style="color:var(--fg);">未单列节点、已在详档追溯的次级力量</strong>：日本三菱电机（GCAP 日方主承包雷达）· 韩国 LIG Nex1（AI 指挥控制）· 台湾雷虎 Thunder Tiger（民转军无人机）· 加拿大 Kraken Robotics（自主水下）与 MDA Space（军用卫星）· 波兰 WB Group（FlyEye/Warmate 巡飞弹）· 乌克兰集群初创（Swarmer 等——战场 AI 迭代最快的一线）· 法国 Mistral AI（与 Thales 合作主权防务模型）· 俄罗斯克朗施塔特（猎户座无人机/Sirius AI 中心）。</p>
+      <p><strong style="color:var(--gold-hi);">诚实边界</strong>：新西兰军事 AI 体量小（军用航天以 Rocket Lab 为支点）；乌俄一线的战地 AI 迭代以集群初创形态存在、多为未公开主体——图谱收录"可公开追溯的法人实体"，不收录传闻项目。</p>
     </div>
   </div>
 
@@ -2034,7 +2043,7 @@ html.weak .ca-orbit{ animation:none; }
 
   <h3 style="font-family:var(--serif);font-size:.95rem;margin:18px 0 12px;font-weight:600;display:flex;align-items:center;gap:8px;"><span class="tag-h">NETWORK</span>供应链关系图谱<span id="graph-stats" style="font-family:var(--mono);font-size:.62rem;color:var(--faint);letter-spacing:.06em;font-weight:400;"></span></h3>
   <div class="graph-wrap">
-    <svg id="net-graph" viewBox="0 0 640 610" role="img" aria-label="AI军事化企业供应链关系图谱：五角大楼—Palantir战略中枢—前线执行—底层技术四层网络"></svg>
+    <svg id="net-graph" viewBox="0 0 640 950" role="img" aria-label="AI军事化企业供应链关系图谱：五角大楼—Palantir战略中枢—前线执行—底层技术—盟友体系—竞争阵营六层网络"></svg>
     <div class="graph-legend">
       <span class="gl-item"><i style="background:var(--red);"></i>战略中枢</span>
       <span class="gl-item"><i style="background:var(--gold);"></i>前线执行</span>
@@ -2766,8 +2775,20 @@ const companies=[
   {name:'Baykar',country:'土耳其 · 伊斯坦布尔',role:'Bayraktar TB2 在纳卡与俄乌战场实战成名，Kizilelma 自主喷气无人机已首飞；全球最大军用无人机出口商之一，以"实战验证+低成本"改写全球无人机市场格局。',tags:['盟友体系','实战无人机'],level:'ally'},
   {name:'Elbit Systems',country:'以色列 · 海法',role:'以色列最大军工企业之一：自主系统、AI目标识别与电子战，"铁束"激光拦截与智能弹药体系的核心供应商，中东多线实战驱动迭代。',tags:['盟友体系','AI目标识别'],level:'ally'},
   {name:'BAE Systems',country:'英国 · 法恩伯勒',role:'欧洲最大防务承包商：AI+自主水下航行器、AUKUS核动力潜艇合作伙伴，将机器学习嵌入舰艇作战系统与下一代 Tempest 六代机生态。',tags:['盟友体系','AUKUS'],level:'ally'},
+  {name:'Leonardo',country:'意大利 · 罗马',role:'意大利防务巨头：GCAP 次世代战机三边联合研制方之一（与 BAE、日方三菱电机对接），AI 传感器融合、电子战与直升机体系——欧洲防务自主叙事中的南欧支柱。',tags:['盟友体系','GCAP','传感器AI'],level:'ally'},
+  {name:'Thales',country:'法国 · 巴黎',role:'欧洲防务电子巨头：AI@CENTAUR 指挥决策加速工具链（"人在环上"）、电子战与卫星体系；与 Mistral AI 合作推进主权防务大模型——欧洲"主权AI × 防务"路线代表。',tags:['盟友体系','决策AI','主权模型'],level:'ally'},
+  {name:'Saab',country:'瑞典 · 斯德哥尔摩',role:'瑞典防务旗舰（北约新成员）：Gripen E 战机传感器融合与电子战 AI，与 Helsing 达成 AI 合作；反潜与自主水下系统——北欧-波罗的海防空反潜网络中枢。',tags:['盟友体系','传感器融合'],level:'ally'},
+  {name:'Kongsberg',country:'挪威 · 孔斯贝格',role:'挪威防务与航天集团：NSM/JSM 精确打击导弹（JSM 内埋 F-35 弹舱）、HUGIN 自主水下航行器——导弹产能与自主系统的北欧支点，对乌支援与东翼部署核心供应商。',tags:['盟友体系','精确打击','自主系统'],level:'ally'},
+  {name:'NEC',country:'日本 · 东京',role:'日本自卫队最大 IT 承包商：C4ISR 指挥控制体系核心，支撑 2025 年成立的统合作战司令部数据链与态势感知；2025 年设立"网络情报作战中心"（Protecting .JP），是防卫省《AI 战略》（2024）落地主力。',tags:['盟友体系','C4ISR','AI网络防御'],level:'ally'},
+  {name:'Hanwha Systems',country:'韩国 · 城南',role:'韩华防务集团电子与系统核心：K9A2 全自动装填火炮、Targeting Web 目标网、无人舰艇与反无人机体系；2026 年 9 月宣布在美国 Pine Bluff Arsenal 建弹药制造园区——全自动模块装药设施（MCS）瞄准年产 30 万发，欧美弹药产能重建的关键外部供应商。',tags:['盟友体系','智能火力','弹药产能'],level:'ally'},
+  {name:'中山科学研究院',country:'中国台湾 · 桃园',role:'台湾地区最高军科研机构："剑翔"反辐射巡飞弹、"腾云"无人机与 AI 决策辅助体系核心，军用无人机供应链"去中国零件"路线执行者（与雷虎等民企协同）——台海无人化攻防的对冲支点。',tags:['盟友体系','巡飞弹','无人体系'],level:'ally'},
+  {name:'CAE',country:'加拿大 · 蒙特利尔',role:'全球最大飞行模拟与训练企业：AI 驱动的军用仿真训练覆盖北约多国空军，虚拟试飞与合成训练环境主力供应商——防务 AI 的"训练层"代表。',tags:['盟友体系','仿真训练AI'],level:'ally'},
+  {name:'Anduril Australia',country:'澳大利亚 · 悉尼',role:'Anduril 海外最大布局：Ghost Shark 超大型自主水下航行器（XL-AUV）为澳皇家海军核心项目、澳洲史上最大本土防务研发投资之一——AUKUS 枢纽与南太平洋自主系统工厂。',tags:['盟友体系','Ghost Shark','AUKUS'],level:'ally'},
+  {name:'Rocket Lab',country:'新西兰/美国',role:'新西兰创立、美国总部的航天企业：Electron 火箭自新西兰 Mahia 发射场执行美太空军与 NRO 发射合同，卫星平台与星座运力——南半球发射场在太平洋军事航天版图中的支点。',tags:['盟友体系','军用航天'],level:'ally'},
   {name:'大疆 DJI',country:'中国 · 深圳',role:'全球民用无人机市占率约七成。2025 NDAA将其列入"中国军事企业"清单致美国市场禁入——五角大楼"零中国零件"条款的直接背景与对标对象。',tags:['竞争/禁入','全球民用霸主'],level:'rival'},
   {name:'中国电科 CETC',country:'中国 · 合肥',role:'中国军事电子核心力量：预警探测、电子战与智能指挥体系，美军印太推演中的主要对手体系，与美国"密级云+软件定义"路线形成两种军事AI范式。',tags:['竞争/禁入','军事电子'],level:'rival'},
+  {name:'ZALA 柳叶刀',country:'俄罗斯 · 伊热夫斯克',role:'卡拉什尼科夫集团旗下：柳叶刀（Lancet）自杀式巡飞弹为俄乌战场最高频打击系统之一，升级型加装图像相关制导实现末段自主锁定——低成本消耗型 AI 制导的规模样本；克朗施塔特"猎户座"与 Sirius AI 中心同属俄自主武器体系。',tags:['竞争/禁入','巡飞弹AI'],level:'rival'},
+  {name:'伊朗沙赫德',country:'伊朗 · 伊斯法罕',role:'HESA 产"见证者-136"（Shahed-136）巡飞弹：数千架级量产、卫星制导加自主航路规划，经影子供应链外溢多国——低成本蜂群对防空体系的不对称压力源，亦是美伊战争中的直接消耗型对抗装备。',tags:['竞争/禁入','消耗型无人机'],level:'rival'},
 ];
 const lvColor={strat:'var(--red-hi)',edge:'var(--gold-hi)',tech:'var(--teal-hi)',ally:'var(--blue-hi)',rival:'var(--mac-yellow)'};
 const cg=document.getElementById('company-grid');
@@ -2781,7 +2802,7 @@ companies.forEach(c=>{
 
 /* ===== AI Military Supply Network Graph ===== */
 (function(){
-  /* 坐标双布局：x/y=窄屏竖版(640×800)，wx/wy=宽屏横版(980×630) */
+  /* 坐标双布局：x/y=窄屏竖版(640×950)，wx/wy=宽屏横版(980×800) */
   const N=[
     {n:'五角大楼',en:'U.S. DoD',x:320,y:62,wx:110,wy:235,r:24,t:'dod'},
     {n:'Palantir',en:'战略中枢',x:320,y:195,wx:258,wy:235,r:27,t:'strat'},
@@ -2796,12 +2817,24 @@ companies.forEach(c=>{
     {n:'AWS',en:'云基建',x:486,y:502,wx:712,wy:426,r:16,t:'tech'},
     {n:'Oracle',en:'涉密库',x:580,y:468,wx:655,wy:494,r:16,t:'tech'},
     {n:'Anthropic',en:'伦理排除',x:585,y:120,wx:85,wy:60,r:15,t:'out'},
-    {n:'Helsing',en:'德国 · 蜂群AI',x:105,y:660,wx:130,wy:575,r:15,t:'ally'},
-    {n:'Baykar',en:'土耳其 · 无人机',x:250,y:660,wx:285,wy:575,r:15,t:'ally'},
-    {n:'Elbit Systems',en:'以色列 · 军工AI',x:400,y:660,wx:440,wy:575,r:15,t:'ally'},
-    {n:'BAE Systems',en:'英国 · AUKUS',x:545,y:660,wx:595,wy:575,r:15,t:'ally'},
-    {n:'大疆 DJI',en:'中国 · 禁入',x:250,y:750,wx:720,wy:575,r:15,t:'rival'},
-    {n:'中国电科 CETC',en:'中国 · 竞争',x:450,y:750,wx:875,wy:575,r:15,t:'rival'},
+    {n:'Helsing',en:'德国 · 蜂群AI',x:70,y:648,wx:55,wy:556,r:15,t:'ally'},
+    {n:'Baykar',en:'土耳其 · 无人机',x:190,y:648,wx:205,wy:556,r:15,t:'ally'},
+    {n:'Elbit Systems',en:'以色列 · 军工AI',x:310,y:648,wx:385,wy:556,r:15,t:'ally'},
+    {n:'BAE Systems',en:'英国 · AUKUS',x:430,y:648,wx:565,wy:556,r:15,t:'ally'},
+    {n:'Leonardo',en:'意大利 · GCAP',x:550,y:648,wx:745,wy:556,r:15,t:'ally'},
+    {n:'Thales',en:'法国 · 决策AI',x:70,y:726,wx:55,wy:622,r:15,t:'ally'},
+    {n:'NEC',en:'日本 · 自卫队AI',x:190,y:726,wx:205,wy:622,r:15,t:'ally'},
+    {n:'Hanwha Systems',en:'韩国 · 智能火力',x:310,y:726,wx:385,wy:622,r:15,t:'ally'},
+    {n:'中山科学研究院',en:'中国台湾 · 军工AI',x:430,y:726,wx:565,wy:622,r:15,t:'ally'},
+    {n:'CAE',en:'加拿大 · 仿真AI',x:550,y:726,wx:745,wy:622,r:15,t:'ally'},
+    {n:'Saab',en:'瑞典 · 传感融合',x:190,y:804,wx:205,wy:688,r:15,t:'ally'},
+    {n:'Kongsberg',en:'挪威 · 自主系统',x:310,y:804,wx:385,wy:688,r:15,t:'ally'},
+    {n:'Anduril Australia',en:'澳洲 · Ghost Shark',x:430,y:804,wx:565,wy:688,r:15,t:'ally'},
+    {n:'Rocket Lab',en:'新西兰 · 军用航天',x:550,y:804,wx:745,wy:688,r:15,t:'ally'},
+    {n:'大疆 DJI',en:'中国 · 禁入',x:150,y:884,wx:205,wy:752,r:15,t:'rival'},
+    {n:'中国电科 CETC',en:'中国 · 竞争',x:310,y:884,wx:385,wy:752,r:15,t:'rival'},
+    {n:'ZALA 柳叶刀',en:'俄 · 巡飞弹AI',x:460,y:884,wx:565,wy:752,r:15,t:'rival'},
+    {n:'伊朗沙赫德',en:'伊朗 · 见证者-136',x:590,y:884,wx:745,wy:752,r:15,t:'rival'},
   ];
   /* 关系类型：''=供应链 flow=指挥流动 cmp=对标/禁入(红虚线) */
   const L=[
@@ -2825,6 +2858,19 @@ companies.forEach(c=>{
     ['Anduril','Baykar','战场对标 · 蜂群无人机','cmp'],
     ['Anduril','大疆 DJI','市场禁入对标 · 零中国零件','cmp'],
     ['Shield AI','中国电科 CETC','对手体系对标','cmp'],
+    ['五角大楼','Hanwha Systems','155mm 弹药 · 美本土建厂',''],
+    ['五角大楼','Kongsberg','F-35 内埋 JSM',''],
+    ['五角大楼','Rocket Lab','太空军发射合同',''],
+    ['五角大楼','NEC','美日指挥互操作',''],
+    ['Shield AI','CAE','仿真训练协同',''],
+    ['Anduril','Anduril Australia','Ghost Shark 共研',''],
+    ['BAE Systems','Leonardo','GCAP 联合研制',''],
+    ['Helsing','Saab','Gripen AI 合作',''],
+    ['BAE Systems','Thales','欧洲工业整合',''],
+    ['Saab','Kongsberg','北欧自主系统协同',''],
+    ['Baykar','伊朗沙赫德','量产巡飞弹对标','cmp'],
+    ['Anduril','ZALA 柳叶刀','巡飞弹AI对标','cmp'],
+    ['中山科学研究院','大疆 DJI','供应链去中国化','cmp'],
   ];
   const TIER={dod:'#5792FF',strat:'var(--red)',edge:'var(--gold)',tech:'var(--teal)',out:'rgba(255,255,255,.4)',ally:'var(--blue-hi)',rival:'var(--mac-yellow)'};
   const byName=Object.fromEntries(N.map(d=>[d.n,d]));
@@ -2849,8 +2895,8 @@ companies.forEach(c=>{
       html+=`<text class="glink-lbl" data-a="${a}" data-b="${b}" x="${(mx-dy/len*k*0.55).toFixed(1)}" y="${(my+dx/len*k*0.55-6).toFixed(1)}" text-anchor="middle">${lbl}</text>`;
     });
     const TIERS=wide
-      ?[['战略中枢 · CORE',258,190],['前线执行 · EDGE',455,78],['底层技术 · INFRA',655,28],['盟友自主体系 · ALLIED',20,528],['竞争与禁入 · RIVAL',690,528]]
-      :[['战略中枢 · CORE',18,199],['前线执行 · EDGE',18,326],['底层技术 · INFRA',18,436],['盟友自主体系 · ALLIED',18,612],['竞争与禁入 · RIVAL',18,702]];
+      ?[['战略中枢 · CORE',258,190],['前线执行 · EDGE',455,78],['底层技术 · INFRA',655,28],['盟友自主体系 · ALLIED',20,524],['竞争与禁入 · RIVAL',690,724]]
+      :[['战略中枢 · CORE',18,199],['前线执行 · EDGE',18,326],['底层技术 · INFRA',18,436],['盟友自主体系 · ALLIED',18,614],['竞争与禁入 · RIVAL',18,856]];
     TIERS.forEach(([s,x,y])=>{ html+=`<text class="gtier" x="${x}" y="${y}">${s}</text>`; });
     N.forEach(d=>{
       const c=TIER[d.t];
@@ -2869,7 +2915,7 @@ companies.forEach(c=>{
         +`<text class="sub" x="${px}" y="${py+d.r+25}">${d.en}</text>`
         +`</g>`;
     });
-    svg.setAttribute('viewBox', wide?'0 0 980 630':'0 0 640 800');
+    svg.setAttribute('viewBox', wide?'0 0 980 800':'0 0 640 950');
     svg.innerHTML=html;
     svg.classList.remove('gdim');
     if(sel){ sel=null; showDetail(null); }
