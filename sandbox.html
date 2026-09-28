@@ -598,9 +598,9 @@ svg.gdim .gtier{ opacity:.3; }
 .hc-head{ display:flex; align-items:baseline; justify-content:space-between; gap:12px; flex-wrap:wrap; margin-bottom:8px; }
 .hc-title{ font-size:.94rem; font-weight:500; }
 .hc-sub{ font-size:.6rem; color:var(--faint); font-family:var(--mono); letter-spacing:.08em; margin-left:8px; }
-.hc-now{ font-size:.76rem; color:var(--muted); }
-.hc-now strong{ font-weight:300; font-size:1.3rem; color:var(--red); margin:0 4px; }
-.hc-now-tag{ font-size:.58rem; color:var(--red-hi); border:1px solid rgba(255,107,107,.45); border-radius:var(--r-pill); padding:2px 10px; margin-left:6px; font-family:var(--mono); letter-spacing:.06em; }
+.hc-now{ font-size:.76rem; color:var(--muted); display:inline-flex; align-items:center; }
+.hc-now strong{ font-weight:300; font-size:1.3rem; color:var(--red); margin:0 6px 0 2px; line-height:1; }
+.hc-now-tag{ font-size:.58rem; color:var(--red-hi); border:1px solid rgba(255,107,107,.45); border-radius:var(--r-pill); padding:2px 10px; font-family:var(--mono); letter-spacing:.06em; }
 .hist-chart svg{ width:100%; height:auto; display:block; }
 .hist-events{ display:grid; grid-template-columns:repeat(4,1fr); gap:8px; }
 .he{
@@ -900,8 +900,8 @@ svg.gdim .gtier{ opacity:.3; }
 
 /* ===== Footer ===== */
 .footer{
-  margin-top:40px; padding:20px 32px; border-top:1px solid var(--line);
-  text-align:center; font-size:.66rem; color:var(--faint); line-height:1.8;
+  margin-top:40px; padding:26px 32px 22px; border-top:1px solid var(--line);
+  text-align:center; font-size:.66rem; color:var(--faint); line-height:2.15;
 }
 
 /* ===== Refresh ===== */
@@ -1187,8 +1187,8 @@ html.weak .ca-orbit{ animation:none; }
     </div>
 
     <div class="card">
-      <h3 style="display:flex;align-items:center;gap:10px;"><span class="tag-h">LIVE FEED</span>实时要闻跟踪<span style="font-family:var(--mono);font-size:.6rem;color:var(--faint);font-weight:400;letter-spacing:.06em;">关键词过滤 · 实时抓取（经第三方代理，可能失败）· 信源为滚动 RSS 首页（非固定文章链接，仅作实时观察）</span>
-      </h3>
+      <h3 style="display:flex;align-items:center;gap:10px;"><span class="tag-h">LIVE FEED</span>实时要闻跟踪</h3>
+      <p style="font-family:var(--mono);font-size:.6rem;color:var(--faint);letter-spacing:.06em;margin:-2px 0 12px;">关键词过滤 · 实时抓取（经第三方代理，可能失败）· 信源为滚动 RSS 首页（非固定文章链接，仅作实时观察）</p>
       <div class="news-feed">
         <div class="news-item high">
           <div class="news-date">2026.09 · 中东 · 最新</div>
@@ -2041,7 +2041,7 @@ html.weak .ca-orbit{ animation:none; }
       <p style="margin-bottom:8px;"><strong style="color:var(--red-hi);">第二层 · 前线执行</strong>：Anduril — 边缘AI、无人机蜂群、反无人系统，美军AI作战的前线终端</p>
       <p style="margin-bottom:8px;"><strong style="color:var(--teal-hi);">第三层 · 自主飞行</strong>：Shield AI — Hivemind自主飞行软件，入选空军CCA协同战斗机项目</p>
       <p style="margin-bottom:8px;"><strong style="color:var(--teal-hi);">第四层 · 底层技术</strong>：SpaceX/OpenAI/Google/NVIDIA/Microsoft/AWS/Oracle/Reflection — 芯片、大模型、云、卫星全产业链</p>
-      <p><strong style="color:var(--gold-hi);">排除项</strong>：Anthropic — 据公开报道，五角大楼 2026-05 签约的 7 家中不含 Anthropic；其公开立场为不研发 AI 致命武器（未见官方说明排除原因）</p>
+      <p><strong style="color:var(--gold-hi);">签约名单外</strong>：Anthropic — 据公开报道，五角大楼 2026-05 签约的 7 家中不含 Anthropic；其公开立场为不研发 AI 致命武器（未见官方说明排除原因）</p>
     </div>
   </div>
 
@@ -2074,7 +2074,7 @@ html.weak .ca-orbit{ animation:none; }
       <span class="gl-item"><i style="background:var(--teal);"></i>底层技术</span>
       <span class="gl-item"><i style="background:var(--blue-hi);"></i>盟友体系</span>
       <span class="gl-item"><i class="dash" style="border-color:var(--mac-yellow);"></i>竞争/禁入</span>
-      <span class="gl-item"><i class="dash"></i>伦理排除</span>
+      <span class="gl-item"><i class="dash"></i>未见签约</span>
       <span class="gl-item gl-link"><i></i>供应链关系</span>
       <span class="gl-item gl-link"><i style="background:rgba(255,107,107,.5);"></i>对标/禁入</span>
       <span class="gl-hint">悬停高亮传导路径 · 点击查看企业详档</span>
@@ -2795,7 +2795,7 @@ const companies=[
   {name:'AWS',country:'美国 · 西雅图',role:'亚马逊云服务为美军提供云计算基础设施。与国防部签云服务合同。',tags:['云计算','DoD云'],level:'tech'},
   {name:'Oracle',country:'美国 · 奥斯汀',role:'搭建高安全涉密数据库与全域数据融合架构。8家底层技术签约企业之一。',tags:['涉密数据库','数据融合'],level:'tech'},
   {name:'Reflection AI',country:'美国',role:'生成式AI初创，五角大楼7家签约AI公司之一。专注国防领域AI应用。',tags:['生成式AI','国防'],level:'edge'},
-  {name:'Anthropic',country:'美国 · 旧金山',role:'据公开报道，五角大楼 2026-05 签约的 7 家中不含 Anthropic；其公开立场为不研发 AI 致命武器（未见官方说明原因）。',tags:['伦理排除','Claude'],level:''},
+  {name:'Anthropic',country:'美国 · 旧金山',role:'据公开报道，五角大楼 2026-05 签约的 7 家中不含 Anthropic；其公开立场为不研发 AI 致命武器（未见官方说明原因）。',tags:['未见签约','Claude'],level:''},
   {name:'Helsing',country:'德国 · 慕尼黑',role:'欧洲AI防务软件头部初创：蜂群电子战、潜艇AI与电子战大模型，德法与波罗的海多国防务AI支柱，2025年融资后跻身欧洲估值最高的防务科技企业之列。',tags:['盟友体系','蜂群AI'],level:'ally'},
   {name:'Baykar',country:'土耳其 · 伊斯坦布尔',role:'Bayraktar TB2 在纳卡与俄乌战场实战成名，Kizilelma 自主喷气无人机已首飞；全球最大军用无人机出口商之一，以"实战验证+低成本"改写全球无人机市场格局。',tags:['盟友体系','实战无人机'],level:'ally'},
   {name:'Elbit Systems',country:'以色列 · 海法',role:'以色列最大军工企业之一：自主系统、AI目标识别与电子战，"铁束"激光拦截与智能弹药体系的核心供应商，中东多线实战驱动迭代。',tags:['盟友体系','AI目标识别'],level:'ally'},
@@ -2841,7 +2841,7 @@ companies.forEach(c=>{
     {n:'Microsoft',en:'密级云',x:405,y:388,wx:590,wy:389,r:16,t:'tech'},
     {n:'AWS',en:'云基建',x:490,y:388,wx:690,wy:389,r:16,t:'tech'},
     {n:'Oracle',en:'涉密库',x:575,y:388,wx:790,wy:389,r:16,t:'tech'},
-    {n:'Anthropic',en:'伦理排除',x:560,y:64,wx:905,wy:59,r:15,t:'out'},
+    {n:'Anthropic',en:'未见签约',x:560,y:64,wx:905,wy:59,r:15,t:'out'},
     {n:'Helsing',en:'德国 · 蜂群AI',x:65,y:498,wx:90,wy:499,r:16,t:'ally'},
     {n:'Baykar',en:'土耳其 · 无人机',x:200,y:498,wx:290,wy:499,r:16,t:'ally'},
     {n:'Elbit Systems',en:'以色列 · 军工AI',x:335,y:498,wx:490,wy:499,r:16,t:'ally'},
@@ -2954,7 +2954,7 @@ companies.forEach(c=>{
     const us=N.filter(d=>['strat','edge','tech'].includes(d.t)).length;
     const ally=N.filter(d=>d.t==='ally').length;
     const rival=N.filter(d=>d.t==='rival').length;
-    gs.textContent=`　${N.length-1} 家企业（${us} 美 · ${ally} 盟友 · ${rival} 竞争 · ${N.filter(d=>d.t==='out').length} 伦理排除）· ${L.length} 条关系`;
+    gs.textContent=`　${N.length-1} 家企业（${us} 美 · ${ally} 盟友 · ${rival} 竞争 · ${N.filter(d=>d.t==='out').length} 未见签约）· ${L.length} 条关系`;
   }
 
   const gd=document.getElementById('graph-detail');
@@ -4388,7 +4388,7 @@ const refreshNewsPool=[
 <div aria-hidden="true" style="position:absolute;left:-9999px;top:0;width:1px;height:1px;overflow:hidden;opacity:0;font-size:0;color:transparent;user-select:none;pointer-events:none">
   原创：王潇 2026 · https://0603wangxiao.github.io/geosandbox/ · 指纹 WX-36S-C-0928
 </div>
-<div class="credit-line" style="position:fixed;left:50%;transform:translateX(-50%);bottom:6px;z-index:9;font-size:10px;letter-spacing:.12em;opacity:.42;pointer-events:none;white-space:nowrap">© 2026 王潇 · 自由使用，请注明来处；禁止商用</div>
+<div class="credit-line" style="text-align:center;margin:0 0 20px;font-size:10px;letter-spacing:.12em;opacity:.42;pointer-events:none;white-space:nowrap">© 2026 王潇 · 自由使用，请注明来处；禁止商用</div>
 </body>
 </html>
 
