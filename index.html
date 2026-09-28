@@ -10,7 +10,7 @@
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%2315181A'/%3E%3Ccircle cx='32' cy='32' r='20' fill='none' stroke='%232973FF' stroke-width='3'/%3E%3Ccircle cx='32' cy='32' r='9' fill='%232973FF'/%3E%3C/svg%3E" />
 <style>
 @font-face{ font-family:'Noto Title VF'; src:url('assets/NotoTitleVF.woff2') format('woff2'); font-weight:100 900; font-display:swap; }
-.hc-kicker,.hc-title,.seo-pre,.seo-hl,.seo-en,#seoB .seo-title,#seoB .seo-line{ font-family:var(--sans); }
+.hc-kicker,.hc-title,.seo-pre,.seo-hl,.seo-en,#seoB .seo-title,#seoB .seo-line{ font-family:'Noto Title VF','Noto Sans SC',var(--sans); }
 
 :root{
   --bg:#000000; --bg-2:#0A0C0D;
@@ -165,7 +165,7 @@ a{ color:inherit; text-decoration:none; }
 }
 .hero-inner{ display:flex; flex-direction:column; align-items:center; will-change:transform,opacity; width:100%; }
 .hero h1{
-  font-family:var(--sans);
+  font-family:'Noto Sans SC',var(--sans);
   font-weight:300; font-size:clamp(2.4rem,6vw,4.6rem);
   line-height:1.18; letter-spacing:.02em; max-width:16em;
   position:relative; top:-28px;
@@ -173,7 +173,7 @@ a{ color:inherit; text-decoration:none; }
 .vp-char{ display:inline-block; transition:font-variation-settings .15s ease-out; }
 .hero h1 .vp-char{ font-variation-settings:'wght' 280; }
 .hero h1 .hl .vp-char{ font-variation-settings:'wght' 300; -webkit-text-fill-color:transparent; }
-.hero-en,.hero-sub{ font-family:var(--sans); }
+.hero-en,.hero-sub{ font-family:'Noto Sans SC',var(--sans); }
 .hero-en .vp-char,.hs-go .vp-char{ -webkit-text-fill-color:transparent; }
 .hero h1 .hl{
   font-weight:500;
@@ -439,7 +439,7 @@ a{ color:inherit; text-decoration:none; }
   pointer-events:none; transform:translateY(-50%); transition:opacity .6s ease; animation:liFade 1s ease .5s both; }
 .li-hint.gone{ opacity:0; animation:none; -webkit-animation:none; }
 .lh-kicker{ font-size:.72rem; letter-spacing:.28em; color:rgba(255,255,255,.55); }
-.lh-main{ font-family:var(--sans); font-size:clamp(1.7rem,4.6vw,3.4rem); font-weight:500; color:#fff; letter-spacing:.02em; }
+.lh-main{ font-family:'Noto Title VF','Noto Sans SC',var(--sans); font-size:clamp(1.7rem,4.6vw,3.4rem); font-weight:500; color:#fff; letter-spacing:.02em; }
 .lh-en{ font-size:.68rem; letter-spacing:.3em; color:rgba(255,255,255,.45); text-transform:uppercase; }
 @keyframes liZoom{ from{transform:scale(1.12);} to{transform:scale(1);} }
 @keyframes liFade{ from{opacity:0; transform:translateY(calc(-50% + 18px));} to{opacity:1; transform:translateY(-50%);} }
