@@ -690,6 +690,9 @@ svg.gdim .gtier{ opacity:.3; }
 .map-tropic{ stroke:rgba(255,255,255,.07); stroke-width:.5; stroke-dasharray:3 4; }
 .map-link{ fill:none; stroke-width:1.3; opacity:.75; }
 .map-link.lk-conflict{ stroke:var(--red); }
+.map-link.lk-standoff{ stroke:var(--red); stroke-dasharray:4 3.5; opacity:.5; }
+.lk-standoff .link-arrow{ stroke:var(--red); opacity:.7; }
+.lk-standoff .link-flow{ stroke:var(--red-hi); opacity:.45; }
 .map-link.lk-supply{ stroke:var(--gold); }
 .map-link.lk-tech{ stroke:var(--teal); }
 .map-link.dim{ opacity:.16; }
@@ -2485,7 +2488,8 @@ html.weak .ca-orbit{ animation:none; }
         </div>
         <div class="md-link-type">
           <div class="md-label" style="margin-bottom:8px;">CONDUIT</div>
-          <div class="mt"><svg width="26" height="8" viewBox="0 0 26 8"><path d="M0 4 H20" stroke="var(--red)" stroke-width="1.6"/><path d="M17 1 L22 4 L17 7" fill="none" stroke="var(--red)" stroke-width="1.6"/></svg> 冲突/地缘传导</div>
+          <div class="mt"><svg width="26" height="8" viewBox="0 0 26 8"><path d="M0 4 H20" stroke="var(--red)" stroke-width="1.6"/><path d="M17 1 L22 4 L17 7" fill="none" stroke="var(--red)" stroke-width="1.6"/></svg> 冲突/地缘传导（热战 · 实线）</div>
+          <div class="mt"><svg width="26" height="8" viewBox="0 0 26 8"><path d="M0 4 H20" stroke="var(--red)" stroke-width="1.6" stroke-dasharray="4 3"/><path d="M17 1 L22 4 L17 7" fill="none" stroke="var(--red)" stroke-width="1.6" stroke-dasharray="2 2"/></svg> 对峙 · 非战争状态（虚线：台海/朝鲜半岛/南海方向）</div>
           <div class="mt"><svg width="26" height="8" viewBox="0 0 26 8"><path d="M0 4 H20" stroke="var(--gold)" stroke-width="1.6"/><path d="M17 1 L22 4 L17 7" fill="none" stroke="var(--gold)" stroke-width="1.6"/></svg> 资源/能源供应链</div>
           <div class="mt"><svg width="26" height="8" viewBox="0 0 26 8"><path d="M0 4 H20" stroke="var(--blue)" stroke-width="1.6"/><path d="M17 1 L22 4 L17 7" fill="none" stroke="var(--blue)" stroke-width="1.6"/></svg> 海运航道/集运订舱</div>
           <div class="mt"><svg width="26" height="8" viewBox="0 0 26 8"><path d="M0 4 H20" stroke="var(--teal)" stroke-width="1.6"/><path d="M17 1 L22 4 L17 7" fill="none" stroke="var(--teal)" stroke-width="1.6"/></svg> 技术/军事工业链</div>
@@ -3223,6 +3227,7 @@ const hotspots=[
 
 const links=[
   {from:'ukraine',to:'europe',type:'conflict'},
+  {from:'ukraine',to:'russia',type:'conflict'},
   {from:'ukraine',to:'usiran',type:'conflict'},
   {from:'usa',to:'usiran',type:'conflict'},
   {from:'usiran',to:'hormuz',type:'conflict'},
@@ -3230,7 +3235,7 @@ const links=[
   {from:'usiran',to:'india',type:'supply'},
   {from:'hormuz',to:'india',type:'maritime'},
   {from:'hormuz',to:'china',type:'maritime'},
-  {from:'china',to:'taiwan',type:'conflict'},
+  {from:'china',to:'taiwan',type:'standoff'},
   {from:'china',to:'congo',type:'supply'},
   {from:'china',to:'latam',type:'supply'},
   {from:'china',to:'australia',type:'supply'},
@@ -3244,12 +3249,12 @@ const links=[
   {from:'usa',to:'australia',type:'tech'},
   {from:'usa',to:'canada',type:'tech'},
   {from:'usa',to:'japan',type:'tech'},
-  {from:'japan',to:'taiwan',type:'conflict'},
+  {from:'japan',to:'taiwan',type:'standoff'},
   {from:'usa',to:'korea',type:'tech'},
-  {from:'dprk',to:'korea',type:'conflict'},
+  {from:'dprk',to:'korea',type:'standoff'},
   {from:'dprk',to:'russia',type:'supply'},
   {from:'usa',to:'philippines',type:'tech'},
-  {from:'philippines',to:'china',type:'conflict'},
+  {from:'philippines',to:'china',type:'standoff'},
   {from:'suez',to:'europe',type:'maritime'},
   {from:'redsea',to:'suez',type:'maritime'},
   {from:'redsea',to:'india',type:'maritime'},
@@ -3259,13 +3264,13 @@ const links=[
   {from:'goodhope',to:'china',type:'maritime'},
   {from:'goodhope',to:'europe',type:'maritime'},
 ];
-const lkClass={conflict:'lk-conflict',supply:'lk-supply',tech:'lk-tech',maritime:'lk-maritime'};
+const lkClass={conflict:'lk-conflict',standoff:'lk-standoff',supply:'lk-supply',tech:'lk-tech',maritime:'lk-maritime'};
 const hpById={}; hotspots.forEach(h=>hpById[h.id]=h);
 /* 概况统计：热点数 / 传导链数（随数据自动更新） */
 (function(){
   var sub=document.getElementById('sandbox-sub'); if(!sub) return;
   var hi=hotspots.filter(function(h){return h.level==='high';}).length;
-  sub.insertAdjacentHTML('afterbegin','<b style="color:var(--fg);font-weight:500;">'+hotspots.length+' 个热点</b>（高风险 '+hi+'） · <b style="color:var(--fg);font-weight:500;">'+links.length+' 条传导链</b> · ');
+  sub.insertAdjacentHTML('afterbegin','<b style="color:var(--fg);font-weight:500;">'+hotspots.length+' 个热点</b>（高风险 '+hi+'） · <b style="color:var(--fg);font-weight:500;">'+links.length+' 条传导链</b> · <span style="color:var(--faint);">实线=热战 / 虚线=对峙（非战争状态）</span> · ');
 })();
 
 /* ---- 渲染地图 ---- */
@@ -3416,7 +3421,7 @@ function applyLinks(){
   const sel=selected;
   linkEls.forEach(el=>{
     const t=el.getAttribute('data-type');
-    const inF=(currentFilter==='all'||t===currentFilter);
+    const inF=(currentFilter==='all'||t===currentFilter||(currentFilter==='conflict'&&t==='standoff'));
     el.style.display=inF?'':'none';
     el.classList.toggle('dim',!(inF&&sel===null));
   });
