@@ -2043,7 +2043,7 @@ html.weak .ca-orbit{ animation:none; }
 
   <h3 style="font-family:var(--serif);font-size:.95rem;margin:18px 0 12px;font-weight:600;display:flex;align-items:center;gap:8px;"><span class="tag-h">NETWORK</span>供应链关系图谱<span id="graph-stats" style="font-family:var(--mono);font-size:.62rem;color:var(--faint);letter-spacing:.06em;font-weight:400;"></span></h3>
   <div class="graph-wrap">
-    <svg id="net-graph" viewBox="0 0 640 900" role="img" aria-label="AI军事化企业供应链关系图谱：五角大楼—Palantir战略中枢—前线执行—底层技术—盟友体系—竞争阵营六层网络"></svg>
+    <svg id="net-graph" viewBox="0 0 640 914" role="img" aria-label="AI军事化企业供应链关系图谱：五角大楼—Palantir战略中枢—前线执行—底层技术—盟友体系—竞争阵营六层网络"></svg>
     <div class="graph-legend">
       <span class="gl-item"><i style="background:var(--red);"></i>战略中枢</span>
       <span class="gl-item"><i style="background:var(--gold);"></i>前线执行</span>
@@ -2802,39 +2802,39 @@ companies.forEach(c=>{
 
 /* ===== AI Military Supply Network Graph ===== */
 (function(){
-  /* 坐标双布局：x/y=窄屏竖版(640×900)，wx/wy=宽屏横版(980×915)·水平分带等距节奏+中轴对称+顶部底部留白对称 */
+  /* 坐标双布局：x/y=窄屏竖版(640×914)，wx/wy=宽屏横版(980×922)·水平分带等距节奏+中轴对称+顶部底部留白对称 */
   const N=[
-    {n:'五角大楼',en:'U.S. DoD',x:320,y:60,wx:490,wy:64,r:24,t:'dod'},
-    {n:'Palantir',en:'战略中枢',x:320,y:168,wx:490,wy:174,r:27,t:'strat'},
-    {n:'Anduril',en:'前线执行',x:110,y:276,wx:190,wy:284,r:21,t:'edge'},
-    {n:'Shield AI',en:'自主飞行',x:320,y:276,wx:490,wy:284,r:21,t:'edge'},
-    {n:'Reflection AI',en:'生成式AI',x:530,y:276,wx:790,wy:284,r:19,t:'edge'},
-    {n:'SpaceX',en:'卫星通信',x:60,y:388,wx:190,wy:394,r:16,t:'tech'},
-    {n:'OpenAI',en:'大模型',x:145,y:388,wx:290,wy:394,r:16,t:'tech'},
-    {n:'Google',en:'云·视觉',x:230,y:388,wx:390,wy:394,r:16,t:'tech'},
-    {n:'NVIDIA',en:'GPU算力',x:320,y:388,wx:490,wy:394,r:17,t:'tech'},
-    {n:'Microsoft',en:'密级云',x:405,y:388,wx:590,wy:394,r:16,t:'tech'},
-    {n:'AWS',en:'云基建',x:490,y:388,wx:690,wy:394,r:16,t:'tech'},
-    {n:'Oracle',en:'涉密库',x:575,y:388,wx:790,wy:394,r:16,t:'tech'},
-    {n:'Anthropic',en:'伦理排除',x:560,y:64,wx:905,wy:64,r:15,t:'out'},
-    {n:'Helsing',en:'德国 · 蜂群AI',x:65,y:498,wx:90,wy:504,r:16,t:'ally'},
-    {n:'Baykar',en:'土耳其 · 无人机',x:200,y:498,wx:290,wy:504,r:16,t:'ally'},
-    {n:'Elbit Systems',en:'以色列 · 军工AI',x:335,y:498,wx:490,wy:504,r:16,t:'ally'},
-    {n:'BAE Systems',en:'英国 · AUKUS',x:470,y:498,wx:690,wy:504,r:16,t:'ally'},
-    {n:'Leonardo',en:'意大利 · GCAP',x:590,y:498,wx:890,wy:504,r:16,t:'ally'},
-    {n:'Thales',en:'法国 · 决策AI',x:65,y:606,wx:90,wy:614,r:16,t:'ally'},
-    {n:'NEC',en:'日本 · 自卫队AI',x:200,y:606,wx:290,wy:614,r:16,t:'ally'},
-    {n:'Hanwha Systems',en:'韩国 · 智能火力',x:335,y:606,wx:490,wy:614,r:16,t:'ally'},
-    {n:'中山科学研究院',en:'中国台湾 · 军工AI',x:470,y:606,wx:690,wy:614,r:16,t:'ally'},
-    {n:'CAE',en:'加拿大 · 仿真AI',x:590,y:606,wx:890,wy:614,r:16,t:'ally'},
-    {n:'Saab',en:'瑞典 · 传感融合',x:140,y:714,wx:190,wy:724,r:16,t:'ally'},
-    {n:'Kongsberg',en:'挪威 · 自主系统',x:265,y:714,wx:390,wy:724,r:16,t:'ally'},
-    {n:'Anduril Australia',en:'澳洲 · Ghost Shark',x:390,y:714,wx:590,wy:724,r:16,t:'ally'},
-    {n:'Rocket Lab',en:'新西兰 · 军用航天',x:515,y:714,wx:790,wy:724,r:16,t:'ally'},
-    {n:'大疆 DJI',en:'中国 · 禁入',x:110,y:822,wx:190,wy:834,r:16,t:'rival'},
-    {n:'中国电科 CETC',en:'中国 · 竞争',x:215,y:822,wx:390,wy:834,r:16,t:'rival'},
-    {n:'ZALA 柳叶刀',en:'俄 · 巡飞弹AI',x:415,y:822,wx:790,wy:834,r:16,t:'rival'},
-    {n:'伊朗沙赫德',en:'伊朗 · 见证者-136',x:560,y:822,wx:590,wy:834,r:16,t:'rival'},
+    {n:'五角大楼',en:'U.S. DoD',x:320,y:59,wx:490,wy:59,r:24,t:'dod'},
+    {n:'Palantir',en:'战略中枢',x:320,y:168,wx:490,wy:169,r:27,t:'strat'},
+    {n:'Anduril',en:'前线执行',x:110,y:276,wx:190,wy:279,r:21,t:'edge'},
+    {n:'Shield AI',en:'自主飞行',x:320,y:276,wx:490,wy:279,r:21,t:'edge'},
+    {n:'Reflection AI',en:'生成式AI',x:530,y:276,wx:790,wy:279,r:19,t:'edge'},
+    {n:'SpaceX',en:'卫星通信',x:60,y:388,wx:190,wy:389,r:16,t:'tech'},
+    {n:'OpenAI',en:'大模型',x:145,y:388,wx:290,wy:389,r:16,t:'tech'},
+    {n:'Google',en:'云·视觉',x:230,y:388,wx:390,wy:389,r:16,t:'tech'},
+    {n:'NVIDIA',en:'GPU算力',x:320,y:388,wx:490,wy:389,r:17,t:'tech'},
+    {n:'Microsoft',en:'密级云',x:405,y:388,wx:590,wy:389,r:16,t:'tech'},
+    {n:'AWS',en:'云基建',x:490,y:388,wx:690,wy:389,r:16,t:'tech'},
+    {n:'Oracle',en:'涉密库',x:575,y:388,wx:790,wy:389,r:16,t:'tech'},
+    {n:'Anthropic',en:'伦理排除',x:560,y:64,wx:905,wy:59,r:15,t:'out'},
+    {n:'Helsing',en:'德国 · 蜂群AI',x:65,y:498,wx:90,wy:499,r:16,t:'ally'},
+    {n:'Baykar',en:'土耳其 · 无人机',x:200,y:498,wx:290,wy:499,r:16,t:'ally'},
+    {n:'Elbit Systems',en:'以色列 · 军工AI',x:335,y:498,wx:490,wy:499,r:16,t:'ally'},
+    {n:'BAE Systems',en:'英国 · AUKUS',x:470,y:498,wx:690,wy:499,r:16,t:'ally'},
+    {n:'Leonardo',en:'意大利 · GCAP',x:590,y:498,wx:890,wy:499,r:16,t:'ally'},
+    {n:'Thales',en:'法国 · 决策AI',x:65,y:606,wx:90,wy:609,r:16,t:'ally'},
+    {n:'NEC',en:'日本 · 自卫队AI',x:200,y:606,wx:290,wy:609,r:16,t:'ally'},
+    {n:'Hanwha Systems',en:'韩国 · 智能火力',x:335,y:606,wx:490,wy:609,r:16,t:'ally'},
+    {n:'中山科学研究院',en:'中国台湾 · 军工AI',x:470,y:606,wx:690,wy:609,r:16,t:'ally'},
+    {n:'CAE',en:'加拿大 · 仿真AI',x:590,y:606,wx:890,wy:609,r:16,t:'ally'},
+    {n:'Saab',en:'瑞典 · 传感融合',x:140,y:714,wx:190,wy:719,r:16,t:'ally'},
+    {n:'Kongsberg',en:'挪威 · 自主系统',x:265,y:714,wx:390,wy:719,r:16,t:'ally'},
+    {n:'Anduril Australia',en:'澳洲 · Ghost Shark',x:390,y:714,wx:590,wy:719,r:16,t:'ally'},
+    {n:'Rocket Lab',en:'新西兰 · 军用航天',x:515,y:714,wx:790,wy:719,r:16,t:'ally'},
+    {n:'大疆 DJI',en:'中国 · 禁入',x:110,y:822,wx:190,wy:829,r:16,t:'rival'},
+    {n:'中国电科 CETC',en:'中国 · 竞争',x:215,y:822,wx:390,wy:829,r:16,t:'rival'},
+    {n:'ZALA 柳叶刀',en:'俄 · 巡飞弹AI',x:415,y:822,wx:790,wy:829,r:16,t:'rival'},
+    {n:'伊朗沙赫德',en:'伊朗 · 见证者-136',x:560,y:822,wx:590,wy:829,r:16,t:'rival'},
   ];
   /* 关系类型：''=供应链 flow=指挥流动 cmp=对标/禁入(红虚线) */
   const L=[
@@ -2913,7 +2913,7 @@ companies.forEach(c=>{
         +`<text class="sub" x="${px}" y="${py+d.r+25}">${d.en}</text>`
         +`</g>`;
     });
-    svg.setAttribute('viewBox', wide?'0 0 980 915':'0 0 640 900');
+    svg.setAttribute('viewBox', wide?'0 0 980 922':'0 0 640 914');
     svg.innerHTML=html;
     svg.classList.remove('gdim');
     if(sel){ sel=null; showDetail(null); }
