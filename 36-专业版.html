@@ -2043,7 +2043,7 @@ html.weak .ca-orbit{ animation:none; }
 
   <h3 style="font-family:var(--serif);font-size:.95rem;margin:18px 0 12px;font-weight:600;display:flex;align-items:center;gap:8px;"><span class="tag-h">NETWORK</span>供应链关系图谱<span id="graph-stats" style="font-family:var(--mono);font-size:.62rem;color:var(--faint);letter-spacing:.06em;font-weight:400;"></span></h3>
   <div class="graph-wrap">
-    <svg id="net-graph" viewBox="0 0 640 868" role="img" aria-label="AI军事化企业供应链关系图谱：五角大楼—Palantir战略中枢—前线执行—底层技术—盟友体系—竞争阵营六层网络"></svg>
+    <svg id="net-graph" viewBox="0 0 640 900" role="img" aria-label="AI军事化企业供应链关系图谱：五角大楼—Palantir战略中枢—前线执行—底层技术—盟友体系—竞争阵营六层网络"></svg>
     <div class="graph-legend">
       <span class="gl-item"><i style="background:var(--red);"></i>战略中枢</span>
       <span class="gl-item"><i style="background:var(--gold);"></i>前线执行</span>
@@ -2802,7 +2802,7 @@ companies.forEach(c=>{
 
 /* ===== AI Military Supply Network Graph ===== */
 (function(){
-  /* 坐标双布局：x/y=窄屏竖版(640×868)，wx/wy=宽屏横版(980×880)·水平分带等距节奏+中轴对称 */
+  /* 坐标双布局：x/y=窄屏竖版(640×900)，wx/wy=宽屏横版(980×915)·水平分带等距节奏+中轴对称+顶部底部留白对称 */
   const N=[
     {n:'五角大楼',en:'U.S. DoD',x:320,y:60,wx:490,wy:64,r:24,t:'dod'},
     {n:'Palantir',en:'战略中枢',x:320,y:168,wx:490,wy:174,r:27,t:'strat'},
@@ -2913,7 +2913,7 @@ companies.forEach(c=>{
         +`<text class="sub" x="${px}" y="${py+d.r+25}">${d.en}</text>`
         +`</g>`;
     });
-    svg.setAttribute('viewBox', wide?'0 0 980 880':'0 0 640 868');
+    svg.setAttribute('viewBox', wide?'0 0 980 915':'0 0 640 900');
     svg.innerHTML=html;
     svg.classList.remove('gdim');
     if(sel){ sel=null; showDetail(null); }
