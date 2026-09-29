@@ -579,6 +579,56 @@ svg.gdim .gtier{ opacity:.3; }
 .chain-note{ font-size:.72rem; color:var(--faint); line-height:1.6; padding:1px 0 1px 12px; border-left:2px solid rgba(94,196,255,.30); margin:-4px 0 20px; }
 /* ===== 可读性改单：三级标签 + 折叠 ===== */
 .gs-tier{ font-style:normal; font-size:.58rem; letter-spacing:.1em; color:var(--faint); border:1px solid var(--line); border-radius:999px; padding:1px 7px; margin-left:8px; vertical-align:middle; white-space:nowrap; }
+
+/* ==========================================================================
+   §07 排版体系（可读性改单 v10）
+   问题：全节散落 18 种字号；关键指引与无关小字都用 .hint（.7rem 灰）→ 没有层级；
+        三个层级徽章（必看/参考/专业）长得完全一样。
+   做法：① 6 级字号阶梯 ② 语义类（结论/强调/注解）③ 徽章做出视觉区别
+   ========================================================================== */
+#view-riskmodel{
+  --rv-1:2.6rem;   /* 核心数字 */
+  --rv-2:1.1rem;   /* 卡内结论 */
+  --rv-3:.9rem;    /* 强调正文——重要指引不该沉在注解里 */
+  --rv-4:.8rem;    /* 正文 */
+  --rv-5:.72rem;   /* 注解 */
+  --rv-6:.6rem;    /* 标签 */
+}
+/* 强调正文：把"怎么用""先看哪个"这类关键指引从小灰字提上来 */
+#view-riskmodel .rv-lead{
+  font-size:var(--rv-3); line-height:1.95; color:var(--fg); margin:0 0 12px;
+}
+#view-riskmodel .rv-lead strong{ color:var(--gold-hi); }
+/* 结论行：机器算出来的那个"所以呢" */
+#view-riskmodel .rv-verdict{
+  font-size:var(--rv-2); line-height:1.75; color:var(--fg); font-weight:500;
+  padding:12px 16px; margin:0 0 14px;
+  background:linear-gradient(90deg,var(--gold-soft),transparent 72%);
+  border-left:3px solid var(--gold); border-radius:0 var(--r-sm) var(--r-sm) 0;
+}
+#view-riskmodel .rv-verdict strong,
+#view-riskmodel .rv-verdict .num{ color:var(--gold-hi); font-weight:600; }
+/* 注解：真正次要的东西才用小灰字 */
+#view-riskmodel .rv-note{ font-size:var(--rv-5); line-height:1.85; color:var(--faint); }
+/* 层级徽章：让"必看 / 参考 / 专业"一眼能分 */
+.gs-tier.t-must{
+  color:var(--gold-hi); border:1px solid var(--gold);
+  background:var(--gold-soft); font-weight:600; padding:2px 9px;
+}
+.gs-tier.t-ref{ color:var(--muted); border:1px solid var(--line-strong); padding:2px 9px; }
+.gs-tier.t-pro{ color:var(--faint); border:1px solid var(--line); padding:2px 9px; opacity:.85; }
+/* 必看卡左侧加金边，滚动时能被扫到 */
+#view-riskmodel .card.rv-must,
+#view-riskmodel .algo-card.rv-must{ border-left:2px solid var(--gold); }
+/* 卡片标题统一为 flex，标签与标题字号分开 */
+#view-riskmodel .card h3,
+#view-riskmodel .algo-card h3{
+  font-size:1.06rem; line-height:1.6; display:flex; align-items:center; flex-wrap:wrap;
+}
+#view-riskmodel .card h3 .tag-h,
+#view-riskmodel .algo-card h3 .tag-h{ font-size:.68rem; }
+/* 表格：表头更强 */
+#view-riskmodel .weight-table th{ color:var(--muted); font-size:var(--rv-6); }
 details.gs-fold{ border:1px solid var(--line); border-radius:var(--r,10px); background:var(--panel); margin-bottom:14px; }
 details.gs-fold>summary{ list-style:none; cursor:pointer; padding:13px 18px; display:flex; align-items:center; gap:10px; font-size:.8rem; color:var(--fg); }
 details.gs-fold>summary::-webkit-details-marker{ display:none; }
@@ -749,8 +799,8 @@ details.gs-fold[open]>div.algo-card{ border:0; background:transparent; margin:0;
 #expo-tbody td{ vertical-align:top; }
 input.k-in, select.k-sel{ height:30px; }
 #corr .weight-table td .kbtn{ height:30px; padding:0 10px; }
-/* 「作者自用」标记：公开读者看到空表格 + 输入框会以为站点坏了，
-   必须显式说明这些块是作者本人的记事本，不参与推演结论。 */
+/* 「你的记录区」标记：读者看到空表格 + 输入框会以为站点坏了，
+   必须显式说明这些块不参与推演结论，只是本地记录工具。 */
 .author-note{
   display:flex; gap:10px; align-items:flex-start;
   border:1px dashed rgba(255,255,255,.22);
@@ -2249,10 +2299,10 @@ html.weak .ca-orbit{ animation:none; }
 .st-card h3{margin:6px 0 4px;font-size:1.02rem;font-weight:500;color:var(--fg,#e8eaee);letter-spacing:.02em}
 .st-card .st-sub{font-size:.78rem;color:var(--muted,#9aa1ad);line-height:1.8;margin-bottom:16px}
 .st-nums{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:0 0 14px}
-.st-num{background:var(--bg-2,#101216);border:1px solid var(--line,rgba(255,255,255,.12));border-radius:var(--r-sm,6px);padding:12px 14px}
-.st-num .st-v{font-family:var(--mono,ui-monospace,monospace);font-size:1.5rem;font-weight:300;color:var(--fg,#e8eaee);line-height:1.1}
-.st-num .st-t{font-size:.72rem;color:var(--muted,#9aa1ad);margin-top:6px;line-height:1.6}
-.st-num .st-a{font-size:.68rem;color:var(--gold-hi,#EAD08A);margin-top:6px}
+.st-num{background:var(--bg-2,#101216);border:1px solid var(--line,rgba(255,255,255,.12));border-radius:var(--r-sm,6px);padding:16px 16px 14px}
+.st-num .st-v{font-family:var(--mono,ui-monospace,monospace);font-size:2.7rem;font-weight:300;color:var(--fg,#e8eaee);line-height:1.02;letter-spacing:-.02em}
+.st-num .st-t{font-size:.8rem;color:var(--fg,#e8eaee);margin-top:10px;line-height:1.5;letter-spacing:.02em}
+.st-num .st-a{font-size:.74rem;color:var(--gold-hi,#EAD08A);margin-top:4px}
 .st-oneline{font-size:.8rem;line-height:1.9;color:var(--fg,#e8eaee);background:var(--red-soft,rgba(255,107,107,.08));border:1px solid rgba(255,107,107,.3);border-radius:var(--r-sm,6px);padding:11px 14px}
 .st-oneline b{color:var(--red-hi,#ff8a8a);font-weight:500}
 .st-step{display:flex;gap:14px;padding:14px 0;border-top:1px dashed var(--line,rgba(255,255,255,.12))}
@@ -2365,7 +2415,7 @@ html.weak .ca-orbit{ animation:none; }
 
 
   <details class="gs-fold">
-      <summary><span class="tag-h">KERNEL</span>三变·六反 × 沙盘内核 <em class="gs-tier">参考</em></summary>
+      <summary><span class="tag-h">KERNEL</span>三变·六反 × 沙盘内核 <em class="gs-tier t-ref">参考</em></summary>
 <div class="algo-card">
     <h3><span class="tag-h">KERNEL</span>三变·六反 × 沙盘内核</h3>
       <div class="card-q">
@@ -2425,13 +2475,13 @@ html.weak .ca-orbit{ animation:none; }
   </div>
       </details>
 
-  <div class="algo-card">
-    <h3><span class="tag-h">WCRI</span><em class="gs-tier">必看</em>算法模型 · 加权综合风险指数（WCRI）</h3>
+  <div class="algo-card rv-must">
+    <h3><span class="tag-h">WCRI</span><em class="gs-tier t-must">必看</em>算法模型 · 加权综合风险指数（WCRI）</h3>
       <div class="card-q">
         这张卡回答：<strong>现在有多紧张？适不适合加风险？</strong>
         <span class="cq-sub">一个 0–10 的数，由七个维度加权求和得出。它只回答"现在适不适合加风险"，不预测事件。</span>
       </div>
-    <p class="hint" style="margin-bottom:8px;"><strong style="color:var(--gold-hi);">怎么用：</strong>这是「世界紧张度」，一个 0–10 的数。它只回答「现在适不适合加风险」。</p>
+    <p class="rv-lead"><strong style="color:var(--gold-hi);">怎么用：</strong>这是「世界紧张度」，一个 0–10 的数。它只回答「现在适不适合加风险」。</p>
     <p style="font-size:.8rem;color:var(--muted);line-height:1.75;margin-bottom:8px;">
       本模型基于三变六反框架（归位依据与实证见上方 KERNEL 卡），将地缘风险拆解为七个维度的量化评分（0-10 分），
       加权求和得出综合指数。七个维度按冲击三段归位：
@@ -2456,11 +2506,11 @@ html.weak .ca-orbit{ animation:none; }
         <tr><td>AI军事化进度</td><td class="num">14%</td><td class="num">8.8</td><td class="num">1.23</td><td><div class="weight-bar"><div class="weight-bar-fill" style="width:14%;background:var(--red);"></div></div></td></tr>
         <tr><td>资源民族主义</td><td class="num">14%</td><td class="num">9.0</td><td class="num">1.26</td><td><div class="weight-bar"><div class="weight-bar-fill" style="width:14%;background:var(--gold);"></div></div></td></tr>
         <tr><td>金融稳定风险</td><td class="num">10%</td><td class="num">8.3</td><td class="num">0.83</td><td><div class="weight-bar"><div class="weight-bar-fill" style="width:10%;background:var(--teal);"></div></div></td></tr>
-        <tr class="sum-row"><td><strong>合计</strong></td><td class="num"><strong>100%</strong></td><td>—</td><td class="highlight num"><strong>8.44</strong></td><td><span style="font-size:.66rem;color:var(--muted);">精确 8.438；交互卡 8.4 ± 0.13（按示例初值 E/I 混合；若七维全按 I，σ=0.15）</span></td></tr>
+        <tr class="sum-row"><td><strong>合计</strong></td><td class="num"><strong>100%</strong></td><td>—</td><td class="highlight num"><strong>8.44</strong></td><td><span style="font-size:.66rem;color:var(--muted);">精确 8.438；交互卡 8.4 ± 0.13（按演示初值 E/I 混合；若七维全按 I，σ=0.15）</span></td></tr>
       </tbody>
     </table>
     <p class="hint">
-      注：权重设计参考公开风险指数的一般做法（分层 · 加权 · 归一），由作者依《三变·六反》框架赋值。σ 由各维证据等级（E/I/X）映射得出；σ 越小＝判断越硬。当前按示例初值（3×E + 4×I 混合）σ_R=0.13；改单手算场景「七维全部按 I」时 σ_R=0.15——作者确认 cf 后以实际值为准。；
+      注：权重设计参考公开风险指数的一般做法（分层 · 加权 · 归一），依《三变·六反》框架赋值。σ 由各维证据等级（E/I/X）映射得出；σ 越小＝判断越硬。当前按演示初值（3×E + 4×I 混合）σ_R=0.13；改单手算场景「七维全部按 I」时 σ_R=0.15——cf 定稿后以实际值为准。；
       引入海运物流通道维度（MSI）后，各维度权重按边际贡献重新归一。
       当前综合分 8.4 处于本模型自定的"高度风险"分档（7.0–8.5）上沿。
       本期上调主因：全球柴油供应危机（俄45%炼能停摆+美国拟限出口）、10年期美债收益率创2007年来新高、
@@ -2472,13 +2522,14 @@ html.weak .ca-orbit{ animation:none; }
   </div>
 
   <details class="gs-fold">
-      <summary><span class="tag-h">MSI</span>海运物流压力子指数（MSI · Maritime Stress Index） <em class="gs-tier">专业</em></summary>
+      <summary><span class="tag-h">MSI</span>海运物流压力子指数（MSI · Maritime Stress Index） <em class="gs-tier t-pro">专业</em></summary>
 <div class="algo-card">
     <h3><span class="tag-h">MSI</span>海运物流压力子指数（MSI · Maritime Stress Index）</h3>
       <div class="card-q">
         这张卡回答：<strong>海运这一格（r₃）是怎么算出来的？</strong>
         <span class="cq-sub">四个海运因子加权合成，权重与评分见下表；评分锚定 08 沙盘航道热点与 05 海运传导层。</span>
       </div>
+      <div class="rv-verdict">MSI = <span class="num">8.20</span>　→　r₃ = 0.40×航道8.6 + 0.25×运费战争险8.2 + 0.20×租船8.0 + 0.15×订舱7.4<div style="font-size:.76rem;font-weight:400;color:var(--muted);margin-top:5px;">进入 WCRI 的贡献 = 8.20 × 15% = <span class="num">1.23</span></div></div>
     <p style="font-size:.8rem;color:var(--muted);line-height:1.75;margin-bottom:8px;">
       WCRI 第三维度 r₃ 不再人工打分，而是由四个海运因子<strong style="color:var(--fg);">加权运算</strong>得出：
       集运航道通行风险、大宗运费与战争险、租船市场紧张度、集运订舱波动。
@@ -2506,13 +2557,14 @@ html.weak .ca-orbit{ animation:none; }
       </details>
 
   <details class="gs-fold">
-      <summary><span class="tag-h">MTI</span>军售军贸热度子指数（MTI · Military Trade Index） <em class="gs-tier">专业</em></summary>
+      <summary><span class="tag-h">MTI</span>军售军贸热度子指数（MTI · Military Trade Index） <em class="gs-tier t-pro">专业</em></summary>
 <div class="algo-card">
     <h3><span class="tag-h">MTI</span>军售军贸热度子指数（MTI · Military Trade Index）</h3>
       <div class="card-q">
         这张卡回答：<strong>军事化这一格（r₁）里的"军贸热度"是什么？</strong>
         <span class="cq-sub">r₁ = 0.65×事件烈度 + 0.35×MTI。逻辑：军售订单是冲突的"期货"，大单签约到交付跨数年。</span>
       </div>
+      <div class="rv-verdict">MTI = <span class="num">9.00</span>　→　r₁ = 0.65×事件烈度8.4 + 0.35×MTI9.0 = <span class="num">8.61 ≈ 8.6</span><div style="font-size:.76rem;font-weight:400;color:var(--muted);margin-top:5px;">进入 WCRI 的贡献 = 8.61 × 18% = <span class="num">1.55</span></div></div>
     <p style="font-size:.8rem;color:var(--muted);line-height:1.75;margin-bottom:8px;">
       WCRI 第一维度 r₁ 不再只看单点冲突事件，而是由两个分项<strong style="color:var(--fg);">加权合成</strong>：
       事件烈度（战况研判）与军贸热度（订单/交付/军援通道）。
@@ -2541,13 +2593,14 @@ html.weak .ca-orbit{ animation:none; }
       </details>
 
   <details class="gs-fold">
-      <summary><span class="tag-h">AIB</span>AI 泡沫压力子指数（AIB · AI Bubble Stress） <em class="gs-tier">专业</em></summary>
+      <summary><span class="tag-h">AIB</span>AI 泡沫压力子指数（AIB · AI Bubble Stress） <em class="gs-tier t-pro">专业</em></summary>
 <div class="algo-card">
     <h3><span class="tag-h">AIB</span>AI 泡沫压力子指数（AIB · AI Bubble Stress）</h3>
       <div class="card-q">
         这张卡回答：<strong>金融稳定这一格（r₇）里，"AI 泡沫"占多少？</strong>
         <span class="cq-sub">r₇ = 0.60×主权/流动性 + 0.40×AIB。逻辑：AI 板块吸收了本轮最大份额资本流入，回撤会外溢。</span>
       </div>
+      <div class="rv-verdict">AIB = <span class="num">8.60</span>　→　r₇ = 0.60×主权/流动性8.1 + 0.40×AIB8.6 = <span class="num">8.30 → 8.3</span><div style="font-size:.76rem;font-weight:400;color:var(--muted);margin-top:5px;">进入 WCRI 的贡献 = 8.30 × 10% = <span class="num">0.83</span></div></div>
     <p style="font-size:.8rem;color:var(--muted);line-height:1.75;margin-bottom:8px;">
       WCRI 第七维度 r₇ 同样由两个分项<strong style="color:var(--fg);">加权合成</strong>：
       主权债务与流动性风险（美债/套息，既有研判）与 AI 泡沫压力。
@@ -2576,7 +2629,7 @@ html.weak .ca-orbit{ animation:none; }
       </details>
 
   <details class="gs-fold">
-      <summary><span class="tag-h">EVIDENCE</span>维度证据链 · 七维评分对应 04 / 05 / 06 / 08 板块实证 <em class="gs-tier">参考</em></summary>
+      <summary><span class="tag-h">EVIDENCE</span>维度证据链 · 七维评分对应 04 / 05 / 06 / 08 板块实证 <em class="gs-tier t-ref">参考</em></summary>
 <div class="card algo-card" style="margin-bottom:18px;">
     <h3><span class="tag-h">EVIDENCE</span>维度证据链 · 七维评分对应 04 / 05 / 06 / 08 板块实证</h3>
       <div class="card-q">
@@ -2631,7 +2684,7 @@ html.weak .ca-orbit{ animation:none; }
 
   <div class="grid-2">
     <details class="gs-fold">
-      <summary><span class="tag-h">TUNE</span>因子权重调节 <em class="gs-tier">专业</em></summary>
+      <summary><span class="tag-h">TUNE</span>因子权重调节 <em class="gs-tier t-pro">专业</em></summary>
 <div class="card">
       <h3><span class="tag-h">TUNE</span>因子权重调节</h3>
       <div class="card-q">
@@ -2648,7 +2701,7 @@ html.weak .ca-orbit{ animation:none; }
 
     <div>
       <details class="gs-fold">
-      <summary><span class="tag-h">DEFINE</span>因子说明 <em class="gs-tier">专业</em></summary>
+      <summary><span class="tag-h">DEFINE</span>因子说明 <em class="gs-tier t-pro">专业</em></summary>
 <div class="card" style="margin-bottom:14px;">
         <h3><span class="tag-h">DEFINE</span>因子说明</h3>
       <div class="card-q">
@@ -2667,7 +2720,7 @@ html.weak .ca-orbit{ animation:none; }
       </div>
       </details>
       <details class="gs-fold">
-      <summary><span class="tag-h">HISTORY</span>历史对照 · 风险评分走势 <em class="gs-tier">参考</em></summary>
+      <summary><span class="tag-h">HISTORY</span>历史对照 · 风险评分走势 <em class="gs-tier t-ref">参考</em></summary>
 <div class="card">
         <h3><span class="tag-h">HISTORY</span>历史对照 · 风险评分走势</h3>
       <div class="card-q">
@@ -2737,34 +2790,34 @@ html.weak .ca-orbit{ animation:none; }
   </div>
 
   <!-- ===== 风险模型数学升级（改单 v1 · T1–T6 新增区块） ===== -->
-  <div class="card" style="margin-bottom:14px;" id="seg-card">
-    <h3><span class="tag-h">SEGMENTS</span><em class="gs-tier">必看</em>三段结构 · 分段小计与段内均值</h3>
+  <div class="card rv-must" style="margin-bottom:14px;" id="seg-card">
+    <h3><span class="tag-h">SEGMENTS</span><em class="gs-tier t-must">必看</em>三段结构 · 分段小计与段内均值</h3>
       <div class="card-q">
         这张卡回答：<strong>紧张来自哪一段？</strong>
         <span class="cq-sub">事件段＝震中，传导段＝余波，新常态段＝地貌改了。段间比较要用段内加权均值 mean——段内维度数不同，不能直接比贡献 S。</span>
       </div>
-    <p class="hint" style="margin-bottom:8px;"><strong style="color:var(--gold-hi);">怎么用：</strong>看三个段里哪个最高。事件段＝震中，传导段＝余波，新常态段＝地貌改了。</p>
+    <p class="rv-lead"><strong style="color:var(--gold-hi);">怎么用：</strong>看三个段里哪个最高。事件段＝震中，传导段＝余波，新常态段＝地貌改了。</p>
     <p class="hint" style="margin-bottom:10px;">总分是一个标量，看不见「风险在哪一段」。分段后读结构：S=Σw·r（该段贡献），mean=S/W（段内加权均值——段间比较必须用它，段内维度数不同，不可直接比 S）。</p>
     <table class="weight-table">
       <colgroup><col style="width:30%"><col style="width:24%"><col style="width:20%"><col style="width:26%"></colgroup>
       <thead><tr><th>段</th><th>贡献 S</th><th>权重合计 W</th><th>段内加权均值 mean</th></tr></thead>
       <tbody id="seg-tbody"></tbody>
     </table>
-    <p class="hint" id="seg-verdict" style="margin-top:10px;"></p>
-    <p class="hint" style="color:var(--gold-hi);">⚠ 各维 cf（证据等级 E/I/X）、L（量级）、w（敞口）与下方耦合矩阵 A 均为示例初值（作者待确认），仅作机制演示占位。</p>
+    <p class="rv-verdict" id="seg-verdict" style="margin:14px 0 0;"></p>
+    <p class="hint" style="color:var(--gold-hi);"></p>
   </div>
 
   <div class="grid-2" style="margin-bottom:14px;">
-    <div class="card" id="expo-card">
-      <h3><span class="tag-h">EXPOSURE</span><em class="gs-tier">必看</em>我的暴露排序（L×w）</h3>
+    <div class="card rv-must" id="expo-card">
+      <h3><span class="tag-h">EXPOSURE</span><em class="gs-tier t-must">必看</em>我的暴露排序（L×w）</h3>
       <div class="card-q">
         这张卡回答：<strong>七个风险里，我先防哪一格？</strong>
-        <span class="cq-sub">它不预测会不会出事，只排"先处理谁"。第一列是公开数据，后两列是作者私有敞口。</span>
+        <span class="cq-sub">它不预测会不会出事，只排"先处理谁"。第一列人人相同，后两列要你自己填。</span>
       </div>
-      <p class="hint" style="margin-bottom:8px;"><strong style="color:var(--gold-hi);">怎么用这张表：</strong>① 给每一维选一个「量级」和一个「敞口」；② 表会自动算出优先级并排序；③ <strong>只看第一行</strong>——那就是你现在最该先处理的一格；④ 按「建议动作」去做，想改就改。</p>
+      <p class="rv-lead"><strong style="color:var(--gold-hi);">怎么用这张表：</strong>① 给每一维选一个「量级」和一个「敞口」；② 表会自动算出优先级并排序；③ <strong>只看第一行</strong>——那就是你现在最该先处理的一格；④ 按「建议动作」去做，想改就改。</p>
       <p class="hint" style="margin-bottom:10px;"><strong style="color:var(--gold-hi);">L×w 不含概率（概率不可知），只做优先级排序，不构成期望值。</strong>L＝若这一维真出事，损失多大（0–10）；w＝我在这一维的受击面（0–5）。L×w 不加进世界风险 R。</p>
       <p class="hint" style="margin-bottom:10px;border-left:2px solid var(--line-strong);padding-left:10px;">
-        <strong style="color:var(--fg);">哪一列是公开的，哪一列是作者私有的：</strong>第一列「世界风险 r」来自外部数据（USGS／海关总署／BIS 等），公开可核；后两列「量级 L」「敞口 w」是<strong style="color:var(--gold-hi);">作者本人的私有信息</strong>——只有作者知道自己的仓位与依赖，外部查不到。<strong>读者可只看第一列 r。</strong>
+        <strong style="color:var(--fg);">哪一列是公共数据，哪一列要你自己填：</strong>第一列「世界风险 r」来自外部数据（USGS／海关总署／BIS 等）——<strong>人人相同、可核对</strong>；后两列「量级 L」「敞口 w」<strong style="color:var(--gold-hi);">只有你自己知道</strong>——你的仓位、你的依赖，别人查不到，也不该替你填。<strong>只想看世界有多紧张，看第一列就够。</strong>
       </p>
       <table class="weight-table">
         <colgroup><col style="width:21%"><col style="width:8%"><col style="width:22%"><col style="width:22%"><col style="width:8%"><col style="width:19%"></colgroup>
@@ -2773,13 +2826,13 @@ html.weak .ca-orbit{ animation:none; }
       </table>
     </div>
     <details class="gs-fold">
-      <summary><span class="tag-h">CONDUIT</span>传导与临界 <em class="gs-tier">专业</em></summary>
+      <summary><span class="tag-h">CONDUIT</span>传导与临界 <em class="gs-tier t-pro">专业</em></summary>
 <div class="card" id="conduit-card">
       <h3><span class="tag-h">CONDUIT</span>传导与临界</h3>
       <div class="card-q cq-warn">
         这张卡想回答：<strong>这七个风险会一起爆吗？</strong>
         <span class="cq-sub">
-          ⚠ 但它的核心输入 —— 7×7 传导矩阵 A —— 目前是<strong>演示用示例值，不是作者的数据</strong>。<br>
+          ⚠ 但它的核心输入 —— 7×7 传导矩阵 A —— 目前是<strong>演示用示例值，不是来自站内实证</strong>。<br>
           因此下面「连锁放大：弱」以及「哪两格是放大器」，<strong>是那个示例矩阵的性质，不是对世界的判断</strong>。<br>
           <strong>A 未被填实之前，本卡只作机制演示，不构成结论。</strong>要看真实可核的部分，请回上面 EXPOSURE 卡（第一列 r 来自外部信源）。
         </span>
@@ -2792,7 +2845,7 @@ html.weak .ca-orbit{ animation:none; }
           <thead><tr><th></th><th>r₁</th><th>r₂</th><th>r₃</th><th>r₄</th><th>r₅</th><th>r₆</th><th>r₇</th></tr></thead>
           <tbody id="amat-tbody"></tbody>
         </table>
-        <p class="hint" style="margin-top:8px;"><strong style="color:var(--red-hi);">A 的强度由站内传导链（05／08）估计，属推演参数；κ 只表示「结构是否接近临界」，不预测事件。</strong>κ = α·ρ(A)；一阶传播 r′ = r + α·A·r。矩阵为只读展示。A[r₄→r₇]=0.3 为初值由站内传导链估计补接的「货币秩序 → 金融稳定」链路；其余为示例初值（作者确认前仅作机制演示）。</p>
+        <p class="hint" style="margin-top:8px;"><strong style="color:var(--red-hi);">A 的强度由站内传导链（05／08）估计，属推演参数；κ 只表示「结构是否接近临界」，不预测事件。</strong>κ = α·ρ(A)；一阶传播 r′ = r + α·A·r。矩阵为只读展示。A[r₄→r₇]=0.3 为初值由站内传导链估计补接的「货币秩序 → 金融稳定」链路；其余为演示初值（定稿前仅作机制演示）。</p>
       </details>
     </div>
       </details>
@@ -2800,7 +2853,7 @@ html.weak .ca-orbit{ animation:none; }
 
   <div class="grid-2" style="margin-bottom:14px;">
     <details class="gs-fold">
-      <summary><span class="tag-h">DELTA</span>变化率 · 分期记录 <em class="gs-tier">参考</em></summary>
+      <summary><span class="tag-h">DELTA</span>变化率 · 分期记录 <em class="gs-tier t-ref">参考</em></summary>
 <div class="card" id="trend-card">
       <h3><span class="tag-h">DELTA</span>变化率 · 分期记录</h3>
       <div class="card-q">
@@ -2808,11 +2861,11 @@ html.weak .ca-orbit{ animation:none; }
         <span class="cq-sub">记下每次读数，攒够两期就能算变化率，并看风险是在扩散还是在退潮。</span>
       </div>
       <div class="author-note">
-        <span class="an-badge">✎ 作者自用</span>
+        <span class="an-badge">✎ 你的记录区</span>
         <div>
-          <strong>这一栏不是推演结论，是作者本人的记事本。</strong><br>
+          <strong>这一栏不参与推演结论，是给你自己用的记录区。</strong><br>
           你会看到空表，是因为它<strong>还没被记录过</strong>——不是坏了。上面七个读数每次变动后点一次「记录本期」，攒够两期才会算出变化率。<br>
-          <span class="an-sub">数据只存在你自己这台设备的浏览器里（localStorage）：不上传、不对外、清缓存即消失。读者可以直接跳过这一栏。</span>
+          <span class="an-sub">数据只存在你自己这台设备的浏览器里（localStorage）：不上传、不对外、清缓存即消失。</span>
         </div>
       </div>
       <div style="display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap;align-items:center;">
@@ -2824,7 +2877,7 @@ html.weak .ca-orbit{ animation:none; }
     </div>
       </details>
     <details class="gs-fold">
-      <summary><span class="tag-h">CALIB</span>认知修正 · 校准记录 <em class="gs-tier">专业</em></summary>
+      <summary><span class="tag-h">CALIB</span>认知修正 · 校准记录 <em class="gs-tier t-pro">专业</em></summary>
 <div class="card" id="corr">
       <h3><span class="tag-h">CALIB</span>认知修正 · 校准记录</h3>
       <div class="card-q">
@@ -2832,11 +2885,11 @@ html.weak .ca-orbit{ animation:none; }
         <span class="cq-sub">事前把认错条件写死，事后回来判——不然复盘就变成事后编故事。</span>
       </div>
       <div class="author-note">
-        <span class="an-badge">✎ 作者自用</span>
+        <span class="an-badge">✎ 你的记录区</span>
         <div>
-          <strong>这是一本私人账本，不是推演结论的一部分。</strong><br>
+          <strong>这里是给你自己用的复盘区，不参与推演结论。</strong><br>
           你会看到空表，是因为它<strong>还没被记过</strong>——不是坏了。它记的是「我原来怎么想、后来因为什么改」，以及<strong>事前写下的认错条件</strong>。<br>
-          <span class="an-sub">数据只存在你自己这台设备的浏览器里（localStorage）：不上传、不对外、清缓存即消失。读者可以直接跳过这一栏。</span>
+          <span class="an-sub">数据只存在你自己这台设备的浏览器里（localStorage）：不上传、不对外、清缓存即消失。</span>
         </div>
       </div>
       <div style="border-left:3px solid var(--gold);padding:8px 0 8px 14px;margin-bottom:12px;">
@@ -3458,7 +3511,7 @@ factors.forEach((f,i)=>{
 const W=[.18,.17,.15,.12,.14,.14,.10];
 
 /* ===== 风险模型数学升级（改单 v1 · T1–T6）===== */
-/* cf/L/w 与耦合矩阵 A 均为示例初值，待作者确认（页面已标注） */
+/* cf/L/w 与耦合矩阵 A 均为演示初值，尚未定稿（页面已标注） */
 const SEG=[
   {key:'event',   name:'第一段 · 事件',   ids:[0,4]  },
   {key:'conduit', name:'第二段 · 传导',   ids:[1,2,5]},
@@ -3612,7 +3665,7 @@ function renderConduit(vals){
             '<td>'+b[2]+'</td><td>'+b[3]+'</td></tr>';
         }).join('')+
         '</tbody></table>'+
-      '<div style="margin-bottom:10px;">（κ &lt; 1 是数学上的稳定条件，这是模型既有的；四档分界 0.30／0.60／0.85 属<strong style="color:var(--red-hi);">推演参数，非模型既有定义，待作者确认</strong>。）</div>'+
+      '<div style="margin-bottom:10px;">（κ &lt; 1 是数学上的稳定条件，这是模型既有的；四档分界 0.30／0.60／0.85 属<strong style="color:var(--red-hi);">演示值，尚未定稿</strong>。）</div>'+
       '<div style="margin-bottom:12px;">κ = α·ρ(A) = '+ALPHA+' × '+rho.toFixed(3)+' = '+kappa.toFixed(3)+'　｜　α = '+ALPHA+'　｜　ρ(A) = '+rho.toFixed(3)+'</div>'+
       '<div style="margin-bottom:12px;"><strong style="color:var(--muted);">② 各维被放大的多少（只看排序，不看点数）</strong><br>'+
         '<span style="color:var(--red-hi);">这串 Δ 是假想实验的中间量（假设七格同时把传导推满），不是预测，也不是「风险涨了几分」——点数本身没有意义，只看谁排前面。</span><br>'+
