@@ -629,6 +629,33 @@ svg.gdim .gtier{ opacity:.3; }
 #view-riskmodel .algo-card h3 .tag-h{ font-size:.68rem; }
 /* 表格：表头更强 */
 #view-riskmodel .weight-table th{ color:var(--muted); font-size:var(--rv-6); }
+/* 卡内层级：正文段 / 小节标题（一、二、三、四）/ 二级标题 / 要点行
+   原来一级标题各用一色（金/青/蓝）、「三、时间律」还掉了样式，
+   二级标题干脆没样式、用手工「·」当项目符号 → 读者看不出层级。 */
+#view-riskmodel .rv-p{ font-size:var(--rv-4); line-height:1.9; color:var(--muted); margin:0 0 9px; }
+#view-riskmodel .rv-p strong{ color:var(--fg); }
+#view-riskmodel .rv-h1{
+  display:block; margin:24px 0 10px; padding:2px 0 2px 12px;
+  border-left:3px solid var(--gold);
+  font-size:.98rem; font-weight:600; color:var(--fg); line-height:1.55;
+}
+#view-riskmodel .rv-h1 .rv-h1-sub{
+  display:block; margin-top:3px;
+  font-size:.74rem; font-weight:400; color:var(--muted); letter-spacing:.02em;
+}
+#view-riskmodel .rv-h2{
+  display:block; margin:16px 0 7px;
+  font-size:.88rem; font-weight:600; color:var(--gold-hi); line-height:1.6;
+}
+#view-riskmodel .rv-li{
+  position:relative; margin:0 0 8px; padding-left:15px;
+  font-size:var(--rv-4); line-height:1.9; color:var(--muted);
+}
+#view-riskmodel .rv-li::before{
+  content:''; position:absolute; left:2px; top:.8em;
+  width:5px; height:5px; border-radius:50%; background:var(--gold); opacity:.85;
+}
+#view-riskmodel .rv-li strong{ color:var(--fg); }
 details.gs-fold{ border:1px solid var(--line); border-radius:var(--r,10px); background:var(--panel); margin-bottom:14px; }
 details.gs-fold>summary{ list-style:none; cursor:pointer; padding:13px 18px; display:flex; align-items:center; gap:10px; font-size:.8rem; color:var(--fg); }
 details.gs-fold>summary::-webkit-details-marker{ display:none; }
@@ -2422,11 +2449,8 @@ html.weak .ca-orbit{ animation:none; }
         这张卡回答：<strong>分数从哪来、方向怎么定、结论怎么说？</strong>
         <span class="cq-sub">三变分段与六反动作的归位依据，以及本站的写法规则：给概率与证伪条件、不下定论。所有数字与事件均可在站内对应板块回溯。</span>
       </div>
-    <p style="font-size:.8rem;color:var(--muted);line-height:1.75;margin:0 0 6px;">
-      <strong style="color:var(--gold-hi);">一、三变：冲击的三个阶段——给维度分层</strong><br>
-      追踪本站的案例（稀土、钴、锂、俄油、红海），冲击的展开方式高度一致：先有单点事件，随后旧供给与价格模式被迫出清，最后新中枢落定。
-      七个维度因此按三段归位（编号、权重与下方权重表一一对应）：
-    </p>
+    <div class="rv-h1">一、三变：冲击的三个阶段<span class="rv-h1-sub">给维度分层</span></div>
+    <p class="rv-p">追踪本站的案例（稀土、钴、锂、俄油、红海），冲击的展开方式高度一致：先有单点事件，随后旧供给与价格模式被迫出清，最后新中枢落定。七个维度因此按三段归位（编号、权重与下方权重表一一对应）：</p>
     <table class="weight-table">
       <colgroup><col style="width:22%"><col style="width:34%"><col style="width:44%"></colgroup>
       <thead><tr><th>阶段</th><th>维度（编号 · 权重）</th><th>站内实证（可回溯）</th></tr></thead>
@@ -2437,15 +2461,13 @@ html.weak .ca-orbit{ animation:none; }
       </tbody>
     </table>
     <div style="font-size:.8rem;line-height:1.8;color:var(--muted);margin-top:10px;">
-      <p><strong style="color:var(--fg);">分数怎么变成 8.44（精确值 8.438，四舍五入取两位小数；交互卡按一位小数显示为 8.4）</strong>：每个维度独立打分 r（依据见证据链表）→ 乘各自权重 w → 七项相加。
-      三个维度由子指数运算得出：r₃ = 0.40×8.6（航道）+ 0.25×8.2（运费/保险）+ 0.20×8.0（租船）+ 0.15×7.4（订舱）= 8.2；
-      r₁ = 0.65×8.4（事件烈度）+ 0.35×9.0（军贸热度 MTI）= 8.61 ≈ 8.6；r₇ = 0.60×8.1（主权/流动性）+ 0.40×8.6（AI 泡沫 AIB）= 8.3。
-      子分各有硬数据锚（苏伊士通行量、战争险费率、军贸订单簿、数据中心债规模），再乘各自权重计入总分。每个 r 都能这样拆到数据。</p>
+      <div class="rv-h2">分数怎么变成 8.44<span style="font-weight:400;color:var(--faint);">（精确值 8.438，取两位小数；交互卡按一位小数显示为 8.4）</span></div>
+    <p class="rv-p">每个维度独立打分 r（依据见证据链表）→ 乘各自权重 w → 七项相加。其中三个维度由子指数运算得出：</p>
+    <p class="rv-p" style="font-family:var(--mono);font-size:.76rem;line-height:2;color:var(--fg);">r₃ = 0.40×8.6（航道）+ 0.25×8.2（运费/保险）+ 0.20×8.0（租船）+ 0.15×7.4（订舱）= 8.2<br>r₁ = 0.65×8.4（事件烈度）+ 0.35×9.0（军贸热度 MTI）= 8.61 ≈ 8.6<br>r₇ = 0.60×8.1（主权/流动性）+ 0.40×8.6（AI 泡沫 AIB）= 8.3</p>
+    <p class="rv-p">子分各有硬数据锚（苏伊士通行量、战争险费率、军贸订单簿、数据中心债规模），再乘各自权重计入总分。<strong>每个 r 都能这样拆到数据。</strong></p>
     </div>
-    <p style="font-size:.8rem;color:var(--muted);line-height:1.75;margin:12px 0 6px;">
-      <strong style="color:var(--teal-hi);">二、六反：与直觉相反的反应方向——给评分定向</strong><br>
-      本轮周期（2022–2026）反复出现、且与直觉相反的六种反应。注意：这是对本轮的归纳，不是普适定律；每条标注把握程度。
-    </p>
+    <div class="rv-h1">二、六反：与直觉相反的反应方向<span class="rv-h1-sub">给评分定向</span></div>
+    <p class="rv-p">本轮周期（2022–2026）反复出现、且与直觉相反的六种反应。<strong>注意：这是对本轮的归纳，不是普适定律</strong>；每条标注把握程度。</p>
     <table class="weight-table">
       <colgroup><col style="width:10%"><col style="width:24%"><col style="width:46%"><col style="width:20%"></colgroup>
       <thead><tr><th>六反</th><th>直觉预期</th><th>实际观察（站内可回溯）</th><th>把握程度</th></tr></thead>
@@ -2459,15 +2481,20 @@ html.weak .ca-orbit{ animation:none; }
       </tbody>
     </table>
     <div style="font-size:.8rem;line-height:1.8;color:var(--muted);margin-top:10px;">
-      <p style="margin-bottom:6px;"><strong style="color:var(--fg);">「遣」从情景改为纪律——规则已就绪，待真实事件检验</strong>：原文「反执以遣：随势遣执」本是舍执念的动作，不是结局预测，此前的写法（押"是否再协议"）偏离了这一语义、且被事件打脸。本轮推演情景给出完整测试实例：09-22 纽约会谈"很顺利"，押"再协议"的执念入场 → 09-27 被证伪，伊朗外长强硬回应已就"末日之战"做好准备、油价开盘拉涨 → 但谈判未断，押"全面战争"的执念同样落空。缓和-破裂循环中两个方向的终局押注都会被打脸——模型动作：随势遣执，只跟链路步进刻度、不押终局；WCRI 不因单次信号调分（与「不闻」同一纪律）。</p>
-      <p><strong style="color:var(--fg);">三、时间律：传导链是"走到第几步"的刻度——给推演定时点</strong>。以俄油一条真实链条为例：制裁（1）→ 价格上限（2）→ 影子船队绕限（3）→ 折价转售亚洲（4）→ 炼能遇袭与出口禁令（5）→ 贸易流重排（进行中）。
-      观察到的事实：第 3 步之后规则已改——价格上限未能压低俄油出口量，乌拉尔持续折价销售；走到第 5–6 步时出现两种可能收尾——新格局固化，或以重新谈判收尾，<strong style="color:var(--fg);">本轮尚未走完</strong>。
-      与总分的关系是分工而非重复：WCRI 回答"风险水位多高"（计入公式），链路刻度回答"走到第几步"（只做沙盘判读，不计分）。</p>
+      <div class="rv-h2">「遣」从情景改为纪律<span style="font-weight:400;color:var(--faint);">——规则已就绪，待真实事件检验</span></div>
+    <p class="rv-p">原文「反执以遣：随势遣执」本是<strong>舍执念的动作</strong>，不是结局预测；此前的写法（押"是否再协议"）偏离了这一语义、且被事件打脸。</p>
+    <p class="rv-p">本轮推演情景给出完整测试实例：09-22 纽约会谈"很顺利"，押"再协议"的执念入场 → 09-27 被证伪，伊朗外长强硬回应已就"末日之战"做好准备、油价开盘拉涨 → 但谈判未断，押"全面战争"的执念同样落空。</p>
+    <p class="rv-p">缓和-破裂循环中<strong>两个方向的终局押注都会被打脸</strong>——模型动作：随势遣执，只跟链路步进刻度、不押终局；WCRI 不因单次信号调分（与「不闻」同一纪律）。</p>
+      <div class="rv-h1">三、时间律：传导链是"走到第几步"的刻度<span class="rv-h1-sub">给推演定时点</span></div>
+    <p class="rv-p">以俄油一条真实链条为例：制裁（1）→ 价格上限（2）→ 影子船队绕限（3）→ 折价转售亚洲（4）→ 炼能遇袭与出口禁令（5）→ 贸易流重排（进行中）。</p>
+    <p class="rv-p">观察到的事实：第 3 步之后规则已改——价格上限未能压低俄油出口量，乌拉尔持续折价销售；走到第 5–6 步时出现两种可能收尾——新格局固化，或以重新谈判收尾，<strong>本轮尚未走完</strong>。</p>
+    <p class="rv-p">与总分的关系是分工而非重复：<strong>WCRI 回答"风险水位多高"</strong>（计入公式）；<strong>链路刻度回答"走到第几步"</strong>（只做沙盘判读，不计分）。</p>
     </div>
-    <p style="font-size:.8rem;color:var(--muted);line-height:1.75;margin:12px 0 6px;"><strong style="color:var(--blue-hi);">四、证据分级：硬数据与推断分开计分</strong>——模型最大的敌人是把推断当事实：</p>
+    <div class="rv-h1">四、证据分级：硬数据与推断分开计分<span class="rv-h1-sub">模型最大的敌人是把推断当事实</span></div>
     <div style="font-size:.8rem;line-height:1.8;color:var(--muted);">
-      <p style="margin-bottom:6px;">· <strong style="color:var(--fg);">硬数据满分计入</strong>：运费、战争险费率、通行量、出口量（MSI 四因子全部锚定硬数据）；<strong style="color:var(--fg);">推断折算并标注</strong>：升级概率、意图研判，在证据链表注明来源板块。</p>
-      <p>· <strong style="color:var(--fg);">反向提醒</strong>：反共识头寸同样会拥挤——做空共识本身也会踩踏。拥挤度不进权重、进执行纪律。</p>
+      <p class="rv-li"><strong>硬数据满分计入</strong>：运费、战争险费率、通行量、出口量（MSI 四因子全部锚定硬数据）。</p>
+    <p class="rv-li"><strong>推断折算并标注</strong>：升级概率、意图研判，在证据链表注明来源板块。</p>
+      <p class="rv-li"><strong>反向提醒</strong>：反共识头寸同样会拥挤——做空共识本身也会踩踏。拥挤度不进权重、进执行纪律。</p>
     </div>
     <p class="hint" style="margin-top:10px;">
       阅读方法：想知道 8.4 怎么算的 → 看下方权重表与 MSI / MTI / AIB 三张子指数卡；想知道某个分数凭什么 → 看证据链表；想知道某条危机走到哪一步 → 看 08 沙盘链路的步进标记。
