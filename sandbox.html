@@ -735,6 +735,29 @@ details.gs-fold[open]>div.algo-card{ border:0; background:transparent; margin:0;
   background-size:5px 5px, 5px 5px; background-repeat:no-repeat;
 }
 .k-sel option{ background:#15181B; color:var(--fg); }
+/* 防溢出兜底：.weight-table 是 table-layout:fixed，格子宽度定死，
+   内容一旦超出就会压到隔壁格上（td 默认 overflow:visible）。 */
+.weight-table td, .weight-table th{ overflow:hidden; }
+.k-in, .k-sel, .expo-sel{ min-width:0; max-width:100%; }
+.cell-sub{
+  font-size:.58rem; color:var(--faint); margin-top:3px;
+  overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
+}
+/* 窄屏（手机）：§07 的可编辑表格改成横向滚动。
+   .weight-table 在桌面是 table-layout:fixed（列宽定死），窄屏会被挤到切字；
+   这里改成 display:block + overflow-x:auto，让列按内容自适应并可左右滑。 */
+@media(max-width:700px){
+  #view-riskmodel table.weight-table{
+    display:block; overflow-x:auto; -webkit-overflow-scrolling:touch;
+  }
+  #view-riskmodel table.weight-table > thead,
+  #view-riskmodel table.weight-table > tbody{ display:block; min-width:max-content; }
+  #view-riskmodel table.weight-table tr{ display:table; width:100%; table-layout:auto; }
+  #view-riskmodel table.weight-table::-webkit-scrollbar{ height:6px; }
+  #view-riskmodel table.weight-table::-webkit-scrollbar-thumb{
+    background:rgba(255,255,255,.22); border-radius:3px;
+  }
+}
 .map-canvas{ position:relative; padding:8px; }
 .map-svg{ width:100%; height:auto; display:block; }
 .map-ocean{ fill:url(#oceanGrad); }
@@ -2724,8 +2747,8 @@ html.weak .ca-orbit{ animation:none; }
 
       <div id="corr-due" style="font-size:.74rem;line-height:1.9;margin-bottom:6px;color:var(--faint);"></div>
       <table class="weight-table" style="font-size:.66rem;">
-        <colgroup><col style="width:11%"><col style="width:30%"><col style="width:14%"><col style="width:22%"><col style="width:15%"><col style="width:6%"></colgroup>
-        <thead><tr><th>记录日</th><th>我在赌什么（可直接改）</th><th>当时读数</th><th>证伪条件（事前写）</th><th>结果<span style="color:var(--faint);">（回来判）</span></th><th></th></tr></thead>
+        <colgroup><col style="width:13%"><col style="width:34%"><col style="width:24%"><col style="width:18%"><col style="width:11%"></colgroup>
+        <thead><tr><th>记录日</th><th>我在赌什么（可直接改）</th><th>证伪条件（事前写）</th><th>结果<span style="color:var(--faint);">（回来判）</span></th><th></th></tr></thead>
         <tbody id="corr-tbody"></tbody>
       </table>
       <p class="hint" style="margin-top:8px;">只有「证伪条件」留空会标红；其余留空都不影响。<strong style="color:var(--gold-hi);">复查日到了要回来判「结果」——不判，这本账就白记。</strong></p>
@@ -3622,7 +3645,7 @@ function snapshotText(){
   const vals=sliderVals();
   const R=vals.reduce(function(a,v,i){return a+v*W[i];},0);
   let hi=0; vals.forEach(function(v,i){ if(v>vals[hi]) hi=i; });
-  return 'R '+R.toFixed(1)+' ／ 最高：'+factors[hi].name+' '+vals[hi].toFixed(1);
+  return 'R '+R.toFixed(1)+' ／ 最高 '+factors[hi].name+' '+vals[hi].toFixed(1);
 }
 function esc(s){ return String(s==null?'':s).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;'); }
 function corrField(i,key,val,ph){
@@ -3648,7 +3671,7 @@ function renderCorr(){
   const sel=document.getElementById('corr-fals');
   if(sel && sel.options && !sel.options.length) sel.innerHTML=FALS_OPTS.map(function(o){return '<option>'+o+'</option>';}).join('');
   if(!CORR.length){
-    tb.innerHTML='<tr><td colspan="6" style="color:var(--faint);">还没有记录。上面写一句话、选一个证伪条件，点「● 记一条」。</td></tr>';
+    tb.innerHTML='<tr><td colspan="5" style="color:var(--faint);">还没有记录。上面写一句话、选一个证伪条件，点「● 记一条」。</td></tr>';
     return;
   }
   const today=todayIso();
@@ -3658,14 +3681,15 @@ function renderCorr(){
     const overdue=(c.due && c.due<today && c.verdict===VERDICT_OPTS[0]);
     if(overdue) dueCount++;
     return '<tr'+(overdue?' style="background:rgba(255,107,107,.06);"':'')+'>'+
-      '<td style="color:var(--muted);white-space:nowrap;font-size:.62rem;">'+(c.date||'—')+
-        (c.due?'<br><span style="color:'+(overdue?'var(--red-hi)':'var(--faint)')+';">复查 '+c.due+(overdue?' ⚠':'')+'</span>':'')+
+      '<td style="color:var(--muted);font-size:.62rem;">'+(c.date||'—')+
+        (c.due?'<div class="cell-sub" style="color:'+(overdue?'var(--red-hi)':'var(--faint)')+';">复查 '+c.due+(overdue?' ⚠':'')+'</div>':'')+
       '</td>'+
-      '<td>'+corrField(i,'say',c.say,'留空也行')+'</td>'+
-      '<td style="color:var(--faint);white-space:nowrap;font-size:.62rem;">'+(c.snap||'—')+'</td>'+
+      '<td>'+corrField(i,'say',c.say,'留空也行')+
+        '<div class="cell-sub" title="'+esc(c.snap)+'">'+(c.snap||'—')+'</div>'+
+      '</td>'+
       '<td'+(unset?' style="color:var(--red-hi);"':'')+'>'+corrSel(i,c.fals)+'</td>'+
       '<td>'+verdictSel(i,c.verdict,c.due)+'</td>'+
-      '<td><button class="kbtn k-danger" data-del="'+i+'" type="button" style="padding:5px 9px;font-size:.66rem;">删</button></td>'+
+      '<td><button class="kbtn k-danger" data-del="'+i+'" type="button" style="padding:5px 8px;font-size:.66rem;">删</button></td>'+
     '</tr>';
   }).join('');
   /* 到期提醒：写在表格上方 */
