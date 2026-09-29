@@ -766,6 +766,24 @@ input.k-in, select.k-sel{ height:30px; }
 }
 .author-note strong{ color:var(--fg); }
 .author-note .an-sub{ color:var(--faint); font-size:.72rem; }
+/* 「这张卡回答什么问题」——卡面标题是方法名（EXPOSURE/CONDUIT 等英文术语），
+   读者看不出它在回答什么。每张卡先给出问句。 */
+.card-q{
+  border-left:3px solid var(--gold);
+  background:var(--gold-soft);
+  border-radius:0 var(--r-sm) var(--r-sm) 0;
+  padding:9px 12px; margin-bottom:12px;
+  font-size:.88rem; line-height:1.75; color:var(--muted);
+}
+.card-q strong{ color:var(--fg); font-size:.96rem; }
+.card-q .cq-sub{
+  display:block; margin-top:4px;
+  font-size:.72rem; color:var(--faint); line-height:1.8;
+}
+.card-q.cq-warn{
+  border-left-color:var(--red);
+  background:var(--red-soft);
+}
 /* 窄屏（手机）：§07 的可编辑表格改成横向滚动。
    .weight-table 在桌面是 table-layout:fixed（列宽定死），窄屏会被挤到切字；
    这里改成 display:block + overflow-x:auto，让列按内容自适应并可左右滑。 */
@@ -2705,6 +2723,10 @@ html.weak .ca-orbit{ animation:none; }
   <div class="grid-2" style="margin-bottom:14px;">
     <div class="card" id="expo-card">
       <h3><span class="tag-h">EXPOSURE</span><em class="gs-tier">必看</em>我的暴露排序（L×w）</h3>
+      <div class="card-q">
+        这张卡回答：<strong>七个风险里，我先防哪一格？</strong>
+        <span class="cq-sub">它不预测会不会出事，只排"先处理谁"。第一列是公开数据，后两列是作者私有敞口。</span>
+      </div>
       <p class="hint" style="margin-bottom:8px;"><strong style="color:var(--gold-hi);">怎么用这张表：</strong>① 给每一维选一个「量级」和一个「敞口」；② 表会自动算出优先级并排序；③ <strong>只看第一行</strong>——那就是你现在最该先处理的一格；④ 按「建议动作」去做，想改就改。</p>
       <p class="hint" style="margin-bottom:10px;"><strong style="color:var(--gold-hi);">L×w 不含概率（概率不可知），只做优先级排序，不构成期望值。</strong>L＝若这一维真出事，损失多大（0–10）；w＝我在这一维的受击面（0–5）。L×w 不加进世界风险 R。</p>
       <p class="hint" style="margin-bottom:10px;border-left:2px solid var(--line-strong);padding-left:10px;">
@@ -2720,6 +2742,14 @@ html.weak .ca-orbit{ animation:none; }
       <summary><span class="tag-h">CONDUIT</span>传导与临界 <em class="gs-tier">专业</em></summary>
 <div class="card" id="conduit-card">
       <h3><span class="tag-h">CONDUIT</span>传导与临界</h3>
+      <div class="card-q cq-warn">
+        这张卡想回答：<strong>这七个风险会一起爆吗？</strong>
+        <span class="cq-sub">
+          ⚠ 但它的核心输入 —— 7×7 传导矩阵 A —— 目前是<strong>演示用示例值，不是作者的数据</strong>。<br>
+          因此下面「连锁放大：弱」以及「哪两格是放大器」，<strong>是那个示例矩阵的性质，不是对世界的判断</strong>。<br>
+          <strong>A 未被填实之前，本卡只作机制演示，不构成结论。</strong>要看真实可核的部分，请回上面 EXPOSURE 卡（第一列 r 来自外部信源）。
+        </span>
+      </div>
       <div id="conduit-stats" style="margin-bottom:10px;"></div>
       <details class="gs-fold" style="margin-top:6px;">
         <summary style="font-size:.74rem;">研究者用 · 原始数值与 7×7 矩阵（你可以完全不看）</summary>
