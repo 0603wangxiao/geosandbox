@@ -693,6 +693,31 @@ details.gs-fold[open]>div.algo-card{ border:0; background:transparent; margin:0;
 }
 .map-tools .fbtn:hover{ color:var(--fg); border-color:var(--line-strong); }
 .map-tools .fbtn.on{ color:var(--accent); border-color:currentColor; background:transparent; }
+/* ===== 卡内按钮 .kbtn（DELTA / CALIB）· 可读性改单 v4 =====
+   原因：.fbtn 只有「.map-tools .fbtn」这一条作用域规则，卡片里的按钮不在
+   .map-tools 内，一条样式都没匹配上，退化成浏览器裸按钮（看起来像纯文字）。
+   这里给卡片按钮单独一个类，完全不改地图筛选胶囊。 */
+.kbtn{
+  display:inline-flex; align-items:center; gap:6px; white-space:nowrap;
+  font-family:var(--sans); font-size:.74rem; letter-spacing:.04em; line-height:1;
+  padding:8px 16px; border-radius:var(--r-sm);
+  border:1px solid var(--line-strong); background:rgba(255,255,255,.05);
+  color:var(--fg); cursor:pointer;
+  transition:background var(--t), border-color var(--t), color var(--t), transform var(--t);
+  -webkit-appearance:none; appearance:none;
+}
+.kbtn:hover{ background:rgba(255,255,255,.12); border-color:rgba(255,255,255,.3); }
+.kbtn:active{ transform:translateY(1px); }
+.kbtn:focus-visible{ outline:2px solid var(--gold); outline-offset:2px; }
+/* 主操作：这排按钮里只应该有一个 */
+.kbtn.k-primary{
+  border-color:var(--gold); background:var(--gold-soft); color:var(--gold-hi); font-weight:600;
+}
+.kbtn.k-primary:hover{ background:rgba(94,196,255,.2); border-color:var(--gold-hi); }
+/* 破坏性操作 */
+.kbtn.k-danger{ border-color:rgba(255,107,107,.45); color:var(--red-hi); }
+.kbtn.k-danger:hover{ background:var(--red-soft); border-color:var(--red); }
+.kbtn[disabled]{ opacity:.45; cursor:not-allowed; }
 .map-canvas{ position:relative; padding:8px; }
 .map-svg{ width:100%; height:auto; display:block; }
 .map-ocean{ fill:url(#oceanGrad); }
@@ -2648,10 +2673,10 @@ html.weak .ca-orbit{ animation:none; }
       <summary><span class="tag-h">DELTA</span>变化率 · 分期记录 <em class="gs-tier">参考</em></summary>
 <div class="card" id="trend-card">
       <h3><span class="tag-h">DELTA</span>变化率 · 分期记录</h3>
-      <div style="display:flex;gap:10px;margin-bottom:10px;flex-wrap:wrap;">
-        <button class="fbtn" id="btn-save-point" type="button">记录本期</button>
-        <button class="fbtn" id="btn-export-hist" type="button">导出 JSON</button>
-        <button class="fbtn" id="btn-clear-hist" type="button">清空记录</button>
+      <div style="display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap;align-items:center;">
+        <button class="kbtn k-primary" id="btn-save-point" type="button">● 记录本期</button>
+        <button class="kbtn" id="btn-export-hist" type="button">导出 JSON</button>
+        <button class="kbtn k-danger" id="btn-clear-hist" type="button">清空记录</button>
       </div>
       <div id="trend-body"></div>
     </div>
@@ -2660,13 +2685,24 @@ html.weak .ca-orbit{ animation:none; }
       <summary><span class="tag-h">CALIB</span>认知修正 · 校准记录 <em class="gs-tier">专业</em></summary>
 <div class="card" id="corr">
       <h3><span class="tag-h">CALIB</span>认知修正 · 校准记录</h3>
-      <p class="hint" style="margin-bottom:8px;"><strong style="color:var(--gold-hi);">本模型暂无历史样本，因此不做概率校准。校准的前提是序列；序列从今天开始记录。</strong></p>
+      <div style="border-left:3px solid var(--gold);padding:8px 0 8px 14px;margin-bottom:12px;">
+        <div style="font-size:1rem;line-height:1.95;color:var(--fg);">
+          这是一本「<strong style="color:var(--gold-hi);">我错在哪、因为什么改</strong>」的账。
+        </div>
+        <div style="font-size:.88rem;line-height:1.9;color:var(--muted);margin-top:4px;">
+          它<strong>不算概率</strong>——它逼你把「什么条件下我认错」写在事前。
+        </div>
+      </div>
+      <p class="hint" style="margin-bottom:12px;line-height:1.95;font-size:.84rem;">
+        <strong style="color:var(--gold-hi);">怎么用：</strong>点下面的「＋ 新增记录行」→ 表格里会多出一行 → 照这个例子填：<br>
+        <span style="color:var(--muted);">记录日 <strong>2026-09-29</strong>　｜　旧判断「美伊会在 10 月前达成协议」　｜　现判断「僵局持续到 2027」　｜　触发修正的事实「09-27 会谈缓和信号被证伪」　｜　证伪条件（事前写）「若 10-15 前双方举行第三轮会谈，那是我错了」</span>
+      </p>
       <table class="weight-table" style="font-size:.66rem;">
-        <colgroup><col style="width:14%"><col style="width:17%"><col style="width:17%"><col style="width:26%"><col style="width:26%"></colgroup>
-        <thead><tr><th>记录日</th><th>旧判断</th><th>现判断</th><th>触发修正的事实</th><th>证伪条件（事前写）</th></tr></thead>
+        <colgroup><col style="width:11%"><col style="width:18%"><col style="width:18%"><col style="width:22%"><col style="width:26%"><col style="width:5%"></colgroup>
+        <thead><tr><th>记录日</th><th>旧判断</th><th>现判断</th><th>触发修正的事实</th><th>证伪条件（事前写）</th><th></th></tr></thead>
         <tbody id="corr-tbody"></tbody>
       </table>
-      <div style="margin-top:10px;"><button class="fbtn" id="btn-add-corr" type="button">新增记录行</button></div>
+      <div style="margin-top:10px;"><button class="kbtn k-primary" id="btn-add-corr" type="button">＋ 新增记录行</button></div>
       <p class="hint" style="margin-top:8px;">纪律：事后才写的「证伪条件」无效——该列必须由作者在事件前填入；未填则显示「未预设」。</p>
     </div>
       </details>
@@ -3362,10 +3398,10 @@ function renderExposure(vals){
    注意：κ &lt; 1 为数学稳定条件（模型既有）；四档分界 0.30／0.60／0.85 为推演参数，
    非模型既有定义，作者可改（页面已标注）。 */
 const K_BANDS=[
-  [0.30,'弱','各格基本独立','分散就够，不用管连锁'],
-  [0.60,'中','会带倒一两格','盯住下面那两格「放大器」'],
-  [0.85,'强','推一格倒一片','同方向的仓位要减'],
-  [99,  '临界','结构自己就能引爆','系统性风险，别押方向']
+  [0.30,'弱','各格基本独立','分散就够，不用管连锁','各格基本独立，不用担心「一推倒一片」'],
+  [0.60,'中','会带倒一两格','盯住那两格「放大器」','会带倒一两格，盯住那两格「放大器」'],
+  [0.85,'强','推一格倒一片','同方向的仓位要减','推一格会倒一片，同方向的仓位要减'],
+  [99,  '临界','结构自己就能引爆','系统性风险，别押方向','结构自己就能引爆，是系统性风险，别押方向']
 ];
 function bandIdx(kappa){ for(let k=0;k<K_BANDS.length;k++){ if(kappa<K_BANDS[k][0]) return k; } return K_BANDS.length-1; }
 function bandRange(k){
@@ -3389,43 +3425,38 @@ function renderConduit(vals){
     ? '<span style="color:var(--red-hi);">「金融稳定」目前收不到上游传导——矩阵那一列全为 0，与站内链条不一致，需补接。</span>'
     : '「金融稳定」收得到上游传导，「货币秩序 → 金融稳定」这条链是通的，无漏接。';
   el.innerHTML=
-    '<div style="border-left:3px solid var(--gold);padding:6px 0 6px 12px;margin-bottom:14px;">'+
-      '<div style="font-size:.95rem;line-height:1.95;color:var(--fg);">'+
-        '连锁放大：<strong style="color:var(--gold-hi);">'+band[1]+'</strong>　—— '+band[2]+'。'+
+    '<div style="border-left:3px solid var(--gold);padding:8px 0 8px 14px;">'+
+      '<div style="font-size:1rem;line-height:1.95;color:var(--fg);">'+
+        '连锁放大：<strong style="color:var(--gold-hi);">'+band[1]+'</strong>　—— '+band[4]+'。'+
       '</div>'+
-      '<div style="font-size:.95rem;line-height:1.95;color:var(--fg);">'+
-        '如果冲击真的发生，最会被放大的是 '+(top2.length?top2.join(' 和 '):'（无）')+
-        '。'+
-      '</div>'+
-      '<div style="font-size:.82rem;line-height:1.9;color:var(--muted);margin-top:4px;">'+
-        '注意：这两格不是「震中」，是<strong style="color:var(--gold-hi);">放大器</strong>——对照上面 EXPOSURE 卡，它们值得先收紧。'+
+      '<div style="font-size:1rem;line-height:1.95;color:var(--fg);margin-top:6px;">'+
+        '若真出事，最会被放大的是 '+(top2.length?top2.join(' 和 '):'（无）')+
+        '——它们是「<strong style="color:var(--gold-hi);">放大器</strong>」，不是「震中」。'+
       '</div>'+
     '</div>'+
-    '<div style="font-size:.8rem;color:var(--muted);line-height:1.9;margin-bottom:6px;">'+
-      '「结构会不会一推倒一片」——按当前 κ = <strong class="num">'+kappa.toFixed(2)+'</strong> 对号入座：'+
-    '</div>'+
-    '<div style="font-size:.7rem;color:var(--faint);line-height:1.85;margin-bottom:6px;">'+
-      '（κ &lt; 1 是数学上的稳定条件，这是模型既有的；四档分界 0.30／0.60／0.85 属<strong style="color:var(--red-hi);">推演参数，非模型既有定义，待作者确认</strong>。）'+
-    '</div>'+
-    '<table class="weight-table" style="font-size:.68rem;margin-bottom:12px;">'+
-      '<thead><tr><th style="width:16%">κ 区间</th><th style="width:14%">放大</th><th style="width:32%">人话</th><th style="width:38%">你该怎么做</th></tr></thead><tbody>'+
-      K_BANDS.map((b,k)=>{
-        const hit=(k===bi);
-        return '<tr'+(hit?' style="background:var(--gold-soft);"':'')+'>'+
-          '<td class="num">'+bandRange(k)+'</td>'+
-          '<td><strong'+(hit?' style="color:var(--gold-hi);"':'')+'>'+b[1]+'</strong>'+(hit?' ◀ 当前':'')+'</td>'+
-          '<td>'+b[2]+'</td><td>'+b[3]+'</td></tr>';
-      }).join('')+
-      '</tbody></table>'+
-    '<div style="font-size:.82rem;line-height:1.9;color:var(--muted);">'+hu3+'</div>'+
-    '<div style="font-size:.74rem;line-height:1.9;color:var(--faint);margin-top:8px;">'+
-      'κ、α、ρ(A)、各维增量与 7×7 矩阵已收进下方「研究者用」——<strong>你可以完全不看</strong>。'+
+    '<div style="font-size:.76rem;line-height:1.9;color:var(--faint);margin-top:10px;">'+
+      '这两句就够了。想知道「怎么算出来的」，展开最下面那一栏。'+
     '</div>';
   if(raw){
     raw.innerHTML=
-      'κ = α·ρ(A) = '+ALPHA+' × '+rho.toFixed(3)+' = '+kappa.toFixed(3)+'　｜　α = '+ALPHA+'　｜　ρ(A) = '+rho.toFixed(3)+'<br>'+
-      '<strong style="color:var(--red-hi);">下面这串 Δ 是假想实验的中间量（假设七格同时把传导推满），不是预测，也不是「风险涨了几分」——点数本身没有意义，只用来看排序。</strong><br>'+
-      (rank.length? rank.map((o,k)=>'第'+(k+1)+'：r'+SUB[o.i]+' '+NAMES[o.i]+'　Δ = '+o.d.toFixed(2)).join('<br>') : '（无正向增量）');
+      '<div style="margin-bottom:8px;"><strong style="color:var(--muted);">① κ 是什么</strong>　—— 结构会不会连锁，越接近 1 越危险。当前 κ = <strong class="num">'+kappa.toFixed(2)+'</strong>，落在「'+band[1]+'」档：</div>'+
+      '<table class="weight-table" style="font-size:.68rem;margin-bottom:8px;">'+
+        '<thead><tr><th style="width:16%">κ 区间</th><th style="width:14%">放大</th><th style="width:32%">人话</th><th style="width:38%">你该怎么做</th></tr></thead><tbody>'+
+        K_BANDS.map((b,k)=>{
+          const hit=(k===bi);
+          return '<tr'+(hit?' style="background:var(--gold-soft);"':'')+'>'+
+            '<td class="num">'+bandRange(k)+'</td>'+
+            '<td><strong'+(hit?' style="color:var(--gold-hi);"':'')+'>'+b[1]+'</strong>'+(hit?' ◀ 当前':'')+'</td>'+
+            '<td>'+b[2]+'</td><td>'+b[3]+'</td></tr>';
+        }).join('')+
+        '</tbody></table>'+
+      '<div style="margin-bottom:10px;">（κ &lt; 1 是数学上的稳定条件，这是模型既有的；四档分界 0.30／0.60／0.85 属<strong style="color:var(--red-hi);">推演参数，非模型既有定义，待作者确认</strong>。）</div>'+
+      '<div style="margin-bottom:12px;">κ = α·ρ(A) = '+ALPHA+' × '+rho.toFixed(3)+' = '+kappa.toFixed(3)+'　｜　α = '+ALPHA+'　｜　ρ(A) = '+rho.toFixed(3)+'</div>'+
+      '<div style="margin-bottom:12px;"><strong style="color:var(--muted);">② 各维被放大的多少（只看排序，不看点数）</strong><br>'+
+        '<span style="color:var(--red-hi);">这串 Δ 是假想实验的中间量（假设七格同时把传导推满），不是预测，也不是「风险涨了几分」——点数本身没有意义，只看谁排前面。</span><br>'+
+        (rank.length? rank.map((o,k)=>'第'+(k+1)+'：r'+SUB[o.i]+'　'+NAMES[o.i]+'　Δ = '+o.d.toFixed(2)).join('<br>') : '（无正向增量）')+
+      '</div>'+
+      '<div><strong style="color:var(--muted);">③ 链路完整性</strong>　'+hu3+'</div>';
   }
 }
 /* A 矩阵只读展示（可读性改单 v2 F3：不再让作者编辑 49 个数字） */
@@ -3523,16 +3554,54 @@ function exportHist(){
 const CORRKEY='wcri-corr-v1';
 let CORR=[];
 try{ CORR=JSON.parse(localStorage.getItem(CORRKEY)||'[]'); }catch(e){ CORR=[]; }
+/* 可读性改单 v4：CALIB 原来只渲染纯文本单元格（'+'—'+'），压根没法输入。
+   改成真的输入框 + 逐行删除；输入即存 localStorage。 */
+function corrField(i,key,val,ph){
+  const esc=String(val==null?'':val).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;');
+  return '<input class="k-in" data-i="'+i+'" data-k="'+key+'" type="text" value="'+esc+'" placeholder="'+ph+
+    '" style="width:100%;box-sizing:border-box;background:rgba(255,255,255,.04);border:1px solid var(--line-strong);'+
+    'border-radius:6px;color:var(--fg);font-family:var(--sans);font-size:.7rem;padding:5px 7px;">';
+}
 function renderCorr(){
   const tb=document.getElementById('corr-tbody'); if(!tb) return;
-  tb.innerHTML=CORR.length?CORR.map(c=>
-    '<tr><td>'+c.date+'</td><td>'+(c.old||'—')+'</td><td>'+(c.now||'—')+'</td><td>'+(c.fact||'—')+'</td><td>'+(c.falsifier||'<span style="color:var(--faint);">未预设</span>')+'</td></tr>'
-  ).join(''):'<tr><td colspan="5" style="color:var(--faint);">暂无记录。校准的前提是序列；序列从今天开始记录。</td></tr>';
+  if(!CORR.length){
+    tb.innerHTML='<tr><td colspan="6" style="color:var(--faint);">还没有记录。点下面的「＋ 新增记录行」开始第一行；表格里的格子可以直接打字，打完自动保存。</td></tr>';
+    return;
+  }
+  tb.innerHTML=CORR.map((c,i)=>
+    '<tr>'+
+      '<td style="color:var(--muted);white-space:nowrap;">'+(c.date||'—')+'</td>'+
+      '<td>'+corrField(i,'old',c.old,'原来我怎么想')+'</td>'+
+      '<td>'+corrField(i,'now',c.now,'现在我怎么想')+'</td>'+
+      '<td>'+corrField(i,'fact',c.fact,'什么事实让我改的')+'</td>'+
+      '<td>'+corrField(i,'falsifier',c.falsifier,'什么条件下算我错（事前写）')+'</td>'+
+      '<td><button class="kbtn k-danger" data-del="'+i+'" type="button" style="padding:5px 9px;font-size:.66rem;">删</button></td>'+
+    '</tr>'
+  ).join('');
+  /* 输入即存（不重绘，避免丢焦点） */
+  tb.querySelectorAll('input.k-in').forEach(function(inp){
+    inp.addEventListener('input',function(){
+      const i=+inp.dataset.i, k=inp.dataset.k;
+      if(CORR[i]){ CORR[i][k]=inp.value; try{ localStorage.setItem(CORRKEY,JSON.stringify(CORR)); }catch(e){} }
+    });
+  });
+  tb.querySelectorAll('button[data-del]').forEach(function(b){
+    b.addEventListener('click',function(){
+      CORR.splice(+b.dataset.del,1);
+      try{ localStorage.setItem(CORRKEY,JSON.stringify(CORR)); }catch(e){}
+      renderCorr();
+    });
+  });
 }
 function addCorrRow(){
-  CORR.push({date:new Date().toISOString().slice(0,10),old:'',now:'',fact:'',falsifier:''});
+  const d=new Date();
+  const date=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+  CORR.push({date:date,old:'',now:'',fact:'',falsifier:''});
   try{ localStorage.setItem(CORRKEY,JSON.stringify(CORR)); }catch(e){}
   renderCorr();
+  const tb=document.getElementById('corr-tbody');
+  const last=tb&&tb.querySelector('tr:last-child input.k-in');
+  if(last) last.focus();
 }
 
 function updateScore(){
