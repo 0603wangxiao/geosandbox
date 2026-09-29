@@ -2630,12 +2630,15 @@ html.weak .ca-orbit{ animation:none; }
 <div class="card" id="conduit-card">
       <h3><span class="tag-h">CONDUIT</span>传导与临界</h3>
       <div id="conduit-stats" style="margin-bottom:10px;"></div>
-      <p class="hint" style="margin-bottom:8px;"><strong style="color:var(--red-hi);">A 的强度由站内传导链（05／08）估计，属推演参数；κ 只表示「结构是否接近临界」，不预测事件。</strong>κ = α·ρ(A)；一阶传播 r′ = r + α·A·r。矩阵为只读展示——非必要不要动这里；改了会改变 κ 与放大结果（属高级手动调参，须直接改源码数据块）。</p>
-      <table class="weight-table" style="font-size:.62rem;">
-        <thead><tr><th></th><th>r₁</th><th>r₂</th><th>r₃</th><th>r₄</th><th>r₅</th><th>r₆</th><th>r₇</th></tr></thead>
-        <tbody id="amat-tbody"></tbody>
-      </table>
-      <p class="hint" style="margin-top:8px;">A[r₄→r₇]=0.3 为初值由站内传导链估计补接的「货币秩序 → 金融稳定」链路；其余为示例初值，均属推演参数（作者确认前仅作机制演示）。</p>
+      <details class="gs-fold" style="margin-top:6px;">
+        <summary style="font-size:.74rem;">研究者用 · 原始数值与 7×7 矩阵（你可以完全不看）</summary>
+        <div id="conduit-raw" style="font-size:.7rem;color:var(--faint);line-height:1.95;padding-top:8px;"></div>
+        <table class="weight-table" style="font-size:.62rem;margin-top:8px;">
+          <thead><tr><th></th><th>r₁</th><th>r₂</th><th>r₃</th><th>r₄</th><th>r₅</th><th>r₆</th><th>r₇</th></tr></thead>
+          <tbody id="amat-tbody"></tbody>
+        </table>
+        <p class="hint" style="margin-top:8px;"><strong style="color:var(--red-hi);">A 的强度由站内传导链（05／08）估计，属推演参数；κ 只表示「结构是否接近临界」，不预测事件。</strong>κ = α·ρ(A)；一阶传播 r′ = r + α·A·r。矩阵为只读展示。A[r₄→r₇]=0.3 为初值由站内传导链估计补接的「货币秩序 → 金融稳定」链路；其余为示例初值（作者确认前仅作机制演示）。</p>
+      </details>
     </div>
       </details>
   </div>
@@ -2648,6 +2651,7 @@ html.weak .ca-orbit{ animation:none; }
       <div style="display:flex;gap:10px;margin-bottom:10px;flex-wrap:wrap;">
         <button class="fbtn" id="btn-save-point" type="button">记录本期</button>
         <button class="fbtn" id="btn-export-hist" type="button">导出 JSON</button>
+        <button class="fbtn" id="btn-clear-hist" type="button">清空记录</button>
       </div>
       <div id="trend-body"></div>
     </div>
@@ -3354,32 +3358,70 @@ function renderExposure(vals){
     sel.addEventListener('change',()=>{ expoAct[+sel.dataset.i]=sel.value; });
   });
 }
-/* T4 传导与临界 · 可读性改单 v2 F3：三行人话翻译置顶 */
+/* T4 传导与临界 · 可读性改单 v3：卡面只给「序数 + 四档尺」，点数全部移入折叠 */
+const K_BANDS=[
+  [0.30,'弱','各格基本独立','分散就够，不用管连锁'],
+  [0.60,'中','会带倒一两格','盯住下面那两格「放大器」'],
+  [0.85,'强','推一格倒一片','同方向的仓位要减'],
+  [99,  '临界','结构自己就能引爆','系统性风险，别押方向']
+];
+function bandIdx(kappa){ for(let k=0;k<K_BANDS.length;k++){ if(kappa<K_BANDS[k][0]) return k; } return K_BANDS.length-1; }
+function bandRange(k){
+  if(k===0) return '&lt; '+K_BANDS[0][0].toFixed(2);
+  if(k===K_BANDS.length-1) return '≥ '+K_BANDS[k-1][0].toFixed(2);
+  return K_BANDS[k-1][0].toFixed(2)+' – '+K_BANDS[k][0].toFixed(2);
+}
 function renderConduit(vals){
   const el=document.getElementById('conduit-stats'); if(!el) return;
+  const raw=document.getElementById('conduit-raw');
   const rho=spectralRadius(A);
   const kappa=ALPHA*rho;
   const dr=firstOrderDelta(vals);
   const NAMES=['地缘冲突','供应链','海运物流','货币秩序','AI军事化','资源民族主义','金融稳定'];
   const SUB='₁₂₃₄₅₆₇';
-  const kLvl=kappa<0.5?'弱':(kappa<0.8?'中':'强');
-  const top=dr.map((d,i)=>({i:i,d:d})).filter(o=>o.d>0.001).sort((a,b)=>b.d-a.d).slice(0,2)
-    .map(o=>'<strong style="color:var(--fg);">r'+SUB[o.i]+'（'+NAMES[o.i]+'）</strong>');
+  const bi=bandIdx(kappa), band=K_BANDS[bi];
+  const rank=dr.map((d,i)=>({i:i,d:d})).filter(o=>o.d>0.001).sort((a,b)=>b.d-a.d);
+  const top2=rank.slice(0,2).map(o=>'<strong style="color:var(--fg);">'+NAMES[o.i]+'</strong>');
   const d7=dr[6];
   const hu3=Math.abs(d7)<0.005
-    ? '「金融稳定」目前收不到传导——矩阵对应列全为 0，与站内链条不一致，需补接。'
-    : '「金融稳定」可收到上游传导（Δ'+(d7>=0?'+':'')+d7.toFixed(2)+'）——「货币秩序 → 金融稳定」链路已接通，无漏接。';
+    ? '<span style="color:var(--red-hi);">「金融稳定」目前收不到上游传导——矩阵那一列全为 0，与站内链条不一致，需补接。</span>'
+    : '「金融稳定」收得到上游传导，「货币秩序 → 金融稳定」这条链是通的，无漏接。';
   el.innerHTML=
-    '<div class="hint" style="margin-bottom:10px;line-height:2.1;">'+
-    '<div>① <strong style="color:var(--fg);">连锁放大：'+kLvl+'。</strong>一推不会倒一片；越接近 1 越危险。</div>'+
-    '<div>② 如果冲击真的发生，最会被放大的是'+(top.length?top.join('和'):'（无正向增量）')+'这两格。</div>'+
-    '<div>③ '+hu3+'</div>'+
+    '<div style="border-left:3px solid var(--gold);padding:6px 0 6px 12px;margin-bottom:14px;">'+
+      '<div style="font-size:.95rem;line-height:1.95;color:var(--fg);">'+
+        '连锁放大：<strong style="color:var(--gold-hi);">'+band[1]+'</strong>　—— '+band[2]+'。'+
+      '</div>'+
+      '<div style="font-size:.95rem;line-height:1.95;color:var(--fg);">'+
+        '如果冲击真的发生，最会被放大的是 '+(top2.length?top2.join(' 和 '):'（无）')+
+        '。'+
+      '</div>'+
+      '<div style="font-size:.82rem;line-height:1.9;color:var(--muted);margin-top:4px;">'+
+        '注意：这两格不是「震中」，是<strong style="color:var(--gold-hi);">放大器</strong>——对照上面 EXPOSURE 卡，它们值得先收紧。'+
+      '</div>'+
     '</div>'+
-    '<div class="num" style="font-size:1.05rem;margin-bottom:6px;">κ = '+kappa.toFixed(2)+
-    ' <span style="font-size:.66rem;color:var(--faint);font-family:var(--mono);">（α='+ALPHA+' ｜ ρ(A)='+rho.toFixed(2)+' ｜ &lt;1 稳定；→1 临界）</span></div>'+
-    '<div style="font-size:.72rem;color:var(--muted);line-height:1.8;">一阶传播后各维增量：'+
-    dr.map((d,i)=>'Δ'+'r₁r₂r₃r₄r₅r₆r₇'.substr(i*2,2)+'='+(d>=0?'+':'')+d.toFixed(2)).join(' · ')+
+    '<div style="font-size:.8rem;color:var(--muted);line-height:1.9;margin-bottom:6px;">'+
+      '「结构会不会一推倒一片」——按当前 κ = <strong class="num">'+kappa.toFixed(2)+'</strong> 对号入座：'+
+    '</div>'+
+    '<table class="weight-table" style="font-size:.68rem;margin-bottom:12px;">'+
+      '<thead><tr><th style="width:16%">κ 区间</th><th style="width:14%">放大</th><th style="width:32%">人话</th><th style="width:38%">你该怎么做</th></tr></thead><tbody>'+
+      K_BANDS.map((b,k)=>{
+        const hit=(k===bi);
+        return '<tr'+(hit?' style="background:var(--gold-soft);"':'')+'>'+
+          '<td class="num">'+bandRange(k)+'</td>'+
+          '<td><strong'+(hit?' style="color:var(--gold-hi);"':'')+'>'+b[1]+'</strong>'+(hit?' ◀ 当前':'')+'</td>'+
+          '<td>'+b[2]+'</td><td>'+b[3]+'</td></tr>';
+      }).join('')+
+      '</tbody></table>'+
+    '<div style="font-size:.82rem;line-height:1.9;color:var(--muted);">'+hu3+'</div>'+
+    '<div style="font-size:.74rem;line-height:1.9;color:var(--faint);margin-top:8px;">'+
+      'κ、α、ρ(A)、各维增量与 7×7 矩阵已收进下方「研究者用」——<strong>你可以完全不看</strong>。'+
     '</div>';
+  if(raw){
+    raw.innerHTML=
+      'κ = α·ρ(A) = '+ALPHA+' × '+rho.toFixed(3)+' = '+kappa.toFixed(3)+'　｜　α = '+ALPHA+'　｜　ρ(A) = '+rho.toFixed(3)+'<br>'+
+      '<strong style="color:var(--red-hi);">下面这串 Δ 是假想实验的中间量（假设七格同时把传导推满），不是预测，也不是「风险涨了几分」——点数本身没有意义，只用来看排序。</strong><br>'+
+      (rank.length? rank.map((o,k)=>'第'+(k+1)+'：r'+SUB[o.i]+' '+NAMES[o.i]+'　Δ = '+o.d.toFixed(2)).join('<br>') : '（无正向增量）');
+  }
 }
 /* A 矩阵只读展示（可读性改单 v2 F3：不再让作者编辑 49 个数字） */
 function renderMatrix(){
@@ -3396,31 +3438,72 @@ function renderMatrix(){
 const HISTKEY='wcri-history-v1';
 let HISTORY=[];
 try{ HISTORY=JSON.parse(localStorage.getItem(HISTKEY)||'[]'); }catch(e){ HISTORY=[]; }
+/* 同日多条只留最后一条（避免误点造成 Δ=0 的假序列） */
+(function(){
+  const m=new Map();
+  HISTORY.forEach(h=>{ if(h&&h.date) m.set(h.date,h); });
+  HISTORY=[...m.values()].sort((a,b)=>a.date<b.date?-1:(a.date>b.date?1:0));
+})();
+let trendFlash='';
 function arrow(d){ return d>0.05?'↑':(d<-0.05?'↓':'→'); }
+function histListHtml(){
+  if(!HISTORY.length) return '';
+  return '<div style="margin-top:12px;">'+
+    '<div style="font-size:.74rem;color:var(--faint);margin-bottom:4px;">已记录 '+HISTORY.length+' 期：</div>'+
+    '<table class="weight-table" style="font-size:.68rem;"><thead><tr><th style="width:22%">期次</th><th style="width:44%">日期</th><th>世界风险 R</th></tr></thead><tbody>'+
+    HISTORY.map((h,i)=>'<tr><td class="num">第 '+(i+1)+' 期</td><td class="num">'+h.date+'</td><td class="num">'+h.R.toFixed(1)+'</td></tr>').join('')+
+    '</tbody></table></div>';
+}
 function renderTrend(){
   const box=document.getElementById('trend-body'); if(!box) return;
+  const flash=trendFlash
+    ? '<p style="font-size:.84rem;line-height:1.9;color:var(--mac-green);margin-bottom:10px;">✓ '+trendFlash+'</p>'
+    : '';
   if(HISTORY.length<2){
-    box.innerHTML='<p style="font-size:.8rem;color:var(--faint);line-height:1.8;">尚无历史，无变化率。点「记录本期」开始积累序列（至少两期才能算 Δ）。</p>';
+    box.innerHTML=flash+
+      '<p style="font-size:.88rem;line-height:1.95;color:var(--fg);">'+
+      (HISTORY.length===0
+        ? '还没有记录。<strong style="color:var(--gold-hi);">点「记录本期」</strong>，把当前这 7 个数存成第 1 期。'
+        : '已记录 <strong class="num">1</strong> 期（'+HISTORY[0].date+'，R = '+HISTORY[0].R.toFixed(1)+'）。<strong style="color:var(--gold-hi);">过些天再记一次</strong>，两期一比才能算出变化率 Δ。')+
+      '</p>'+
+      histListHtml();
     return;
   }
   const prev=HISTORY[HISTORY.length-2], last=HISTORY[HISTORY.length-1];
   const dR=last.R-prev.R;
   const segPrev=segStats(prev.r), segLast=segStats(last.r);
   const dSeg=segLast.map((s,i)=>s.mean-segPrev[i].mean);
-  box.innerHTML=
-    '<div style="font-size:.86rem;margin-bottom:8px;">ΔR = <strong class="num">'+(dR>=0?'+':'')+dR.toFixed(1)+'</strong> <span style="font-size:.8rem;color:var(--faint);">（'+prev.date+' → '+last.date+'）</span></div>'+
+  box.innerHTML=flash+
+    '<div style="font-size:.92rem;margin-bottom:8px;">ΔR = <strong class="num">'+(dR>=0?'+':'')+dR.toFixed(1)+'</strong> <span style="font-size:.8rem;color:var(--faint);">（'+prev.date+' → '+last.date+'）</span></div>'+
     '<div style="font-size:.78rem;line-height:1.9;color:var(--muted);">'+
     segLast.map((s,i)=>s.name.replace('第一段 · ','事件段 ').replace('第二段 · ','传导段 ').replace('第三段 · ','新常态段 ')+'均值 Δ='+arrow(dSeg[i])+' '+(dSeg[i]>=0?'+':'')+dSeg[i].toFixed(2)).join('<br>')+
     '</div>'+
-    '<p style="font-size:.7rem;color:var(--faint);line-height:1.8;margin-top:8px;">判读：Δ事件 &lt; 0 且 Δ传导 &gt; 0 → 冲击已由「点」扩散到「面」（性质变化）；Δ事件 &lt; 0 且 Δ传导 &lt; 0 → 退潮；Δ新常态 &gt; 0 → 旧冲击已固化为新常态（最难逆转）。</p>';
+    '<p style="font-size:.7rem;color:var(--faint);line-height:1.8;margin-top:8px;">判读：Δ事件 &lt; 0 且 Δ传导 &gt; 0 → 冲击已由「点」扩散到「面」（性质变化）；Δ事件 &lt; 0 且 Δ传导 &lt; 0 → 退潮；Δ新常态 &gt; 0 → 旧冲击已固化为新常态（最难逆转）。</p>'+
+    histListHtml();
 }
 function savePoint(){
   const vals=sliderVals();
   const R=vals.reduce((a,v,i)=>a+v*W[i],0);
   const d=new Date();
   const date=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
-  HISTORY.push({date:date,r:vals,R:+R.toFixed(3)});
+  const rec={date:date,r:vals,R:+R.toFixed(3)};
+  const i=HISTORY.findIndex(h=>h.date===date);
+  if(i>=0){
+    HISTORY[i]=rec;
+    trendFlash='已更新今天（'+date+'）这一期：R = '+rec.R.toFixed(1)+'。同一天不重复记，避免算出一堆 Δ=0。';
+  }else{
+    HISTORY.push(rec);
+    trendFlash='已记录第 '+HISTORY.length+' 期：'+date+'，R = '+rec.R.toFixed(1)+'。';
+  }
   try{ localStorage.setItem(HISTKEY,JSON.stringify(HISTORY)); }catch(e){}
+  renderTrend();
+}
+function clearHist(){
+  if(!HISTORY.length){ trendFlash='本来就是空的，没有可清空的记录。'; renderTrend(); return; }
+  if(!confirm('确定清空全部 '+HISTORY.length+' 期记录？此操作不可撤销。')) return;
+  HISTORY=[];
+  try{ localStorage.removeItem(HISTKEY); }catch(e){}
+  trendFlash='已清空全部记录。';
   renderTrend();
 }
 function exportHist(){
@@ -3470,6 +3553,7 @@ renderTrend();
 renderCorr();
 document.getElementById('btn-save-point')?.addEventListener('click',savePoint);
 document.getElementById('btn-export-hist')?.addEventListener('click',exportHist);
+document.getElementById('btn-clear-hist')?.addEventListener('click',clearHist);
 document.getElementById('btn-add-corr')?.addEventListener('click',addCorrRow);
 /* 控制台调参入口：window.__WRIM.factors[0].cf='E' 等 */
 window.__WRIM={factors:factors,W:W,SIGMA:SIGMA,A:A,spectralRadius:spectralRadius,segStats:segStats,sliderVals:sliderVals,sigmaR:sigmaR};
