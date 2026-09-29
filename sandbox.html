@@ -3358,7 +3358,9 @@ function renderExposure(vals){
     sel.addEventListener('change',()=>{ expoAct[+sel.dataset.i]=sel.value; });
   });
 }
-/* T4 传导与临界 · 可读性改单 v3：卡面只给「序数 + 四档尺」，点数全部移入折叠 */
+/* T4 传导与临界 · 可读性改单 v3：卡面只给「序数 + 四档尺」，点数全部移入折叠
+   注意：κ &lt; 1 为数学稳定条件（模型既有）；四档分界 0.30／0.60／0.85 为推演参数，
+   非模型既有定义，作者可改（页面已标注）。 */
 const K_BANDS=[
   [0.30,'弱','各格基本独立','分散就够，不用管连锁'],
   [0.60,'中','会带倒一两格','盯住下面那两格「放大器」'],
@@ -3401,6 +3403,9 @@ function renderConduit(vals){
     '</div>'+
     '<div style="font-size:.8rem;color:var(--muted);line-height:1.9;margin-bottom:6px;">'+
       '「结构会不会一推倒一片」——按当前 κ = <strong class="num">'+kappa.toFixed(2)+'</strong> 对号入座：'+
+    '</div>'+
+    '<div style="font-size:.7rem;color:var(--faint);line-height:1.85;margin-bottom:6px;">'+
+      '（κ &lt; 1 是数学上的稳定条件，这是模型既有的；四档分界 0.30／0.60／0.85 属<strong style="color:var(--red-hi);">推演参数，非模型既有定义，待作者确认</strong>。）'+
     '</div>'+
     '<table class="weight-table" style="font-size:.68rem;margin-bottom:12px;">'+
       '<thead><tr><th style="width:16%">κ 区间</th><th style="width:14%">放大</th><th style="width:32%">人话</th><th style="width:38%">你该怎么做</th></tr></thead><tbody>'+
