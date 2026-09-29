@@ -577,6 +577,19 @@ svg.gdim .gtier{ opacity:.3; }
 .disclaimer-box li{ font-size:.78rem; color:var(--muted); padding:6px 0; line-height:1.65; display:flex; justify-content:center; align-items:flex-start; gap:10px; }
 .disclaimer-box li::before{ content:""; flex:0 0 6px; width:6px; height:6px; border-radius:50%; background:var(--gold); margin-top:9px; }
 .chain-note{ font-size:.72rem; color:var(--faint); line-height:1.6; padding:1px 0 1px 12px; border-left:2px solid rgba(94,196,255,.30); margin:-4px 0 20px; }
+/* ===== 可读性改单：三级标签 + 折叠 ===== */
+.gs-tier{ font-style:normal; font-size:.58rem; letter-spacing:.1em; color:var(--faint); border:1px solid var(--line); border-radius:999px; padding:1px 7px; margin-left:8px; vertical-align:middle; white-space:nowrap; }
+details.gs-fold{ border:1px solid var(--line); border-radius:var(--r,10px); background:var(--panel); margin-bottom:14px; }
+details.gs-fold>summary{ list-style:none; cursor:pointer; padding:13px 18px; display:flex; align-items:center; gap:10px; font-size:.8rem; color:var(--fg); }
+details.gs-fold>summary::-webkit-details-marker{ display:none; }
+details.gs-fold>summary::after{ content:"展开 ▾"; margin-left:auto; font-family:var(--mono); font-size:.6rem; letter-spacing:.08em; color:var(--faint); }
+details.gs-fold[open]>summary::after{ content:"收起 ▴"; }
+details.gs-fold[open]>summary{ border-bottom:1px solid var(--line); }
+/* 展开时不显示卡内原 h3（避免与 summary 重复） */
+details.gs-fold[open]>div>h3:first-child{ display:none; }
+/* 去掉内层卡自身边框底色，避免框中框 */
+details.gs-fold[open]>div{ border:0; background:transparent; margin:0; }
+details.gs-fold[open]>div.algo-card{ border:0; background:transparent; margin:0; }
 .children-hero{
   text-align:center; padding:44px 24px 36px; margin-bottom:20px; position:relative; overflow:hidden;
   background:radial-gradient(ellipse at 50% -30%, rgba(255,107,107,.16), transparent 72%), var(--panel);
@@ -1068,7 +1081,7 @@ html.weak .ca-orbit{ animation:none; }
 
 <!-- ===== VIEW 01: Overview ===== -->
 <div class="view active" id="view-overview">
-  <div class="view-head"><div class="view-head-l"><h2 class="view-title"><span class="vi">01</span>地缘风险全景<span class="vt-desc">2026年9月 · 五浪叠加下的全球地缘风险态势</span></h2></div><span class="last-updated" id="last-updated" style="margin-right:auto;"></span><button class="refresh-btn refresh-view" data-target="overview" style="margin-left:12px;vertical-align:middle;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg> 抓取</button></div>
+  <div class="view-head"><div class="view-head-l"><h2 class="view-title"><span class="vi">01</span>地缘风险全景<span class="vt-desc">2026年9月 · 五浪叠加下的全球地缘风险态势</span></h2></div><span class="last-updated" id="last-updated" style="margin-right:auto;"></span><button class="refresh-btn" onclick="document.querySelector('.tab[data-view=riskmodel]').click()" title="跳转到 07 风险因子模型的 30 秒上手卡">看不懂？看这里 →</button><button class="refresh-btn refresh-view" data-target="overview" style="margin-left:12px;vertical-align:middle;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg> 抓取</button></div>
 
   <div class="disclaimer-box" style="margin-bottom:22px;">
     <div class="db-title">内容性质声明 —— 两类内容不可混读</div>
@@ -2122,7 +2135,132 @@ html.weak .ca-orbit{ animation:none; }
   <div class="view-head"><div class="view-head-l"><h2 class="view-title"><span class="vi">07</span>风险因子模型</h2></div><button class="refresh-btn refresh-view" data-target="riskmodel" style="margin-left:12px;vertical-align:middle;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg> 快照</button></div>
   <p class="view-sub">七大维度交互式风险评估 · MSI 海运 / MTI 军贸热度 / AIB AI 泡沫三子指数嵌套 · 三变六反内核：三变分层（结构）× 六反定向（行为）× 过三必变过六必反（时间） · 03–07 为 2026-09-24 一次性快照；08 新闻流为实时抓取（经第三方代理，可能失败）</p>
 
-  <div class="algo-card">
+  <!-- ===== 30 秒上手卡（可读性改单 A · 置顶默认展开） ===== -->
+<style>
+/* ===== 30 秒上手卡（前缀 st-，作用域自限） ===== */
+.st-card{background:var(--panel,#15181d);border:1px solid var(--gold-hi,#EAD08A);border-radius:var(--r,10px);padding:20px 22px;margin-bottom:18px}
+.st-card .st-kicker{font-family:var(--mono,ui-monospace,monospace);font-size:.6rem;letter-spacing:.18em;color:var(--gold-hi,#EAD08A)}
+.st-card h3{margin:6px 0 4px;font-size:1.02rem;font-weight:500;color:var(--fg,#e8eaee);letter-spacing:.02em}
+.st-card .st-sub{font-size:.78rem;color:var(--muted,#9aa1ad);line-height:1.8;margin-bottom:16px}
+.st-nums{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:0 0 14px}
+.st-num{background:var(--bg-2,#101216);border:1px solid var(--line,rgba(255,255,255,.12));border-radius:var(--r-sm,6px);padding:12px 14px}
+.st-num .st-v{font-family:var(--mono,ui-monospace,monospace);font-size:1.5rem;font-weight:300;color:var(--fg,#e8eaee);line-height:1.1}
+.st-num .st-t{font-size:.72rem;color:var(--muted,#9aa1ad);margin-top:6px;line-height:1.6}
+.st-num .st-a{font-size:.68rem;color:var(--gold-hi,#EAD08A);margin-top:6px}
+.st-oneline{font-size:.8rem;line-height:1.9;color:var(--fg,#e8eaee);background:var(--red-soft,rgba(255,107,107,.08));border:1px solid rgba(255,107,107,.3);border-radius:var(--r-sm,6px);padding:11px 14px}
+.st-oneline b{color:var(--red-hi,#ff8a8a);font-weight:500}
+.st-step{display:flex;gap:14px;padding:14px 0;border-top:1px dashed var(--line,rgba(255,255,255,.12))}
+.st-step:first-of-type{border-top:0}
+.st-step .st-n{flex:0 0 62px;font-family:var(--mono,ui-monospace,monospace);font-size:.62rem;letter-spacing:.1em;color:var(--gold-hi,#EAD08A);padding-top:2px}
+.st-step .st-b{flex:1 1 auto;min-width:0}
+.st-step .st-h{font-size:.88rem;color:var(--fg,#e8eaee);font-weight:500;margin-bottom:6px}
+.st-step p{margin:0 0 5px;font-size:.78rem;line-height:1.85;color:var(--muted,#9aa1ad)}
+.st-step p b{color:var(--fg,#e8eaee);font-weight:500}
+.st-step p .st-do{color:var(--gold-hi,#EAD08A)}
+.st-tbl{width:100%;border-collapse:collapse;font-size:.74rem;margin-top:6px}
+.st-tbl th{text-align:left;padding:7px 9px;font-size:.6rem;letter-spacing:.08em;color:var(--faint,#6b7280);border-bottom:1px solid var(--line-strong,rgba(255,255,255,.18));font-weight:400}
+.st-tbl td{padding:7px 9px;border-bottom:1px solid var(--line,rgba(255,255,255,.1));color:var(--muted,#9aa1ad);line-height:1.7;vertical-align:top}
+.st-tbl td:first-child{font-family:var(--mono,ui-monospace,monospace);color:var(--fg,#e8eaee);white-space:nowrap;font-size:.7rem}
+.st-skip{margin-top:14px;font-size:.72rem;line-height:1.9;color:var(--faint,#6b7280)}
+.st-skip b{color:var(--muted,#9aa1ad);font-weight:500}
+@media(max-width:768px){.st-nums{grid-template-columns:1fr}.st-step{flex-direction:column;gap:6px}.st-step .st-n{flex-basis:auto}}
+</style>
+
+<div class="st-card">
+  <div class="st-kicker">START HERE</div>
+  <h3>30 秒上手 —— 你只需要这三个数</h3>
+  <p class="st-sub">这一页一共有十几张卡。但真正要看的只有三个数。<strong style="color:var(--fg,#e8eaee);font-weight:500;">其余的都可以跳过。</strong></p>
+
+  <div class="st-nums">
+    <div class="st-num">
+      <div class="st-v">8.4</div>
+      <div class="st-t">世界紧张度（0–10）</div>
+      <div class="st-a">→ 现在整体有多紧张</div>
+    </div>
+    <div class="st-num">
+      <div class="st-v">最高那段</div>
+      <div class="st-t">三个段里最高的一个</div>
+      <div class="st-a">→ 紧张来自哪里</div>
+    </div>
+    <div class="st-num">
+      <div class="st-v">第一行</div>
+      <div class="st-t">我的暴露排序（损失 × 暴露）</div>
+      <div class="st-a">→ 先防哪一格</div>
+    </div>
+  </div>
+
+  <div class="st-oneline">
+    <b>一句话用法：</b>看总分 → 看哪一段最高 → 收"暴露排序"第一行的敞口，并写下它的失效线。<br>
+    <span style="color:var(--muted,#9aa1ad);font-size:.74rem;">就这样。三分钟能做完一轮。</span>
+  </div>
+</div>
+
+<div class="st-card">
+  <div class="st-kicker">HOW TO READ</div>
+  <h3>三步，一步步来</h3>
+  <p class="st-sub">每一步都只回答一个问题。看不懂的术语，第二张表里有"人话"翻译。</p>
+
+  <div class="st-step">
+    <div class="st-n">第一步<br>30 秒</div>
+    <div class="st-b">
+      <div class="st-h">看"世界紧张度"——一个数</div>
+      <p><b>它是什么：</b>0 到 10 的一个数，越高说明世界越紧张。像体温计。</p>
+      <p><b>怎么读：</b>7 到 8.5＝高度紧张；8.5 以上极少见。</p>
+      <p class="st-do"><b>你做什么：什么都不做。</b>它只回答一件事——"现在适不适合加风险"。</p>
+    </div>
+  </div>
+
+  <div class="st-step">
+    <div class="st-n">第二步<br>1 分钟</div>
+    <div class="st-b">
+      <div class="st-h">看"哪一段最紧"——三个数</div>
+      <p><b>三段＝地震的三步：</b></p>
+      <p>① <b>事件段</b>＝震中（刚发生的事）　② <b>传导段</b>＝余波（正在扩散）　③ <b>新常态段</b>＝地貌改了（回不去了）</p>
+      <p><b>怎么读：</b>三个"段内均值"，看哪个最高。</p>
+      <p class="st-do"><b>你做什么：</b>事件段最高 → 别追刚发生的新闻；传导段最高 → 盯正在扩散的那条链；新常态段最高 → 承认这事变不回去了。</p>
+    </div>
+  </div>
+
+  <div class="st-step">
+    <div class="st-n">第三步<br>2 分钟</div>
+    <div class="st-b">
+      <div class="st-h">看"我的暴露排序"——一张表，只看第一行</div>
+      <p><b>它是什么：</b>把"万一出事，损失多大"乘以"我在这条上暴露多少"，再排序。像买保险前先算哪块最怕出事。</p>
+      <p><b>怎么读：</b>只看第一行。那是你最该先处理的一格。</p>
+      <p class="st-do"><b>你做什么：</b>把第一行的敞口<b>收下来</b>，并写下一句话——"什么情况下我认输"（失效线）。<b>写在动手之前。</b></p>
+    </div>
+  </div>
+</div>
+
+<div class="st-card">
+  <div class="st-kicker">GLOSSARY</div>
+  <h3>术语翻译表 —— 看到词，查这里</h3>
+  <table class="st-tbl">
+    <thead><tr><th>你会看到的词</th><th>人话</th></tr></thead>
+    <tbody>
+      <tr><td>WCRI 8.4</td><td>世界紧张度，0–10 的一个数。这就是"总分"。</td></tr>
+      <tr><td>三段 / 段内均值</td><td>紧张来自哪一段。三段＝震中 / 余波 / 地貌改了。</td></tr>
+      <tr><td>σ（写作 ±0.15）</td><td>这个数有多准。两个数相差比它更小，就等于没差。</td></tr>
+      <tr><td>L×w</td><td>先防哪儿：出事损失（L）× 我的暴露（w）。</td></tr>
+      <tr><td>κ 临界度</td><td>会不会连锁放大。越接近 1，越像"推一张牌倒一片"。</td></tr>
+      <tr><td>Δ / 变化率</td><td>在变好还是变坏。同样 8.4，在升和在降，意思相反。</td></tr>
+      <tr><td>cf（E / I / X）</td><td>这条判断有多硬：E 可查证 · I 推断 · X 立场。</td></tr>
+      <tr><td>MSI / MTI / AIB</td><td>三个专业子指数（海运 / 军贸 / AI 泡沫）。<b>不搞研究可以跳过。</b></td></tr>
+      <tr><td>corr / 校准记录</td><td>记下"我判断错的地方"。攒够了，模型才会变准。</td></tr>
+      <tr><td>暴露 / 敞口</td><td>我在这条风险上的"受击面"。0＝无关，5＝押得很重。</td></tr>
+    </tbody>
+  </table>
+
+  <p class="st-skip">
+    <b>看不懂就可以跳过的部分：</b>算法模型（WCRI 公式）、MSI / MTI / AIB 三张子指数卡、维度证据链、权重调节、历史对照、传导与临界、变化率、校准记录 ——
+    <b>这些是"给研究者看的"，不是"给你用的"。</b>它们的数值已经汇总进上面那三个数里了。
+  </p>
+</div>
+
+
+  <details class="gs-fold">
+      <summary><span class="tag-h">KERNEL</span>三变·六反 × 沙盘内核 <em class="gs-tier">参考</em></summary>
+<div class="algo-card">
     <h3><span class="tag-h">KERNEL</span>三变·六反 × 沙盘内核</h3>
     <p style="font-size:.8rem;color:var(--muted);line-height:1.75;margin-bottom:10px;">
       这张卡回答三个问题：<strong style="color:var(--fg);">分数从哪来</strong>（打分依据）、
@@ -2181,9 +2319,10 @@ html.weak .ca-orbit{ animation:none; }
       阅读方法：想知道 8.4 怎么算的 → 看下方权重表与 MSI / MTI / AIB 三张子指数卡；想知道某个分数凭什么 → 看证据链表；想知道某条危机走到哪一步 → 看 08 沙盘链路的步进标记。
     </p>
   </div>
+      </details>
 
   <div class="algo-card">
-    <h3><span class="tag-h">WCRI</span>算法模型 · 加权综合风险指数（WCRI）</h3>
+    <h3><span class="tag-h">WCRI</span><em class="gs-tier">必看</em>算法模型 · 加权综合风险指数（WCRI）</h3>
     <p style="font-size:.8rem;color:var(--muted);line-height:1.75;margin-bottom:8px;">
       本模型基于三变六反框架（归位依据与实证见上方 KERNEL 卡），将地缘风险拆解为七个维度的量化评分（0-10 分），
       加权求和得出综合指数。七个维度按冲击三段归位：
@@ -2223,7 +2362,9 @@ html.weak .ca-orbit{ animation:none; }
     </p>
   </div>
 
-  <div class="algo-card">
+  <details class="gs-fold">
+      <summary><span class="tag-h">MSI</span>海运物流压力子指数（MSI · Maritime Stress Index） <em class="gs-tier">专业</em></summary>
+<div class="algo-card">
     <h3><span class="tag-h">MSI</span>海运物流压力子指数（MSI · Maritime Stress Index）</h3>
     <p style="font-size:.8rem;color:var(--muted);line-height:1.75;margin-bottom:8px;">
       WCRI 第三维度 r₃ 不再人工打分，而是由四个海运因子<strong style="color:var(--fg);">加权运算</strong>得出：
@@ -2249,8 +2390,11 @@ html.weak .ca-orbit{ animation:none; }
       </tbody>
     </table>
   </div>
+      </details>
 
-  <div class="algo-card">
+  <details class="gs-fold">
+      <summary><span class="tag-h">MTI</span>军售军贸热度子指数（MTI · Military Trade Index） <em class="gs-tier">专业</em></summary>
+<div class="algo-card">
     <h3><span class="tag-h">MTI</span>军售军贸热度子指数（MTI · Military Trade Index）</h3>
     <p style="font-size:.8rem;color:var(--muted);line-height:1.75;margin-bottom:8px;">
       WCRI 第一维度 r₁ 不再只看单点冲突事件，而是由两个分项<strong style="color:var(--fg);">加权合成</strong>：
@@ -2277,8 +2421,11 @@ html.weak .ca-orbit{ animation:none; }
       </tbody>
     </table>
   </div>
+      </details>
 
-  <div class="algo-card">
+  <details class="gs-fold">
+      <summary><span class="tag-h">AIB</span>AI 泡沫压力子指数（AIB · AI Bubble Stress） <em class="gs-tier">专业</em></summary>
+<div class="algo-card">
     <h3><span class="tag-h">AIB</span>AI 泡沫压力子指数（AIB · AI Bubble Stress）</h3>
     <p style="font-size:.8rem;color:var(--muted);line-height:1.75;margin-bottom:8px;">
       WCRI 第七维度 r₇ 同样由两个分项<strong style="color:var(--fg);">加权合成</strong>：
@@ -2305,8 +2452,11 @@ html.weak .ca-orbit{ animation:none; }
     </table>
     <p class="hint">口径说明：AIB 评估的是「泡沫破裂的脆弱性」而非「泡沫存在与否」——评级锚定脆弱性指标（依赖度/集中度/债务化），不预测破裂时点；泡沫可在高位维持远超预期的时长（反向提醒：拥挤做空同样是风险）。</p>
   </div>
+      </details>
 
-  <div class="card algo-card" style="margin-bottom:18px;">
+  <details class="gs-fold">
+      <summary><span class="tag-h">EVIDENCE</span>维度证据链 · 七维评分对应 04 / 05 / 06 / 08 板块实证 <em class="gs-tier">参考</em></summary>
+<div class="card algo-card" style="margin-bottom:18px;">
     <h3><span class="tag-h">EVIDENCE</span>维度证据链 · 七维评分对应 04 / 05 / 06 / 08 板块实证</h3>
     <p class="ev-lede">WCRI 的七个维度不是抽象打分——每一项都由站内 04 战略资源、05 资源民族主义、06 AI军事化、08 推演沙盘的量化事实支撑。下表为当前口径的证据映射（数值随板块数据同步更新）。</p>
     <table class="data-table ev-table">
@@ -2352,9 +2502,12 @@ html.weak .ca-orbit{ animation:none; }
     </table>
     <p class="hint">阅读方式：左侧维度对应上方 WCRI 权重表；"来源"标注该证据所属站内板块编号，可直接跳转核对原始图表与数据。</p>
   </div>
+      </details>
 
   <div class="grid-2">
-    <div class="card">
+    <details class="gs-fold">
+      <summary><span class="tag-h">TUNE</span>因子权重调节 <em class="gs-tier">专业</em></summary>
+<div class="card">
       <h3><span class="tag-h">TUNE</span>因子权重调节</h3>
       <div id="risk-factors"></div>
       <div class="risk-score">
@@ -2362,9 +2515,12 @@ html.weak .ca-orbit{ animation:none; }
         <div class="score-label">综合地缘风险评分 / 10 · 各维度为主观评分，合计保留一位小数</div>
       </div>
     </div>
+      </details>
 
     <div>
-      <div class="card" style="margin-bottom:14px;">
+      <details class="gs-fold">
+      <summary><span class="tag-h">DEFINE</span>因子说明 <em class="gs-tier">专业</em></summary>
+<div class="card" style="margin-bottom:14px;">
         <h3><span class="tag-h">DEFINE</span>因子说明</h3>
         <div style="font-size:.8rem;line-height:1.8;color:var(--muted);">
           <p style="margin-bottom:10px;"><strong style="color:var(--red-hi);">地缘冲突烈度</strong>：俄乌、中东、印太三大热点冲突的强度与升级概率，加权并入军售军贸热度（MTI 子指数） <span class="ev-src">01 / 03 / 06</span></p>
@@ -2376,7 +2532,10 @@ html.weak .ca-orbit{ animation:none; }
           <p><strong style="color:var(--gold-hi);">金融稳定风险</strong>：主权债务、套息交易、AI 泡沫压力（AIB 子指数：循环融资/集中度/债务化融资）的破裂概率 <span class="ev-src">01 / 02 / 06</span></p>
         </div>
       </div>
-      <div class="card">
+      </details>
+      <details class="gs-fold">
+      <summary><span class="tag-h">HISTORY</span>历史对照 · 风险评分走势 <em class="gs-tier">参考</em></summary>
+<div class="card">
         <h3><span class="tag-h">HISTORY</span>历史对照 · 风险评分走势</h3>
         <div class="hist-chart">
           <div class="hc-head">
@@ -2436,12 +2595,13 @@ html.weak .ca-orbit{ animation:none; }
           <div class="he he-now"><span class="he-date">2026.09</span><span class="he-score num">8.4</span><span class="he-name">五浪叠加 · 军贸/AI泡沫并入</span></div>
         </div>
       </div>
+      </details>
     </div>
   </div>
 
   <!-- ===== 风险模型数学升级（改单 v1 · T1–T6 新增区块） ===== -->
   <div class="card" style="margin-bottom:14px;" id="seg-card">
-    <h3><span class="tag-h">SEGMENTS</span>三段结构 · 分段小计与段内均值</h3>
+    <h3><span class="tag-h">SEGMENTS</span><em class="gs-tier">必看</em>三段结构 · 分段小计与段内均值</h3>
     <p class="hint" style="margin-bottom:10px;">总分是一个标量，看不见「风险在哪一段」。分段后读结构：S=Σw·r（该段贡献），mean=S/W（段内加权均值——段间比较必须用它，段内维度数不同，不可直接比 S）。</p>
     <table class="weight-table">
       <colgroup><col style="width:30%"><col style="width:24%"><col style="width:20%"><col style="width:26%"></colgroup>
@@ -2454,7 +2614,7 @@ html.weak .ca-orbit{ animation:none; }
 
   <div class="grid-2" style="margin-bottom:14px;">
     <div class="card" id="expo-card">
-      <h3><span class="tag-h">EXPOSURE</span>我的暴露排序（L×w）</h3>
+      <h3><span class="tag-h">EXPOSURE</span><em class="gs-tier">必看</em>我的暴露排序（L×w）</h3>
       <p class="hint" style="margin-bottom:10px;"><strong style="color:var(--gold-hi);">L×w 不含概率（概率不可知），只做优先级排序，不构成期望值。</strong>L＝若这一维真出事，损失多大（0–10）；w＝我在这一维的受击面（0–5）。L×w 不加进世界风险 R。</p>
       <table class="weight-table">
         <colgroup><col style="width:26%"><col style="width:14%"><col style="width:12%"><col style="width:12%"><col style="width:16%"><col style="width:20%"></colgroup>
@@ -2462,7 +2622,9 @@ html.weak .ca-orbit{ animation:none; }
         <tbody id="expo-tbody"></tbody>
       </table>
     </div>
-    <div class="card" id="conduit-card">
+    <details class="gs-fold">
+      <summary><span class="tag-h">CONDUIT</span>传导与临界 <em class="gs-tier">专业</em></summary>
+<div class="card" id="conduit-card">
       <h3><span class="tag-h">CONDUIT</span>传导与临界</h3>
       <div id="conduit-stats" style="margin-bottom:10px;"></div>
       <p class="hint" style="margin-bottom:8px;"><strong style="color:var(--red-hi);">A 的强度由站内传导链（05／08）估计，属推演参数；κ 只表示「结构是否接近临界」，不预测事件。</strong>κ = α·ρ(A)；一阶传播 r′ = r + α·A·r。可在下表改 A（0–1），改后即时重算。</p>
@@ -2471,10 +2633,13 @@ html.weak .ca-orbit{ animation:none; }
         <tbody id="amat-tbody"></tbody>
       </table>
     </div>
+      </details>
   </div>
 
   <div class="grid-2" style="margin-bottom:14px;">
-    <div class="card" id="trend-card">
+    <details class="gs-fold">
+      <summary><span class="tag-h">DELTA</span>变化率 · 分期记录 <em class="gs-tier">参考</em></summary>
+<div class="card" id="trend-card">
       <h3><span class="tag-h">DELTA</span>变化率 · 分期记录</h3>
       <div style="display:flex;gap:10px;margin-bottom:10px;flex-wrap:wrap;">
         <button class="fbtn" id="btn-save-point" type="button">记录本期</button>
@@ -2482,7 +2647,10 @@ html.weak .ca-orbit{ animation:none; }
       </div>
       <div id="trend-body"></div>
     </div>
-    <div class="card" id="corr">
+      </details>
+    <details class="gs-fold">
+      <summary><span class="tag-h">CALIB</span>认知修正 · 校准记录 <em class="gs-tier">专业</em></summary>
+<div class="card" id="corr">
       <h3><span class="tag-h">CALIB</span>认知修正 · 校准记录</h3>
       <p class="hint" style="margin-bottom:8px;"><strong style="color:var(--gold-hi);">本模型暂无历史样本，因此不做概率校准。校准的前提是序列；序列从今天开始记录。</strong></p>
       <table class="weight-table" style="font-size:.66rem;">
@@ -2493,6 +2661,15 @@ html.weak .ca-orbit{ animation:none; }
       <div style="margin-top:10px;"><button class="fbtn" id="btn-add-corr" type="button">新增记录行</button></div>
       <p class="hint" style="margin-top:8px;">纪律：事后才写的「证伪条件」无效——该列必须由作者在事件前填入；未填则显示「未预设」。</p>
     </div>
+      </details>
+  </div>
+</div>
+
+/details>
+  </div>
+</div>
+
+/details>
   </div>
 </div>
 
@@ -2628,7 +2805,7 @@ html.weak .ca-orbit{ animation:none; }
 <!-- ===== Footer ===== -->
 <footer class="footer">
   《三变·六反》地缘风险跟踪与推演沙盘 · 仅供研究学习，不构成投资建议<br>
-  <span class="fline2">数据来源：联合国人权监测团、UNICEF、USGS、IEA、各国官方发布 · 数据截至2026年9月 · 数据版本：2026-09-24 快照 / 新闻流实时</span><br>
+  <span class="fline2">数据来源：联合国人权监测团 · OHCHR · UNICEF · ACLED · USGS · IEA · 各国官方发布 · 数据截至2026年9月 · 数据版本：2026-09-24 快照 / 新闻流实时</span><br>
   <span class="fline2">新闻流为实时抓取，数据经第三方代理（rss2json / allorigins）获取，可能失败；失败时展示站内最近快照</span>
 </footer>
 
