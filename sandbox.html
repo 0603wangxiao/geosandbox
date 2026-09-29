@@ -236,6 +236,7 @@ button{ font:inherit; color:inherit; background:none; border:none; cursor:pointe
 .radar-wrap .r-tick{ fill:rgba(172,188,214,.5); font-size:6px; font-family:var(--mono); font-weight:500; opacity:1; }
 .radar-wrap .r-label{ fill:rgba(232,238,248,.74); font-family:var(--sans); font-size:9px; font-weight:500; letter-spacing:0; opacity:1; }
 .radar-wrap .r-label .r-en{ font-size:5px; fill:rgba(255,255,255,.42); letter-spacing:.1em; font-weight:400; }
+.radar-wrap .r-band{ fill:rgba(255,107,107,.06); stroke:rgba(255,107,107,.25); stroke-width:.5; stroke-dasharray:2 3; }
 .radar-wrap .r-poly-fill{ opacity:1; stroke:none; }
 .radar-wrap .r-poly-line{ fill:none; stroke:url(#rLine); stroke-width:.6; stroke-linejoin:round; stroke-dasharray:100; stroke-dashoffset:0; }
 .radar-wrap .r-dot circle{ fill:#86b0ff; stroke:rgba(5,10,20,.72); stroke-width:1; opacity:1; transform-box:fill-box; transform-origin:center; }
@@ -1162,6 +1163,8 @@ html.weak .ca-orbit{ animation:none; }
     <text class="r-en" x="31" y="64.5" text-anchor="middle" dominant-baseline="middle">FINANCIAL</text>
     <text x="31" y="75.5" text-anchor="middle" dominant-baseline="middle">金融稳定</text>
   </g>
+  <polygon class="r-band" points="150.0,50.0 220.4,83.9 233.8,159.1 183.4,209.4 110.1,222.9 58.4,160.9 82.0,85.8"/>
+  <polygon class="r-band" points="150.0,58.0 214.1,88.9 226.0,157.4 179.9,202.2 113.6,215.7 66.2,159.1 88.2,90.7"/>
   <polygon class="r-poly-fill" points="150,54 217.2,86.4 229.9,158.2 181.7,205.8 111.8,219.3 62.3,160 85.1,88.2" fill="url(#radarFill)"/>
   <polygon class="r-poly-line" pathLength="100" points="150,54 217.2,86.4 229.9,158.2 181.7,205.8 111.8,219.3 62.3,160 85.1,88.2"/>
   <g class="r-dot">
@@ -2205,11 +2208,11 @@ html.weak .ca-orbit{ animation:none; }
         <tr><td>AI军事化进度</td><td class="num">14%</td><td class="num">8.8</td><td class="num">1.23</td><td><div class="weight-bar"><div class="weight-bar-fill" style="width:14%;background:var(--red);"></div></div></td></tr>
         <tr><td>资源民族主义</td><td class="num">14%</td><td class="num">9.0</td><td class="num">1.26</td><td><div class="weight-bar"><div class="weight-bar-fill" style="width:14%;background:var(--gold);"></div></div></td></tr>
         <tr><td>金融稳定风险</td><td class="num">10%</td><td class="num">8.3</td><td class="num">0.83</td><td><div class="weight-bar"><div class="weight-bar-fill" style="width:10%;background:var(--teal);"></div></div></td></tr>
-        <tr class="sum-row"><td><strong>合计</strong></td><td class="num"><strong>100%</strong></td><td>—</td><td class="highlight num"><strong>8.44</strong></td><td>—</td></tr>
+        <tr class="sum-row"><td><strong>合计</strong></td><td class="num"><strong>100%</strong></td><td>—</td><td class="highlight num"><strong>8.44</strong></td><td><span style="font-size:.66rem;color:var(--muted);">精确 8.438；交互卡 8.4 ± 0.13（按示例初值 E/I 混合；若七维全按 I，σ=0.15）</span></td></tr>
       </tbody>
     </table>
     <p class="hint">
-      注：权重设计参考公开风险指数的一般做法（分层 · 加权 · 归一），由作者依《三变·六反》框架赋值；
+      注：权重设计参考公开风险指数的一般做法（分层 · 加权 · 归一），由作者依《三变·六反》框架赋值。σ 由各维证据等级（E/I/X）映射得出；σ 越小＝判断越硬。当前按示例初值（3×E + 4×I 混合）σ_R=0.13；改单手算场景「七维全部按 I」时 σ_R=0.15——作者确认 cf 后以实际值为准。；
       引入海运物流通道维度（MSI）后，各维度权重按边际贡献重新归一。
       当前综合分 8.4 处于本模型自定的"高度风险"分档（7.0–8.5）上沿。
       本期上调主因：全球柴油供应危机（俄45%炼能停摆+美国拟限出口）、10年期美债收益率创2007年来新高、
@@ -2433,6 +2436,62 @@ html.weak .ca-orbit{ animation:none; }
           <div class="he he-now"><span class="he-date">2026.09</span><span class="he-score num">8.4</span><span class="he-name">五浪叠加 · 军贸/AI泡沫并入</span></div>
         </div>
       </div>
+    </div>
+  </div>
+
+  <!-- ===== 风险模型数学升级（改单 v1 · T1–T6 新增区块） ===== -->
+  <div class="card" style="margin-bottom:14px;" id="seg-card">
+    <h3><span class="tag-h">SEGMENTS</span>三段结构 · 分段小计与段内均值</h3>
+    <p class="hint" style="margin-bottom:10px;">总分是一个标量，看不见「风险在哪一段」。分段后读结构：S=Σw·r（该段贡献），mean=S/W（段内加权均值——段间比较必须用它，段内维度数不同，不可直接比 S）。</p>
+    <table class="weight-table">
+      <colgroup><col style="width:30%"><col style="width:24%"><col style="width:20%"><col style="width:26%"></colgroup>
+      <thead><tr><th>段</th><th>贡献 S</th><th>权重合计 W</th><th>段内加权均值 mean</th></tr></thead>
+      <tbody id="seg-tbody"></tbody>
+    </table>
+    <p class="hint" id="seg-verdict" style="margin-top:10px;"></p>
+    <p class="hint" style="color:var(--gold-hi);">⚠ 各维 cf（证据等级 E/I/X）、L（量级）、w（敞口）与下方耦合矩阵 A 均为示例初值（作者待确认），仅作机制演示占位。</p>
+  </div>
+
+  <div class="grid-2" style="margin-bottom:14px;">
+    <div class="card" id="expo-card">
+      <h3><span class="tag-h">EXPOSURE</span>我的暴露排序（L×w）</h3>
+      <p class="hint" style="margin-bottom:10px;"><strong style="color:var(--gold-hi);">L×w 不含概率（概率不可知），只做优先级排序，不构成期望值。</strong>L＝若这一维真出事，损失多大（0–10）；w＝我在这一维的受击面（0–5）。L×w 不加进世界风险 R。</p>
+      <table class="weight-table">
+        <colgroup><col style="width:26%"><col style="width:14%"><col style="width:12%"><col style="width:12%"><col style="width:16%"><col style="width:20%"></colgroup>
+        <thead><tr><th>维度</th><th>世界风险 r</th><th>量级 L</th><th>敞口 w</th><th>优先级 L×w</th><th>我的动作</th></tr></thead>
+        <tbody id="expo-tbody"></tbody>
+      </table>
+    </div>
+    <div class="card" id="conduit-card">
+      <h3><span class="tag-h">CONDUIT</span>传导与临界</h3>
+      <div id="conduit-stats" style="margin-bottom:10px;"></div>
+      <p class="hint" style="margin-bottom:8px;"><strong style="color:var(--red-hi);">A 的强度由站内传导链（05／08）估计，属推演参数；κ 只表示「结构是否接近临界」，不预测事件。</strong>κ = α·ρ(A)；一阶传播 r′ = r + α·A·r。可在下表改 A（0–1），改后即时重算。</p>
+      <table class="weight-table" style="font-size:.62rem;">
+        <thead><tr><th></th><th>r₁</th><th>r₂</th><th>r₃</th><th>r₄</th><th>r₅</th><th>r₆</th><th>r₇</th></tr></thead>
+        <tbody id="amat-tbody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="grid-2" style="margin-bottom:14px;">
+    <div class="card" id="trend-card">
+      <h3><span class="tag-h">DELTA</span>变化率 · 分期记录</h3>
+      <div style="display:flex;gap:10px;margin-bottom:10px;flex-wrap:wrap;">
+        <button class="fbtn" id="btn-save-point" type="button">记录本期</button>
+        <button class="fbtn" id="btn-export-hist" type="button">导出 JSON</button>
+      </div>
+      <div id="trend-body"></div>
+    </div>
+    <div class="card" id="corr">
+      <h3><span class="tag-h">CALIB</span>认知修正 · 校准记录</h3>
+      <p class="hint" style="margin-bottom:8px;"><strong style="color:var(--gold-hi);">本模型暂无历史样本，因此不做概率校准。校准的前提是序列；序列从今天开始记录。</strong></p>
+      <table class="weight-table" style="font-size:.66rem;">
+        <colgroup><col style="width:14%"><col style="width:17%"><col style="width:17%"><col style="width:26%"><col style="width:26%"></colgroup>
+        <thead><tr><th>记录日</th><th>旧判断</th><th>现判断</th><th>触发修正的事实</th><th>证伪条件（事前写）</th></tr></thead>
+        <tbody id="corr-tbody"></tbody>
+      </table>
+      <div style="margin-top:10px;"><button class="fbtn" id="btn-add-corr" type="button">新增记录行</button></div>
+      <p class="hint" style="margin-top:8px;">纪律：事后才写的「证伪条件」无效——该列必须由作者在事件前填入；未填则显示「未预设」。</p>
     </div>
   </div>
 </div>
@@ -3000,13 +3059,13 @@ companies.forEach(c=>{
 
 /* ===== Risk Factors ===== */
 const factors=[
-  {name:'地缘冲突烈度',val:8.6,desc:'子指数合成：0.65×事件烈度8.4+0.35×军贸热度MTI9.0；美伊第205天【推演情景 · 非已证实事实】+军售订单井喷'},
-  {name:'供应链断裂风险',val:8.6,desc:'俄45%炼能停摆，全球柴油危机，美或禁柴油出口'},
-  {name:'海运物流通道',val:8.2,desc:'MSI子指数：航道通行8.6×40%+运费战争险8.2×25%+租船8.0×20%+订舱7.4×15%'},
-  {name:'货币秩序震荡',val:7.3,desc:'10Y美债破5.1%创2007年来新高，去美元化持续'},
-  {name:'AI军事化进度',val:8.8,desc:'6万架无人机订单+蜂群实战测试，450架单日规模'},
-  {name:'资源民族主义',val:9.0,desc:'刚果(金)全面禁钴，津巴布韦14矿种战略化，欧盟组建采购公司'},
-  {name:'金融稳定风险',val:8.3,desc:'子指数合成：0.60×主权流动性8.1+0.40×AI泡沫AIB8.6；循环融资+集中度极值'},
+  {name:'地缘冲突烈度',val:8.6,cf:'I',L:8,w:3,desc:'子指数合成：0.65×事件烈度8.4+0.35×军贸热度MTI9.0；美伊第205天【推演情景 · 非已证实事实】+军售订单井喷'},
+  {name:'供应链断裂风险',val:8.6,cf:'I',L:7,w:3,desc:'俄45%炼能停摆，全球柴油危机，美或禁柴油出口'},
+  {name:'海运物流通道',val:8.2,cf:'E',L:6,w:3,desc:'MSI子指数：航道通行8.6×40%+运费战争险8.2×25%+租船8.0×20%+订舱7.4×15%'},
+  {name:'货币秩序震荡',val:7.3,cf:'E',L:8,w:4,desc:'10Y美债破5.1%创2007年来新高，去美元化持续'},
+  {name:'AI军事化进度',val:8.8,cf:'I',L:6,w:3,desc:'6万架无人机订单+蜂群实战测试，450架单日规模'},
+  {name:'资源民族主义',val:9.0,cf:'E',L:6,w:3,desc:'刚果(金)全面禁钴，津巴布韦14矿种战略化，欧盟组建采购公司'},
+  {name:'金融稳定风险',val:8.3,cf:'I',L:9,w:4,desc:'子指数合成：0.60×主权流动性8.1+0.40×AI泡沫AIB8.6；循环融资+集中度极值'},
 ];
 const rf=document.getElementById('risk-factors');
 factors.forEach((f,i)=>{
@@ -3022,10 +3081,173 @@ factors.forEach((f,i)=>{
 });
 /* 权重与上方 WCRI 权重表一一对应：地缘冲突18% 供应链17% 海运MSI15% 货币秩序12% AI军事化14% 资源民族主义14% 金融稳定10% */
 const W=[.18,.17,.15,.12,.14,.14,.10];
+
+/* ===== 风险模型数学升级（改单 v1 · T1–T6）===== */
+/* cf/L/w 与耦合矩阵 A 均为示例初值，待作者确认（页面已标注） */
+const SEG=[
+  {key:'event',   name:'第一段 · 事件',   ids:[0,4]  },
+  {key:'conduit', name:'第二段 · 传导',   ids:[1,2,5]},
+  {key:'regime',  name:'第三段 · 新常态', ids:[3,6]  },
+];
+const SIGMA = { E:0.15, I:0.40, X:0.80 };
+/* 耦合矩阵 A：7×7，A[i][j] = 第 i 维风险传导到第 j 维的强度（0–1）。
+   行列与 factors 0–6 顺序严格对应（0=r₁…6=r₇）。
+   改单示例仅给出 r₁–r₆ 列，r₇ 列缺省置 0 —— 待作者确认补全 */
+let A = [
+  /*r1*/[ 0,  0.3, 0.2, 0.1, 0.2, 0.1, 0  ],
+  /*r2*/[ 0.1,0,   0.2, 0.3, 0,   0.2, 0  ],
+  /*r3*/[ 0,  0.4, 0,   0.2, 0,   0.1, 0  ],
+  /*r4*/[ 0.1,0.2, 0.1, 0,   0,   0.1, 0  ],
+  /*r5*/[ 0.3,0.1, 0,   0,   0,   0,   0  ],
+  /*r6*/[ 0,  0.4, 0.2, 0.3, 0,   0,   0  ],
+  /*r7*/[ 0.1,0.3, 0.1, 0.4, 0,   0.2, 0  ],
+];
+const ALPHA = 0.3;   /* 传播系数（可调） */
+
+function sliderVals(){
+  return [...document.querySelectorAll('.risk-slider')].map(s=>parseFloat(s.value));
+}
+function segStats(vals){
+  return SEG.map(seg=>{
+    let S=0,Ws=0;
+    seg.ids.forEach(i=>{ S+=W[i]*vals[i]; Ws+=W[i]; });
+    return { name:seg.name, S:S, W:Ws, mean:S/Ws };
+  });
+}
+function sigmaR(){
+  let acc=0;
+  factors.forEach((f,i)=>{ const t=W[i]*(SIGMA[f.cf]||0.40); acc+=t*t; });
+  return Math.sqrt(acc);
+}
+function spectralRadius(M,iter=200){
+  let x=M.map(()=>1), lam=0;
+  for(let k=0;k<iter;k++){
+    const y=M.map(row=>row.reduce((a,v,j)=>a+v*x[j],0));
+    const norm=Math.hypot(...y);
+    if(!norm){ lam=0; break; }   /* 全零矩阵 → ρ=0 */
+    x=y.map(v=>v/norm); lam=norm;
+  }
+  return lam;
+}
+function firstOrderDelta(vals){
+  return factors.map((f,j)=>{
+    let d=0; for(let i=0;i<7;i++) d+=A[i][j]*vals[i];
+    return ALPHA*d;
+  });
+}
+/* T1 三段结构表 */
+function renderSeg(vals){
+  const tb=document.getElementById('seg-tbody'); if(!tb) return;
+  tb.innerHTML=segStats(vals).map(s=>
+    '<tr><td><strong>'+s.name+'</strong></td><td class="num">'+s.S.toFixed(3)+'</td><td class="num">'+s.W.toFixed(2)+'</td><td class="num"><strong>'+s.mean.toFixed(2)+'</strong></td></tr>'
+  ).join('')+
+  '<tr class="sum-row"><td><strong>合计</strong></td><td class="num"><strong>'+segStats(vals).reduce((a,s)=>a+s.S,0).toFixed(3)+'</strong></td><td class="num"><strong>'+segStats(vals).reduce((a,s)=>a+s.W,0).toFixed(2)+'</strong></td><td>—</td></tr>';
+  const st=segStats(vals);
+  const hi=st.reduce((a,b)=>a.mean>b.mean?a:b), lo=st.reduce((a,b)=>a.mean<b.mean?a:b);
+  document.getElementById('seg-verdict').textContent=
+    '段内均值：事件 '+st[0].mean.toFixed(2)+' ／ 传导 '+st[1].mean.toFixed(2)+' ／ 新常态 '+st[2].mean.toFixed(2)+
+    ' → 最高段：'+hi.name+'（'+hi.mean.toFixed(2)+'）；最低段：'+lo.name+'（'+lo.mean.toFixed(2)+'）';
+}
+/* T3 暴露排序表（L×w，不含概率） */
+function renderExposure(vals){
+  const tb=document.getElementById('expo-tbody'); if(!tb) return;
+  const rows=factors.map((f,i)=>({i:i,name:f.name,r:vals[i],L:f.L,w:f.w,p:f.L*f.w}));
+  rows.sort((a,b)=>b.p-a.p);
+  tb.innerHTML=rows.map(o=>
+    '<tr><td><strong>'+o.name+'</strong></td><td class="num">'+o.r.toFixed(1)+'</td><td class="num">'+o.L+'</td><td class="num">'+o.w+'</td><td class="num"><strong>'+o.p+'</strong></td><td style="color:var(--faint);">待作者填写</td></tr>'
+  ).join('');
+}
+/* T4 传导与临界 */
+function renderConduit(vals){
+  const el=document.getElementById('conduit-stats'); if(!el) return;
+  const rho=spectralRadius(A);
+  const kappa=ALPHA*rho;
+  const dr=firstOrderDelta(vals);
+  el.innerHTML=
+    '<div class="num" style="font-size:1.05rem;margin-bottom:6px;">κ = '+kappa.toFixed(2)+
+    ' <span style="font-size:.66rem;color:var(--faint);font-family:var(--mono);">（α='+ALPHA+' ｜ ρ(A)='+rho.toFixed(2)+' ｜ &lt;1 稳定；→1 临界）</span></div>'+
+    '<div style="font-size:.72rem;color:var(--muted);line-height:1.8;">一阶传播后各维增量：'+
+    dr.map((d,i)=>'Δ'+'r₁r₂r₃r₄r₅r₆r₇'.substr(i*2,2)+'='+(d>=0?'+':'')+d.toFixed(2)).join(' · ')+
+    '</div>';
+}
+/* A 矩阵编辑表（供作者改，改后即时重算） */
+function renderMatrix(){
+  const tb=document.getElementById('amat-tbody'); if(!tb) return;
+  tb.innerHTML=A.map((row,i)=>
+    '<tr><td style="color:var(--faint);">r'+(i+1)+' →</td>'+row.map((v,j)=>
+      '<td><input type="number" min="0" max="1" step="0.1" value="'+v+'" data-i="'+i+'" data-j="'+j+'" style="width:46px;background:transparent;border:1px solid var(--line);border-radius:4px;color:var(--fg);font-family:var(--mono);font-size:.62rem;padding:2px 3px;text-align:center;"></td>'
+    ).join('')+'</tr>'
+  ).join('');
+  tb.querySelectorAll('input').forEach(inp=>{
+    inp.addEventListener('change',()=>{
+      A[+inp.dataset.i][+inp.dataset.j]=Math.max(0,Math.min(1,parseFloat(inp.value)||0));
+      renderConduit(sliderVals());
+    });
+  });
+}
+/* T5 变化率：HISTORY 记录（localStorage 持久） */
+const HISTKEY='wcri-history-v1';
+let HISTORY=[];
+try{ HISTORY=JSON.parse(localStorage.getItem(HISTKEY)||'[]'); }catch(e){ HISTORY=[]; }
+function arrow(d){ return d>0.05?'↑':(d<-0.05?'↓':'→'); }
+function renderTrend(){
+  const box=document.getElementById('trend-body'); if(!box) return;
+  if(HISTORY.length<2){
+    box.innerHTML='<p style="font-size:.8rem;color:var(--faint);line-height:1.8;">尚无历史，无变化率。点「记录本期」开始积累序列（至少两期才能算 Δ）。</p>';
+    return;
+  }
+  const prev=HISTORY[HISTORY.length-2], last=HISTORY[HISTORY.length-1];
+  const dR=last.R-prev.R;
+  const segPrev=segStats(prev.r), segLast=segStats(last.r);
+  const dSeg=segLast.map((s,i)=>s.mean-segPrev[i].mean);
+  box.innerHTML=
+    '<div style="font-size:.86rem;margin-bottom:8px;">ΔR = <strong class="num">'+(dR>=0?'+':'')+dR.toFixed(1)+'</strong> <span style="font-size:.8rem;color:var(--faint);">（'+prev.date+' → '+last.date+'）</span></div>'+
+    '<div style="font-size:.78rem;line-height:1.9;color:var(--muted);">'+
+    segLast.map((s,i)=>s.name.replace('第一段 · ','事件段 ').replace('第二段 · ','传导段 ').replace('第三段 · ','新常态段 ')+'均值 Δ='+arrow(dSeg[i])+' '+(dSeg[i]>=0?'+':'')+dSeg[i].toFixed(2)).join('<br>')+
+    '</div>'+
+    '<p style="font-size:.7rem;color:var(--faint);line-height:1.8;margin-top:8px;">判读：Δ事件 &lt; 0 且 Δ传导 &gt; 0 → 冲击已由「点」扩散到「面」（性质变化）；Δ事件 &lt; 0 且 Δ传导 &lt; 0 → 退潮；Δ新常态 &gt; 0 → 旧冲击已固化为新常态（最难逆转）。</p>';
+}
+function savePoint(){
+  const vals=sliderVals();
+  const R=vals.reduce((a,v,i)=>a+v*W[i],0);
+  const d=new Date();
+  const date=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+  HISTORY.push({date:date,r:vals,R:+R.toFixed(3)});
+  try{ localStorage.setItem(HISTKEY,JSON.stringify(HISTORY)); }catch(e){}
+  renderTrend();
+}
+function exportHist(){
+  const blob=new Blob([JSON.stringify(HISTORY,null,2)],{type:'application/json'});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download='wcri-history.json';
+  a.click();
+  URL.revokeObjectURL(a.href);
+}
+/* T6 校准记录（只记录，不做概率校准） */
+const CORRKEY='wcri-corr-v1';
+let CORR=[];
+try{ CORR=JSON.parse(localStorage.getItem(CORRKEY)||'[]'); }catch(e){ CORR=[]; }
+function renderCorr(){
+  const tb=document.getElementById('corr-tbody'); if(!tb) return;
+  tb.innerHTML=CORR.length?CORR.map(c=>
+    '<tr><td>'+c.date+'</td><td>'+(c.old||'—')+'</td><td>'+(c.now||'—')+'</td><td>'+(c.fact||'—')+'</td><td>'+(c.falsifier||'<span style="color:var(--faint);">未预设</span>')+'</td></tr>'
+  ).join(''):'<tr><td colspan="5" style="color:var(--faint);">暂无记录。校准的前提是序列；序列从今天开始记录。</td></tr>';
+}
+function addCorrRow(){
+  CORR.push({date:new Date().toISOString().slice(0,10),old:'',now:'',fact:'',falsifier:''});
+  try{ localStorage.setItem(CORRKEY,JSON.stringify(CORR)); }catch(e){}
+  renderCorr();
+}
+
 function updateScore(){
   let sum=0;
   document.querySelectorAll('.risk-slider').forEach(s=>{ sum+=parseFloat(s.value)*W[+s.dataset.i]; });
-  document.getElementById('total-score').textContent=sum.toFixed(1);
+  const vals=sliderVals();
+  document.getElementById('total-score').textContent=sum.toFixed(1)+' ± '+sigmaR().toFixed(2);
+  renderSeg(vals);
+  renderExposure(vals);
+  renderConduit(vals);
 }
 document.querySelectorAll('.risk-slider').forEach(s=>{
   s.addEventListener('input',()=>{
@@ -3033,6 +3255,17 @@ document.querySelectorAll('.risk-slider').forEach(s=>{
     updateScore();
   });
 });
+/* 初始渲染（T1–T6） */
+updateScore();
+renderMatrix();
+renderConduit(sliderVals());
+renderTrend();
+renderCorr();
+document.getElementById('btn-save-point')?.addEventListener('click',savePoint);
+document.getElementById('btn-export-hist')?.addEventListener('click',exportHist);
+document.getElementById('btn-add-corr')?.addEventListener('click',addCorrRow);
+/* 控制台调参入口：window.__WRIM.factors[0].cf='E' 等 */
+window.__WRIM={factors:factors,W:W,SIGMA:SIGMA,A:A,spectralRadius:spectralRadius,segStats:segStats,sliderVals:sliderVals,sigmaR:sigmaR};
 
 /* ===== News Timeline Data & Render ===== */
 const newsData=[
