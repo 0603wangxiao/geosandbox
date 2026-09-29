@@ -2323,6 +2323,7 @@ html.weak .ca-orbit{ animation:none; }
 
   <div class="algo-card">
     <h3><span class="tag-h">WCRI</span><em class="gs-tier">必看</em>算法模型 · 加权综合风险指数（WCRI）</h3>
+    <p class="hint" style="margin-bottom:8px;"><strong style="color:var(--gold-hi);">怎么用：</strong>这是「世界紧张度」，一个 0–10 的数。它只回答「现在适不适合加风险」。</p>
     <p style="font-size:.8rem;color:var(--muted);line-height:1.75;margin-bottom:8px;">
       本模型基于三变六反框架（归位依据与实证见上方 KERNEL 卡），将地缘风险拆解为七个维度的量化评分（0-10 分），
       加权求和得出综合指数。七个维度按冲击三段归位：
@@ -2602,6 +2603,7 @@ html.weak .ca-orbit{ animation:none; }
   <!-- ===== 风险模型数学升级（改单 v1 · T1–T6 新增区块） ===== -->
   <div class="card" style="margin-bottom:14px;" id="seg-card">
     <h3><span class="tag-h">SEGMENTS</span><em class="gs-tier">必看</em>三段结构 · 分段小计与段内均值</h3>
+    <p class="hint" style="margin-bottom:8px;"><strong style="color:var(--gold-hi);">怎么用：</strong>看三个段里哪个最高。事件段＝震中，传导段＝余波，新常态段＝地貌改了。</p>
     <p class="hint" style="margin-bottom:10px;">总分是一个标量，看不见「风险在哪一段」。分段后读结构：S=Σw·r（该段贡献），mean=S/W（段内加权均值——段间比较必须用它，段内维度数不同，不可直接比 S）。</p>
     <table class="weight-table">
       <colgroup><col style="width:30%"><col style="width:24%"><col style="width:20%"><col style="width:26%"></colgroup>
@@ -2615,9 +2617,10 @@ html.weak .ca-orbit{ animation:none; }
   <div class="grid-2" style="margin-bottom:14px;">
     <div class="card" id="expo-card">
       <h3><span class="tag-h">EXPOSURE</span><em class="gs-tier">必看</em>我的暴露排序（L×w）</h3>
+      <p class="hint" style="margin-bottom:8px;"><strong style="color:var(--gold-hi);">怎么用这张表：</strong>① 给每一维选一个「量级」和一个「敞口」；② 表会自动算出优先级并排序；③ <strong>只看第一行</strong>——那就是你现在最该先处理的一格；④ 按「建议动作」去做，想改就改。</p>
       <p class="hint" style="margin-bottom:10px;"><strong style="color:var(--gold-hi);">L×w 不含概率（概率不可知），只做优先级排序，不构成期望值。</strong>L＝若这一维真出事，损失多大（0–10）；w＝我在这一维的受击面（0–5）。L×w 不加进世界风险 R。</p>
       <table class="weight-table">
-        <colgroup><col style="width:26%"><col style="width:14%"><col style="width:12%"><col style="width:12%"><col style="width:16%"><col style="width:20%"></colgroup>
+        <colgroup><col style="width:21%"><col style="width:8%"><col style="width:22%"><col style="width:22%"><col style="width:8%"><col style="width:19%"></colgroup>
         <thead><tr><th>维度</th><th>世界风险 r</th><th>量级 L</th><th>敞口 w</th><th>优先级 L×w</th><th>我的动作</th></tr></thead>
         <tbody id="expo-tbody"></tbody>
       </table>
@@ -2627,11 +2630,12 @@ html.weak .ca-orbit{ animation:none; }
 <div class="card" id="conduit-card">
       <h3><span class="tag-h">CONDUIT</span>传导与临界</h3>
       <div id="conduit-stats" style="margin-bottom:10px;"></div>
-      <p class="hint" style="margin-bottom:8px;"><strong style="color:var(--red-hi);">A 的强度由站内传导链（05／08）估计，属推演参数；κ 只表示「结构是否接近临界」，不预测事件。</strong>κ = α·ρ(A)；一阶传播 r′ = r + α·A·r。可在下表改 A（0–1），改后即时重算。</p>
+      <p class="hint" style="margin-bottom:8px;"><strong style="color:var(--red-hi);">A 的强度由站内传导链（05／08）估计，属推演参数；κ 只表示「结构是否接近临界」，不预测事件。</strong>κ = α·ρ(A)；一阶传播 r′ = r + α·A·r。矩阵为只读展示——非必要不要动这里；改了会改变 κ 与放大结果（属高级手动调参，须直接改源码数据块）。</p>
       <table class="weight-table" style="font-size:.62rem;">
         <thead><tr><th></th><th>r₁</th><th>r₂</th><th>r₃</th><th>r₄</th><th>r₅</th><th>r₆</th><th>r₇</th></tr></thead>
         <tbody id="amat-tbody"></tbody>
       </table>
+      <p class="hint" style="margin-top:8px;">A[r₄→r₇]=0.3 为初值由站内传导链估计补接的「货币秩序 → 金融稳定」链路；其余为示例初值，均属推演参数（作者确认前仅作机制演示）。</p>
     </div>
       </details>
   </div>
@@ -2662,14 +2666,6 @@ html.weak .ca-orbit{ animation:none; }
       <p class="hint" style="margin-top:8px;">纪律：事后才写的「证伪条件」无效——该列必须由作者在事件前填入；未填则显示「未预设」。</p>
     </div>
       </details>
-  </div>
-</div>
-
-/details>
-  </div>
-</div>
-
-/details>
   </div>
 </div>
 
@@ -3269,12 +3265,12 @@ const SEG=[
 const SIGMA = { E:0.15, I:0.40, X:0.80 };
 /* 耦合矩阵 A：7×7，A[i][j] = 第 i 维风险传导到第 j 维的强度（0–1）。
    行列与 factors 0–6 顺序严格对应（0=r₁…6=r₇）。
-   改单示例仅给出 r₁–r₆ 列，r₇ 列缺省置 0 —— 待作者确认补全 */
+   A[r₄→r₇]=0.3（货币秩序 → 金融稳定）为初值由站内传导链估计补接（可读性改单 v2 · F4）；其余为示例初值 —— 待作者确认 */
 let A = [
   /*r1*/[ 0,  0.3, 0.2, 0.1, 0.2, 0.1, 0  ],
   /*r2*/[ 0.1,0,   0.2, 0.3, 0,   0.2, 0  ],
   /*r3*/[ 0,  0.4, 0,   0.2, 0,   0.1, 0  ],
-  /*r4*/[ 0.1,0.2, 0.1, 0,   0,   0.1, 0  ],
+  /*r4*/[ 0.1,0.2, 0.1, 0,   0,   0.1, 0.3 ],
   /*r5*/[ 0.3,0.1, 0,   0,   0,   0,   0  ],
   /*r6*/[ 0,  0.4, 0.2, 0.3, 0,   0,   0  ],
   /*r7*/[ 0.1,0.3, 0.1, 0.4, 0,   0.2, 0  ],
@@ -3325,42 +3321,76 @@ function renderSeg(vals){
     '段内均值：事件 '+st[0].mean.toFixed(2)+' ／ 传导 '+st[1].mean.toFixed(2)+' ／ 新常态 '+st[2].mean.toFixed(2)+
     ' → 最高段：'+hi.name+'（'+hi.mean.toFixed(2)+'）；最低段：'+lo.name+'（'+lo.mean.toFixed(2)+'）';
 }
-/* T3 暴露排序表（L×w，不含概率） */
+/* T3 暴露排序表（L×w，不含概率）· 可读性改单 v2 F2：填数字 → 点档位 */
+const L_OPTS=[[9,'很大 · 会改变我的整体格局'],[7,'较大 · 伤到一大块（一年白干）'],[5,'中等 · 能扛，但要调整计划'],[3,'较小 · 局部影响'],[1,'很小 · 几乎无感']];
+const W_OPTS=[[5,'押得重 · 我直接重仓／重依赖它'],[4,'重 · 主要资产或收入与它相关'],[3,'中 · 有间接但可感的影响'],[2,'轻 · 擦边'],[0,'无 · 与我无关']];
+const ACT_OPTS=['敛 ＋ 遣','敛','俟 ＋ 不闻','俟 · 等信号','不闻 · 不看噪音','息 · 不争','不逐 · 不追','遣 · 撤或止损','对冲','观察'];
+const expoAct={};   /* 作者手动选过的动作（按因子下标），改 L/w 档位时重置为建议 */
+function suggestAct(p){ return p>=30?'敛 ＋ 遣':p>=20?'敛':p>=10?'俟 ＋ 不闻':'观察'; }
+function optsHtml(opts,cur){
+  return opts.map(o=>'<option value="'+o[0]+'"'+(o[0]===cur?' selected':'')+'>'+o[0]+' · '+o[1]+'</option>').join('');
+}
 function renderExposure(vals){
   const tb=document.getElementById('expo-tbody'); if(!tb) return;
   const rows=factors.map((f,i)=>({i:i,name:f.name,r:vals[i],L:f.L,w:f.w,p:f.L*f.w}));
   rows.sort((a,b)=>b.p-a.p);
-  tb.innerHTML=rows.map(o=>
-    '<tr><td><strong>'+o.name+'</strong></td><td class="num">'+o.r.toFixed(1)+'</td><td class="num">'+o.L+'</td><td class="num">'+o.w+'</td><td class="num"><strong>'+o.p+'</strong></td><td style="color:var(--faint);">待作者填写</td></tr>'
-  ).join('');
+  tb.innerHTML=rows.map(o=>{
+    if(expoAct[o.i]===undefined) expoAct[o.i]=suggestAct(o.p);
+    return '<tr><td><strong>'+o.name+'</strong></td><td class="num">'+o.r.toFixed(1)+'</td>'+
+      '<td><select class="expo-sel" data-k="L" data-i="'+o.i+'" style="width:100%;background:transparent;border:1px solid var(--line);border-radius:4px;color:var(--fg);font-family:var(--mono);font-size:.6rem;padding:2px;">'+optsHtml(L_OPTS,o.L)+'</select></td>'+
+      '<td><select class="expo-sel" data-k="w" data-i="'+o.i+'" style="width:100%;background:transparent;border:1px solid var(--line);border-radius:4px;color:var(--fg);font-family:var(--mono);font-size:.6rem;padding:2px;">'+optsHtml(W_OPTS,o.w)+'</select></td>'+
+      '<td class="num"><strong>'+o.p+'</strong></td>'+
+      '<td><select class="expo-act" data-i="'+o.i+'" style="width:100%;background:transparent;border:1px solid var(--line);border-radius:4px;color:var(--gold-hi);font-family:var(--mono);font-size:.6rem;padding:2px;">'+ACT_OPTS.map(a=>'<option'+(a===expoAct[o.i]?' selected':'')+'>'+a+'</option>').join('')+'</select></td></tr>';
+  }).join('');
+  tb.querySelectorAll('select.expo-sel').forEach(sel=>{
+    sel.addEventListener('change',()=>{
+      const i=+sel.dataset.i, v=+sel.value;
+      if(sel.dataset.k==='L') factors[i].L=v; else factors[i].w=v;
+      expoAct[i]=suggestAct(factors[i].L*factors[i].w);
+      renderExposure(sliderVals());
+    });
+  });
+  tb.querySelectorAll('select.expo-act').forEach(sel=>{
+    sel.addEventListener('change',()=>{ expoAct[+sel.dataset.i]=sel.value; });
+  });
 }
-/* T4 传导与临界 */
+/* T4 传导与临界 · 可读性改单 v2 F3：三行人话翻译置顶 */
 function renderConduit(vals){
   const el=document.getElementById('conduit-stats'); if(!el) return;
   const rho=spectralRadius(A);
   const kappa=ALPHA*rho;
   const dr=firstOrderDelta(vals);
+  const NAMES=['地缘冲突','供应链','海运物流','货币秩序','AI军事化','资源民族主义','金融稳定'];
+  const SUB='₁₂₃₄₅₆₇';
+  const kLvl=kappa<0.5?'弱':(kappa<0.8?'中':'强');
+  const top=dr.map((d,i)=>({i:i,d:d})).filter(o=>o.d>0.001).sort((a,b)=>b.d-a.d).slice(0,2)
+    .map(o=>'<strong style="color:var(--fg);">r'+SUB[o.i]+'（'+NAMES[o.i]+'）</strong>');
+  const d7=dr[6];
+  const hu3=Math.abs(d7)<0.005
+    ? '「金融稳定」目前收不到传导——矩阵对应列全为 0，与站内链条不一致，需补接。'
+    : '「金融稳定」可收到上游传导（Δ'+(d7>=0?'+':'')+d7.toFixed(2)+'）——「货币秩序 → 金融稳定」链路已接通，无漏接。';
   el.innerHTML=
+    '<div class="hint" style="margin-bottom:10px;line-height:2.1;">'+
+    '<div>① <strong style="color:var(--fg);">连锁放大：'+kLvl+'。</strong>一推不会倒一片；越接近 1 越危险。</div>'+
+    '<div>② 如果冲击真的发生，最会被放大的是'+(top.length?top.join('和'):'（无正向增量）')+'这两格。</div>'+
+    '<div>③ '+hu3+'</div>'+
+    '</div>'+
     '<div class="num" style="font-size:1.05rem;margin-bottom:6px;">κ = '+kappa.toFixed(2)+
     ' <span style="font-size:.66rem;color:var(--faint);font-family:var(--mono);">（α='+ALPHA+' ｜ ρ(A)='+rho.toFixed(2)+' ｜ &lt;1 稳定；→1 临界）</span></div>'+
     '<div style="font-size:.72rem;color:var(--muted);line-height:1.8;">一阶传播后各维增量：'+
     dr.map((d,i)=>'Δ'+'r₁r₂r₃r₄r₅r₆r₇'.substr(i*2,2)+'='+(d>=0?'+':'')+d.toFixed(2)).join(' · ')+
     '</div>';
 }
-/* A 矩阵编辑表（供作者改，改后即时重算） */
+/* A 矩阵只读展示（可读性改单 v2 F3：不再让作者编辑 49 个数字） */
 function renderMatrix(){
   const tb=document.getElementById('amat-tbody'); if(!tb) return;
   tb.innerHTML=A.map((row,i)=>
     '<tr><td style="color:var(--faint);">r'+(i+1)+' →</td>'+row.map((v,j)=>
-      '<td><input type="number" min="0" max="1" step="0.1" value="'+v+'" data-i="'+i+'" data-j="'+j+'" style="width:46px;background:transparent;border:1px solid var(--line);border-radius:4px;color:var(--fg);font-family:var(--mono);font-size:.62rem;padding:2px 3px;text-align:center;"></td>'
+      (i===3&&j===6)
+        ? '<td class="num" style="font-family:var(--mono);color:var(--gold-hi);" title="初值由站内传导链估计补接（F4）">'+v.toFixed(1)+'</td>'
+        : '<td class="num" style="font-family:var(--mono);">'+v.toFixed(1)+'</td>'
     ).join('')+'</tr>'
   ).join('');
-  tb.querySelectorAll('input').forEach(inp=>{
-    inp.addEventListener('change',()=>{
-      A[+inp.dataset.i][+inp.dataset.j]=Math.max(0,Math.min(1,parseFloat(inp.value)||0));
-      renderConduit(sliderVals());
-    });
-  });
 }
 /* T5 变化率：HISTORY 记录（localStorage 持久） */
 const HISTKEY='wcri-history-v1';
