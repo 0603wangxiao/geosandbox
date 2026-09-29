@@ -11,6 +11,13 @@
 <meta name="description" content="《三变·六反》地缘风险跟踪与推演沙盘：全球热点地图、战略资源分布、AI军事化企业、战损数据、资源民族主义、风险因子模型。" />
 <style>
 :root{
+  /* 排版阶梯（可读性改单 v13）：全站 9 个内容 token */
+  --rv-1:2.6rem;   /* 核心数字 */
+  --rv-2:1.1rem;   /* 卡内结论 */
+  --rv-3:.9rem;    /* 强调正文——重要指引不该沉在注解里 */
+  --rv-4:.82rem;   /* 正文 */
+  --rv-5:.7rem;    /* 注解 */
+  --rv-6:.62rem;   /* 标签 */
   --bg:#15181A; --bg-2:#1A1D20;
   --panel:#222529; --panel-2:#2A2E33;
   --fg:#FFFFFF; --muted:rgba(255,255,255,.6); --faint:rgba(255,255,255,.45);
@@ -586,30 +593,22 @@ svg.gdim .gtier{ opacity:.3; }
         三个层级徽章（必看/参考/专业）长得完全一样。
    做法：① 6 级字号阶梯 ② 语义类（结论/强调/注解）③ 徽章做出视觉区别
    ========================================================================== */
-#view-riskmodel{
-  --rv-1:2.6rem;   /* 核心数字 */
-  --rv-2:1.1rem;   /* 卡内结论 */
-  --rv-3:.9rem;    /* 强调正文——重要指引不该沉在注解里 */
-  --rv-4:.82rem;    /* 正文 */
-  --rv-5:.7rem;   /* 注解 */
-  --rv-6:.62rem;    /* 标签 */
-}
 /* 强调正文：把"怎么用""先看哪个"这类关键指引从小灰字提上来 */
-#view-riskmodel .rv-lead{
+.rv-lead{
   font-size:var(--rv-3); line-height:1.95; color:var(--fg); margin:0 0 12px;
 }
-#view-riskmodel .rv-lead strong{ color:var(--gold-hi); }
+.rv-lead strong{ color:var(--gold-hi); }
 /* 结论行：机器算出来的那个"所以呢" */
-#view-riskmodel .rv-verdict{
+.rv-verdict{
   font-size:var(--rv-2); line-height:1.75; color:var(--fg); font-weight:500;
   padding:12px 16px; margin:0 0 14px;
   background:linear-gradient(90deg,var(--gold-soft),transparent 72%);
   border-left:3px solid var(--gold); border-radius:0 var(--r-sm) var(--r-sm) 0;
 }
-#view-riskmodel .rv-verdict strong,
-#view-riskmodel .rv-verdict .num{ color:var(--gold-hi); font-weight:600; }
+.rv-verdict strong,
+.rv-verdict .num{ color:var(--gold-hi); font-weight:600; }
 /* 注解：真正次要的东西才用小灰字 */
-#view-riskmodel .rv-note{ font-size:var(--rv-5); line-height:1.85; color:var(--faint); }
+.rv-note{ font-size:var(--rv-5); line-height:1.85; color:var(--faint); }
 /* 层级徽章：让"必看 / 参考 / 专业"一眼能分 */
 .gs-tier.t-must{
   color:var(--gold-hi); border:1px solid var(--gold);
@@ -632,30 +631,30 @@ svg.gdim .gtier{ opacity:.3; }
 /* 卡内层级：正文段 / 小节标题（一、二、三、四）/ 二级标题 / 要点行
    原来一级标题各用一色（金/青/蓝）、「三、时间律」还掉了样式，
    二级标题干脆没样式、用手工「·」当项目符号 → 读者看不出层级。 */
-#view-riskmodel .rv-p{ font-size:var(--rv-4); line-height:1.9; color:var(--muted); margin:0 0 9px; }
-#view-riskmodel .rv-p strong{ color:var(--fg); }
-#view-riskmodel .rv-h1{
+.rv-p{ font-size:var(--rv-4); line-height:1.9; color:var(--muted); margin:0 0 9px; }
+.rv-p strong{ color:var(--fg); }
+.rv-h1{
   display:block; margin:24px 0 10px; padding:2px 0 2px 12px;
   border-left:3px solid var(--gold);
   font-size:.98rem; font-weight:600; color:var(--fg); line-height:1.55;
 }
-#view-riskmodel .rv-h1 .rv-h1-sub{
+.rv-h1 .rv-h1-sub{
   display:block; margin-top:3px;
   font-size:.77rem; font-weight:400; color:var(--muted); letter-spacing:.02em;
 }
-#view-riskmodel .rv-h2{
+.rv-h2{
   display:block; margin:16px 0 7px;
   font-size:.94rem; font-weight:600; color:var(--gold-hi); line-height:1.6;
 }
-#view-riskmodel .rv-li{
+.rv-li{
   position:relative; margin:0 0 8px; padding-left:15px;
   font-size:var(--rv-4); line-height:1.9; color:var(--muted);
 }
-#view-riskmodel .rv-li::before{
+.rv-li::before{
   content:''; position:absolute; left:2px; top:.8em;
   width:5px; height:5px; border-radius:50%; background:var(--gold); opacity:.85;
 }
-#view-riskmodel .rv-li strong{ color:var(--fg); }
+.rv-li strong{ color:var(--fg); }
 details.gs-fold{ border:1px solid var(--line); border-radius:var(--r,10px); background:var(--panel); margin-bottom:14px; }
 details.gs-fold>summary{ list-style:none; cursor:pointer; padding:13px 18px; display:flex; align-items:center; gap:10px; font-size:.82rem; color:var(--fg); }
 details.gs-fold>summary::-webkit-details-marker{ display:none; }
@@ -1446,11 +1445,8 @@ html.weak .ca-orbit{ animation:none; }
       </div>
       <div class="card">
         <h3><span class="tag-h">NOTE</span>时间流说明</h3>
-        <p style="font-size:.77rem;line-height:1.75;color:var(--muted);">
-          本时间流收录2025年10月至2026年9月间，对全球地缘格局产生结构性影响的关键事件。
-          按<strong style="color:var(--fg);">三变六反</strong>框架排序：每条事件都对应一个"量变积累"或"质变触发"节点。
-          <br><br>数据来源：联合国机构、各国官方发布、路透/彭博/金融时报报道、USGS/IEA研究报告；伊朗官方通讯社（IRNA/ISNA）与议会声明，美国白宫及中央司令部声明、X平台官方账号（经路透/央视转引核实），中国海关总署、中国人民银行、国家外汇管理局、工业和信息化部统计发布，BBC/CNN/半岛电视台等国际媒体交叉印证。
-        </p>
+        <p class="rv-p">本时间流收录 2025 年 10 月至 2026 年 9 月间，对全球地缘格局产生结构性影响的关键事件。按<strong>三变六反</strong>框架排序：每条事件都对应一个"量变积累"或"质变触发"节点。</p>
+        <p class="rv-note"><strong>数据来源：</strong>联合国机构、各国官方发布、路透/彭博/金融时报报道、USGS/IEA 研究报告；伊朗官方通讯社（IRNA/ISNA）与议会声明，美国白宫及中央司令部声明、X 平台官方账号（经路透/央视转引核实），中国海关总署、中国人民银行、国家外汇管理局、工业和信息化部统计发布，BBC/CNN/半岛电视台等国际媒体交叉印证。</p>
       </div>
     </div>
   </div>
@@ -1616,9 +1612,12 @@ html.weak .ca-orbit{ animation:none; }
         <div class="sb-src"><b>口径</b>：逐案核实下限；布什尔/胡齐斯坦等中断地区未计入，实际显著更高<br><b>信源</b>：UNICEF · OHCHR</div>
       </div>
     </div>
-    <p style="font-size:.77rem;color:var(--muted);line-height:1.75;">
-      战事三条线并行：霍尔木兹海峡封锁与护航对峙（伊朗「零出口」第 205 天，CENTCOM 主航道扫雷完成、两个月护航超 10 亿桶原油通过）；伊朗本土空袭与防空拦截；代理人袭击外溢——胡塞武装首次以弹道导弹袭击利雅得，沙特东西管道遇袭后逐步恢复。09-22 美伊纽约会谈三小时一度释放缓和信号（推演情景），伊朗经卡塔尔转达停战条件并公布 7 项谈判前提（09-27 后续：缓和信号被证伪——伊朗外长强硬回应已就"末日之战"做好准备、油价开盘拉涨，但谈判未断）；伊朗议会同步立法：违规过境船只罚货值 20%、拒付即扣押。波及人道面：波斯湾沿岸数十万居民疏散，伊朗西北约 38 万人流离失所（IOM），战区医院与水电设施受损加剧平民负担。
-    </p>
+    <p class="rv-lead">战事三条线并行：</p>
+    <p class="rv-li"><strong>一、霍尔木兹海峡封锁与护航对峙</strong>：伊朗「零出口」第 205 天，CENTCOM 主航道扫雷完成、两个月护航超 10 亿桶原油通过。</p>
+    <p class="rv-li"><strong>二、伊朗本土空袭与防空拦截</strong>。</p>
+    <p class="rv-li"><strong>三、代理人袭击外溢</strong>：胡塞武装首次以弹道导弹袭击利雅得，沙特东西管道遇袭后逐步恢复。</p>
+    <p class="rv-li"><strong>外交线（09-22 → 09-27）</strong>：纽约会谈三小时一度释放缓和信号（推演情景），伊朗经卡塔尔转达停战条件并公布 7 项谈判前提；09-27 缓和信号被证伪——伊朗外长强硬回应已就"末日之战"做好准备、油价开盘拉涨，<strong>但谈判未断</strong>。伊朗议会同步立法：违规过境船只罚货值 20%、拒付即扣押。</p>
+    <p class="rv-li"><strong>人道面</strong>：波斯湾沿岸数十万居民疏散，伊朗西北约 38 万人流离失所（IOM），战区医院与水电设施受损加剧平民负担。</p>
     <div class="src-line"><b>数据口径</b>：双方官方声明（未经独立核实）· OHCHR 逐案平民核实 · UNICEF 儿童通报 · IOM 流离失所 · 快照核实 2026-09-24（会谈后续更新至 09-28，仅涉事件状态、不涉伤亡数字）<br><b>参考信源</b>：CENTCOM 通报（2026.09.23）· 伊朗议长声明（IRNA/ISNA）· 白宫吹风（央视新闻 2026.09.23）· 伊朗外交部/路透（2026.09.27）· UNICEF 伊朗局势通报 · IOM 流离失所快照 2026.09</div>
   </div>
 
@@ -2093,13 +2092,11 @@ html.weak .ca-orbit{ animation:none; }
 
   <div class="card">
     <h3><span class="tag-h">INSIGHT</span>关键洞察</h3>
-    <p style="font-size:.82rem;line-height:1.85;color:var(--muted);">
-      纵览 23 类战略资源，<strong style="color:var(--fg);">"开采分散、精炼集中"</strong>是最普遍的结构性错位：
-      中国在全球20种关键矿产中对<strong style="color:var(--fg);">19种</strong>的精炼加工占据主导（稀土/石墨90%、钴70%、镍65%、锂60%、铝电解59%、白银35%、化肥加工26%），平均市占率约70%——即使开采不在中国手中，从矿石到电池级/磁材级材料的<strong style="color:var(--red-hi);">精炼转化能力</strong>仍是最大瓶颈。
-      但集中度风险并非中国独有：铂族精炼 78% 在南非，<strong style="color:var(--fg);">黄金精炼 70% 在瑞士</strong>——矿端分散、枢纽垄断是贵金属的镜像结构；极端单点并存：多晶硅中国 93%（全部品类之最）、铀浓缩俄罗斯 44%、铁矿石海运贸易八成在澳巴。
-      能源板块呈"美俄沙三角"：石油/天然气开采端美国 20%/25% 居首、OPEC+ 掌握闲置产能定价权，霍尔木兹海峡承担全球约两成海运原油；柴油/燃油则由炼能与加注枢纽定义——美中炼能 18%/17% 双极，新加坡独揽全球 18% 船燃加注。
-      农资与粮食是另一条主线：加拿大钾肥 32% 加上白俄-俄 BPC 出口联盟（掌控全球钾肥出口约四成）、摩洛哥坐拥七成磷矿储量，化肥禁运已成为间接武器；粮食与棉花则"产量在亚洲、出口在美洲"——巴西大豆出口 55%+、俄小麦出口 25%+、巴西棉花出口 28% 登顶，黑海走廊每一次中断都直接写进进口国的面包与衣价。
-    </p>
+    <p class="rv-lead">纵览 23 类战略资源，<strong>"开采分散、精炼集中"</strong>是最普遍的结构性错位。以下四条是全局主线：</p>
+    <p class="rv-li"><strong>一、中国精炼主导。</strong>在全球 20 种关键矿产中对 <strong>19 种</strong>的精炼加工占据主导（稀土/石墨 90%、钴 70%、镍 65%、锂 60%、铝电解 59%、白银 35%、化肥加工 26%），平均市占率约 70%——即使开采不在中国手中，从矿石到电池级/磁材级材料的<strong>精炼转化能力</strong>仍是最大瓶颈。</p>
+    <p class="rv-li"><strong>二、但集中风险并非中国独有。</strong>铂族精炼 78% 在南非、<strong>黄金精炼 70% 在瑞士</strong>——矿端分散、枢纽垄断是贵金属的镜像结构。极端单点并存：多晶硅中国 93%（全部品类之最）、铀浓缩俄罗斯 44%、铁矿石海运贸易八成在澳巴。</p>
+    <p class="rv-li"><strong>三、能源是"美俄沙三角"。</strong>石油/天然气开采端美国 20%/25% 居首、OPEC+ 掌握闲置产能定价权，霍尔木兹海峡承担全球约两成海运原油；柴油/燃油则由炼能与加注枢纽定义——美中炼能 18%/17% 双极，新加坡独揽全球 18% 船燃加注。</p>
+    <p class="rv-li"><strong>四、农资与粮食是另一条主线。</strong>加拿大钾肥 32% 加上白俄-俄 BPC 出口联盟（掌控全球钾肥出口约四成）、摩洛哥坐拥七成磷矿储量，化肥禁运已成为间接武器；粮食与棉花则"产量在亚洲、出口在美洲"——巴西大豆出口 55%+、俄小麦出口 25%+、巴西棉花出口 28% 登顶，黑海走廊每一次中断都直接写进进口国的面包与衣价。</p>
   </div>
 </div>
 
@@ -2252,8 +2249,28 @@ html.weak .ca-orbit{ animation:none; }
   <div class="card" style="margin-bottom:18px;">
     <h3><span class="tag-h">COVERAGE</span>覆盖面排查 · 本轮扩容 18 → 30 家企业</h3>
     <div style="font-size:.82rem;line-height:1.85;color:var(--muted);">
-      <p style="margin-bottom:8px;"><strong style="color:var(--blue-hi);">本轮新增 12 节点</strong>：日本 NEC（自卫队 C4ISR/AI）· 韩国 Hanwha Systems（智能火力+美本土弹药建厂）· 中国台湾中山科学研究院（剑翔/腾云无人体系）· 加拿大 CAE（仿真训练AI）· 意大利 Leonardo（GCAP）· 法国 Thales（决策AI+主权模型）· 瑞典 Saab（传感融合）· 挪威 Kongsberg（精确打击/自主系统）· 澳大利亚 Anduril Australia（Ghost Shark）· 新西兰 Rocket Lab（军用航天）· 俄罗斯 ZALA 柳叶刀（巡飞弹AI）· 伊朗沙赫德（消耗型无人机）。</p>
-      <p style="margin-bottom:8px;"><strong style="color:var(--fg);">未单列节点、已在详档追溯的次级力量</strong>：日本三菱电机（GCAP 日方主承包雷达）· 韩国 LIG Nex1（AI 指挥控制）· 台湾雷虎 Thunder Tiger（民转军无人机）· 加拿大 Kraken Robotics（自主水下）与 MDA Space（军用卫星）· 波兰 WB Group（FlyEye/Warmate 巡飞弹）· 乌克兰集群初创（Swarmer 等——战场 AI 迭代最快的一线）· 法国 Mistral AI（与 Thales 合作主权防务模型）· 俄罗斯克朗施塔特（猎户座无人机/Sirius AI 中心）。</p>
+      <div class="rv-h2">本轮新增 12 节点</div>
+    <p class="rv-li"><strong>日本</strong> NEC（自卫队 C4ISR／AI）</p>
+    <p class="rv-li"><strong>韩国</strong> Hanwha Systems（智能火力 + 美本土弹药建厂）</p>
+    <p class="rv-li"><strong>中国台湾</strong> 中山科学研究院（剑翔／腾云无人体系）</p>
+    <p class="rv-li"><strong>加拿大</strong> CAE（仿真训练 AI）</p>
+    <p class="rv-li"><strong>意大利</strong> Leonardo（GCAP）</p>
+    <p class="rv-li"><strong>法国</strong> Thales（决策 AI + 主权模型）</p>
+    <p class="rv-li"><strong>瑞典</strong> Saab（传感融合）</p>
+    <p class="rv-li"><strong>挪威</strong> Kongsberg（精确打击／自主系统）</p>
+    <p class="rv-li"><strong>澳大利亚</strong> Anduril Australia（Ghost Shark）</p>
+    <p class="rv-li"><strong>新西兰</strong> Rocket Lab（军用航天）</p>
+    <p class="rv-li"><strong>俄罗斯</strong> ZALA 柳叶刀（巡飞弹 AI）</p>
+    <p class="rv-li"><strong>伊朗</strong> 沙赫德（消耗型无人机）</p>
+      <div class="rv-h2">未单列节点、已在详档追溯的次级力量</div>
+    <p class="rv-li"><strong>日本</strong> 三菱电机（GCAP 日方主承包雷达）</p>
+    <p class="rv-li"><strong>韩国</strong> LIG Nex1（AI 指挥控制）</p>
+    <p class="rv-li"><strong>台湾</strong> 雷虎 Thunder Tiger（民转军无人机）</p>
+    <p class="rv-li"><strong>加拿大</strong> Kraken Robotics（自主水下）与 MDA Space（军用卫星）</p>
+    <p class="rv-li"><strong>波兰</strong> WB Group（FlyEye／Warmate 巡飞弹）</p>
+    <p class="rv-li"><strong>乌克兰</strong> 集群初创（Swarmer 等——战场 AI 迭代最快的一线）</p>
+    <p class="rv-li"><strong>法国</strong> Mistral AI（与 Thales 合作主权防务模型）</p>
+    <p class="rv-li"><strong>俄罗斯</strong> 克朗施塔特（猎户座无人机／Sirius AI 中心）</p>
       <p><strong style="color:var(--gold-hi);">诚实边界</strong>：新西兰军事 AI 体量小（军用航天以 Rocket Lab 为支点）；乌俄一线的战地 AI 迭代以集群初创形态存在、多为未公开主体——图谱收录"可公开追溯的法人实体"，不收录传闻项目。</p>
     </div>
   </div>
@@ -2509,13 +2526,9 @@ html.weak .ca-orbit{ animation:none; }
         <span class="cq-sub">一个 0–10 的数，由七个维度加权求和得出。它只回答"现在适不适合加风险"，不预测事件。</span>
       </div>
     <p class="rv-lead"><strong style="color:var(--gold-hi);">怎么用：</strong>这是「世界紧张度」，一个 0–10 的数。它只回答「现在适不适合加风险」。</p>
-    <p class="rv-p">
-      本模型基于三变六反框架（归位依据与实证见上方 KERNEL 卡），将地缘风险拆解为七个维度的量化评分（0-10 分），
-      加权求和得出综合指数。七个维度按冲击三段归位：
-      事件类（r₁ 地缘冲突、r₅ AI军事化进度）、传导类（r₂ 供应链、r₃ 海运、r₆ 资源民族主义）、格局类（r₄ 货币秩序、r₇ 金融稳定）——
-      编号与权重即下表。三个维度由子指数运算得出：r₃ 海运物流通道 = MSI 子指数（航道/运费保险/租船/订舱）、
-      r₁ 地缘冲突 = 0.65×事件烈度 + 0.35×MTI 军贸热度、r₇ 金融稳定 = 0.60×主权流动性 + 0.40×AIB AI 泡沫压力。
-    </p>
+    <p class="rv-p">本模型基于三变六反框架（归位依据与实证见上方 KERNEL 卡），将地缘风险拆解为七个维度的量化评分（0–10 分），加权求和得出综合指数。</p>
+    <p class="rv-p">七个维度按冲击三段归位——<strong>事件类</strong>（r₁ 地缘冲突、r₅ AI军事化进度）、<strong>传导类</strong>（r₂ 供应链、r₃ 海运、r₆ 资源民族主义）、<strong>格局类</strong>（r₄ 货币秩序、r₇ 金融稳定），编号与权重即下表。</p>
+    <p class="rv-p">其中三个维度由子指数运算得出：r₃ 海运物流通道 = MSI 子指数（航道／运费保险／租船／订舱）；r₁ 地缘冲突 = 0.65×事件烈度 + 0.35×MTI 军贸热度；r₇ 金融稳定 = 0.60×主权流动性 + 0.40×AIB AI 泡沫压力。</p>
     <div class="algo-formula">
       <span class="var">R</span> <span class="op">=</span>
       <span class="var">w₁·r₁</span> <span class="op">+</span> <span class="var">w₂·r₂</span> <span class="op">+</span>
@@ -2536,16 +2549,12 @@ html.weak .ca-orbit{ animation:none; }
         <tr class="sum-row"><td><strong>合计</strong></td><td class="num"><strong>100%</strong></td><td>—</td><td class="highlight num"><strong>8.44</strong></td><td><span style="font-size:.7rem;color:var(--muted);">精确 8.438；交互卡 8.4 ± 0.13（按演示初值 E/I 混合；若七维全按 I，σ=0.15）</span></td></tr>
       </tbody>
     </table>
-    <p class="hint">
-      注：权重设计参考公开风险指数的一般做法（分层 · 加权 · 归一），依《三变·六反》框架赋值。σ 由各维证据等级（E/I/X）映射得出；σ 越小＝判断越硬。当前按演示初值（3×E + 4×I 混合）σ_R=0.13；改单手算场景「七维全部按 I」时 σ_R=0.15——cf 定稿后以实际值为准。；
-      引入海运物流通道维度（MSI）后，各维度权重按边际贡献重新归一。
-      当前综合分 8.4 处于本模型自定的"高度风险"分档（7.0–8.5）上沿。
-      本期上调主因：全球柴油供应危机（俄45%炼能停摆+美国拟限出口）、10年期美债收益率创2007年来新高、
-      刚果(金)全面禁钴与津巴布韦14矿种战略化、美伊战争多线升级【推演情景 · 非已证实事实】与乌克兰史上最大规模对莫斯科无人机袭击；
-      海运端：红海绕行常态化+战争险费率翻倍+租船战区条款扩散，构成 MSI 8.2 的高压读数。
-      本期并入两个新子指数：<strong style="color:var(--red-hi);">军售军贸热度（MTI 9.0）并入 r₁</strong>——2026 年全球军售订单井喷（对台军售升级、波兰 K 系列第二轮、战斧对日、堤丰对菲、朝鲜影子军贸）；
-      <strong style="color:var(--gold-hi);">AI 泡沫压力（AIB 8.6）并入 r₇</strong>——AI 资本开支循环融资、市场集中度与数据中心债务化扩张（详见下方两张子指数卡）。权重为作者依《三变·六反》框架的主观赋值，非历史回归；可调项为各维度评分，权重固定。本模型为线性加权，未含阈值与级联；非线性判断见 08 情景与 05 传导链。本期各维度评分区间偏窄（73–90），属同步上行期特征。
-    </p>
+    <div class="rv-h2">本期的口径与变动</div>
+    <p class="rv-p">权重设计参考公开风险指数的一般做法（分层 · 加权 · 归一），依《三变·六反》框架赋值。σ 由各维证据等级（E/I/X）映射得出，σ 越小＝判断越硬。当前按演示初值（3×E + 4×I 混合）<strong>σ_R = 0.13</strong>；改单手算场景「七维全部按 I」时 σ_R = 0.15——cf 定稿后以实际值为准。引入海运物流通道维度（MSI）后，各维度权重按边际贡献重新归一。</p>
+    <p class="rv-li"><strong>当前分档</strong>：综合分 8.4 处于本模型自定的"高度风险"分档（7.0–8.5）上沿。</p>
+    <p class="rv-li"><strong>本期上调主因</strong>：全球柴油供应危机（俄 45% 炼能停摆 + 美国拟限出口）、10 年期美债收益率创 2007 年来新高、刚果(金)全面禁钴与津巴布韦 14 矿种战略化、美伊战争多线升级【推演情景 · 非已证实事实】与乌克兰史上最大规模对莫斯科无人机袭击；海运端：红海绕行常态化 + 战争险费率翻倍 + 租船战区条款扩散，构成 MSI 8.2 的高压读数。</p>
+    <p class="rv-li"><strong>本期并入两个新子指数</strong>：<strong>军售军贸热度（MTI 9.0）并入 r₁</strong>——2026 年全球军售订单井喷（对台军售升级、波兰 K 系列第二轮、战斧对日、堤丰对菲、朝鲜影子军贸）；<strong>AI 泡沫压力（AIB 8.6）并入 r₇</strong>——AI 资本开支循环融资、市场集中度与数据中心债务化扩张（详见下方两张子指数卡）。</p>
+    <p class="rv-li"><strong>边界说明</strong>：权重为依《三变·六反》框架的主观赋值，<strong>非历史回归</strong>；可调项为各维度评分，权重固定。本模型为线性加权，<strong>未含阈值与级联</strong>——非线性判断见 08 情景与 05 传导链。本期各维度评分区间偏窄（73–90），属同步上行期特征。</p>
   </div>
 
   <details class="gs-fold">
