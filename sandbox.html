@@ -743,6 +743,29 @@ details.gs-fold[open]>div.algo-card{ border:0; background:transparent; margin:0;
   font-size:.58rem; color:var(--faint); margin-top:3px;
   overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
 }
+/* 表格内控件对齐：第二格是两行（输入框 + 小字），其余格只有一行，
+   td 默认对齐方式不统一 → 看起来参差。统一顶对齐 + 控件等高。 */
+#corr .weight-table td, #corr .weight-table th,
+#expo-tbody td{ vertical-align:top; }
+input.k-in, select.k-sel{ height:30px; }
+#corr .weight-table td .kbtn{ height:30px; padding:0 10px; }
+/* 「作者自用」标记：公开读者看到空表格 + 输入框会以为站点坏了，
+   必须显式说明这些块是作者本人的记事本，不参与推演结论。 */
+.author-note{
+  display:flex; gap:10px; align-items:flex-start;
+  border:1px dashed rgba(255,255,255,.22);
+  background:rgba(255,255,255,.025);
+  border-radius:var(--r-sm); padding:10px 12px; margin-bottom:12px;
+  font-size:.76rem; line-height:1.85; color:var(--muted);
+}
+.author-note .an-badge{
+  flex:none; margin-top:2px;
+  font-size:.6rem; letter-spacing:.1em; white-space:nowrap;
+  border:1px solid var(--gold); color:var(--gold-hi);
+  border-radius:var(--r-pill); padding:2px 9px;
+}
+.author-note strong{ color:var(--fg); }
+.author-note .an-sub{ color:var(--faint); font-size:.72rem; }
 /* 窄屏（手机）：§07 的可编辑表格改成横向滚动。
    .weight-table 在桌面是 table-layout:fixed（列宽定死），窄屏会被挤到切字；
    这里改成 display:block + overflow-x:auto，让列按内容自适应并可左右滑。 */
@@ -2684,6 +2707,9 @@ html.weak .ca-orbit{ animation:none; }
       <h3><span class="tag-h">EXPOSURE</span><em class="gs-tier">必看</em>我的暴露排序（L×w）</h3>
       <p class="hint" style="margin-bottom:8px;"><strong style="color:var(--gold-hi);">怎么用这张表：</strong>① 给每一维选一个「量级」和一个「敞口」；② 表会自动算出优先级并排序；③ <strong>只看第一行</strong>——那就是你现在最该先处理的一格；④ 按「建议动作」去做，想改就改。</p>
       <p class="hint" style="margin-bottom:10px;"><strong style="color:var(--gold-hi);">L×w 不含概率（概率不可知），只做优先级排序，不构成期望值。</strong>L＝若这一维真出事，损失多大（0–10）；w＝我在这一维的受击面（0–5）。L×w 不加进世界风险 R。</p>
+      <p class="hint" style="margin-bottom:10px;border-left:2px solid var(--line-strong);padding-left:10px;">
+        <strong style="color:var(--fg);">哪一列是公开的，哪一列是作者私有的：</strong>第一列「世界风险 r」来自外部数据（USGS／海关总署／BIS 等），公开可核；后两列「量级 L」「敞口 w」是<strong style="color:var(--gold-hi);">作者本人的私有信息</strong>——只有作者知道自己的仓位与依赖，外部查不到。<strong>读者可只看第一列 r。</strong>
+      </p>
       <table class="weight-table">
         <colgroup><col style="width:21%"><col style="width:8%"><col style="width:22%"><col style="width:22%"><col style="width:8%"><col style="width:19%"></colgroup>
         <thead><tr><th>维度</th><th>世界风险 r</th><th>量级 L</th><th>敞口 w</th><th>优先级 L×w</th><th>我的动作</th></tr></thead>
@@ -2713,6 +2739,14 @@ html.weak .ca-orbit{ animation:none; }
       <summary><span class="tag-h">DELTA</span>变化率 · 分期记录 <em class="gs-tier">参考</em></summary>
 <div class="card" id="trend-card">
       <h3><span class="tag-h">DELTA</span>变化率 · 分期记录</h3>
+      <div class="author-note">
+        <span class="an-badge">✎ 作者自用</span>
+        <div>
+          <strong>这一栏不是推演结论，是作者本人的记事本。</strong><br>
+          你会看到空表，是因为它<strong>还没被记录过</strong>——不是坏了。上面七个读数每次变动后点一次「记录本期」，攒够两期才会算出变化率。<br>
+          <span class="an-sub">数据只存在你自己这台设备的浏览器里（localStorage）：不上传、不对外、清缓存即消失。读者可以直接跳过这一栏。</span>
+        </div>
+      </div>
       <div style="display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap;align-items:center;">
         <button class="kbtn k-primary" id="btn-save-point" type="button">● 记录本期</button>
         <button class="kbtn" id="btn-export-hist" type="button">导出 JSON</button>
@@ -2725,6 +2759,14 @@ html.weak .ca-orbit{ animation:none; }
       <summary><span class="tag-h">CALIB</span>认知修正 · 校准记录 <em class="gs-tier">专业</em></summary>
 <div class="card" id="corr">
       <h3><span class="tag-h">CALIB</span>认知修正 · 校准记录</h3>
+      <div class="author-note">
+        <span class="an-badge">✎ 作者自用</span>
+        <div>
+          <strong>这是一本私人账本，不是推演结论的一部分。</strong><br>
+          你会看到空表，是因为它<strong>还没被记过</strong>——不是坏了。它记的是「我原来怎么想、后来因为什么改」，以及<strong>事前写下的认错条件</strong>。<br>
+          <span class="an-sub">数据只存在你自己这台设备的浏览器里（localStorage）：不上传、不对外、清缓存即消失。读者可以直接跳过这一栏。</span>
+        </div>
+      </div>
       <div style="border-left:3px solid var(--gold);padding:8px 0 8px 14px;margin-bottom:12px;">
         <div style="font-size:1rem;line-height:1.95;color:var(--fg);">
           这本账只逼你写<strong style="color:var(--gold-hi);">一件事</strong>：什么条件下算我错。
