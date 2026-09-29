@@ -718,6 +718,23 @@ details.gs-fold[open]>div.algo-card{ border:0; background:transparent; margin:0;
 .kbtn.k-danger{ border-color:rgba(255,107,107,.45); color:var(--red-hi); }
 .kbtn.k-danger:hover{ background:var(--red-soft); border-color:var(--red); }
 .kbtn[disabled]{ opacity:.45; cursor:not-allowed; }
+/* 卡内输入控件（CALIB 记账用） */
+.k-in, .k-sel{
+  width:100%; box-sizing:border-box;
+  background:rgba(255,255,255,.04); border:1px solid var(--line-strong);
+  border-radius:6px; color:var(--fg); font-family:var(--sans); font-size:.72rem;
+  padding:7px 9px; transition:border-color var(--t), background var(--t);
+}
+.k-in::placeholder{ color:var(--faint); }
+.k-in:focus, .k-sel:focus{ outline:none; border-color:var(--gold); background:rgba(94,196,255,.06); }
+.k-sel{
+  cursor:pointer; -webkit-appearance:none; appearance:none; padding-right:26px;
+  background-image:linear-gradient(45deg,transparent 50%,rgba(255,255,255,.55) 50%),
+                   linear-gradient(135deg,rgba(255,255,255,.55) 50%,transparent 50%);
+  background-position:calc(100% - 14px) 52%, calc(100% - 9px) 52%;
+  background-size:5px 5px, 5px 5px; background-repeat:no-repeat;
+}
+.k-sel option{ background:#15181B; color:var(--fg); }
 .map-canvas{ position:relative; padding:8px; }
 .map-svg{ width:100%; height:auto; display:block; }
 .map-ocean{ fill:url(#oceanGrad); }
@@ -2687,23 +2704,30 @@ html.weak .ca-orbit{ animation:none; }
       <h3><span class="tag-h">CALIB</span>认知修正 · 校准记录</h3>
       <div style="border-left:3px solid var(--gold);padding:8px 0 8px 14px;margin-bottom:12px;">
         <div style="font-size:1rem;line-height:1.95;color:var(--fg);">
-          这是一本「<strong style="color:var(--gold-hi);">我错在哪、因为什么改</strong>」的账。
+          这本账只逼你写<strong style="color:var(--gold-hi);">一件事</strong>：什么条件下算我错。
         </div>
         <div style="font-size:.88rem;line-height:1.9;color:var(--muted);margin-top:4px;">
-          它<strong>不算概率</strong>——它逼你把「什么条件下我认错」写在事前。
+          其余全自动——日期、当时的读数，系统替你填。你<strong>只需要写一句话</strong>，甚至可以不写。
         </div>
       </div>
-      <p class="hint" style="margin-bottom:12px;line-height:1.95;font-size:.84rem;">
-        <strong style="color:var(--gold-hi);">怎么用：</strong>点下面的「＋ 新增记录行」→ 表格里会多出一行 → 照这个例子填：<br>
-        <span style="color:var(--muted);">记录日 <strong>2026-09-29</strong>　｜　旧判断「美伊会在 10 月前达成协议」　｜　现判断「僵局持续到 2027」　｜　触发修正的事实「09-27 会谈缓和信号被证伪」　｜　证伪条件（事前写）「若 10-15 前双方举行第三轮会谈，那是我错了」</span>
-      </p>
+
+      <div style="border:1px solid var(--line-strong);border-radius:var(--r-sm);padding:12px;margin-bottom:14px;background:rgba(255,255,255,.02);">
+        <div style="font-size:.76rem;color:var(--muted);margin-bottom:6px;">① 一句话：我在赌什么　<span style="color:var(--faint);">（可以留空）</span></div>
+        <textarea class="k-in" id="corr-say" rows="2" placeholder="例：我以为美伊 10 月前会达成协议" style="resize:vertical;"></textarea>
+        <div style="font-size:.76rem;color:var(--muted);margin:12px 0 6px;">② 证伪条件：<strong style="color:var(--gold-hi);">选一个就行，不用自己造句</strong>　<span style="color:var(--red-hi);font-size:.7rem;">（必须事前写）</span></div>
+        <select class="k-sel" id="corr-fals" style="max-width:420px;"></select>
+        <div style="display:flex;align-items:center;gap:12px;margin-top:12px;flex-wrap:wrap;">
+          <button class="kbtn k-primary" id="btn-add-corr" type="button">● 记一条</button>
+          <span style="font-size:.7rem;color:var(--faint);" id="corr-snap"></span>
+        </div>
+      </div>
+
       <table class="weight-table" style="font-size:.66rem;">
-        <colgroup><col style="width:11%"><col style="width:18%"><col style="width:18%"><col style="width:22%"><col style="width:26%"><col style="width:5%"></colgroup>
-        <thead><tr><th>记录日</th><th>旧判断</th><th>现判断</th><th>触发修正的事实</th><th>证伪条件（事前写）</th><th></th></tr></thead>
+        <colgroup><col style="width:11%"><col style="width:41%"><col style="width:16%"><col style="width:26%"><col style="width:6%"></colgroup>
+        <thead><tr><th>记录日</th><th>我在赌什么（可直接改）</th><th>当时读数</th><th>证伪条件（事前写）</th><th></th></tr></thead>
         <tbody id="corr-tbody"></tbody>
       </table>
-      <div style="margin-top:10px;"><button class="kbtn k-primary" id="btn-add-corr" type="button">＋ 新增记录行</button></div>
-      <p class="hint" style="margin-top:8px;">纪律：事后才写的「证伪条件」无效——该列必须由作者在事件前填入；未填则显示「未预设」。</p>
+      <p class="hint" style="margin-top:8px;">只有「证伪条件」留空会标红；其余留空都不影响。</p>
     </div>
       </details>
   </div>
@@ -3550,58 +3574,92 @@ function exportHist(){
   a.click();
   URL.revokeObjectURL(a.href);
 }
-/* T6 校准记录（只记录，不做概率校准） */
+/* T6 校准记录 · 可读性改单 v5：从「4 个手写框」简化为「写一句话 + 选一个」
+   —— 日期、当时读数全自动；证伪条件给现成模板，不用自己造句。 */
 const CORRKEY='wcri-corr-v1';
 let CORR=[];
 try{ CORR=JSON.parse(localStorage.getItem(CORRKEY)||'[]'); }catch(e){ CORR=[]; }
-/* 可读性改单 v4：CALIB 原来只渲染纯文本单元格（'+'—'+'），压根没法输入。
-   改成真的输入框 + 逐行删除；输入即存 localStorage。 */
+const FALS_OPTS=[
+  '— 未预设（事后写无效）—',
+  '3 个月内没发生 → 我错',
+  'WCRI 掉到 6 以下 → 我错',
+  'WCRI 升到 9 以上 → 我错',
+  '关键事件没有出现 → 我错',
+  '方向做反了（该涨的跌了）→ 我错',
+];
+/* 老记录迁移：v4 的 旧判断/现判断/触发事实 合成一句话 */
+CORR=CORR.map(function(c){
+  if(c.say!==undefined) return c;
+  const parts=[c.old&&('旧：'+c.old), c.now&&('新：'+c.now), c.fact&&('因：'+c.fact)].filter(Boolean);
+  return {date:c.date, say:parts.join('　'), snap:c.snap||'', fals:c.fals||c.falsifier||FALS_OPTS[0]};
+});
+function snapshotText(){
+  const vals=sliderVals();
+  const R=vals.reduce(function(a,v,i){return a+v*W[i];},0);
+  let hi=0; vals.forEach(function(v,i){ if(v>vals[hi]) hi=i; });
+  return 'R '+R.toFixed(1)+' ／ 最高：'+factors[hi].name+' '+vals[hi].toFixed(1);
+}
+function esc(s){ return String(s==null?'':s).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;'); }
 function corrField(i,key,val,ph){
-  const esc=String(val==null?'':val).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;');
-  return '<input class="k-in" data-i="'+i+'" data-k="'+key+'" type="text" value="'+esc+'" placeholder="'+ph+
-    '" style="width:100%;box-sizing:border-box;background:rgba(255,255,255,.04);border:1px solid var(--line-strong);'+
-    'border-radius:6px;color:var(--fg);font-family:var(--sans);font-size:.7rem;padding:5px 7px;">';
+  return '<input class="k-in" data-i="'+i+'" data-k="'+key+'" type="text" value="'+esc(val)+'" placeholder="'+ph+'" style="font-size:.7rem;padding:5px 7px;">';
+}
+function corrSel(i,val){
+  return '<select class="k-sel" data-i="'+i+'" data-k="fals" title="'+esc(val)+'" style="font-size:.66rem;padding:5px 22px 5px 7px;">'+
+    FALS_OPTS.map(function(o){ return '<option'+(o===val?' selected':'')+'>'+o+'</option>'; }).join('')+
+    '</select>';
 }
 function renderCorr(){
   const tb=document.getElementById('corr-tbody'); if(!tb) return;
+  const snapEl=document.getElementById('corr-snap');
+  if(snapEl) snapEl.textContent='记下时自动带上：'+snapshotText();
+  const sel=document.getElementById('corr-fals');
+  if(sel && sel.options && !sel.options.length) sel.innerHTML=FALS_OPTS.map(function(o){return '<option>'+o+'</option>';}).join('');
   if(!CORR.length){
-    tb.innerHTML='<tr><td colspan="6" style="color:var(--faint);">还没有记录。点下面的「＋ 新增记录行」开始第一行；表格里的格子可以直接打字，打完自动保存。</td></tr>';
+    tb.innerHTML='<tr><td colspan="5" style="color:var(--faint);">还没有记录。上面写一句话、选一个证伪条件，点「● 记一条」。</td></tr>';
     return;
   }
-  tb.innerHTML=CORR.map((c,i)=>
-    '<tr>'+
+  tb.innerHTML=CORR.map(function(c,i){
+    const unset=!c.fals||c.fals.indexOf('未预设')===0;
+    return '<tr>'+
       '<td style="color:var(--muted);white-space:nowrap;">'+(c.date||'—')+'</td>'+
-      '<td>'+corrField(i,'old',c.old,'原来我怎么想')+'</td>'+
-      '<td>'+corrField(i,'now',c.now,'现在我怎么想')+'</td>'+
-      '<td>'+corrField(i,'fact',c.fact,'什么事实让我改的')+'</td>'+
-      '<td>'+corrField(i,'falsifier',c.falsifier,'什么条件下算我错（事前写）')+'</td>'+
+      '<td>'+corrField(i,'say',c.say,'留空也行')+'</td>'+
+      '<td style="color:var(--faint);white-space:nowrap;font-size:.62rem;">'+(c.snap||'—')+'</td>'+
+      '<td'+(unset?' style="color:var(--red-hi);"':'')+'>'+corrSel(i,c.fals)+'</td>'+
       '<td><button class="kbtn k-danger" data-del="'+i+'" type="button" style="padding:5px 9px;font-size:.66rem;">删</button></td>'+
-    '</tr>'
-  ).join('');
-  /* 输入即存（不重绘，避免丢焦点） */
+    '</tr>';
+  }).join('');
+  /* 输入/改选即存（不重绘，避免丢焦点） */
+  function save(){ try{ localStorage.setItem(CORRKEY,JSON.stringify(CORR)); }catch(e){} }
   tb.querySelectorAll('input.k-in').forEach(function(inp){
     inp.addEventListener('input',function(){
-      const i=+inp.dataset.i, k=inp.dataset.k;
-      if(CORR[i]){ CORR[i][k]=inp.value; try{ localStorage.setItem(CORRKEY,JSON.stringify(CORR)); }catch(e){} }
+      const i=+inp.dataset.i; if(CORR[i]){ CORR[i][inp.dataset.k]=inp.value; save(); }
+    });
+  });
+  tb.querySelectorAll('select.k-sel').forEach(function(s){
+    s.addEventListener('change',function(){
+      const i=+s.dataset.i; if(CORR[i]){ CORR[i][s.dataset.k]=s.value; save(); renderCorr(); }
     });
   });
   tb.querySelectorAll('button[data-del]').forEach(function(b){
     b.addEventListener('click',function(){
-      CORR.splice(+b.dataset.del,1);
-      try{ localStorage.setItem(CORRKEY,JSON.stringify(CORR)); }catch(e){}
-      renderCorr();
+      CORR.splice(+b.dataset.del,1); save(); renderCorr();
     });
   });
 }
 function addCorrRow(){
+  const sayEl=document.getElementById('corr-say');
+  const falsEl=document.getElementById('corr-fals');
   const d=new Date();
   const date=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
-  CORR.push({date:date,old:'',now:'',fact:'',falsifier:''});
+  CORR.push({
+    date:date,
+    say:sayEl?sayEl.value.trim():'',
+    snap:snapshotText(),
+    fals:falsEl?falsEl.value:FALS_OPTS[0],
+  });
   try{ localStorage.setItem(CORRKEY,JSON.stringify(CORR)); }catch(e){}
+  if(sayEl) sayEl.value='';
   renderCorr();
-  const tb=document.getElementById('corr-tbody');
-  const last=tb&&tb.querySelector('tr:last-child input.k-in');
-  if(last) last.focus();
 }
 
 function updateScore(){
