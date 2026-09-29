@@ -2722,12 +2722,13 @@ html.weak .ca-orbit{ animation:none; }
         </div>
       </div>
 
+      <div id="corr-due" style="font-size:.74rem;line-height:1.9;margin-bottom:6px;color:var(--faint);"></div>
       <table class="weight-table" style="font-size:.66rem;">
-        <colgroup><col style="width:11%"><col style="width:41%"><col style="width:16%"><col style="width:26%"><col style="width:6%"></colgroup>
-        <thead><tr><th>记录日</th><th>我在赌什么（可直接改）</th><th>当时读数</th><th>证伪条件（事前写）</th><th></th></tr></thead>
+        <colgroup><col style="width:11%"><col style="width:30%"><col style="width:14%"><col style="width:22%"><col style="width:15%"><col style="width:6%"></colgroup>
+        <thead><tr><th>记录日</th><th>我在赌什么（可直接改）</th><th>当时读数</th><th>证伪条件（事前写）</th><th>结果<span style="color:var(--faint);">（回来判）</span></th><th></th></tr></thead>
         <tbody id="corr-tbody"></tbody>
       </table>
-      <p class="hint" style="margin-top:8px;">只有「证伪条件」留空会标红；其余留空都不影响。</p>
+      <p class="hint" style="margin-top:8px;">只有「证伪条件」留空会标红；其余留空都不影响。<strong style="color:var(--gold-hi);">复查日到了要回来判「结果」——不判，这本账就白记。</strong></p>
     </div>
       </details>
   </div>
@@ -3587,11 +3588,35 @@ const FALS_OPTS=[
   '关键事件没有出现 → 我错',
   '方向做反了（该涨的跌了）→ 我错',
 ];
-/* 老记录迁移：v4 的 旧判断/现判断/触发事实 合成一句话 */
+/* 可读性改单 v6：补上「回来判」这一环。
+   原来只写不判 —— 证伪条件写完就没人管，这张卡就退化成日记。
+   现在每条自动带「复查日」，到期未判整行标红，逼你回来落一个结果。 */
+const VERDICT_OPTS=['待判','✅ 我对了','❌ 我错了'];
+const FALS_DUE_DAYS=90;   /* 复查期默认 90 天（约 3 个月），可改 */
+function addDays(iso,n){
+  const p=String(iso||'').split('-');
+  if(p.length!==3) return '';
+  const d=new Date(+p[0],+p[1]-1,+p[2]);
+  if(isNaN(d.getTime())) return '';
+  d.setDate(d.getDate()+n);
+  return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+}
+function todayIso(){
+  const d=new Date();
+  return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+}
+/* 注意：选项文案是「— 未预设（事后写无效）—」，开头是破折号，
+   所以必须用 indexOf(...)!==-1 判断，不能用 ===0。 */
+function falsUnset(v){ return !v || String(v).indexOf('未预设')!==-1; }
+/* 老记录迁移：v4 的 旧判断/现判断/触发事实 合成一句话；v5 的补上复查日与结果 */
 CORR=CORR.map(function(c){
-  if(c.say!==undefined) return c;
-  const parts=[c.old&&('旧：'+c.old), c.now&&('新：'+c.now), c.fact&&('因：'+c.fact)].filter(Boolean);
-  return {date:c.date, say:parts.join('　'), snap:c.snap||'', fals:c.fals||c.falsifier||FALS_OPTS[0]};
+  if(c.say===undefined){
+    const parts=[c.old&&('旧：'+c.old), c.now&&('新：'+c.now), c.fact&&('因：'+c.fact)].filter(Boolean);
+    c={date:c.date, say:parts.join('　'), snap:c.snap||'', fals:c.fals||c.falsifier||FALS_OPTS[0]};
+  }
+  if(c.verdict===undefined) c.verdict=VERDICT_OPTS[0];
+  if(c.due===undefined) c.due=falsUnset(c.fals)?'':addDays(c.date,FALS_DUE_DAYS);
+  return c;
 });
 function snapshotText(){
   const vals=sliderVals();
@@ -3608,6 +3633,14 @@ function corrSel(i,val){
     FALS_OPTS.map(function(o){ return '<option'+(o===val?' selected':'')+'>'+o+'</option>'; }).join('')+
     '</select>';
 }
+function verdictSel(i,val,due){
+  const overdue=(due && due<todayIso() && val===VERDICT_OPTS[0]);
+  return '<select class="k-sel" data-i="'+i+'" data-k="verdict" title="'+(overdue?'已过复查日，请落一个结果':'')+
+    '" style="font-size:.66rem;padding:5px 22px 5px 7px;'+
+    (overdue?'border-color:var(--red);color:var(--red-hi);':'')+'">'+
+    VERDICT_OPTS.map(function(o){ return '<option'+(o===val?' selected':'')+'>'+o+'</option>'; }).join('')+
+    '</select>';
+}
 function renderCorr(){
   const tb=document.getElementById('corr-tbody'); if(!tb) return;
   const snapEl=document.getElementById('corr-snap');
@@ -3615,19 +3648,32 @@ function renderCorr(){
   const sel=document.getElementById('corr-fals');
   if(sel && sel.options && !sel.options.length) sel.innerHTML=FALS_OPTS.map(function(o){return '<option>'+o+'</option>';}).join('');
   if(!CORR.length){
-    tb.innerHTML='<tr><td colspan="5" style="color:var(--faint);">还没有记录。上面写一句话、选一个证伪条件，点「● 记一条」。</td></tr>';
+    tb.innerHTML='<tr><td colspan="6" style="color:var(--faint);">还没有记录。上面写一句话、选一个证伪条件，点「● 记一条」。</td></tr>';
     return;
   }
+  const today=todayIso();
+  let dueCount=0;
   tb.innerHTML=CORR.map(function(c,i){
-    const unset=!c.fals||c.fals.indexOf('未预设')===0;
-    return '<tr>'+
-      '<td style="color:var(--muted);white-space:nowrap;">'+(c.date||'—')+'</td>'+
+    const unset=falsUnset(c.fals);
+    const overdue=(c.due && c.due<today && c.verdict===VERDICT_OPTS[0]);
+    if(overdue) dueCount++;
+    return '<tr'+(overdue?' style="background:rgba(255,107,107,.06);"':'')+'>'+
+      '<td style="color:var(--muted);white-space:nowrap;font-size:.62rem;">'+(c.date||'—')+
+        (c.due?'<br><span style="color:'+(overdue?'var(--red-hi)':'var(--faint)')+';">复查 '+c.due+(overdue?' ⚠':'')+'</span>':'')+
+      '</td>'+
       '<td>'+corrField(i,'say',c.say,'留空也行')+'</td>'+
       '<td style="color:var(--faint);white-space:nowrap;font-size:.62rem;">'+(c.snap||'—')+'</td>'+
       '<td'+(unset?' style="color:var(--red-hi);"':'')+'>'+corrSel(i,c.fals)+'</td>'+
+      '<td>'+verdictSel(i,c.verdict,c.due)+'</td>'+
       '<td><button class="kbtn k-danger" data-del="'+i+'" type="button" style="padding:5px 9px;font-size:.66rem;">删</button></td>'+
     '</tr>';
   }).join('');
+  /* 到期提醒：写在表格上方 */
+  const noteEl=document.getElementById('corr-due');
+  if(noteEl){
+    noteEl.textContent = dueCount ? ('⚠ 有 '+dueCount+' 条已过复查日还没判——回来落一个结果，否则这张卡就白记了。') : '';
+    noteEl.style.color = dueCount ? 'var(--red-hi)' : 'var(--faint)';
+  }
   /* 输入/改选即存（不重绘，避免丢焦点） */
   function save(){ try{ localStorage.setItem(CORRKEY,JSON.stringify(CORR)); }catch(e){} }
   tb.querySelectorAll('input.k-in').forEach(function(inp){
@@ -3651,11 +3697,15 @@ function addCorrRow(){
   const falsEl=document.getElementById('corr-fals');
   const d=new Date();
   const date=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+  const falsVal=falsEl?falsEl.value:FALS_OPTS[0];
+  const unset=falsUnset(falsVal);
   CORR.push({
     date:date,
     say:sayEl?sayEl.value.trim():'',
     snap:snapshotText(),
-    fals:falsEl?falsEl.value:FALS_OPTS[0],
+    fals:falsVal,
+    due:unset?'':addDays(date,FALS_DUE_DAYS),
+    verdict:VERDICT_OPTS[0],
   });
   try{ localStorage.setItem(CORRKEY,JSON.stringify(CORR)); }catch(e){}
   if(sayEl) sayEl.value='';
