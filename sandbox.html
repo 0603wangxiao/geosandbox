@@ -236,9 +236,11 @@ button{ font:inherit; color:inherit; background:none; border:none; cursor:pointe
 /* —— 发丝网格：同心多边形，只有外环略亮（改单 v16） —— */
 .radar-wrap .r-halo{ opacity:1; }
 .radar-wrap .r-grid polygon{ fill:none; }
-.radar-wrap .r-ring{ stroke:rgba(255,255,255,.055); stroke-width:.55; }
-.radar-wrap .r-ring-out{ stroke:rgba(255,255,255,.13); stroke-width:.8; }
-.radar-wrap .r-axis line{ stroke:rgba(255,255,255,.09); stroke-width:.6; stroke-dasharray:100; stroke-dashoffset:0; }
+.radar-wrap .r-ring-dash{ stroke:rgba(255,255,255,.145); stroke-width:.65; stroke-dasharray:2.8 3.6; }
+.radar-wrap .r-ring-solid{ stroke:rgba(255,255,255,.06); stroke-width:.55; }
+.radar-wrap .r-ring-out{ stroke:rgba(255,255,255,.20); stroke-width:.9; }
+.radar-wrap .r-ring-halo{ stroke:rgba(120,170,255,.20); stroke-width:.6; stroke-dasharray:1.5 5.4; }
+.radar-wrap .r-axis line{ stroke:rgba(255,255,255,.075); stroke-width:.6; stroke-dasharray:100; stroke-dashoffset:0; }
 /* 所有图上文字带一圈底色描边（paint-order），压线也读得清 */
 .radar-wrap .r-label text,
 .radar-wrap .r-val text,
@@ -273,6 +275,7 @@ button{ font:inherit; color:inherit; background:none; border:none; cursor:pointe
 .radar-play .r-grid polygon:nth-child(3){ animation-delay:.44s; }
 .radar-play .r-grid polygon:nth-child(4){ animation-delay:.52s; }
 .radar-play .r-grid polygon:nth-child(5){ animation-delay:.60s; }
+.radar-play .r-grid polygon:nth-child(6){ animation-delay:.68s; }
 .radar-play .r-label{ animation:radarFade .4s ease .68s forwards; }
 .radar-play .r-poly-line{ animation:polyDraw .7s cubic-bezier(.22,1,.36,1) .98s forwards; }
 .radar-play .r-poly-fill{ animation:radarFade .65s ease 1.3s forwards; }
@@ -1322,11 +1325,12 @@ html.weak .ca-orbit{ animation:none; }
   </defs>
   <circle class="r-halo" cx="190" cy="155" r="100" fill="url(#radarHalo)"/>
   <g class="r-grid">
-    <polygon class="r-ring" points="190,135 205.64,142.53 209.5,159.45 198.68,173.02 181.32,173.02 170.5,159.45 174.36,142.53"/>
-    <polygon class="r-ring" points="190,115 221.27,130.06 229,163.9 207.36,191.04 172.64,191.04 151,163.9 158.73,130.06"/>
-    <polygon class="r-ring" points="190,95 236.91,117.59 248.5,168.35 216.03,209.06 163.97,209.06 131.5,168.35 143.09,117.59"/>
-    <polygon class="r-ring" points="190,75 252.55,105.12 267.99,172.8 224.71,227.08 155.29,227.08 112.01,172.8 127.45,105.12"/>
-    <polygon class="r-ring r-ring-out" points="190,55 268.18,92.65 287.49,177.25 233.39,245.1 146.61,245.1 92.51,177.25 111.82,92.65"/>
+    <polygon class="r-ring-dash" points="190,135 205.64,142.53 209.5,159.45 198.68,173.02 181.32,173.02 170.5,159.45 174.36,142.53"/>
+    <polygon class="r-ring-solid" points="190,115 221.27,130.06 229,163.9 207.36,191.04 172.64,191.04 151,163.9 158.73,130.06"/>
+    <polygon class="r-ring-dash" points="190,95 236.91,117.59 248.5,168.35 216.03,209.06 163.97,209.06 131.5,168.35 143.09,117.59"/>
+    <polygon class="r-ring-solid" points="190,75 252.55,105.12 267.99,172.8 224.71,227.08 155.29,227.08 112.01,172.8 127.45,105.12"/>
+    <polygon class="r-ring-out" points="190,55 268.18,92.65 287.49,177.25 233.39,245.1 146.61,245.1 92.51,177.25 111.82,92.65"/>
+    <polygon class="r-ring-halo" points="190,47 274.44,87.66 295.29,179.03 236.86,252.3 143.14,252.3 84.71,179.03 105.56,87.66"/>
   </g>
   <g class="r-axis">
     <line x1="190" y1="155" x2="190" y2="55"/>
