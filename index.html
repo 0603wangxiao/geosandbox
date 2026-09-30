@@ -427,7 +427,9 @@ a{ color:inherit; text-decoration:none; }
 }
 
 /* ===== Lithos cursor spotlight reveal ===== */
-.lithos{ position:relative; width:100vw; margin-left:calc(50% - 50vw); height:100vh; height:100dvh; overflow:hidden; background:#000; }
+/* .lithos 是 <body> 的直接子元素，无需 full-bleed 技巧；
+   100vw 含滚动条宽度，会凭空多出约 8px 横向溢出（改单 v21） */
+.lithos{ position:relative; width:100%; height:100vh; height:100dvh; overflow:hidden; background:#000; }
 .li-base,.li-reveal{ position:absolute; inset:0; background-position:center; background-size:cover; background-repeat:no-repeat; }
 .li-base{ z-index:1; background-image:url("assets/hero-base.webp"); animation:liZoom 2.2s cubic-bezier(.16,1,.3,1) forwards; }
 .li-reveal{ z-index:2; pointer-events:none; background-image:url("assets/hero-reveal.webp");

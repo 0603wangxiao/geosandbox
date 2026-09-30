@@ -203,6 +203,10 @@ button{ font:inherit; color:inherit; background:none; border:none; cursor:pointe
 .grid-2{ display:grid; grid-template-columns:1fr 1fr; gap:20px; }
 .grid-3{ display:grid; grid-template-columns:repeat(3,1fr); gap:16px; }
 .grid-4{ display:grid; grid-template-columns:repeat(4,1fr); gap:16px; }
+/* 网格项默认 min-width:auto：内部一旦出现 max-content 的宽表（如 §07 weight-table），
+   轨道就会被顶到表格宽度，卡片的 overflow-x:auto 永远不触发 → 整页横向滚动。
+   显式归零，让网格项可以收缩到容器宽度（改单 v21） */
+.grid-2 > *,.grid-3 > *,.grid-4 > *{ min-width:0; }
 @media(max-width:900px){ .grid-2,.grid-3,.grid-4{ grid-template-columns:1fr; } }
 .card{
   background:var(--panel);
