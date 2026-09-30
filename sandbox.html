@@ -2342,11 +2342,13 @@ html.weak .ca-orbit{ animation:none; }
 .st-card .st-kicker{font-family:var(--mono,ui-monospace,monospace);font-size:.62rem;letter-spacing:.18em;color:var(--gold-hi,#EAD08A)}
 .st-card h3{margin:6px 0 4px;font-size:.98rem;font-weight:500;color:var(--fg,#e8eaee);letter-spacing:.02em}
 .st-card .st-sub{font-size:.77rem;color:var(--muted,#9aa1ad);line-height:1.8;margin-bottom:16px}
-.st-nums{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:0 0 14px}
-.st-num{background:var(--bg-2,#101216);border:1px solid var(--line,rgba(255,255,255,.12));border-radius:var(--r-sm,6px);padding:16px 16px 14px}
-.st-num .st-v{font-family:var(--mono,ui-monospace,monospace);font-size:2.7rem;font-weight:300;color:var(--fg,#e8eaee);line-height:1.02;letter-spacing:-.02em}
-.st-num .st-t{font-size:.82rem;color:var(--fg,#e8eaee);margin-top:10px;line-height:1.5;letter-spacing:.02em}
-.st-num .st-a{font-size:.77rem;color:var(--gold-hi,#EAD08A);margin-top:4px}
+.st-nums{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:0 0 14px;align-items:stretch}
+.st-num{display:flex;flex-direction:column;background:var(--bg-2,#101216);border:1px solid var(--line,rgba(255,255,255,.12));border-radius:var(--r-sm,6px);padding:14px 16px 12px}
+.st-num .st-v{font-family:var(--mono,ui-monospace,monospace);font-size:2rem;font-weight:300;color:var(--fg,#e8eaee);line-height:1.06;letter-spacing:-.02em}
+/* 文字型取值：不是数字，不能沿用数字的字号与等宽体（改单 v15） */
+.st-num .st-v-txt{font-family:inherit;font-size:1.2rem;font-weight:500;letter-spacing:.01em;line-height:1.3}
+.st-num .st-t{font-size:.82rem;color:var(--fg,#e8eaee);margin-top:auto;padding-top:10px;line-height:1.55;letter-spacing:.02em}
+.st-num .st-a{font-size:.77rem;color:var(--gold-hi,#EAD08A);margin-top:5px}
 .st-oneline{font-size:.82rem;line-height:1.9;color:var(--fg,#e8eaee);background:var(--red-soft,rgba(255,107,107,.08));border:1px solid rgba(255,107,107,.3);border-radius:var(--r-sm,6px);padding:11px 14px}
 .st-oneline b{color:var(--red-hi,#ff8a8a);font-weight:500}
 .st-step{display:flex;gap:14px;padding:14px 0;border-top:1px dashed var(--line,rgba(255,255,255,.12))}
@@ -2378,19 +2380,19 @@ html.weak .ca-orbit{ animation:none; }
       <div class="st-a">→ 现在整体有多紧张</div>
     </div>
     <div class="st-num">
-      <div class="st-v">最高那段</div>
-      <div class="st-t">三个段里最高的一个</div>
+      <div class="st-v st-v-txt">最紧的一段</div>
+      <div class="st-t">事件段 / 传导段 / 新常态段，三段里最高的那个</div>
       <div class="st-a">→ 紧张来自哪里</div>
     </div>
     <div class="st-num">
-      <div class="st-v">第一行</div>
-      <div class="st-t">我的暴露排序（损失 × 暴露）</div>
-      <div class="st-a">→ 先防哪一格</div>
+      <div class="st-v st-v-txt">排序第一行</div>
+      <div class="st-t">我的风险敞口排序表（损失 × 风险敞口）的第一行</div>
+      <div class="st-a">→ 最该先防的一格</div>
     </div>
   </div>
 
   <div class="st-oneline">
-    <b>一句话用法：</b>看总分 → 看哪一段最高 → 收"暴露排序"第一行的敞口，并写下它的失效线。<br>
+    <b>一句话用法：</b>看总分 → 看哪一段最紧 → 收「风险敞口排序」第一行的敞口，并写下它的失效线。<br>
     <span style="color:var(--muted,#9aa1ad);font-size:.77rem;">就这样。三分钟能做完一轮。</span>
   </div>
 </div>
@@ -2424,8 +2426,8 @@ html.weak .ca-orbit{ animation:none; }
   <div class="st-step">
     <div class="st-n">第三步<br>2 分钟</div>
     <div class="st-b">
-      <div class="st-h">看"我的暴露排序"——一张表，只看第一行</div>
-      <p><b>它是什么：</b>把"万一出事，损失多大"乘以"我在这条上暴露多少"，再排序。像买保险前先算哪块最怕出事。</p>
+      <div class="st-h">看「我的风险敞口排序」——一张表，只看第一行</div>
+      <p><b>它是什么：</b>把"万一出事，损失多大（L）"乘以"我在这条上的风险敞口（w）"，再排序。像买保险前先算哪块最怕出事。</p>
       <p><b>怎么读：</b>只看第一行。那是你最该先处理的一格。</p>
       <p class="st-do"><b>你做什么：</b>把第一行的敞口<b>收下来</b>，并写下一句话——"什么情况下我认输"（失效线）。<b>写在动手之前。</b></p>
     </div>
@@ -2441,13 +2443,13 @@ html.weak .ca-orbit{ animation:none; }
       <tr><td>WCRI 8.4</td><td>世界紧张度，0–10 的一个数。这就是"总分"。</td></tr>
       <tr><td>三段 / 段内均值</td><td>紧张来自哪一段。三段＝震中 / 余波 / 地貌改了。</td></tr>
       <tr><td>σ（写作 ±0.15）</td><td>这个数有多准。两个数相差比它更小，就等于没差。</td></tr>
-      <tr><td>L×w</td><td>先防哪儿：出事损失（L）× 我的暴露（w）。</td></tr>
+      <tr><td>L×w</td><td>先防哪儿：出事损失（L）× 我的风险敞口（w）。</td></tr>
       <tr><td>κ 临界度</td><td>会不会连锁放大。越接近 1，越像"推一张牌倒一片"。</td></tr>
       <tr><td>Δ / 变化率</td><td>在变好还是变坏。同样 8.4，在升和在降，意思相反。</td></tr>
       <tr><td>cf（E / I / X）</td><td>这条判断有多硬：E 可查证 · I 推断 · X 立场。</td></tr>
       <tr><td>MSI / MTI / AIB</td><td>三个专业子指数（海运 / 军贸 / AI 泡沫）。<b>不搞研究可以跳过。</b></td></tr>
       <tr><td>corr / 校准记录</td><td>记下"我判断错的地方"。攒够了，模型才会变准。</td></tr>
-      <tr><td>暴露 / 敞口</td><td>我在这条风险上的"受击面"。0＝无关，5＝押得很重。</td></tr>
+      <tr><td>风险敞口 / 敞口</td><td>我在这条风险上的"受击面"。0＝无关，5＝押得很重。</td></tr>
     </tbody>
   </table>
 
@@ -2845,7 +2847,7 @@ html.weak .ca-orbit{ animation:none; }
 
   <div class="grid-2" style="margin-bottom:14px;">
     <div class="card rv-must" id="expo-card">
-      <h3><span class="tag-h">EXPOSURE</span><em class="gs-tier t-must">必看</em>我的暴露排序（L×w）</h3>
+      <h3><span class="tag-h">EXPOSURE</span><em class="gs-tier t-must">必看</em>我的风险敞口排序（L×w）</h3>
       <div class="card-q">
         这张卡回答：<strong>七个风险里，我先防哪一格？</strong>
         <span class="cq-sub">它不预测会不会出事，只排"先处理谁"。第一列人人相同，后两列要你自己填。</span>
@@ -3612,7 +3614,7 @@ function renderSeg(vals){
     '段内均值：事件 '+st[0].mean.toFixed(2)+' ／ 传导 '+st[1].mean.toFixed(2)+' ／ 新常态 '+st[2].mean.toFixed(2)+
     ' → 最高段：'+hi.name+'（'+hi.mean.toFixed(2)+'）；最低段：'+lo.name+'（'+lo.mean.toFixed(2)+'）';
 }
-/* T3 暴露排序表（L×w，不含概率）· 可读性改单 v2 F2：填数字 → 点档位 */
+/* T3 风险敞口排序表（L×w，不含概率）· 可读性改单 v2 F2：填数字 → 点档位 */
 const L_OPTS=[[9,'很大 · 会改变我的整体格局'],[7,'较大 · 伤到一大块（一年白干）'],[5,'中等 · 能扛，但要调整计划'],[3,'较小 · 局部影响'],[1,'很小 · 几乎无感']];
 const W_OPTS=[[5,'押得重 · 我直接重仓／重依赖它'],[4,'重 · 主要资产或收入与它相关'],[3,'中 · 有间接但可感的影响'],[2,'轻 · 擦边'],[0,'无 · 与我无关']];
 const ACT_OPTS=['敛 ＋ 遣','敛','俟 ＋ 不闻','俟 · 等信号','不闻 · 不看噪音','息 · 不争','不逐 · 不追','遣 · 撤或止损','对冲','观察'];
