@@ -1107,7 +1107,7 @@ input.k-in, select.k-sel{ height:30px; }
 
 /* ===== Refresh ===== */
 .refresh-btn{
-  display:inline-flex; align-items:center; justify-content:center; gap:6px;
+  display:inline-flex; align-items:center; justify-content:center; gap:5px;
   min-width:100px; box-sizing:border-box;
   padding:5px 14px; border-radius:var(--r-pill);
   border:1px solid var(--neutral-500,#383B3E);
@@ -1117,6 +1117,9 @@ input.k-in, select.k-sel{ height:30px; }
 /* 中文标签用无衬线：等宽字体把全角「？」渲染成窄字形、却仍占一个全角字宽，
    会在「看不懂？」和「看这里」之间留出一道假空隙（改单 v16） */
 .refresh-btn .rb-arrow{ display:inline-block; transition:transform var(--t) var(--ease); }
+/* 全角「？」占一个全角字宽、字形却窄，前后各留约 0.25em 死空间，
+   视觉上把按钮读成三块；改用半角 ? 后间距只由字形决定（改单 v19） */
+.radar-cta{ text-align:center; margin-top:2px; padding-bottom:2px; }
 .refresh-btn:hover .rb-arrow{ transform:translateX(2px); }
 .refresh-btn:hover{ color:var(--fg); border-color:var(--line-strong); background:rgba(255,255,255,.05); }
 .refresh-btn.spinning svg{ animation:spin 1s linear infinite; }
@@ -1268,7 +1271,7 @@ html.weak .ca-orbit{ animation:none; }
 
 <!-- ===== VIEW 01: Overview ===== -->
 <div class="view active" id="view-overview">
-  <div class="view-head"><div class="view-head-l"><h2 class="view-title"><span class="vi">01</span>地缘风险全景<span class="vt-desc">2026年9月 · 五浪叠加下的全球地缘风险态势</span></h2></div><span class="last-updated" id="last-updated" style="margin-right:auto;"></span><button class="refresh-btn" onclick="document.querySelector('.tab[data-view=riskmodel]').click()" title="跳转到 07 风险因子模型的 30 秒上手卡">看不懂？看这里<span class="rb-arrow" aria-hidden="true">→</span></button><button class="refresh-btn refresh-view" data-target="overview" style="margin-left:12px;vertical-align:middle;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg> 抓取</button></div>
+  <div class="view-head"><div class="view-head-l"><h2 class="view-title"><span class="vi">01</span>地缘风险全景<span class="vt-desc">2026年9月 · 五浪叠加下的全球地缘风险态势</span></h2></div><span class="last-updated" id="last-updated" style="margin-right:auto;"></span><button class="refresh-btn refresh-view" data-target="overview" style="margin-left:12px;vertical-align:middle;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg> 抓取</button></div>
 
   <div class="disclaimer-box" style="margin-bottom:22px;">
     <div class="db-title">内容性质声明 —— 两类内容不可混读</div>
@@ -1383,6 +1386,7 @@ html.weak .ca-orbit{ animation:none; }
   <text class="r-legend-meta" x="310" y="324" text-anchor="end" dominant-baseline="middle">2026.09</text>
 </svg>
       </div>
+      <div class="radar-cta"><button class="refresh-btn" onclick="document.querySelector('.tab[data-view=riskmodel]').click()" title="跳转到 07 风险因子模型的 30 秒上手卡">看不懂?看这里<span class="rb-arrow" aria-hidden="true">→</span></button></div>
     </div>
 
     <div class="card">
