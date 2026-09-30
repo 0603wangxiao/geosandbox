@@ -118,19 +118,18 @@ a{ color:inherit; text-decoration:none; }
 .sm-about-inner p{ font-size:.72rem; line-height:1.85; color:rgba(22,25,28,.66); }
 .sm-about-inner p + p{ margin-top:11px; }
 .sm-about-inner b{ display:block; color:#16191C; font-weight:500; margin-bottom:3px; }
-/* 顶栏右侧容器：关于 + 菜单键（不改变 space-between 的三块布局） */
-.sm-right{ display:flex; align-items:center; gap:12px; }
-.sm-about-link{
-  font-family:var(--mono); font-size:.68rem; letter-spacing:.08em;
-  color:var(--faint); padding:5px 11px; border:1px solid var(--line); border-radius:999px;
-  transition:color var(--t) var(--ease), border-color var(--t) var(--ease);
-}
-.sm-about-link:hover{ color:var(--fg); border-color:var(--line-strong); }
-.sm-wrapper[data-open] .sm-about-link{ color:#16191C; border-color:rgba(21,24,26,.2); }
-@media(max-width:640px){ .sm-about-link{ padding:4px 9px; font-size:.64rem; } }
+
 .sm-item:hover .sm-item-num{ color:rgba(255,255,255,.8); }
 .sm-item:hover .sm-item-label{ color:#fff; }
 .sm-item:hover .sm-item-en{ color:rgba(255,255,255,.72); }
+/* 「关于本站」：不做反色覆盖，改用轻量 hover（改单 v30） */
+#smAboutToggle{ transition:background .25s ease; }
+#smAboutToggle:hover{ background:rgba(21,24,26,.05); }
+#smAboutToggle:hover .sm-item-label{ color:#2973FF; }
+#smAboutToggle:hover .sm-item-num{ color:#2973FF; }
+#smAboutToggle:hover .sm-item-en{ color:rgba(22,25,28,.5); }
+#smAboutToggle:hover .sm-item-caret::before,
+#smAboutToggle:hover .sm-item-caret::after{ background:#2973FF; }
 .sm-item:active .sm-band{ background:#0A0C0D; }
 .sm-foot{
   margin-top:auto; padding-top:22px; border-top:1px solid rgba(21,24,26,.08);
@@ -168,7 +167,6 @@ a{ color:inherit; text-decoration:none; }
 .seo-line{ font-size:1.06rem; color:var(--brand-200); font-weight:400; margin:20px 0 0; letter-spacing:.03em; }
 .seo-hint{ margin-top:42px; font-family:var(--mono); font-size:.58rem; letter-spacing:.24em; color:var(--faint); text-transform:uppercase; }
 /* —— 英文副题（句子，sans，不字距） —— */
-.sm-item-en{ font-size:.8rem; color:rgba(255,255,255,.42); letter-spacing:.02em; line-height:1.35; transition:color .25s ease; }
 .hero-en{ font-weight:400; font-size:1.02rem; color:#5792FF; letter-spacing:.01em; margin-top:14px; position:relative; top:-28px; background-image:linear-gradient(100deg,#2973FF 0%,#5792FF 25%,#5EC4FF 50%,#9FC0FF 75%,#2973FF 100%); background-size:300% 100%; -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; animation:hlFlow 9s linear infinite; }
 .tfw-en{ font-size:.64rem; color:#5792FF; letter-spacing:.02em; line-height:1.2; }
 .tf-word.on .tfw-en{ color:#5792FF; }
@@ -625,12 +623,9 @@ a{ color:inherit; text-decoration:none; }
         </a>
       </span>
     </div>
-    <div class="sm-right">
-      <a class="sm-about-link" href="#about" id="topAbout">关于</a>
-      <button class="sm-toggle" id="smToggle" aria-expanded="false" aria-label="打开菜单" aria-controls="smPanel">
+    <button class="sm-toggle" id="smToggle" aria-expanded="false" aria-label="打开菜单" aria-controls="smPanel">
       <span class="sm-icon"><i></i><i></i></span>
     </button>
-    </div>
   </header>
 </div>
 
@@ -1087,6 +1082,7 @@ a{ color:inherit; text-decoration:none; }
     }
     function fitAll(){ document.querySelectorAll('.sm-item').forEach(fitBand); }
     document.querySelectorAll('.sm-item').forEach(function(a){
+      if(a.id==='smAboutToggle') return;   /* 折叠项：不注入反色覆盖条（改单 v30） */
       var band=document.createElement('span'); band.className='sm-band'; band.setAttribute('aria-hidden','true');
       a.appendChild(band);
       a.addEventListener('pointerenter',function(){ fitBand(a); });
@@ -1572,15 +1568,6 @@ a{ color:inherit; text-decoration:none; }
   tg.addEventListener('click', function(e){
     e.preventDefault();
     setOpen(!wrap.classList.contains('is-open'));
-  });
-  /* 顶栏「关于」：先让菜单滑出，再把这一段直接展开 */
-  var top=document.getElementById('topAbout');
-  if(top) top.addEventListener('click', function(e){
-    e.preventDefault();
-    var w=document.getElementById('smWrapper'), t=document.getElementById('smToggle');
-    if(w && !w.hasAttribute('data-open') && t) t.click();
-    setOpen(true);
-    setTimeout(ensureVisible, 760);
   });
 })();
 </script>
