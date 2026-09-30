@@ -232,27 +232,28 @@ button{ font:inherit; color:inherit; background:none; border:none; cursor:pointe
 /* ===== Radar ===== */
 .radar-wrap{ display:flex; justify-content:center; padding:12px 0 4px; }
 .card:has(.radar-wrap){ align-self:start; }
-.radar-wrap svg{ display:block; width:100%; max-width:446px; height:auto; }
-/* —— 发丝网格：虚线 / 实线结合 —— */
+.radar-wrap svg{ display:block; width:100%; max-width:552px; height:auto; }
+/* —— 发丝网格：同心多边形，只有外环略亮（改单 v16） —— */
 .radar-wrap .r-halo{ opacity:1; }
 .radar-wrap .r-grid polygon{ fill:none; }
-.radar-wrap .r-grid polygon.r-dash{ stroke:rgba(255,255,255,.06); stroke-width:.5; stroke-dasharray:1.8 2.4; }
-.radar-wrap .r-grid polygon.r-solid{ stroke:rgba(255,255,255,.075); stroke-width:.55; }
-.radar-wrap .r-grid polygon.r-grid-out{ stroke:rgba(255,255,255,.15); stroke-width:.75; }
-.radar-wrap .r-axis line{ stroke:rgba(255,255,255,.15); stroke-width:.6; stroke-dasharray:100; stroke-dashoffset:0; }
-.radar-wrap .r-tick{ fill:rgba(172,188,214,.5); font-size:6px; font-family:var(--mono); font-weight:500; opacity:1; }
-.radar-wrap .r-label{ fill:rgba(232,238,248,.74); font-family:var(--sans); font-size:9px; font-weight:500; letter-spacing:0; opacity:1; }
-.radar-wrap .r-label .r-en{ font-size:5px; fill:rgba(255,255,255,.42); letter-spacing:.1em; font-weight:400; }
-.radar-wrap .r-band{ fill:rgba(255,107,107,.06); stroke:rgba(255,107,107,.25); stroke-width:.5; stroke-dasharray:2 3; }
+.radar-wrap .r-ring{ stroke:rgba(255,255,255,.055); stroke-width:.55; }
+.radar-wrap .r-ring-out{ stroke:rgba(255,255,255,.13); stroke-width:.8; }
+.radar-wrap .r-axis line{ stroke:rgba(255,255,255,.09); stroke-width:.6; stroke-dasharray:100; stroke-dashoffset:0; }
+/* 所有图上文字带一圈底色描边（paint-order），压线也读得清 */
+.radar-wrap .r-label text,
+.radar-wrap .r-val text,
+.radar-wrap .r-legend-txt,
+.radar-wrap .r-legend-meta{ paint-order:stroke; stroke:var(--panel,#222529); stroke-linejoin:round; }
+.radar-wrap .r-label text{ fill:rgba(228,236,248,.86); font-family:var(--sans); font-size:9.4px; font-weight:500; stroke-width:3; }
+.radar-wrap .r-label .r-en{ font-size:5.8px; fill:rgba(150,174,212,.52); letter-spacing:.12em; font-weight:400; stroke-width:2.4; }
 .radar-wrap .r-poly-fill{ opacity:1; stroke:none; }
-.radar-wrap .r-poly-line{ fill:none; stroke:url(#rLine); stroke-width:.6; stroke-linejoin:round; stroke-dasharray:100; stroke-dashoffset:0; }
-.radar-wrap .r-dot circle{ fill:#86b0ff; stroke:rgba(5,10,20,.72); stroke-width:1; opacity:1; transform-box:fill-box; transform-origin:center; }
-.radar-wrap .r-val{ fill:rgba(140,180,255,.85); font-size:7.3px; font-family:var(--mono); font-weight:500; }
-.radar-wrap .r-val text{ opacity:1; }
-.radar-wrap .r-legend-line{ stroke:rgba(255,255,255,.12); stroke-width:.7; opacity:1; }
+.radar-wrap .r-poly-line{ fill:none; stroke:url(#rLine); stroke-width:1.15; stroke-linejoin:round; stroke-dasharray:100; stroke-dashoffset:0; filter:drop-shadow(0 0 4px rgba(90,150,255,.30)); }
+.radar-wrap .r-dot circle{ fill:#a8c6ff; stroke:rgba(10,14,22,.85); stroke-width:1.1; opacity:1; transform-box:fill-box; transform-origin:center; filter:drop-shadow(0 0 3px rgba(100,160,255,.5)); }
+.radar-wrap .r-val text{ fill:rgba(168,198,255,.95); font-size:7.6px; font-family:var(--mono); font-weight:500; stroke-width:2.8; opacity:1; }
+.radar-wrap .r-legend-line{ stroke:rgba(255,255,255,.10); stroke-width:.7; opacity:1; }
 .radar-wrap .r-legend-swatch{ fill:rgba(110,160,255,.22); stroke:#6ea0ff; stroke-width:1; opacity:1; }
-.radar-wrap .r-legend-txt{ fill:rgba(198,210,230,.72); font-size:7.1px; font-family:var(--sans); opacity:1; }
-.radar-wrap .r-legend-meta{ fill:rgba(160,176,202,.46); font-size:6.1px; font-family:var(--mono); letter-spacing:.04em; opacity:1; }
+.radar-wrap .r-legend-txt{ fill:rgba(198,210,230,.72); font-size:7px; font-family:var(--sans); stroke-width:2.6; opacity:1; }
+.radar-wrap .r-legend-meta{ fill:rgba(160,176,202,.46); font-size:6px; font-family:var(--mono); letter-spacing:.04em; stroke-width:2.4; opacity:1; }
 @keyframes radarFade{ from{ opacity:0; } to{ opacity:1; } }
 @keyframes axisGrow{ from{ stroke-dashoffset:100; } to{ stroke-dashoffset:0; } }
 @keyframes polyDraw{ from{ stroke-dashoffset:100; } to{ stroke-dashoffset:0; } }
@@ -265,18 +266,13 @@ button{ font:inherit; color:inherit; background:none; border:none; cursor:pointe
 .radar-play .r-axis line:nth-child(4){ animation-delay:.25s; }
 .radar-play .r-axis line:nth-child(5){ animation-delay:.30s; }
 .radar-play .r-axis line:nth-child(6){ animation-delay:.35s; }
+.radar-play .r-axis line:nth-child(7){ animation-delay:.40s; }
 .radar-play .r-grid polygon{ animation:radarFade .4s ease forwards; }
 .radar-play .r-grid polygon:nth-child(1){ animation-delay:.28s; }
 .radar-play .r-grid polygon:nth-child(2){ animation-delay:.36s; }
 .radar-play .r-grid polygon:nth-child(3){ animation-delay:.44s; }
 .radar-play .r-grid polygon:nth-child(4){ animation-delay:.52s; }
 .radar-play .r-grid polygon:nth-child(5){ animation-delay:.60s; }
-.radar-play .r-tick{ animation:radarFade .35s ease forwards; }
-.radar-play .r-tick:nth-child(1){ animation-delay:.60s; }
-.radar-play .r-tick:nth-child(2){ animation-delay:.52s; }
-.radar-play .r-tick:nth-child(3){ animation-delay:.44s; }
-.radar-play .r-tick:nth-child(4){ animation-delay:.36s; }
-.radar-play .r-tick:nth-child(5){ animation-delay:.28s; }
 .radar-play .r-label{ animation:radarFade .4s ease .68s forwards; }
 .radar-play .r-poly-line{ animation:polyDraw .7s cubic-bezier(.22,1,.36,1) .98s forwards; }
 .radar-play .r-poly-fill{ animation:radarFade .65s ease 1.3s forwards; }
@@ -287,6 +283,7 @@ button{ font:inherit; color:inherit; background:none; border:none; cursor:pointe
 .radar-play .r-dot circle:nth-child(4){ animation-delay:1.71s; }
 .radar-play .r-dot circle:nth-child(5){ animation-delay:1.78s; }
 .radar-play .r-dot circle:nth-child(6){ animation-delay:1.85s; }
+.radar-play .r-dot circle:nth-child(7){ animation-delay:1.92s; }
 .radar-play .r-val text{ animation:radarFade .35s ease forwards; }
 .radar-play .r-val text:nth-child(1){ animation-delay:1.78s; }
 .radar-play .r-val text:nth-child(2){ animation-delay:1.85s; }
@@ -294,9 +291,10 @@ button{ font:inherit; color:inherit; background:none; border:none; cursor:pointe
 .radar-play .r-val text:nth-child(4){ animation-delay:1.99s; }
 .radar-play .r-val text:nth-child(5){ animation-delay:2.06s; }
 .radar-play .r-val text:nth-child(6){ animation-delay:2.13s; }
+.radar-play .r-val text:nth-child(7){ animation-delay:2.20s; }
 .radar-play .r-legend-line{ animation:radarFade .45s ease 2.2s forwards; }
 .radar-play .r-legend-swatch,.radar-play .r-legend-txt,.radar-play .r-legend-meta{ animation:radarFade .45s ease 2.3s forwards; }
-.radar-static .r-halo,.radar-static .r-grid polygon,.radar-static .r-tick,.radar-static .r-label,
+.radar-static .r-halo,.radar-static .r-grid polygon,.radar-static .r-label,
 .radar-static .r-poly-fill,.radar-static .r-val text,.radar-static .r-legend-line,
 .radar-static .r-legend-swatch,.radar-static .r-legend-txt,.radar-static .r-legend-meta{ opacity:1 !important; animation:none !important; }
 .radar-static .r-axis line,.radar-static .r-poly-line{ stroke-dashoffset:0 !important; animation:none !important; }
@@ -1110,9 +1108,13 @@ input.k-in, select.k-sel{ height:30px; }
   min-width:100px; box-sizing:border-box;
   padding:5px 14px; border-radius:var(--r-pill);
   border:1px solid var(--neutral-500,#383B3E);
-  color:var(--muted); font-size:.7rem; font-weight:400; letter-spacing:.06em;
-  transition:all var(--t) var(--ease); cursor:pointer; font-family:var(--mono);
+  color:var(--muted); font-size:.7rem; font-weight:400; letter-spacing:.02em;
+  transition:all var(--t) var(--ease); cursor:pointer; font-family:var(--sans);
 }
+/* 中文标签用无衬线：等宽字体把全角「？」渲染成窄字形、却仍占一个全角字宽，
+   会在「看不懂？」和「看这里」之间留出一道假空隙（改单 v16） */
+.refresh-btn .rb-arrow{ display:inline-block; transition:transform var(--t) var(--ease); }
+.refresh-btn:hover .rb-arrow{ transform:translateX(2px); }
 .refresh-btn:hover{ color:var(--fg); border-color:var(--line-strong); background:rgba(255,255,255,.05); }
 .refresh-btn.spinning svg{ animation:spin 1s linear infinite; }
 @keyframes spin{ to{ transform:rotate(360deg); } }
@@ -1263,7 +1265,7 @@ html.weak .ca-orbit{ animation:none; }
 
 <!-- ===== VIEW 01: Overview ===== -->
 <div class="view active" id="view-overview">
-  <div class="view-head"><div class="view-head-l"><h2 class="view-title"><span class="vi">01</span>地缘风险全景<span class="vt-desc">2026年9月 · 五浪叠加下的全球地缘风险态势</span></h2></div><span class="last-updated" id="last-updated" style="margin-right:auto;"></span><button class="refresh-btn" onclick="document.querySelector('.tab[data-view=riskmodel]').click()" title="跳转到 07 风险因子模型的 30 秒上手卡">看不懂？看这里 →</button><button class="refresh-btn refresh-view" data-target="overview" style="margin-left:12px;vertical-align:middle;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg> 抓取</button></div>
+  <div class="view-head"><div class="view-head-l"><h2 class="view-title"><span class="vi">01</span>地缘风险全景<span class="vt-desc">2026年9月 · 五浪叠加下的全球地缘风险态势</span></h2></div><span class="last-updated" id="last-updated" style="margin-right:auto;"></span><button class="refresh-btn" onclick="document.querySelector('.tab[data-view=riskmodel]').click()" title="跳转到 07 风险因子模型的 30 秒上手卡">看不懂？看这里<span class="rb-arrow" aria-hidden="true">→</span></button><button class="refresh-btn refresh-view" data-target="overview" style="margin-left:12px;vertical-align:middle;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg> 抓取</button></div>
 
   <div class="disclaimer-box" style="margin-bottom:22px;">
     <div class="db-title">内容性质声明 —— 两类内容不可混读</div>
@@ -1297,93 +1299,84 @@ html.weak .ca-orbit{ animation:none; }
     <div class="card">
       <h3><span class="tag-h">RISK RADAR</span>风险因子雷达</h3>
       <div class="radar-wrap">
-        <svg viewBox="0 0 300 304" width="300" height="304" role="img" aria-labelledby="radar-title radar-desc">
+                <svg viewBox="0 0 380 342" width="380" height="342" role="img" aria-labelledby="radar-title radar-desc">
   <title id="radar-title">七维风险因子雷达</title>
   <desc id="radar-desc">资源民族主义90为最高，AI军事化88、地缘冲突86（已并入军售军贸热度子指数）、供应链86次之，货币秩序73相对最低；海运物流（MSI）82、金融稳定83（已并入AI泡沫压力子指数）；评分 0–10（本图按 ×10 显示），越靠外风险越高。</desc>
   <defs>
     <radialGradient id="radarFill" cx="50%" cy="50%" r="62%">
-      <stop offset="0%" stop-color="rgba(80,140,255,.22)"/>
-      <stop offset="70%" stop-color="rgba(48,116,255,.09)"/>
+      <stop offset="0%" stop-color="rgba(80,140,255,.20)"/>
+      <stop offset="70%" stop-color="rgba(48,116,255,.085)"/>
       <stop offset="100%" stop-color="rgba(40,110,255,.03)"/>
     </radialGradient>
     <radialGradient id="radarHalo" cx="50%" cy="50%" r="50%">
-      <stop offset="0%" stop-color="rgba(96,154,255,.12)"/>
+      <stop offset="0%" stop-color="rgba(96,154,255,.11)"/>
       <stop offset="100%" stop-color="rgba(96,154,255,0)"/>
     </radialGradient>
-    <linearGradient id="rLine" gradientUnits="userSpaceOnUse" x1="150" y1="40" x2="150" y2="240">
+    <linearGradient id="rLine" gradientUnits="userSpaceOnUse" x1="190" y1="55" x2="190" y2="255">
       <stop offset="0%" stop-color="#4f86f7"/>
-      <stop offset="44%" stop-color="#93b8ff"/>
-      <stop offset="56%" stop-color="#93b8ff"/>
+      <stop offset="44%" stop-color="#9dc0ff"/>
+      <stop offset="56%" stop-color="#9dc0ff"/>
       <stop offset="100%" stop-color="#4f86f7"/>
-      <animateTransform attributeName="gradientTransform" type="rotate" values="0 150 140;-360 150 140" dur="7s" repeatCount="indefinite"/>
+      <animateTransform attributeName="gradientTransform" type="rotate" values="0 190 155;-360 190 155" dur="9s" repeatCount="indefinite"/>
     </linearGradient>
   </defs>
-  <circle class="r-halo" cx="150" cy="140" r="100" fill="url(#radarHalo)"/>
+  <circle class="r-halo" cx="190" cy="155" r="100" fill="url(#radarHalo)"/>
   <g class="r-grid">
-    <polygon class="r-dash" points="150,120 165.6,127.5 169.5,144.5 158.7,158 141.3,158 130.5,144.5 134.4,127.5"/>
-    <polygon class="r-solid" points="150,100 181.3,115.1 189,149 167.4,176 132.6,176 111,149 118.7,115.1"/>
-    <polygon class="r-dash" points="150,80 196.9,102.6 208.5,153.4 176,194.1 124,194.1 91.5,153.4 103.1,102.6"/>
-    <polygon class="r-solid" points="150,60 212.5,90.1 228,157.8 184.7,212.1 115.3,212.1 72,157.8 87.5,90.1"/>
-    <polygon class="r-grid-out" points="150,40 228.2,77.6 247.5,162.3 193.4,230.1 106.6,230.1 52.5,162.3 71.8,77.6"/>
+    <polygon class="r-ring" points="190,135 205.64,142.53 209.5,159.45 198.68,173.02 181.32,173.02 170.5,159.45 174.36,142.53"/>
+    <polygon class="r-ring" points="190,115 221.27,130.06 229,163.9 207.36,191.04 172.64,191.04 151,163.9 158.73,130.06"/>
+    <polygon class="r-ring" points="190,95 236.91,117.59 248.5,168.35 216.03,209.06 163.97,209.06 131.5,168.35 143.09,117.59"/>
+    <polygon class="r-ring" points="190,75 252.55,105.12 267.99,172.8 224.71,227.08 155.29,227.08 112.01,172.8 127.45,105.12"/>
+    <polygon class="r-ring r-ring-out" points="190,55 268.18,92.65 287.49,177.25 233.39,245.1 146.61,245.1 92.51,177.25 111.82,92.65"/>
   </g>
   <g class="r-axis">
-    <line x1="150" y1="140" x2="150" y2="40"/>
-    <line x1="150" y1="140" x2="228.2" y2="77.6"/>
-    <line x1="150" y1="140" x2="247.5" y2="162.3"/>
-    <line x1="150" y1="140" x2="193.4" y2="230.1"/>
-    <line x1="150" y1="140" x2="106.6" y2="230.1"/>
-    <line x1="150" y1="140" x2="52.5" y2="162.3"/>
-    <line x1="150" y1="140" x2="71.8" y2="77.6"/>
-  </g>
-  <g class="r-tick">
-    <text x="143" y="40" text-anchor="end" dominant-baseline="middle">100</text>
-    <text x="143" y="60" text-anchor="end" dominant-baseline="middle">80</text>
-    <text x="143" y="80" text-anchor="end" dominant-baseline="middle">60</text>
-    <text x="143" y="100" text-anchor="end" dominant-baseline="middle">40</text>
-    <text x="143" y="120" text-anchor="end" dominant-baseline="middle">20</text>
+    <line x1="190" y1="155" x2="190" y2="55"/>
+    <line x1="190" y1="155" x2="268.18" y2="92.65"/>
+    <line x1="190" y1="155" x2="287.49" y2="177.25"/>
+    <line x1="190" y1="155" x2="233.39" y2="245.1"/>
+    <line x1="190" y1="155" x2="146.61" y2="245.1"/>
+    <line x1="190" y1="155" x2="92.51" y2="177.25"/>
+    <line x1="190" y1="155" x2="111.82" y2="92.65"/>
   </g>
   <g class="r-label">
-    <text class="r-en" x="150" y="12" text-anchor="middle" dominant-baseline="middle">GEO CONFLICT</text>
-    <text x="150" y="23" text-anchor="middle" dominant-baseline="middle">地缘冲突</text>
-    <text class="r-en" x="262" y="64.5" text-anchor="middle" dominant-baseline="middle">SUPPLY</text>
-    <text x="262" y="75.5" text-anchor="middle" dominant-baseline="middle">供应链</text>
-    <text x="263" y="158.5" text-anchor="middle" dominant-baseline="middle">海运物流</text>
-    <text class="r-en" x="263" y="169.5" text-anchor="middle" dominant-baseline="middle">MARITIME·MSI</text>
-    <text x="197" y="246.5" text-anchor="middle" dominant-baseline="middle">货币秩序</text>
-    <text class="r-en" x="197" y="257.5" text-anchor="middle" dominant-baseline="middle">MONETARY</text>
-    <text x="104" y="246.5" text-anchor="middle" dominant-baseline="middle">AI军事化</text>
-    <text class="r-en" x="104" y="257.5" text-anchor="middle" dominant-baseline="middle">AI MILITARY</text>
-    <text class="r-en" x="36" y="169.5" text-anchor="middle" dominant-baseline="middle">NATIONALISM</text>
-    <text x="36" y="158.5" text-anchor="middle" dominant-baseline="middle">资源民族主义</text>
-    <text class="r-en" x="31" y="64.5" text-anchor="middle" dominant-baseline="middle">FINANCIAL</text>
-    <text x="31" y="75.5" text-anchor="middle" dominant-baseline="middle">金融稳定</text>
+    <text class="r-en" x="190" y="11" text-anchor="middle" dominant-baseline="middle">GEO CONFLICT</text>
+    <text x="190" y="23" text-anchor="middle" dominant-baseline="middle">地缘冲突</text>
+    <text class="r-en" x="293.2" y="60.7" text-anchor="middle" dominant-baseline="middle">SUPPLY</text>
+    <text x="293.2" y="72.7" text-anchor="middle" dominant-baseline="middle">供应链</text>
+    <text x="318.69" y="184.37" text-anchor="middle" dominant-baseline="middle">海运物流</text>
+    <text class="r-en" x="318.69" y="196.37" text-anchor="middle" dominant-baseline="middle">MARITIME · MSI</text>
+    <text x="247.27" y="273.93" text-anchor="middle" dominant-baseline="middle">货币秩序</text>
+    <text class="r-en" x="247.27" y="285.93" text-anchor="middle" dominant-baseline="middle">MONETARY</text>
+    <text x="132.73" y="273.93" text-anchor="middle" dominant-baseline="middle">AI军事化</text>
+    <text class="r-en" x="132.73" y="285.93" text-anchor="middle" dominant-baseline="middle">AI MILITARY</text>
+    <text x="61.31" y="184.37" text-anchor="middle" dominant-baseline="middle">资源民族主义</text>
+    <text class="r-en" x="61.31" y="196.37" text-anchor="middle" dominant-baseline="middle">NATIONALISM</text>
+    <text class="r-en" x="86.8" y="60.7" text-anchor="middle" dominant-baseline="middle">FINANCIAL</text>
+    <text x="86.8" y="72.7" text-anchor="middle" dominant-baseline="middle">金融稳定</text>
   </g>
-  <polygon class="r-band" points="150.0,50.0 220.4,83.9 233.8,159.1 183.4,209.4 110.1,222.9 58.4,160.9 82.0,85.8"/>
-  <polygon class="r-band" points="150.0,58.0 214.1,88.9 226.0,157.4 179.9,202.2 113.6,215.7 66.2,159.1 88.2,90.7"/>
-  <polygon class="r-poly-fill" points="150,54 217.2,86.4 229.9,158.2 181.7,205.8 111.8,219.3 62.3,160 85.1,88.2" fill="url(#radarFill)"/>
-  <polygon class="r-poly-line" pathLength="100" points="150,54 217.2,86.4 229.9,158.2 181.7,205.8 111.8,219.3 62.3,160 85.1,88.2"/>
+  <polygon class="r-poly-fill" points="190,69 257.24,101.38 269.94,173.25 221.67,220.77 151.82,234.29 102.26,175.03 125.11,103.25" fill="url(#radarFill)"/>
+  <polygon class="r-poly-line" pathLength="100" points="190,69 257.24,101.38 269.94,173.25 221.67,220.77 151.82,234.29 102.26,175.03 125.11,103.25"/>
   <g class="r-dot">
-    <circle cx="150" cy="54" r="2.3"/>
-    <circle cx="217.2" cy="86.4" r="2.3"/>
-    <circle cx="229.9" cy="158.2" r="2.3"/>
-    <circle cx="181.7" cy="205.8" r="2.3"/>
-    <circle cx="111.8" cy="219.3" r="2.3"/>
-    <circle cx="62.3" cy="160" r="2.3"/>
-    <circle cx="85.1" cy="88.2" r="2.3"/>
+    <circle cx="190" cy="69" r="2.6"/>
+    <circle cx="257.24" cy="101.38" r="2.6"/>
+    <circle cx="269.94" cy="173.25" r="2.6"/>
+    <circle cx="221.67" cy="220.77" r="2.6"/>
+    <circle cx="151.82" cy="234.29" r="2.6"/>
+    <circle cx="102.26" cy="175.03" r="2.6"/>
+    <circle cx="125.11" cy="103.25" r="2.6"/>
   </g>
   <g class="r-val">
-    <text x="156.5" y="68" text-anchor="start" dominant-baseline="middle">86</text>
-    <text x="207.1" y="94.5" text-anchor="middle" dominant-baseline="middle">86</text>
-    <text x="229.9" y="147" text-anchor="middle" dominant-baseline="middle">82</text>
-    <text x="176.1" y="194.1" text-anchor="middle" dominant-baseline="middle">73</text>
-    <text x="117.4" y="207.6" text-anchor="middle" dominant-baseline="middle">88</text>
-    <text x="62.3" y="147" text-anchor="middle" dominant-baseline="middle">90</text>
-    <text x="95.3" y="96.3" text-anchor="middle" dominant-baseline="middle">83</text>
+    <text x="190" y="80" text-anchor="middle" dominant-baseline="middle">86</text>
+    <text x="248.64" y="108.24" text-anchor="middle" dominant-baseline="middle">86</text>
+    <text x="259.22" y="170.8" text-anchor="middle" dominant-baseline="middle">82</text>
+    <text x="216.9" y="210.86" text-anchor="middle" dominant-baseline="middle">73</text>
+    <text x="156.59" y="224.37" text-anchor="middle" dominant-baseline="middle">88</text>
+    <text x="112.98" y="172.58" text-anchor="middle" dominant-baseline="middle">90</text>
+    <text x="133.71" y="110.11" text-anchor="middle" dominant-baseline="middle">83</text>
   </g>
-  <line class="r-legend-line" x1="40" y1="276" x2="260" y2="276"/>
-  <rect class="r-legend-swatch" x="40" y="285.5" width="14" height="7"/>
-  <text class="r-legend-txt" x="60" y="290" dominant-baseline="middle">当前风险水位</text>
-  <text class="r-legend-meta" x="260" y="290" text-anchor="end" dominant-baseline="middle">0–100 · 2026.09</text>
+  <line class="r-legend-line" x1="70" y1="310" x2="310" y2="310"/>
+  <rect class="r-legend-swatch" x="70" y="319.5" width="14" height="7"/>
+  <text class="r-legend-txt" x="90" y="324" dominant-baseline="middle">当前风险水位（0–100）</text>
+  <text class="r-legend-meta" x="310" y="324" text-anchor="end" dominant-baseline="middle">2026.09</text>
 </svg>
       </div>
     </div>
