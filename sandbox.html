@@ -1119,7 +1119,7 @@ input.k-in, select.k-sel{ height:30px; }
 .refresh-btn .rb-arrow{ display:inline-block; transition:transform var(--t) var(--ease); }
 /* 全角「？」占一个全角字宽、字形却窄，前后各留约 0.25em 死空间，
    视觉上把按钮读成三块；改用半角 ? 后间距只由字形决定（改单 v19） */
-.radar-cta{ text-align:center; margin-top:2px; padding-bottom:2px; }
+.card h3 .refresh-btn{ margin-left:auto; flex:0 0 auto; }
 .refresh-btn:hover .rb-arrow{ transform:translateX(2px); }
 .refresh-btn:hover{ color:var(--fg); border-color:var(--line-strong); background:rgba(255,255,255,.05); }
 .refresh-btn.spinning svg{ animation:spin 1s linear infinite; }
@@ -1303,7 +1303,7 @@ html.weak .ca-orbit{ animation:none; }
 
   <div class="grid-2">
     <div class="card">
-      <h3><span class="tag-h">RISK RADAR</span>风险因子雷达</h3>
+      <h3><span class="tag-h">RISK RADAR</span>风险因子雷达<button class="refresh-btn" onclick="document.querySelector('.tab[data-view=riskmodel]').click()" title="跳转到 07 风险因子模型的 30 秒上手卡">看不懂?看这里<span class="rb-arrow" aria-hidden="true">→</span></button></h3>
       <div class="radar-wrap">
                 <svg viewBox="0 0 380 342" width="380" height="342" role="img" aria-labelledby="radar-title radar-desc">
   <title id="radar-title">七维风险因子雷达</title>
@@ -1386,7 +1386,6 @@ html.weak .ca-orbit{ animation:none; }
   <text class="r-legend-meta" x="310" y="324" text-anchor="end" dominant-baseline="middle">2026.09</text>
 </svg>
       </div>
-      <div class="radar-cta"><button class="refresh-btn" onclick="document.querySelector('.tab[data-view=riskmodel]').click()" title="跳转到 07 风险因子模型的 30 秒上手卡">看不懂?看这里<span class="rb-arrow" aria-hidden="true">→</span></button></div>
     </div>
 
     <div class="card">
