@@ -1079,24 +1079,20 @@ a{ color:inherit; text-decoration:none; }
   } else { lotusBlocked=false; } }
   /* 移动端 canplay（能出第一帧）就开始播 → 缓冲跟不上就一路卡。
      改成缓冲够了再开始：画面不变，只是开始得稳。桌面/快网下条件几乎立即满足，观感同原来。 */
-  /* 放宽版：readyState>=2（能出第一帧）即放行，只在明显缓冲不足时才稍等。
-     原版 canplay 立刻播 → 作者反馈卡；收紧到 readyState>=3 又过严 ——
-     真机实测 rs0 时视频根本没开始加载，过严的门控反而一直压着不播。 */
   function lotusBufferedEnough(){
-    if(seLotus.readyState<2) return false;
+    if(seLotus.readyState<3) return false;
     var d=seLotus.duration;
     if(!d||!isFinite(d)) return true;
     try{
       var b=seLotus.buffered;
-      if(!b.length) return true;
-      return (b.end(b.length-1)-seLotus.currentTime) >= Math.min(d*0.35,2.5);
+      if(!b.length) return false;
+      return (b.end(b.length-1)-seLotus.currentTime) >= Math.min(d*0.5,4); /* 一半，或前方 4 秒 */
     }catch(e){ return true; }
   }
-  var lotusForced=false;
+  var lotusForced=false;  /* 兜底：等待期间海报帧顶着，但不能一直不出画面 */
   function tryLotus(){ if(lotusForced||lotusBufferedEnough()) lotusPlay(); }
-  setTimeout(function(){ lotusForced=true; if(lotusVis) lotusPlay(); },6000);
+  setTimeout(function(){ lotusForced=true; if(lotusVis) lotusPlay(); },10000);
   seLotus.addEventListener('progress',tryLotus);
-  seLotus.addEventListener('canplay',tryLotus);
   seLotus.addEventListener('canplaythrough',lotusPlay);
   seLotus.addEventListener('loadeddata',tryLotus);
   tryLotus();
@@ -1623,21 +1619,11 @@ a{ color:inherit; text-decoration:none; }
 })();
 </script>
 <script>
-/* 撤回 Service Worker。
-   原因：作者真机实测视频 readyState 停在 0（HAVE_NOTHING），一帧都没解码。
-   视频元素一律用 HTTP Range 请求，而该 SW 会把整份 200 响应回给 Range 请求 ——
-   部分移动端浏览器/WebView 遇到这种情况会直接卡住。本地复现不出来（SW 未接管），
-   无法证实也无法排除，按「撤掉未验证的新机制、恢复已知可用基线」处理。
-   不仅停止注册，还主动注销并清掉已写入的缓存 —— 让装过旧 SW 的访客一并修好。 */
-if('serviceWorker' in navigator){
-  navigator.serviceWorker.getRegistrations().then(function(rs){
-    rs.forEach(function(r){ r.unregister(); });
-  }).catch(function(){});
-}
-if(window.caches && caches.keys){
-  caches.keys().then(function(ks){
-    ks.forEach(function(k){ if(k.indexOf('gs-media')===0){ caches.delete(k); } });
-  }).catch(function(){});
+/* 媒体长效缓存：绕过 GitHub Pages 的 10 分钟缓存限制（详见 sw.js） */
+if('serviceWorker' in navigator && location.protocol==='https:'){
+  window.addEventListener('load',function(){
+    navigator.serviceWorker.register('sw.js').catch(function(){});
+  });
 }
 </script>
 
@@ -1667,8 +1653,6 @@ if(window.caches && caches.keys){
       '视频  '+(v?((v.paused?'暂停':'播放中')+'  rs'+v.readyState):'无')+'      缓冲前方 '+buf.toFixed(1)+'s\n'+
       '丢帧  '+(q?(q.droppedVideoFrames+' / '+q.totalVideoFrames+'  = '+drop+'%'):'n/a')+'   <-- 关键\n'+
       'DPR '+devicePixelRatio+'   视口 '+innerWidth+'x'+innerHeight+'   弱机模式 '+wd+'\n'+
-      '网络  ns'+(v?v.networkState:'-')+'  错误 '+(v&&v.error?('code'+v.error.code):'无')+
-        '   SW接管 '+((navigator.serviceWorker&&navigator.serviceWorker.controller)?'是':'否')+'\n'+
       '粒子  '+(document.getElementById('particles')?'在':'停')+
       '      滚到花区段了吗：'+(function(){
          var tr=document.getElementById('seTrack'); if(!tr) return '?';
@@ -1685,6 +1669,26 @@ if(window.caches && caches.keys){
     },1800);
   });
 })();
+</script>
+
+<script>
+window.addEventListener('load',function(){
+  setTimeout(function(){
+    var v=document.getElementById('seLotus');
+    var o={};
+    try{
+      o.readyState=v.readyState; o.networkState=v.networkState;
+      o.paused=v.paused; o.curTime=+v.currentTime.toFixed(2);
+      o.duration=isFinite(v.duration)?+v.duration.toFixed(2):String(v.duration);
+      o.error=v.error?('code'+v.error.code+' '+v.error.message):'none';
+      try{ o.buffered=v.buffered.length? v.buffered.end(0).toFixed(2) : 'empty'; }catch(e){ o.buffered='?'; }
+      o.src=v.currentSrc;
+      o.swCtrl = !!(navigator.serviceWorker && navigator.serviceWorker.controller);
+      o.swReg  = !!(navigator.serviceWorker && navigator.serviceWorker.controller);
+    }catch(e){ o.err=String(e); }
+    new Image().src='/report?d='+encodeURIComponent(JSON.stringify(o));
+  }, 9000);
+});
 </script>
 </body>
 </html>
