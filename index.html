@@ -462,7 +462,9 @@ a{ color:inherit; text-decoration:none; }
 /* ===== 转场标题页：原色莲花衬底 ===== */
 .se-lotus-wrap{
   position:absolute; inset:0; overflow:hidden;
-  opacity:0; will-change:opacity;
+  opacity:0;
+  /* 不再常驻 will-change:opacity —— 那会让整层在全站范围内一直保持合成层。
+     透明度做动画时浏览器会自动提升，无需长期占位。 */
 }
 .se-lotus{
   position:absolute; inset:0; width:100%; height:100%; object-fit:cover;
@@ -908,8 +910,15 @@ a{ color:inherit; text-decoration:none; }
     gl.clearColor(0,0,0,0);
 
     var dpr=1, W=0,H=0;
+    /* 粒子是软圆点，对分辨率不敏感：桌面封 1.3x，移动端封 1.0x（填充率再省约 40%）。
+       实测：花区段滚动时粒子是全场最大单项开销，其余效果（视频/模糊/backdrop）加起来为 0。 */
+    function particleDpr(){
+      var m=window.matchMedia;
+      var coarse = !!(m && (m('(max-width:700px)').matches || m('(pointer:coarse)').matches));
+      return Math.min(window.devicePixelRatio||1, coarse?1:1.3);
+    }
     function resize(){
-      dpr=Math.min(window.devicePixelRatio||1,1.3); /* 粒子是软圆点，1.3x 足够，省 ~58% 片元 */
+      dpr=particleDpr();
       W=window.innerWidth; H=window.innerHeight;
       canvas.width=W*dpr; canvas.height=H*dpr;
       gl.viewport(0,0,canvas.width,canvas.height);
@@ -1064,25 +1073,42 @@ a{ color:inherit; text-decoration:none; }
   function lotusPlay(){ if(seLotus.paused){ var pr=seLotus.play();
     if(pr&&pr.then){ pr.then(function(){ lotusBlocked=false; }).catch(function(){ lotusBlocked=true; }); }
   } else { lotusBlocked=false; } }
-  seLotus.addEventListener('loadeddata', lotusPlay);
-  seLotus.addEventListener('canplay', lotusPlay);
-  if(seLotus.readyState>=2){ lotusPlay(); } else { seLotus.load(); }
+  /* 移动端 canplay（能出第一帧）就开始播 → 缓冲跟不上就一路卡。
+     改成缓冲够了再开始：画面不变，只是开始得稳。桌面/快网下条件几乎立即满足，观感同原来。 */
+  function lotusBufferedEnough(){
+    if(seLotus.readyState<3) return false;
+    var d=seLotus.duration;
+    if(!d||!isFinite(d)) return true;
+    try{
+      var b=seLotus.buffered;
+      if(!b.length) return false;
+      return (b.end(b.length-1)-seLotus.currentTime) >= Math.min(d*0.5,4); /* 一半，或前方 4 秒 */
+    }catch(e){ return true; }
+  }
+  var lotusForced=false;  /* 兜底：等待期间海报帧顶着，但不能一直不出画面 */
+  function tryLotus(){ if(lotusForced||lotusBufferedEnough()) lotusPlay(); }
+  setTimeout(function(){ lotusForced=true; if(lotusVis) lotusPlay(); },10000);
+  seLotus.addEventListener('progress',tryLotus);
+  seLotus.addEventListener('canplaythrough',lotusPlay);
+  seLotus.addEventListener('loadeddata',tryLotus);
+  tryLotus();
+  if(seLotus.readyState<2){ seLotus.load(); }
   /* iOS 低电量模式等会拒绝自动播放：改为持久监听，交互期间持续重试（原 once 写法首次滚动即失效） */
   ['pointerdown','wheel','touchstart','keydown'].forEach(function(ev){
-    window.addEventListener(ev, function(){ if(lotusVis||lotusBlocked) lotusPlay(); }, {passive:true});
+    window.addEventListener(ev, function(){ if(lotusVis||lotusBlocked) tryLotus(); }, {passive:true});
   });
   /* 性能门控：视频仅在其区块临近视口时解码播放，离开即暂停；标签页隐藏时暂停 */
   var lotusVis=false;
   if('IntersectionObserver' in window){
     new IntersectionObserver(function(es){
       lotusVis=es[0].isIntersecting;
-      if(lotusVis){ lotusPlay(); }
+      if(lotusVis){ tryLotus(); }
       else if(!seLotus.paused){ seLotus.pause(); }
     },{rootMargin:'25% 0px'}).observe(seLotusWrap);
   } else { lotusVis=true; }
   document.addEventListener('visibilitychange',function(){
     if(document.hidden){ if(!seLotus.paused) seLotus.pause(); }
-    else if(lotusVis){ lotusPlay(); }
+    else if(lotusVis){ tryLotus(); }
   });
   window.addEventListener('scroll',requestTick,{passive:true});
   window.addEventListener('resize',function(){ measureTrack(); lastSy=-1; requestTick(); });
