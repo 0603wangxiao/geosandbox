@@ -80,7 +80,7 @@ button{ font:inherit; color:inherit; background:none; border:none; cursor:pointe
   display:flex; align-items:center; gap:6px; font-size:.54rem; color:var(--faint);
   letter-spacing:.08em; font-family:var(--mono);
 }
-.status-clock .led{ width:5px; height:5px; border-radius:50%; background:var(--brand-500); animation:led 2.4s ease-in-out infinite; }
+.status-clock .led{ width:5px; height:5px; border-radius:50%; background:var(--brand-500); opacity:.7; /* 快照站：不做脉冲（脉冲=实时错觉） */ }
 @keyframes led{ 0%,100%{opacity:1;} 50%{opacity:.35;} }
 
 /* ===== Tabs · 下拉式视图导航：整条栏默认隐身于上边栏之下，触碰上边栏时下滑弹出 ===== */
@@ -250,12 +250,12 @@ button{ font:inherit; color:inherit; background:none; border:none; cursor:pointe
 .radar-wrap .r-val text,
 .radar-wrap .r-legend-txt,
 .radar-wrap .r-legend-meta{ paint-order:stroke; stroke:var(--panel,#222529); stroke-linejoin:round; }
-.radar-wrap .r-label text{ fill:rgba(228,236,248,.86); font-family:var(--sans); font-size:9.4px; font-weight:500; stroke-width:3; }
-.radar-wrap .r-label .r-en{ font-size:5.8px; fill:rgba(150,174,212,.52); letter-spacing:.12em; font-weight:400; stroke-width:2.4; }
+.radar-wrap .r-label text{ fill:rgba(228,236,248,.86); font-family:var(--sans); font-size:12px; font-weight:500; stroke-width:3; }
+.radar-wrap .r-label .r-en{ font-size:9px; fill:rgba(150,174,212,.52); letter-spacing:.12em; font-weight:400; stroke-width:2.4; }
 .radar-wrap .r-poly-fill{ opacity:1; stroke:none; }
 .radar-wrap .r-poly-line{ fill:none; stroke:url(#rLine); stroke-width:1.15; stroke-linejoin:round; stroke-dasharray:100; stroke-dashoffset:0; filter:drop-shadow(0 0 4px rgba(90,150,255,.30)); }
 .radar-wrap .r-dot circle{ fill:#a8c6ff; stroke:rgba(10,14,22,.85); stroke-width:1.1; opacity:1; transform-box:fill-box; transform-origin:center; filter:drop-shadow(0 0 3px rgba(100,160,255,.5)); }
-.radar-wrap .r-val text{ fill:rgba(168,198,255,.95); font-size:7.6px; font-family:var(--mono); font-weight:500; stroke-width:2.8; opacity:1; }
+.radar-wrap .r-val text{ fill:rgba(168,198,255,.95); font-size:11px; font-family:var(--mono); font-weight:500; stroke-width:2.8; opacity:1; }
 .radar-wrap .r-legend-line{ stroke:rgba(255,255,255,.10); stroke-width:.7; opacity:1; }
 .radar-wrap .r-legend-swatch{ fill:rgba(110,160,255,.22); stroke:#6ea0ff; stroke-width:1; opacity:1; }
 .radar-wrap .r-legend-txt{ fill:rgba(198,210,230,.72); font-size:7px; font-family:var(--sans); stroke-width:2.6; opacity:1; }
@@ -1241,7 +1241,7 @@ html.weak .ca-orbit{ animation:none; }
   </a>
   <div class="header-spacer"></div>
   <div class="motto silver-flow">洞变于内 · 存孚于常</div>
-  <div class="status-clock"><span class="led"></span><span id="clock" class="silver-flow">SYS ONLINE</span></div>
+  <div class="status-clock"><span class="led"></span><span id="clock" class="silver-flow">SNAPSHOT · 2026-09-24</span></div>
 </header>
 
 <!-- ===== Tabs ===== -->
@@ -1393,7 +1393,7 @@ html.weak .ca-orbit{ animation:none; }
     </div>
 
     <div class="card">
-      <h3 style="display:flex;align-items:center;gap:10px;"><span class="tag-h">LIVE FEED</span>实时要闻跟踪</h3>
+      <h3 style="display:flex;align-items:center;gap:10px;"><span class="tag-h">SNAPSHOT FEED</span>要闻跟踪</h3>
       <p style="font-family:var(--mono);font-size:.62rem;color:var(--faint);letter-spacing:.06em;margin:-2px 0 12px;">关键词过滤 · 实时抓取（经第三方代理，可能失败）· 信源为滚动 RSS 首页（非固定文章链接，仅作实时观察）</p>
       <div class="news-feed">
         <div class="news-item high">
@@ -2256,7 +2256,7 @@ html.weak .ca-orbit{ animation:none; }
       <div class="rv-h2">本轮新增 12 节点</div>
     <p class="rv-li"><strong>日本</strong> NEC（自卫队 C4ISR／AI）</p>
     <p class="rv-li"><strong>韩国</strong> Hanwha Systems（智能火力 + 美本土弹药建厂）</p>
-    <p class="rv-li"><strong>中国台湾</strong> 中山科学研究院（剑翔／腾云无人体系）</p>
+    <p class="rv-li"><strong>台湾地区</strong> 中山科学研究院（剑翔／腾云无人体系）</p>
     <p class="rv-li"><strong>加拿大</strong> CAE（仿真训练 AI）</p>
     <p class="rv-li"><strong>意大利</strong> Leonardo（GCAP）</p>
     <p class="rv-li"><strong>法国</strong> Thales（决策 AI + 主权模型）</p>
@@ -2269,7 +2269,7 @@ html.weak .ca-orbit{ animation:none; }
       <div class="rv-h2">未单列节点、已在详档追溯的次级力量</div>
     <p class="rv-li"><strong>日本</strong> 三菱电机（GCAP 日方主承包雷达）</p>
     <p class="rv-li"><strong>韩国</strong> LIG Nex1（AI 指挥控制）</p>
-    <p class="rv-li"><strong>台湾</strong> 雷虎 Thunder Tiger（民转军无人机）</p>
+    <p class="rv-li"><strong>台湾地区</strong> 雷虎 Thunder Tiger（民转军无人机）</p>
     <p class="rv-li"><strong>加拿大</strong> Kraken Robotics（自主水下）与 MDA Space（军用卫星）</p>
     <p class="rv-li"><strong>波兰</strong> WB Group（FlyEye／Warmate 巡飞弹）</p>
     <p class="rv-li"><strong>乌克兰</strong> 集群初创（Swarmer 等——战场 AI 迭代最快的一线）</p>
@@ -2317,7 +2317,7 @@ html.weak .ca-orbit{ animation:none; }
       <colgroup><col style="width:15%"><col style="width:34%"><col style="width:13%"><col style="width:13%"><col style="width:25%"></colgroup>
       <thead><tr><th>卖方 → 买方</th><th>订单 / 交付内容</th><th>量级</th><th>状态（2026.09）</th><th>传导方向</th></tr></thead>
       <tbody>
-        <tr><td><strong>美国 → 中国台湾</strong></td><td>对台军售升级：多批次武器系统与弹药包（国会通知程序）</td><td>20 亿美元级</td><td>推进中 · 中方反制</td><td>台海风险溢价 → r₁</td></tr>
+        <tr><td><strong>美国 → 台湾地区</strong></td><td>对台军售升级：多批次武器系统与弹药包（国会通知程序）</td><td>20 亿美元级</td><td>推进中 · 中方反制</td><td>台海风险溢价 → r₁</td></tr>
         <tr><td><strong>韩国 → 波兰</strong></td><td>K2 主战坦克第二轮 + K9 自行火炮后续批次（千辆级框架）</td><td>百亿美元级</td><td>交付中 · 产能满载</td><td>欧洲再武装 → r₁</td></tr>
         <tr><td><strong>美国 → 波兰</strong></td><td>M1A2 艾布拉姆斯 + AH-64E 阿帕奇后续批次</td><td>十亿美元级</td><td>交付中</td><td>东欧前线化 → r₁</td></tr>
         <tr><td><strong>美国 → 日本</strong></td><td>战斧 Block V 巡航导弹（约 400 枚）+ 反导体系扩容</td><td>十亿美元级</td><td>预算编列</td><td>西太打击纵深 → r₁</td></tr>
@@ -3314,12 +3314,8 @@ window.addEventListener('hashchange',function(){
 
 /* ===== Clock ===== */
 const clockEl=document.getElementById('clock');
-function tick(){
-  const n=new Date();
-  const p=x=>String(x).padStart(2,'0');
-  clockEl.textContent='SYS ONLINE · '+p(n.getHours())+':'+p(n.getMinutes());
-}
-tick(); setInterval(tick,30000);
+/* 数据为 2026-09-24 一次性快照，不再显示"系统在线"式时钟（避免实时感超过真实能力） */
+clockEl.textContent='SNAPSHOT · 2026-09-24';
 
 /* ===== Resource Bars (CR1, 23类, 按 RSC mine 数据) ===== */
 const resources=[
@@ -3379,7 +3375,7 @@ const companies=[
   {name:'Kongsberg',country:'挪威 · 孔斯贝格',role:'挪威防务与航天集团：NSM/JSM 精确打击导弹（JSM 内埋 F-35 弹舱）、HUGIN 自主水下航行器——导弹产能与自主系统的北欧支点，对乌支援与东翼部署核心供应商。',tags:['盟友体系','精确打击','自主系统'],level:'ally'},
   {name:'NEC',country:'日本 · 东京',role:'日本自卫队最大 IT 承包商：C4ISR 指挥控制体系核心，支撑 2025 年成立的统合作战司令部数据链与态势感知；2025 年设立"网络情报作战中心"（Protecting .JP），是防卫省《AI 战略》（2024）落地主力。',tags:['盟友体系','C4ISR','AI网络防御'],level:'ally'},
   {name:'Hanwha Systems',country:'韩国 · 城南',role:'韩华防务集团电子与系统核心：K9A2 全自动装填火炮、Targeting Web 目标网、无人舰艇与反无人机体系；2026 年 9 月宣布在美国 Pine Bluff Arsenal 建弹药制造园区——全自动模块装药设施（MCS）瞄准年产 30 万发，欧美弹药产能重建的关键外部供应商。',tags:['盟友体系','智能火力','弹药产能'],level:'ally'},
-  {name:'中山科学研究院',country:'中国台湾 · 桃园',role:'台湾地区最高军科研机构："剑翔"反辐射巡飞弹、"腾云"无人机与 AI 决策辅助体系核心，军用无人机供应链"去中国零件"路线执行者（与雷虎等民企协同）——台海无人化攻防的对冲支点。',tags:['盟友体系','巡飞弹','无人体系'],level:'ally'},
+  {name:'中山科学研究院',country:'台湾地区 · 桃园',role:'台湾地区最高军科研机构："剑翔"反辐射巡飞弹、"腾云"无人机与 AI 决策辅助体系核心，军用无人机供应链"去中国零件"路线执行者（与雷虎等民企协同）——台海无人化攻防的对冲支点。',tags:['盟友体系','巡飞弹','无人体系'],level:'ally'},
   {name:'CAE',country:'加拿大 · 蒙特利尔',role:'全球最大飞行模拟与训练企业：AI 驱动的军用仿真训练覆盖北约多国空军，虚拟试飞与合成训练环境主力供应商——防务 AI 的"训练层"代表。',tags:['盟友体系','仿真训练AI'],level:'ally'},
   {name:'Anduril Australia',country:'澳大利亚 · 悉尼',role:'Anduril 海外最大布局：Ghost Shark 超大型自主水下航行器（XL-AUV）为澳皇家海军核心项目、澳洲史上最大本土防务研发投资之一——AUKUS 枢纽与南太平洋自主系统工厂。',tags:['盟友体系','Ghost Shark','AUKUS'],level:'ally'},
   {name:'Rocket Lab',country:'新西兰/美国',role:'新西兰创立、美国总部的航天企业：Electron 火箭自新西兰 Mahia 发射场执行美太空军与 NRO 发射合同，卫星平台与星座运力——南半球发射场在太平洋军事航天版图中的支点。',tags:['盟友体系','军用航天'],level:'ally'},
@@ -3423,7 +3419,7 @@ companies.forEach(c=>{
     {n:'Thales',en:'法国 · 决策AI',x:65,y:606,wx:90,wy:609,r:16,t:'ally'},
     {n:'NEC',en:'日本 · 自卫队AI',x:200,y:606,wx:290,wy:609,r:16,t:'ally'},
     {n:'Hanwha Systems',en:'韩国 · 智能火力',x:335,y:606,wx:490,wy:609,r:16,t:'ally'},
-    {n:'中山科学研究院',en:'中国台湾 · 军工AI',x:470,y:606,wx:690,wy:609,r:16,t:'ally'},
+    {n:'中山科学研究院',en:'台湾地区 · 军工AI',x:470,y:606,wx:690,wy:609,r:16,t:'ally'},
     {n:'CAE',en:'加拿大 · 仿真AI',x:590,y:606,wx:890,wy:609,r:16,t:'ally'},
     {n:'Saab',en:'瑞典 · 传感融合',x:140,y:714,wx:190,wy:719,r:16,t:'ally'},
     {n:'Kongsberg',en:'挪威 · 自主系统',x:265,y:714,wx:390,wy:719,r:16,t:'ally'},
@@ -4566,7 +4562,17 @@ const refreshNewsPool=[
     const r=await grab('https://api.allorigins.win/raw?url='+encodeURIComponent(feed.url),4500);
     return parseXml(await r.text(),feed);
   }
+  /* 优先读 GitHub Actions 定时抓取生成的静态 JSON：
+     抓取在 CI 里做 → 访客不碰第三方代理（无 IP 泄露、不受代理停服影响）。 */
+  async function fetchStatic(){
+    const r=await grab('data/news.json?t='+Date.now(),3500);
+    const j=await r.json();
+    if(!j||!Array.isArray(j.items)||!j.items.length) throw new Error('empty');
+    return j.items.map(it=>({title:clean(it.title),link:it.link||'',desc:clean(it.desc||'').slice(0,140),date:it.date||'',src:it.src||'CI 快照'}));
+  }
   async function fetchLive(){
+    try{ const st=await fetchStatic(); if(st&&st.length) return st; }catch(e){}
+    /* 回退：旧的第三方代理路径（Actions 未启用或 JSON 缺失时仍可用） */
     const jobs=[];
     FEEDS.forEach(f=>{ jobs.push(viaRss2json(f).catch(()=>[]), viaProxy(f).catch(()=>[])); });
     const bag=await Promise.all(jobs);
@@ -4575,8 +4581,10 @@ const refreshNewsPool=[
     return all;
   }
   function rank(items,n){
-    const scored=items.map(it=>({it,hit:KW.test(it.title+' '+it.desc)}));
-    return scored.sort((a,b)=>(b.hit?1:0)-(a.hit?1:0)).map(s=>s.it).slice(0,n);
+    /* 宁缺毋滥：只出命中地缘关键词的条目。
+       旧实现是"排序"而非"过滤" —— 命中不足 5 条时，剩余名额会被无关实时新闻（教育花絮/基建）补位。
+       现在命中不足就少显示，由 fallback() 用站内策展池兜底。 */
+    return items.filter(it=>KW.test(it.title+' '+it.desc)).slice(0,n);
   }
   function guessCat(t){
     if(/稀土|锂|镍|钴|铜|矿|出口管制|关税|贸易|石油|天然气|原油|OPEC|战略资源/.test(t)) return 'resource';
@@ -4584,15 +4592,24 @@ const refreshNewsPool=[
     if(/AI|人工智能|芯片|半导体|算力|算法|网安|网络/.test(t)) return 'tech';
     return 'conflict';
   }
+  /* 实时 / 快照 双态徽标：抓取成功=实时，回退快照=快照。用户必须能一眼分辨。 */
+  let newsState='live';
+  function newsStateBadge(){
+    const snap=newsState==='snapshot';
+    return '<span class="auto-live'+(snap?' is-snapshot':'')+'"><i class="auto-dot"></i>'
+      +(snap?'站内快照 · 非实时':'实时抓取')+'</span>';
+  }
+  function setNewsState(mode){ newsState=mode; stampTime(); }
   function stampTime(){
     const hm=nowHM();
-    const badge='<span class="auto-live"><i class="auto-dot"></i>自动刷新</span> · 更新于 '+hm;
+    const badge=newsStateBadge()+' · 最近抓取 '+hm;
     if(lastUpdated) lastUpdated.innerHTML=badge;
     const tl=document.getElementById('tl-updated');
     if(tl) tl.innerHTML=badge;
   }
   function renderFeed(items){
     if(!newsFeed||!items.length) return;
+    setNewsState('live');
     const frag=document.createDocumentFragment();
     items.forEach(it=>{
       const el=document.createElement('div');
@@ -4640,15 +4657,17 @@ const refreshNewsPool=[
       el.innerHTML='<div class="news-date">'+pick.date+' · 实时源暂不可用，展示最近快照</div><div class="news-title">'+pick.title+'</div><div class="news-summary">'+pick.summary+'</div>';
       newsFeed.insertBefore(el,newsFeed.firstChild);
       while(newsFeed.children.length>9) newsFeed.removeChild(newsFeed.lastChild);
+      setNewsState('snapshot');
     }
   }
   window.refreshLiveNews=async function(target,manual){
     let items=[];
     try{ items=rank(await fetchLive(),5); }catch(e){ items=[]; }
     const fresh=items.filter(it=>{ const k=fp(it.title); if(seen.has(k)) return false; seen.add(k); return true; });
-    if(fresh.length){ renderFeed(fresh); renderTl(fresh); }
-    /* manual!==false：手动点击无新讯时才用本地池补条；自动轮询保持安静，不污染订阅流 */
-    else if(manual!==false){ fallback(target); }
+    if(fresh.length>=2){ renderFeed(fresh); renderTl(fresh); }
+    /* manual!==false：手动点击无新讯时用本地池补条（自动轮询保持安静，不污染订阅流）
+       但首屏（feed 还空着）必须兜底 —— 否则抓取失败时用户看到空白，以为网站坏了 */
+    else if(manual!==false || !newsFeed.children.length){ fallback(target); }
     stampTime();
   };
   /* ===== 自动更新：开屏 2.5s 先抓一次，之后每 3 分钟后台轮询；页面隐藏时跳过，回到可见立即补一次 ===== */
@@ -5373,6 +5392,23 @@ const refreshNewsPool=[
   原创：王潇 2026 · https://0603wangxiao.github.io/geosandbox/ · 指纹 WX-36S-C-0928
 </div>
 <div class="credit-line" style="text-align:center;margin:0 0 20px;font-size:10px;letter-spacing:.12em;opacity:.42;pointer-events:none;white-space:nowrap">© 2026 王潇 · 自由使用，请注明来处；禁止商用</div>
+<style>
+/* ===== 移动端修复（实测问题，2026-10-02）===== */
+@media(max-width:700px){
+  /* ① 06 AI军事化：超长英文 token（SpaceX/OpenAI/Google/NVIDIA/...）撑破 390px 视口 +42px */
+  #view-aimilitary table{ table-layout:fixed; width:100%; }
+  #view-aimilitary td,#view-aimilitary th{ overflow-wrap:anywhere; word-break:break-word; }
+  /* ② 03 生命之祭：.casualty-hero 是 overflow:hidden，4rem 大数字在窄屏被裁掉（不是滚动） */
+  .casualty-hero{ padding:26px 14px; }
+  .casualty-total{ font-size:clamp(2.1rem,10.5vw,4rem); }
+  .stat-row{ gap:10px; }
+  /* ③ 07 权重表：min-width:max-content 让内容宽达 2075px 塞进 314px 容器，一屏只见 15% */
+  #view-riskmodel table.weight-table{ font-size:.68rem; }
+  #view-riskmodel table.weight-table td,
+  #view-riskmodel table.weight-table th{ padding:6px 5px; }
+  #view-riskmodel table.weight-table .weight-bar{ display:none; } /* 装饰列，窄屏不占宽 */
+}
+</style>
 </body>
 </html>
 
