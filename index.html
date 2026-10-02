@@ -1626,5 +1626,49 @@ if('serviceWorker' in navigator && location.protocol==='https:'){
   });
 }
 </script>
+
+<script>
+/* ===== 临时诊断（仅在 URL 带 ?diag=1 时启用，正常访问完全无副作用）=====
+   目的：在真机上读出到底是谁在拖后腿 —— 尤其是视频丢帧数，
+   这个数字能一刀切开「视频解码/合成」与「JS/其它合成」两种病因。 */
+(function(){
+  if(!/[?&]diag=1/.test(location.search)) return;
+  var box=document.createElement('div');
+  box.style.cssText='position:fixed;left:0;right:0;bottom:0;z-index:2147483647;background:rgba(0,0,0,.9);'+
+    'color:#39FF88;font:600 15px/1.65 ui-monospace,Menlo,monospace;padding:12px 14px;white-space:pre;'+
+    'pointer-events:none;border-top:2px solid #39FF88';
+  box.textContent='测量中…'; document.body.appendChild(box);
+  var iv=[], last=null;
+  (function tick(t){ if(last!=null) iv.push(t-last); last=t; requestAnimationFrame(tick); })();
+  setInterval(function(){
+    var r=iv.slice(-90); iv=iv.slice(-400);
+    var mean=r.length? r.reduce(function(a,b){return a+b;},0)/r.length : 0;
+    var v=document.getElementById('seLotus');
+    var q=null; try{ q=(v&&v.getVideoPlaybackQuality)? v.getVideoPlaybackQuality():null; }catch(e){}
+    var buf=0; try{ if(v&&v.buffered.length) buf=v.buffered.end(v.buffered.length-1)-v.currentTime; }catch(e){}
+    var drop = q ? (q.totalVideoFrames? (100*q.droppedVideoFrames/q.totalVideoFrames).toFixed(0):'0') : '?';
+    var wd = document.documentElement.classList.contains('weak')?'是':'否';
+    box.textContent=
+      'FPS   '+(mean?(1000/mean).toFixed(1):'—')+'      帧时 '+mean.toFixed(1)+'ms\n'+
+      '视频  '+(v?((v.paused?'暂停':'播放中')+'  rs'+v.readyState):'无')+'      缓冲前方 '+buf.toFixed(1)+'s\n'+
+      '丢帧  '+(q?(q.droppedVideoFrames+' / '+q.totalVideoFrames+'  = '+drop+'%'):'n/a')+'   <-- 关键\n'+
+      'DPR '+devicePixelRatio+'   视口 '+innerWidth+'x'+innerHeight+'   弱机模式 '+wd+'\n'+
+      '粒子  '+(document.getElementById('particles')?'在':'停')+
+      '      滚到花区段了吗：'+(function(){
+         var tr=document.getElementById('seTrack'); if(!tr) return '?';
+         var off=0,el=tr; while(el){off+=el.offsetTop; el=el.offsetParent;}
+         var p=Math.max(0,Math.min(1,(scrollY-off)/(innerHeight*1.2)));
+         return (p*100).toFixed(0)+'%';
+      })();
+  },400);
+  window.addEventListener('load',function(){
+    setTimeout(function(){
+      var tr=document.getElementById('seTrack'); if(!tr) return;
+      var off=0,el=tr; while(el){off+=el.offsetTop; el=el.offsetParent;}
+      window.scrollTo(0, off);
+    },1800);
+  });
+})();
+</script>
 </body>
 </html>
