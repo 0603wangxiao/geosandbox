@@ -3,8 +3,10 @@
    那个 8.6 MB 的莲花视频因此每 10 分钟就被重下一次 —— 这是首页"卡"的根因。
    这个 Service Worker 用 Cache API 把媒体长期留在浏览器里：首次下载，之后读本地。
    范围严格限定在下面的名单内：HTML / JS / CSS 一律不接管，避免整站被冻结在旧版本。 */
-const CACHE = 'gs-media-v1';
+const CACHE = 'gs-media-v3';
 const MEDIA = [
+  '/geosandbox/assets/flower-bloom.mp4',
+  '/geosandbox/assets/flower-bloom-poster.jpg',
   '/geosandbox/assets/memorial-bg.mp4',
   '/geosandbox/assets/bgm-audio.mp4',
   '/geosandbox/assets/hero-base.webp',
